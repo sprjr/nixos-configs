@@ -28,7 +28,23 @@
   ];
 
   # Rooted Docker Configuration ### Added user to extra groups below
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enableNvidia = true;
+    enable = true;
+  };
+
+  # Podman Configuration
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+#      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -56,7 +72,7 @@
 
   # Enable the KDE Plasma desktop environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -104,12 +120,20 @@
     alias ls='lsd'
     alias cat='bat'
     alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
+    alias compose2nix-start='nix shell github:aksiksi/compose2nix'
+    alias uptime='uptime;uptime --pretty'
+    alias yt-dl='nix shell -p yt-dlp'
+    alias weather='curl -s v2.wttr.in/'
+    alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
   '';
 
   programs.mtr.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Packages for every desktop system
   environment.systemPackages = with pkgs; [
@@ -118,6 +142,7 @@
     docker-compose
     discord
     fzf
+    git
     lima
     lsd
     rustdesk

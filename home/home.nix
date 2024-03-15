@@ -1,7 +1,11 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "sprjr";
+    userEmail = "patrick@rawlinson.ws";
+  };
   programs.neovim = {
     enable = true;
     defaultEditor = true;
