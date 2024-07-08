@@ -173,7 +173,7 @@
     # User environment
     alacritty
     bat # pretty cat
-    pkgs-stable.bitwarden-desktop
+    pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     discord
     duf
