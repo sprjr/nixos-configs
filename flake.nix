@@ -63,6 +63,17 @@
           }
         ];
       };
+
+      seanix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          ./nixos/gaming-desktop.nix
+          {
+          # Additional configuration goes here
+          }
+        ];
+      };
     };
 
     # home-manager targets (non NixOS/MacOS)
