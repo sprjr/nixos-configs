@@ -10,6 +10,7 @@
      #./modules/monitoring/graylog.nix
       ./modules/monitoring/node-exporter.nix
      #./modules/network/netbird-server.nix
+      home-manager.nixosModules.home-manager
     ];
 
   # Bootloader.
