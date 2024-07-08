@@ -24,7 +24,7 @@
                       ... }:
   let
     pkgs = import nixpkgs {
-     #system = "x86_64-linux";
+      system = "x86_64-linux";
       system = pkgs.system;
       pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       config.allowUnfree = true;
