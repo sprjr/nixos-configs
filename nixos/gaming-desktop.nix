@@ -164,7 +164,6 @@
     docker-compose
     fanctl
     git
-    ollama
     pciutils
     pipewire
     thermald
@@ -172,7 +171,6 @@
     wget
 
     # User environment
-    activitywatch
     alacritty
     bat # pretty cat
     bitwarden
@@ -185,12 +183,10 @@
     glow # in-text markdown reader
     htop # pretty top
     kdePackages.kdeconnect-kde
-    ladybird
     lima
     lsd # pretty ls
     mdp # fullscreen markdown reader
     mullvad-browser
-    neovim
     obsidian
     signal-desktop
     starship
@@ -213,7 +209,6 @@
     wireshark
 
     # Gaming
-    heroic
     prismlauncher
   ];
 
