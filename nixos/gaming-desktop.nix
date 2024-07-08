@@ -174,7 +174,7 @@
     alacritty
     bat # pretty cat
     pkgs-stable.bitwarden-desktop
-    bitwarden-cli
+    pkgs-stable.bitwarden-cli
     discord
     duf
     file
