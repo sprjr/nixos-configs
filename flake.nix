@@ -68,6 +68,7 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+          ./nixos/hardware-configuration/seanix.nix
           ./nixos/gaming-desktop.nix
           {
           # Additional configuration goes here
