@@ -2,14 +2,7 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-     #./hardware-configuration.nix
-      ./modules/shell/starship.nix
-      ./modules/virtualisation/containers/syncthing.nix
-      ./modules/gaming/sunshine.nix
-     #./modules/monitoring/graylog.nix
-      ./modules/monitoring/node-exporter.nix
-     #./modules/network/netbird-server.nix
+    [
       home-manager.nixosModules.home-manager
     ];
 
