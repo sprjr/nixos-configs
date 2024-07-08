@@ -5,3 +5,4 @@
     enable = true;
 #    presets = [ "nerd-font-symbols" ];
   };
+}
