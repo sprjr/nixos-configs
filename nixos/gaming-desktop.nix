@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, lib, home-manager, pkgs-stable, ... }:
 
 {
   imports =
@@ -173,7 +173,7 @@
     # User environment
     alacritty
     bat # pretty cat
-    bitwarden
+    pkgs-stable.bitwarden-desktop
     bitwarden-cli
     discord
     duf

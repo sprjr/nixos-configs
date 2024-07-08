@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-240.05";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -16,6 +17,7 @@
 
   outputs = inputs@{ self,
                       nixpkgs,
+                      nixpkgs-stable,
                       flake-utils,
                       home-manager,
                       spicetify-nix,
@@ -24,6 +26,8 @@
     pkgs = import nixpkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
+      system = pkgs.system;
+      pkgs-stable = nixpkgs-stable.legacyPackages.${system};
     };
   in {
     # nixos targets
