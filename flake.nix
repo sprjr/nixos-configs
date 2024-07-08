@@ -24,11 +24,11 @@
                       ... }:
   let
     pkgs = import nixpkgs {
-      system = "x86_64-linux";
-      system = pkgs.system;
+      inherit system;
       pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       config.allowUnfree = true;
     };
+    system = pkgs.system;
   in {
     # nixos targets
     nixosConfigurations = {
