@@ -180,6 +180,7 @@ in {
     pkgs-stable.bitwarden-cli
     discord
     duf
+    duplicati
     file
     fzf
     gamescope
