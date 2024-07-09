@@ -25,7 +25,7 @@
   let
     pkgs = import nixpkgs {
       inherit system;
-      pkgs-stable = nixpkgs-stable.legacyPackages.${system};
+     #pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       config.allowUnfree = true;
     };
     system = pkgs.system;
