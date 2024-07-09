@@ -15,7 +15,7 @@
     };
   };
 
-  outputs = inputs@{ self,
+  outputs = inputs@{  self,
                       nixpkgs,
                       nixpkgs-stable,
                       flake-utils,
