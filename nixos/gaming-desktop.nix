@@ -1,6 +1,9 @@
-{ config, pkgs, lib, home-manager, pkgs-stable, ... }:
+{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
 
-{
+let
+  system = pkgs.system;
+  pkgs-stable = nixpkgs-stable.legacyPackages.${system};
+in {
   imports =
     [
       home-manager.nixosModules.home-manager
