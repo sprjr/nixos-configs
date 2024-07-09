@@ -25,10 +25,10 @@
   let
     pkgs = import nixpkgs {
       inherit system;
-     #pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       config.allowUnfree = true;
     };
     system = pkgs.system;
+    pkgs-stable = nixpkgs-stable.legacyPackages.${system};
   in {
     # nixos targets
     nixosConfigurations = {
