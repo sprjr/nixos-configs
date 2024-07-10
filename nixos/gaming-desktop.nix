@@ -199,6 +199,7 @@ in {
     tree
     vim
     vimPlugins.nvchad
+    vlc
 
     ### Net tools ###
     tailscale
