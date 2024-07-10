@@ -103,11 +103,6 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  programs.starship.interactiveShellInit =
-  ''
-    motd
-  '';
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.patrick = {
     isNormalUser = true;
@@ -172,7 +167,6 @@ in {
     docker-compose
     fanctl
     git
-    motd
     pciutils
     pipewire
     thermald
