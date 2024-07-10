@@ -38,7 +38,6 @@
         modules = [
           ./nixos/hardware-configuration/trixos.nix
           ./nixos/desktop.nix
-#          ./nixos/modules/virtualisation/containers/gitea.nix
           ./nixos/modules/nvidia.nix
           {
             networking.hostName = "trixos";
