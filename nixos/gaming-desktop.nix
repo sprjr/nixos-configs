@@ -118,10 +118,6 @@ in {
     ];
   };
 
-  programs.bash.interactiveShellInit = ''
-    motd
-  '';
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Fonts
@@ -171,7 +167,6 @@ in {
     docker-compose
     fanctl
     git
-    motd
     pciutils
     pipewire
     thermald
