@@ -118,7 +118,7 @@ in {
     ];
   };
 
-  programs.shell.interactiveShellInit = ''
+  programs.bash.interactiveShellInit = ''
     motd
   '';
 
