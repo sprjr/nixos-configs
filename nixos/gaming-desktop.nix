@@ -221,7 +221,6 @@ in {
     kdePackages.kate
     kdePackages.kdeconnect-kde
     kdePackages.kiten
-    kdePackages.kmix
     kdePackages.krdp
 
     # Gaming
