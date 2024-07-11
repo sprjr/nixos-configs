@@ -223,7 +223,6 @@ in {
     kdePackages.kiten
     kdePackages.kmix
     kdePackages.krdp
-    kdePackages.
 
     # Gaming
     prismlauncher
