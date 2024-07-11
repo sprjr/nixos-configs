@@ -191,7 +191,6 @@ in {
     gamescope
     glow # in-text markdown reader
     htop # pretty top
-    kdePackages.kdeconnect-kde
     lima
     lsd # pretty ls
     mdp # fullscreen markdown reader
@@ -217,6 +216,14 @@ in {
     syncthing
     wireguard-tools
     wireshark
+
+    # KDE Packages
+    kdePackages.kate
+    kdePackages.kdeconnect-kde
+    kdePackages.kiten
+    kdePackages.kmix
+    kdePackages.krdp
+    kdePackages.
 
     # Gaming
     prismlauncher
