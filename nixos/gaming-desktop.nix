@@ -50,7 +50,6 @@ in {
     enable = true;
   };
 
-
   # Set your time zone.
   time.timeZone = "America/Denver";
 
@@ -76,6 +75,12 @@ in {
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # KDE Plasma default package exclusions
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    konsole
+  ];
+
 
   # Configure keymap in X11
   services.xserver.xkb = {
