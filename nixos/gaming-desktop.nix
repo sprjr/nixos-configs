@@ -137,17 +137,17 @@ in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  environment.interactiveShellInit = ''
-    alias ls='lsd -l'
-    alias cat='bat'
-    alias df='duf'
-    alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
-    alias kubectl='k3s kubectl'
-    alias compose2nix-start='nix shell github:aksiksi/compose2nix'
-    alias yt-dl='nix shell -p yt-dlp'
-    alias weather='curl -s v2.wttr.in/saratoga+springs+utah'
-    alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
-  '';
+#  environment.interactiveShellInit = ''
+#    alias ls='lsd -l'
+#    alias cat='bat'
+#    alias df='duf'
+#    alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
+#    alias kubectl='k3s kubectl'
+#    alias compose2nix-start='nix shell github:aksiksi/compose2nix'
+#    alias yt-dl='nix shell -p yt-dlp'
+#    alias weather='curl -s v2.wttr.in/saratoga+springs+utah'
+#    alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
+#  '';
 
 
   # Enable Steam
