@@ -191,6 +191,7 @@ in {
     gamescope
     glow # in-text markdown reader
     htop # pretty top
+    hyfetch
     lima
     lsd # pretty ls
     mdp # fullscreen markdown reader
