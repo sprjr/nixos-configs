@@ -1,11 +1,14 @@
 { config, pkgs, home-manager, ... }:
 
 {
+  # Git configuration
   programs.git = {
     enable = true;
     userName = "sprjr";
     userEmail = "patrick@rawlinson.ws";
   };
+
+  # Neovim configuration
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -32,6 +35,14 @@
 
       " Spell check in markdown files
       autocmd FileType markdown setlocal spell spelllang=en_us
+    '';
+  };
+
+  # .bashrc configuration
+  programs.bash = {
+    enable = true;
+    bashrcExtra = ''
+      . ~/oldbashrc
     '';
   };
   home.stateVersion = "23.11";
