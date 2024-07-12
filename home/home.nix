@@ -49,15 +49,15 @@
       '';
       # Aliases
       shellAliases = {
-        ls = 'lsd -l';
-        cat = 'bat';
-        df = 'duf';
-        gomuks = 'docker run -e TERM=xterm -it --rm heywoodlh/gomuks';
-        kubectl = 'k3s kubectl';
-        compose2nix-start = 'nix shell github:aksiksi/compose2nix';
-        yt-dl = 'nix-shell -p yt-dlp';
-        weather = 'curl -s v2.wttr.in/saratoga+springs+utah';
-        bf = 'du -aBm / 2>/dev/null | sort -nr | head -n 20';
+        ls = "lsd -l";
+        cat = "bat";
+        df = "duf";
+        gomuks = "docker run -e TERM=xterm -it --rm heywoodlh/gomuks";
+        kubectl = "k3s kubectl";
+        compose2nix-start = "nix shell github:aksiksi/compose2nix";
+        yt-dl = "nix-shell -p yt-dlp";
+        weather = "curl -s v2.wttr.in/saratoga+springs+utah";
+        bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
       };
     };
   };
