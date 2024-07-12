@@ -42,7 +42,7 @@
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      . ~/oldbashrc
+      hyfetch
     '';
   };
   home.stateVersion = "23.11";
