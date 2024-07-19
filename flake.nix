@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,6 +22,7 @@
                       nixpkgs,
                       nixpkgs-stable,
                       flake-utils,
+                      darwin,
                       home-manager,
                       spicetify-nix,
                       ... }:
@@ -82,6 +86,20 @@
           }
         ];
       };
+    };
+
+    # Darwin
+    darwinConfigurations = machineType: myHostname: extraConf: darwin.lib.darwinSystem {
+      system = "${darwinSystem}";
+      specialArgs = inputs;
+      modules = [
+        darwinModules.patrick.darwin
+        ./home/macos/darwin.nix
+        extraConf
+        {
+          networking.hostName = myHostname;
+        }
+      ];
     };
 
     # home-manager targets (non NixOS/MacOS)
