@@ -1,5 +1,5 @@
 {
-  description = "example nixos/nix-darwin/home-manager/nix-droid flake";
+  description = "sprjr nixos configs flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -17,6 +17,7 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/7f63b25ac285d3655951e257bbf4e46eb7fe658c?depth=1";
   };
 
   outputs = inputs@{  self,
@@ -26,17 +27,16 @@
                       darwin,
                       home-manager,
                       spicetify-nix,
+                      heywoodlh-configs,
                       ... }:
-  let
+  flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
-    system = pkgs.system;
-    pkgs-stable = nixpkgs-stable.legacyPackages.${system};
   in {
     # nixos targets
-    nixosConfigurations = {
+    packages.nixosConfigurations = {
       trixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
@@ -90,17 +90,23 @@
     };
 
     # Darwin
-    darwinConfigurations = {
+    packages.darwinConfigurations = {
       # m2-macbook-air
-      seair = darwin.lib.darwinSystem {
+      "seair" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = inputs;
-        modules = [ ./hosts/seair.nix ];
+        modules = [
+          ./darwin/base.nix
+          {
+            # Set hostname
+            networking.hostName = "seair";
+          }
+        ];
       };
     };
 
     # home-manager targets (non NixOS/MacOS)
-    homeConfigurations = {
+    packages.homeConfigurations = {
       patrick = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = inputs;
@@ -121,5 +127,5 @@
         ];
       };
     };
-  };
+  });
 }
