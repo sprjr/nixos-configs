@@ -1,4 +1,4 @@
-{ config, pkgs, nur, home-manager, ... }:
+{ config, pkgs, home-manager, ... }:
 
 {
   imports = [
@@ -7,7 +7,7 @@
   home-manager.useGlobalPkgs = true;
 
   # Import nur as nixpkgs.overlays
-  nixpkgs.overlays = [ 
-    nur.overlay 
-  ];
+ #nixpkgs.overlays = [ 
+ #  nur.overlay 
+ #];
 }
