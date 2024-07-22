@@ -86,7 +86,6 @@
           }
         ];
       };
-    };
 
     # Darwin
     darwinConfigurations = {
