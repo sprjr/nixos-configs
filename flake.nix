@@ -17,6 +17,7 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/7f63b25ac285d3655951e257bbf4e46eb7fe658c?depth=1";
   };
 
   outputs = inputs@{  self,
@@ -26,6 +27,7 @@
                       darwin,
                       home-manager,
                       spicetify-nix,
+                      heywoodlh-configs,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
@@ -90,6 +92,7 @@
     # Darwin
     packages.darwinConfigurations = {
       # m2-macbook-air
+      "seair" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = inputs;
         modules = [

@@ -1,9 +1,11 @@
-{ config, pkgs, home-manager, ... }:
+{ config, pkgs, home-manager, heywoodlh-configs, ... }:
 
-
-{
+let
+  heywoodlh-darwin-modules = (heywoodlh-configs + "/darwin/modules/default.nix");
+in {
   imports = [
     home-manager.darwinModules.home-manager
+    heywoodlh-darwin-modules
   ];
 
   # Define user settings
@@ -24,6 +26,10 @@
 
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../home/home.nix ];
+
+  # Sketchybar and Yabai
+  heywoodlh.darwin.sketchybar.enable = true;
+  heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
 }
