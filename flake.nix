@@ -89,17 +89,13 @@
     };
 
     # Darwin
-    darwinConfigurations = machineType: myHostname: extraConf: darwin.lib.darwinSystem {
-      system = "${darwinSystem}";
-      specialArgs = inputs;
-      modules = [
-        darwinModules.patrick.darwin
-        ./home/macos/darwin.nix
-        extraConf
-        {
-          networking.hostName = myHostname;
-        }
-      ];
+    darwinConfigurations = {
+      # m2-macbook-air 
+      "seair" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = inputs;
+        modules = [ ./hosts/seair.nix ];
+      };
     };
 
     # home-manager targets (non NixOS/MacOS)
