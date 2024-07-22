@@ -8,6 +8,7 @@
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -86,11 +87,12 @@
           }
         ];
       };
+    };
 
     # Darwin
     darwinConfigurations = {
-      # m2-macbook-air 
-      "seair" = darwin.lib.darwinSystem {
+      # m2-macbook-air
+      seair = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = inputs;
         modules = [ ./hosts/seair.nix ];
