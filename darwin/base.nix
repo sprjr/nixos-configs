@@ -31,7 +31,7 @@ in {
   home-manager.users.patrick.imports = [ ../home/home.nix ];
 
   # Hide the top bar
-  system.defaults.NSGlobalDomain._HIHideMenuBar
+  system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Sketchybar and Yabai
   heywoodlh.darwin.sketchybar.enable = true;
