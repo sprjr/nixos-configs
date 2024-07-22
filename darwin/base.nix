@@ -30,6 +30,9 @@ in {
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../home/home.nix ];
 
+  # Hide the top bar
+  system.defaults._HIHideMenuBar = true;
+
   # Sketchybar and Yabai
   heywoodlh.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
