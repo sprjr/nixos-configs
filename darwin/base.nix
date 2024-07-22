@@ -24,6 +24,9 @@ in {
     ];
   };
 
+  # Set the nix daemon
+  services.nix-daemon.enable = true;
+
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../home/home.nix ];
 
