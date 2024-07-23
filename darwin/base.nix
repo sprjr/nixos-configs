@@ -25,14 +25,29 @@ in {
     ];
   };
 
-  # Homebrew Casks
+  # Homebrew configuration
   homebrew = {
+    enable = true;
+    # Packages
+    brews = [
+      "bash"
+      "watch"
+      "zsh"
+    ];
+    extraConfig = ''
+      cask_args appdir: "~/Applications"
+    '';
+    # Casks
     casks = [
+      "1password"
+      "bitwarden"
       "docker"
+      "font-jetbrains-mono-nerd-font"
+      "iterm2"
       "signal"
+      "syncthing"
+      "tailscale"
       "vmware-fusion"
-      "duf"
-      "bat"
     ];
   };
 
