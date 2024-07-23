@@ -25,6 +25,17 @@ in {
     ];
   };
 
+  # Homebrew Casks
+  homebrew = {
+    casks = [
+      "docker"
+      "signal"
+      "vmware-fusion"
+      "duf"
+      "bat"
+    ];
+  };
+
   # Set the nix daemon
   services.nix-daemon.enable = true;
 
