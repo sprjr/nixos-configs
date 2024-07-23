@@ -17,7 +17,7 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/7f63b25ac285d3655951e257bbf4e46eb7fe658c?depth=1";
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
   };
 
   outputs = inputs@{  self,
