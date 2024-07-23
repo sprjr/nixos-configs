@@ -8,9 +8,6 @@
   #  ./some-darwin-import.nix
   #];
 
-  # User directory settings
-  home = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
-
   # Git configuration
   programs.git = {
     enable = true;
