@@ -78,7 +78,7 @@ in {
 
   # KDE Plasma default package exclusions
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    konsole
+   #konsole
   ];
 
 
