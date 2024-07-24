@@ -44,7 +44,6 @@ in {
     '';
     # Casks
     casks = [
-      "1password"
       "bitwarden"
       "docker"
       "font-jetbrains-mono-nerd-font"
