@@ -13,7 +13,7 @@ in {
     description = "Patrick Rawlinson";
     name = "patrick";
     home = "/Users/patrick";
-    shell = pkgs.zsh;
+    shell = pkgs.bash;
     # These packages will only be installed for your user
     # The binaries will be available in the following path: /etc/profiles/per-user/$USER/bin
     packages = [
