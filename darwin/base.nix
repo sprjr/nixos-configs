@@ -31,6 +31,10 @@ in {
     # Packages
     brews = [
       "bash"
+      "bat"
+      "duf"
+      "htop"
+      "lsd"
       "watch"
       "zsh"
     ];
@@ -44,6 +48,7 @@ in {
       "docker"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
+      "obsidian"
       "signal"
       "syncthing"
       "tailscale"
