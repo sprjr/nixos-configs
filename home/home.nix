@@ -89,7 +89,7 @@
       };
     };
     zsh = {
-      enable - true;
+      enable = true;
       # Terminal startup tasks
       bashrcExtra = ''
       '';
