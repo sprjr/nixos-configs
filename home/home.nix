@@ -108,6 +108,10 @@
     };
   };
 
+  home.shellAliases = {
+    ls = "lsd -l";
+  };
+
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
   # Home-manager packages
