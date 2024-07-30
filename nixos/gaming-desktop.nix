@@ -176,6 +176,7 @@ in {
     file
     fzf
     gamescope
+    gimp
     glow # in-text markdown reader
     htop # pretty top
     hyfetch
