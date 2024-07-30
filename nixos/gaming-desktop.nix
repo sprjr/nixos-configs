@@ -183,6 +183,7 @@ in {
     lsd # pretty ls
     mdp # fullscreen markdown reader
     mullvad-browser
+    obs-studio
     obsidian
     signal-desktop
     starship
