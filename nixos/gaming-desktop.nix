@@ -202,6 +202,7 @@ in {
     mullvad-vpn
     lshw
     nmap
+    openvas-scanner
     remmina
     syncthing
     wireguard-tools
