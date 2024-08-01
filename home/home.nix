@@ -114,6 +114,8 @@
 
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
