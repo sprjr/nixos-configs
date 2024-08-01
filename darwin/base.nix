@@ -34,6 +34,7 @@ in {
       "bat"
       "duf"
       "htop"
+      "hyfetch"
       "lsd"
       "tldr"
       "watch"
