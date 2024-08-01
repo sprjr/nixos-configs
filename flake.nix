@@ -78,7 +78,6 @@
         modules = [
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/gaming-desktop.nix
-          ./nixos/modules/shell/starship.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/monitoring/node-exporter.nix
