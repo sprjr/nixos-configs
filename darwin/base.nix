@@ -36,6 +36,7 @@ in {
       "htop"
       "hyfetch"
       "lsd"
+      "nmap"
       "tldr"
       "watch"
       "zsh"
@@ -46,6 +47,7 @@ in {
     # Casks
     casks = [
       "bitwarden"
+      "diffusionbee"
       "docker"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
