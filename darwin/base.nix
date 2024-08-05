@@ -51,6 +51,7 @@ in {
       "docker"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
+      "minecraft"
       "obsidian"
       "signal"
       "syncthing"
