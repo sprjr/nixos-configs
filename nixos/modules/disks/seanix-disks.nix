@@ -2,8 +2,12 @@
 
 {
   # 1TB Samsung 860 m.2
-  fileSystems."/mnt/media/samsung_ssd_860" = {
-    device = "/dev/disk/a1722424-cc15-479d-94d2-b15c238cdb03";
+  fileSystems."/run/media/patrick/6655e2e3-ce9e-42eb-8043-6a553ced1d76" = {
+    device = "/dev/disk/6655e2e3-ce9e-42eb-8043-6a553ced1d76";
     fsType = "ext4";
+    options = [
+      "users" # allows any user mount/unmount privileges
+      "nofail" # prevent system from failing if the drive doesn't mount
+    ];
   };
 }
