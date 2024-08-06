@@ -158,6 +158,7 @@ in {
     docker
     docker-compose
     fanctl
+    geckdriver
     git
     pciutils
     pipewire
