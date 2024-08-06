@@ -81,6 +81,7 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/monitoring/node-exporter.nix
+         #./nixos/modules/disks/seanix-disks.nix # This is breaking and switching the device into emergency mode
           {
           # Additional configuration goes here
           }
