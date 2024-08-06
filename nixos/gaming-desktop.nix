@@ -208,6 +208,7 @@ in {
     syncthing
     wireguard-tools
     wireshark
+    xpipe
 
     # KDE Packages
     kdePackages.kate
