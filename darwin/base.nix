@@ -46,16 +46,20 @@ in {
     '';
     # Casks
     casks = [
+      "arc"
+      "battle-net"
       "bitwarden"
       "diffusionbee"
       "discord"
       "docker"
+      "epic-games"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
       "microsoft-remote-desktop"
       "minecraft"
       "obsidian"
       "signal"
+      "steam"
       "syncthing"
       "tailscale"
       "vmware-fusion"
