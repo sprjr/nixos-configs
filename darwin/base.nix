@@ -48,6 +48,7 @@ in {
     casks = [
       "bitwarden"
       "diffusionbee"
+      "discord"
       "docker"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
