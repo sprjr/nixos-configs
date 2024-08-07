@@ -58,6 +58,7 @@ in {
       "syncthing"
       "tailscale"
       "vmware-fusion"
+      "wine-stable"
     ];
   };
 
