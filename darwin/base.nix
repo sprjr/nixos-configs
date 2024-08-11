@@ -32,6 +32,7 @@ in {
     brews = [
       "bash"
       "bat"
+      "cowsay"
       "duf"
       "htop"
       "hyfetch"
