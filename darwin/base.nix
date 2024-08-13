@@ -59,6 +59,7 @@ in {
       "microsoft-remote-desktop"
       "minecraft"
       "obsidian"
+      "parallels"
       "signal"
       "steam"
       "syncthing"
