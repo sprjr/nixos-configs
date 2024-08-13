@@ -6,7 +6,6 @@
     device = "/dev/disk/6655e2e3-ce9e-42eb-8043-6a553ced1d76";
     fsType = "ext4";
     options = [
-      "users" # allows any user mount/unmount privileges
       "nofail" # prevent system from failing if the drive doesn't mount
     ];
   };
