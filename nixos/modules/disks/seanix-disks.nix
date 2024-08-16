@@ -7,6 +7,8 @@
     fsType = "ext4";
     options = [
       "nofail" # prevent system from failing if the drive doesn't mount
+      "noatime"
+      "defaults"
     ];
   };
 }
