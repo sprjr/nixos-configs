@@ -137,6 +137,9 @@ in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Enable OpenRGB udev rules
+  services.hardware.openrgb.enable = true;
+
   # Enable Steam
   programs.steam.enable = true;
 
@@ -187,7 +190,7 @@ in {
     mullvad-browser
     obs-studio
     obsidian
-    openrgb-with-all-plugins
+    openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
     signal-desktop
     starship
     thunderbird
