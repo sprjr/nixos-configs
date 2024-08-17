@@ -187,6 +187,7 @@ in {
     mullvad-browser
     obs-studio
     obsidian
+    openrgb-with-all-plugins
     signal-desktop
     starship
     thunderbird
