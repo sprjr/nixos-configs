@@ -184,6 +184,7 @@ in {
     glow # in-text markdown reader
     htop # pretty top
     hyfetch
+    kitty
     lima
     lsd # pretty ls
     mdp # fullscreen markdown reader
