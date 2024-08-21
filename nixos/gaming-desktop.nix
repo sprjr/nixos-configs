@@ -172,6 +172,7 @@ in {
     # User environment
     alacritty
     bat # pretty cat
+    btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     discord
