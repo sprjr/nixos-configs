@@ -73,7 +73,7 @@
       enable = true;
       # Terminal startup tasks
       bashrcExtra = ''
-        hyfetch
+        nix run nixpkgs#hyfetch
       '';
       # Aliases
       shellAliases = {
