@@ -63,6 +63,7 @@ in {
       "steam"
       "syncthing"
       "tailscale"
+      "thunderbird"
       "vmware-fusion"
       "wine-stable"
     ];
