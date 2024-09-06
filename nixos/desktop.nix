@@ -165,7 +165,7 @@
     xboxdrv
     gimp
     vlc
-    gnome.gnome-terminal
+    pkgs.gnome-terminal
 
     ### Net tools ###
     tailscale
@@ -176,7 +176,7 @@
     syncthing
 
     # GNOME Themes
-    gnome.adwaita-icon-theme
+    pkgs.adwaita-icon-theme
 
   ];
 
