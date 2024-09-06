@@ -145,7 +145,6 @@
     git
     lima
     lsd
-    rustdesk
     htop
     thermald
     wireguard-tools
