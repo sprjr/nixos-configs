@@ -175,6 +175,7 @@ in {
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
+    cli-visualizer
     discord
     duf
     duplicati
