@@ -56,6 +56,7 @@ in {
       "epic-games"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
+      "kando"
       "microsoft-remote-desktop"
       "minecraft"
       "obsidian"
