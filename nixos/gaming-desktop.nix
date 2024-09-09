@@ -180,6 +180,7 @@ in {
     duf
     duplicati
     file
+    freerdp
     fzf
     gamescope
     gimp
