@@ -185,6 +185,7 @@ in {
     gamescope
     gimp
     glow # in-text markdown reader
+    helix
     htop # pretty top
     hyfetch
     kitty

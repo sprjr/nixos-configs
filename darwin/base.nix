@@ -34,6 +34,7 @@ in {
       "bat"
       "cowsay"
       "duf"
+      "helix"
       "htop"
       "hyfetch"
       "lsd"
