@@ -226,6 +226,19 @@ in {
     kdePackages.kiten
     kdePackages.krdp
 
+    # scrcpy packages
+    pkg-config
+    meson
+    ninja-build
+    libsdl2-dev
+    libavcodec-dev
+    libavdevice-dev
+    libavformat-dev
+    libavutil-dev
+    libswresample.dev
+    libusb-1.0-0
+    libusb-1.0-0-dev
+
     # Gaming
     prismlauncher
   ];
