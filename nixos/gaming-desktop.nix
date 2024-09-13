@@ -196,6 +196,7 @@ in {
     obs-studio
     obsidian
     openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
+    scrcpy
     signal-desktop
     starship
     thunderbird
