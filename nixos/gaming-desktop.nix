@@ -227,17 +227,10 @@ in {
     kdePackages.krdp
 
     # scrcpy packages
-    pkg-config
+    android-tools
+    libusb1
     meson
-    ninja-build
-    libsdl2-dev
-    libavcodec-dev
-    libavdevice-dev
-    libavformat-dev
-    libavutil-dev
-    libswresample.dev
-    libusb-1.0-0
-    libusb-1.0-0-dev
+    pkg-config
 
     # Gaming
     prismlauncher

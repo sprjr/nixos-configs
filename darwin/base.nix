@@ -30,6 +30,7 @@ in {
     enable = true;
     # Packages
     brews = [
+      "android-platform-tools"
       "bash"
       "bat"
       "cowsay"
@@ -39,6 +40,7 @@ in {
       "hyfetch"
       "lsd"
       "nmap"
+      "scrcpy"
       "tldr"
       "watch"
       "zsh"
