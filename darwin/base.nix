@@ -30,7 +30,6 @@ in {
     enable = true;
     # Packages
     brews = [
-      "android-platform-tools"
       "bash"
       "bat"
       "cowsay"
@@ -50,6 +49,7 @@ in {
     '';
     # Casks
     casks = [
+      "android-platform-tools"
       "arc"
       "battle-net"
       "bitwarden"
