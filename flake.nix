@@ -81,8 +81,8 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/monitoring/node-exporter.nix
-          ./nixos/modules/disks/seanix-disks.nix # not automounting yet 
-          ./nixos/modules/system/2udev-scrcpy.nix
+          ./nixos/modules/disks/seanix-disks.nix # not automounting yet
+          ./nixos/modules/system/udev-scrcpy.nix
           {
           # Additional configuration goes here
           }
