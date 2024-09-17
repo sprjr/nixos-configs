@@ -13,7 +13,7 @@ in
 
   systemd.services.scrcpy-trigger = {
     path = [ "${pkgs.scrcpy}/bin/scrcpy" ];
-    description = "scrcpy service to auto-run on Pixel mount";
+    description = "scrcpy Service";
     serviceConfig = {
       ExecStart = scrcpy-trigger;
       User = "patrick";
