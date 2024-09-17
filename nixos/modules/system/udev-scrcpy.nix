@@ -2,6 +2,7 @@
 
 let
   scrcpy-trigger = pkgs.writeShellScript "scrcpy-trigger" ''
+    adb server-start
     ${pkgs.scrcpy}/bin/scrcpy
   '';
 in
