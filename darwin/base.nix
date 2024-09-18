@@ -69,6 +69,7 @@ in {
       "tailscale"
       "thunderbird"
       "vmware-fusion"
+      "whisky"
       "wine-stable"
     ];
   };
