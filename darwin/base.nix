@@ -53,6 +53,7 @@ in {
       "arc"
       "battle-net"
       "bitwarden"
+      "crossover"
       "diffusionbee"
       "discord"
       "docker"
