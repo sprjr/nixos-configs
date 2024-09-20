@@ -34,6 +34,7 @@ in {
       "bat"
       "cowsay"
       "duf"
+      "glow" # markdown reader
       "helix"
       "htop"
       "hyfetch"
@@ -53,6 +54,7 @@ in {
       "arc"
       "battle-net"
       "bitwarden"
+      "crossover"
       "diffusionbee"
       "discord"
       "docker"
@@ -69,6 +71,7 @@ in {
       "tailscale"
       "thunderbird"
       "vmware-fusion"
+      "whisky"
       "wine-stable"
     ];
   };
