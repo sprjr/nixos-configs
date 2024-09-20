@@ -205,6 +205,7 @@ in {
     vim
     vimPlugins.nvchad
     vlc
+    weasis
 
     ### Net tools ###
     tailscale
