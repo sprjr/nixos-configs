@@ -28,8 +28,9 @@
   ];
 
   # Rooted Docker Configuration ### Added user to extra groups below
+  hardware.nvidia-container-toolkit.enable = true;
   virtualisation.docker = {
-    enableNvidia = true;
+#   enableNvidia = true;
     enable = true;
   };
 
@@ -71,7 +72,7 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma desktop environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
@@ -95,7 +96,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Enable Flatpacks
   services.flatpak.enable = true;
