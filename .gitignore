@@ -2,7 +2,7 @@
 *secrets*
 
 # Ignore backup disk config
-./nixos/modules/disks/hetzner-box-cifs.nix
+*hetzner*
 
 # Ignore all environment files
 *.env
