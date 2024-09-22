@@ -171,6 +171,7 @@ in {
 
     # User environment
     alacritty
+    anki
     bat # pretty cat
     btop
     pkgs-stable.bitwarden
