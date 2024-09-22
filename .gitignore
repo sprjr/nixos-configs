@@ -1,0 +1,8 @@
+# Ignore all potential secrets files
+*secrets*
+
+# Ignore backup disk config
+./nixos/modules/disks/hetzner-box-cifs.nix
+
+# Ignore all environment files
+*.env
