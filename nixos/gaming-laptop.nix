@@ -170,12 +170,13 @@
     pkgs.gnome-terminal
 
     ### Net tools ###
-    tailscale
     inetutils
-    mtr
     lshw
+    mtr
     nmap
     syncthing
+    tailscale
+    tinystatus
 
     # GNOME Themes
     pkgs.adwaita-icon-theme
