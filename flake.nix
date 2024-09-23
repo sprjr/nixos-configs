@@ -44,7 +44,6 @@
           ./nixos/hardware-configuration/trixos.nix
           ./nixos/gaming-laptop.nix
           ./nixos/modules/nvidia.nix
-          ./nixos/modules/disks/hetzner-box-cifs.nix
           {
             networking.hostName = "trixos";
             hardware.nvidia.prime = {
