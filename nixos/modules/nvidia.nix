@@ -35,7 +35,6 @@
   };
 
   hardware.nvidia.prime.sync.enable = true;
-  virtualisation.docker.enableNvidia = true;
   environment.systemPackages = with pkgs; [
     nvidia-docker
   ];
