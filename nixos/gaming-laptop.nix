@@ -118,16 +118,16 @@
     ];
   };
 
-  environment.interactiveShellInit = ''
-    alias ls='lsd'
-    alias cat='bat'
-    alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
-    alias compose2nix-start='nix shell github:aksiksi/compose2nix'
-    alias uptime='uptime;uptime --pretty'
-    alias yt-dl='nix shell -p yt-dlp'
-    alias weather='curl -s v2.wttr.in/'
-    alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
-  '';
+# environment.interactiveShellInit = ''
+#   alias ls='lsd'
+#   alias cat='bat'
+#   alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
+#   alias compose2nix-start='nix shell github:aksiksi/compose2nix'
+#   alias uptime='uptime;uptime --pretty'
+#   alias yt-dl='nix shell -p yt-dlp'
+#   alias weather='curl -s v2.wttr.in/'
+#   alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
+# '';
 
   programs.mtr.enable = true;
 
