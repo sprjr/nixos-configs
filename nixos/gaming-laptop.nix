@@ -70,17 +70,17 @@
   services.tailscale.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+ #services.xserver.enable = true;
 
   # Enable the KDE Plasma desktop environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+ #services.displayManager.sddm.enable = true;
+ #services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+ #services.xserver.xkb = {
+ #  layout = "us";
+ #  variant = "";
+ #};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
