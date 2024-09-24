@@ -100,7 +100,7 @@
   services.libinput.enable = true;
 
   # Enable Flatpacks
-  services.flatpak.enable = true;
+ #services.flatpak.enable = true;
 
   # Nerdfonts
   fonts.packages = with pkgs; [
