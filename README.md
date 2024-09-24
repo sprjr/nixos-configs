@@ -6,6 +6,15 @@ This stores my NixOS configs
 
 Assuming you want to build and switch to the `trixos` configuration:
 
+(Available configurations at this time include):
+
+#### NixOS
+```trixos```
+```seanix```
+
+#### Darwin
+```seair```
+
 ```
 nixos-rebuild switch --flake github:sprjr/nixos-configs#trixos
 ```
