@@ -161,7 +161,8 @@
     ollama
     pciutils
     pipx
-    python3
+    python312Full
+    python312Packages.pip
     file
     alacritty
     fanctl

@@ -121,6 +121,7 @@
   home.packages = with pkgs; [
     # Global packages
     lima # VMs/Docker
+    glow
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     libvirt
