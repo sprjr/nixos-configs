@@ -160,6 +160,7 @@
     vimPlugins.nvchad
     ollama
     pciutils
+    pipx
     python3
     file
     alacritty
