@@ -120,8 +120,16 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
-    lima # VMs/Docker
+    anki
+    bat
+    duf
     glow
+    htop
+    lima # VMs/Docker
+    lsd
+    mtr
+    tldr
+    vlc
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     libvirt
