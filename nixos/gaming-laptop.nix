@@ -143,6 +143,7 @@
     docker
     docker-compose
     discord
+    duf
     fzf
     git
     lima
