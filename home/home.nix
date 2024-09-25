@@ -128,6 +128,7 @@
     lima # VMs/Docker
     lsd
     mtr
+    syncthing
     tldr
     vlc
   ] ++ lib.optionals stdenv.isLinux [

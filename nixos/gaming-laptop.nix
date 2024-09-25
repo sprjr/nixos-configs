@@ -118,19 +118,6 @@
     ];
   };
 
-# environment.interactiveShellInit = ''
-#   alias ls='lsd'
-#   alias cat='bat'
-#   alias gomuks='docker run -e TERM=xterm -it --rm heywoodlh/gomuks'
-#   alias compose2nix-start='nix shell github:aksiksi/compose2nix'
-#   alias uptime='uptime;uptime --pretty'
-#   alias yt-dl='nix shell -p yt-dlp'
-#   alias weather='curl -s v2.wttr.in/'
-#   alias bf='du -aBm / 2>/dev/null | sort -nr | head -n 20'
-# '';
-
-  programs.mtr.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -139,16 +126,11 @@
 
   # Packages for every desktop system
   environment.systemPackages = with pkgs; [
-    bat
     docker
     docker-compose
     discord
-    duf
     fzf
     git
-    lima
-    lsd
-    htop
     thermald
     wireguard-tools
     playerctl
@@ -168,7 +150,6 @@
     fanctl
     tldr
     teamviewer
-    xboxdrv
     gimp
     vlc
     pkgs.gnome-terminal
@@ -176,9 +157,7 @@
     ### Net tools ###
     inetutils
     lshw
-    mtr
     nmap
-    syncthing
     tailscale
     tinystatus
 
