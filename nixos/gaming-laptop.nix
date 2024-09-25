@@ -160,6 +160,7 @@
     vimPlugins.nvchad
     ollama
     pciutils
+    python3
     file
     alacritty
     fanctl
