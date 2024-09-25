@@ -46,9 +46,9 @@ in {
   ];
 
   # Enable Docker
-  virtualisation.docker = {
-    enable = true;
-  };
+# virtualisation.docker = {
+#   enable = true;
+# };
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -158,8 +158,6 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
-   #docker
-   #docker-compose
     fanctl
     geckodriver
     git

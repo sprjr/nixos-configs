@@ -113,6 +113,10 @@
     enable = true;
   };
 
+  virtualisation.docker = {
+    enable = true;
+  };
+
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
