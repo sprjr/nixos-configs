@@ -122,6 +122,8 @@
     # Global packages
     anki
     bat
+    docker
+    docker-compose
     duf
     glow
     htop

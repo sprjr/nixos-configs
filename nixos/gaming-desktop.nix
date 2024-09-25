@@ -158,8 +158,8 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
+   #docker
+   #docker-compose
     fanctl
     geckodriver
     git
@@ -171,27 +171,20 @@ in {
 
     # User environment
     alacritty
-    anki
-    bat # pretty cat
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     cli-visualizer
     discord
-    duf
     duplicati
     file
     freerdp
     fzf
     gamescope
     gimp
-    glow # in-text markdown reader
     helix
-    htop # pretty top
     hyfetch
     kitty
-    lima
-    lsd # pretty ls
     mdp # fullscreen markdown reader
     mullvad-browser
     obs-studio
@@ -199,25 +192,20 @@ in {
     openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
     scrcpy
     signal-desktop
-    starship
     thunderbird
-    tldr
     tree
     vim
     vimPlugins.nvchad
-    vlc
     weasis
 
     ### Net tools ###
     tailscale
     inetutils
-    mtr
     mullvad-vpn
     lshw
     nmap
     openvas-scanner
     remmina
-    syncthing
     wireguard-tools
     wireshark
     xpipe
