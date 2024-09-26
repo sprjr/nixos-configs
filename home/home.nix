@@ -120,7 +120,6 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
-    anki
     bat
     docker
     docker-compose
@@ -136,6 +135,7 @@
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     libvirt
+    anki
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
     mas

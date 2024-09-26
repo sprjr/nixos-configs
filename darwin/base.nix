@@ -51,6 +51,7 @@ in {
     # Casks
     casks = [
       "android-platform-tools"
+      "anki"
       "arc"
       "battle-net"
       "bitwarden"
