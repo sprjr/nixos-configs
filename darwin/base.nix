@@ -71,6 +71,7 @@ in {
       "syncthing"
       "tailscale"
       "thunderbird"
+      "vlc"
       "vmware-fusion"
       "whisky"
       "wine-stable"

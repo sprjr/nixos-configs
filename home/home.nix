@@ -131,7 +131,6 @@
     mtr
     syncthing
     tldr
-    vlc
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     libvirt
