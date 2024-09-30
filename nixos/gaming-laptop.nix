@@ -158,7 +158,6 @@
     inetutils
     lshw
     nmap
-    samba
     tailscale
     tinystatus
 
