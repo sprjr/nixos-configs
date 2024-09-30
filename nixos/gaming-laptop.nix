@@ -158,7 +158,7 @@
     inetutils
     lshw
     nmap
-    smbclient
+    samba
     tailscale
     tinystatus
 
