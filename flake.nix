@@ -44,6 +44,7 @@
           ./nixos/hardware-configuration/trixos.nix
           ./nixos/gaming-laptop.nix
           ./nixos/modules/nvidia.nix
+          ./nixos/modules/disks/macnnix-ns.nix
           {
             networking.hostName = "trixos";
             hardware.nvidia.prime = {
