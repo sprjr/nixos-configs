@@ -168,6 +168,17 @@
 
   system.stateVersion = "23.11";
 
+  services.openssh = {
+    enable = true;
+    # Require public key authentication
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      # Root login
+      PermitRootLogin = "yes";
+    };
+  };
+
   # Home-Manager
   home-manager = {
     useGlobalPkgs = true;

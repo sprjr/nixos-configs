@@ -20,7 +20,7 @@ in {
       home = "/home/backups";
       shell = "${pkgs.bash}/bin/bash";
       openssh.authorizedKeys.keys [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+ patrick@macnnix"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL+K/JUb6pVsBbu4FmLJa/Yzgfn4S5kLoFSXJUUcVyl4 root@seanix"
       ];
     };
   };
@@ -50,7 +50,16 @@ retain	monthly	6
 backup	root@wopr:/media/books	media/books
 backup	root@wopr:/media/audiobooks	media/books
 backup	root@wopr:/home/sean/core/minecraft	gaming/minecraft
-backup	root@wopr:/home/sean/.backups/
+backup	root@wopr:/home/sean/.backups/	wopr
+backup	root@wopr:/home/sean/core/plex/tautulli/data/backups	wopr/containers/tautulli
+backup	root@wopr:/home/sean/core/plex/radarr-lscr/data/Backups/scheduled	wopr/containers/radarr
+backup	root@wopr:/home/sean/core/plex/sonarr-lscr/data/Backups/scheduled	wopr/containers/sonarr
+backup	root@wopr:/home/sean/core/plex/readarr/data/Backups/scheduled	wopr/containers/readarr
+backup	root@wopr:/home/sean/core/plex/plex-lscr	wopr/containers/plex
+backup	root@wopr:/home/sean/core/plex/wizarr	wopr/containers/wizarr
+backup	root@wopr:/home/sean/core/plex/kavita	wopr/containers/kavita
+backup	root@wopr:/home/sean/core/audiobookshelf	wopr/containers/audiobookshelf
+backup	root@wopr:/home/sean/core/caddy	wopr/containers/caddy
 
 # macnnix
 backup	root@macnnix:/etc/nixos/	/nixos/macnnix/config
