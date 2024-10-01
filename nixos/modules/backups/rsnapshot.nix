@@ -46,4 +46,16 @@ retain	daily	7
 retain	weekly	4
 retain	monthly	6
 
-backup	root@wopr:/media/books	wopr
+# wopr
+backup	root@wopr:/media/books	media/books
+backup	root@wopr:/media/audiobooks	media/books
+backup	root@wopr:/home/sean/core/minecraft	gaming/minecraft
+backup	root@wopr:/home/sean/.backups/
+
+# macnnix
+backup	root@macnnix:/etc/nixos/	/nixos/macnnix/config
+
+cmd_postexec	${chown_script}/bin/chown-rsnapshot
+    '';
+  };
+}
