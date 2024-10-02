@@ -73,7 +73,7 @@
       enable = true;
       # Terminal startup tasks
       bashrcExtra = ''
-        zellif --layout /home/patrick/.config/zellij/default-layout.kdl 
+        zellij --layout /home/patrick/.config/zellij/default-layout.kdl
       '';
       # Aliases
       shellAliases = {
