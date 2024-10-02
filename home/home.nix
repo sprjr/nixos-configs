@@ -72,8 +72,8 @@
     bash = {
       enable = true;
       # Terminal startup tasks
-      bashrcExtra = ''
-      '';
+     #bashrcExtra = ''
+     #'';
       # Aliases
       shellAliases = {
         ls = "lsd -l";
