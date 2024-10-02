@@ -191,6 +191,7 @@ in {
     scrcpy
     signal-desktop
     thunderbird
+    tmux
     tree
     vim
     vimPlugins.nvchad
