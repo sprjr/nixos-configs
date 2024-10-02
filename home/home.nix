@@ -133,8 +133,9 @@
     tldr
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
-    libvirt
     anki
+    libvirt
+    zellij
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
     mas
