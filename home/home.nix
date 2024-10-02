@@ -73,7 +73,7 @@
       enable = true;
       # Terminal startup tasks
       bashrcExtra = ''
-        nix run nixpkgs#hyfetch
+        zellif --layout /home/patrick/.config/zellij/default-layout.kdl 
       '';
       # Aliases
       shellAliases = {
