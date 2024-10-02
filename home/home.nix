@@ -131,11 +131,11 @@
     mtr
     syncthing
     tldr
+    zellij
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     anki
     libvirt
-    zellij
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
     mas
