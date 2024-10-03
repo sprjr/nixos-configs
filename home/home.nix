@@ -127,6 +127,14 @@
       white = "#E5E9F0";
       orange = "#D08770";
     };
+    layout = "default";
+      layouts.default = {
+        pane
+	pane split_direction="vertical" {
+	  pane command="btop"
+	};
+      };
+    };
   };
 
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
