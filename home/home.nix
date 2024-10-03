@@ -129,19 +129,6 @@
         orange = "#D08770";
       };
     };
-    layouts = {
-      default = ''
-        layout {
-	  pane
-	  pane split_direction="vertical" {
-	    pane
-	    pane split_direction="vertical" {
-	      pane command="btop"
-	    }
-	  }
-	}
-      '';
-    };
   };
 
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
