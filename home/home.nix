@@ -129,9 +129,11 @@
     };
     layout = "default";
       layouts.default = {
-        pane
-	pane split_direction="vertical" {
-	  pane command="btop"
+        layout = {
+	  pane
+	  pane split_direction="vertical" {
+	    pane command="btop"
+	  };
 	};
       };
     };
