@@ -201,6 +201,7 @@ in {
     tailscale
     inetutils
     mullvad-vpn
+    nextcloud-client
     lshw
     nmap
     openvas-scanner
