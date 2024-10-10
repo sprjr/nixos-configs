@@ -110,7 +110,6 @@
     description = "patrick";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-     #firefox
       kate
     ];
   };
