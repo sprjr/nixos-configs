@@ -142,6 +142,7 @@
     docker
     docker-compose
     duf
+    firefox
     glow
     htop
     lima # VMs/Docker
