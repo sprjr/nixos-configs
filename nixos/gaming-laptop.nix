@@ -99,9 +99,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  # Enable Flatpacks
- #services.flatpak.enable = true;
-
   # Nerdfonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
@@ -113,7 +110,7 @@
     description = "patrick";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      firefox
+     #firefox
       kate
     ];
   };
