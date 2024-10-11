@@ -44,7 +44,8 @@
           ./nixos/hardware-configuration/trixos.nix
           ./nixos/gaming-laptop.nix
           ./nixos/modules/nvidia.nix
-         #./nixos/modules/backups/rsnapshot.nix
+          ./nixos/modules/monitoring/node-exporter.nix
+	 #./nixos/modules/backups/rsnapshot.nix
 	  {
             networking.hostName = "trixos";
             hardware.nvidia.prime = {
