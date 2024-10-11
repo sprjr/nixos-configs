@@ -189,7 +189,6 @@ in {
     thunderbird
     tmux
     tree
-    vikunja
     vim
     vimPlugins.nvchad
     weasis
