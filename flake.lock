@@ -5712,11 +5712,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1728598476,
-        "narHash": "sha256-fCmK3yR+lgXetIBkFJtHwDnl8pg2JucOEpCw+ulQ5YQ=",
+        "lastModified": 1728650932,
+        "narHash": "sha256-mGKzqdsRyLnGNl6WjEr7+sghGgBtYHhJQ4mjpgRTCsU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "03f8e0b3b3ca4f49d11bf0264dbff465d6ae9aae",
+        "rev": "65ae9c147349829d3df0222151f53f79821c5134",
         "type": "github"
       },
       "original": {
