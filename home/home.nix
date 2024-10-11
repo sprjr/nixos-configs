@@ -150,7 +150,6 @@
     mtr
     syncthing
     tldr
-    vikunja
     zellij
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
