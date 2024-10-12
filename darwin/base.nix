@@ -65,6 +65,7 @@ in {
       "kando"
       "microsoft-remote-desktop"
       "minecraft"
+      "moonlight"
       "obsidian"
       "signal"
       "steam"
