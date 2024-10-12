@@ -142,7 +142,6 @@
     docker
     docker-compose
     duf
-    firefox
     glow
     htop
     lima # VMs/Docker
@@ -154,6 +153,7 @@
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     anki
+    firefox
     libvirt
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
