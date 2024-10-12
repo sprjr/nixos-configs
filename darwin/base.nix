@@ -34,7 +34,7 @@ in {
       "bat"
       "cowsay"
       "duf"
-     #"firefox"
+     #"firefox" # re-add later
       "glow" # markdown reader
       "helix"
       "htop"
@@ -67,6 +67,7 @@ in {
       "microsoft-remote-desktop"
       "minecraft"
       "moonlight"
+      "nextcloud"
       "obsidian"
       "signal"
       "steam"
