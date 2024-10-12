@@ -34,7 +34,7 @@ in {
       "bat"
       "cowsay"
       "duf"
-      "firefox"
+     #"firefox"
       "glow" # markdown reader
       "helix"
       "htop"
