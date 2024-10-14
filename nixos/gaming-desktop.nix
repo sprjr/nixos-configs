@@ -165,6 +165,7 @@ in {
 
     # User environment
     alacritty
+    blender
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
