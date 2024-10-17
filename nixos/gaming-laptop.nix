@@ -138,9 +138,6 @@
     vimPlugins.nvchad
     ollama
     pciutils
-    pipx
-    python312Full
-    python312Packages.pip
     file
     alacritty
     fanctl
