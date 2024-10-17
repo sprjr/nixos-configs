@@ -71,6 +71,7 @@ in {
       "obsidian"
       "signal"
       "steam"
+      "steamcmd"
       "syncthing"
       "tailscale"
       "thunderbird"
