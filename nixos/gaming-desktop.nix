@@ -195,7 +195,7 @@ in {
     weasis
 
     ### Net tools ###
-    nixpkgs-stable.tailscale
+    pkgs-stable.tailscale
     inetutils
     mullvad-vpn
     nextcloud-client
