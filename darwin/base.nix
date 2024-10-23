@@ -42,6 +42,7 @@ in {
       "lsd"
       "nmap"
       "scrcpy"
+      "terraform"
       "tldr"
       "watch"
       "zsh"
