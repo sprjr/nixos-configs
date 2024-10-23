@@ -25,7 +25,7 @@ nixos-rebuild switch --flake github:sprjr/nixos-configs#trixos
 nix run "github:LNL7/nix-darwin#packages.aarch64-darwin.darwin-rebuild" -- switch --flake github:sprjr/nixos-configs#seair
 ```
 Note:
-You may need to add the flags `--extra-experimental-features nix-command --extra-experimental-features flakes` before the `--`, depending on your setup.
+You may need to add the flags `--extra-experimental-features nix-command --extra-experimental-features flakes` before the `--`, depending on your setup, and it may be `--impure`.
 
 ### Other Linux distributions
 
