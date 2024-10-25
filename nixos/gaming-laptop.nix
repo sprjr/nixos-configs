@@ -1,8 +1,9 @@
-{ config, lib, pkgs, home-manager, ... }:
+{ config, lib, pkgs, home-manager, comin, ... }:
 
 {
   imports =
     [
+      comin.nixosModules.comin
       home-manager.nixosModules.home-manager
       /home/patrick/opt/hetzner-box-cifs.nix
     ];
@@ -11,12 +12,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Bluetooth
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
@@ -117,8 +122,17 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # CI/CD Automation
+  services.comin = {
+    enable = true;
+    # Define the source for the build (git)
+    remotes = [{
+      name = "origin";
+      url = "git@github.com:sprjr/nixos-configs.git";
+      branches.main.name = "main";
+      poller.period = 86400; # Update every 24-hours
+    }];
+  };
 
   # Packages for every desktop system
   environment.systemPackages = with pkgs; [

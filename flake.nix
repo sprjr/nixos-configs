@@ -18,16 +18,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
+    comin = {
+      url = "github:nlewo/comin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{  self,
+                      comin,
+                      darwin,
+                      flake-utils,
+                      heywoodlh-configs,
+                      home-manager,
                       nixpkgs,
                       nixpkgs-stable,
-                      flake-utils,
-                      darwin,
-                      home-manager,
                       spicetify-nix,
-                      heywoodlh-configs,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {

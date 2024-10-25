@@ -1,11 +1,11 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{ config, pkgs, lib, home-manager, nixpkgs-stable, comin, ... }:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
-  imports =
-    [
+  imports = [
+      comin.nixosModules.comin
       home-manager.nixosModules.home-manager
     ];
 
@@ -19,6 +19,9 @@ in {
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
@@ -123,7 +126,17 @@ in {
     ];
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # CI/CD Automation
+  services.comin = {
+    enable = true;
+    # Define the source for the build (git)
+    remotes = [{
+      name = "origin";
+      url = "git@github.com:sprjr/nixos-configs.git";
+      branches.main.name = "main";
+      poller.period = 86400; # Update every 24-hours
+    }];
+  };
 
   # Fonts
   fonts.packages = with pkgs; [
