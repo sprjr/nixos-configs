@@ -18,7 +18,7 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout.default = "layout { pane { split_direction \"Horizontal\" } pane { split_direction \"Vertical\" pane { } pane { command \"btop\" } } }";
+      layout = "layout { pane { split_direction \"Horizontal\" } pane { split_direction \"Vertical\" pane { } pane { command \"btop\" } } }";
     };
   };
 }
