@@ -20,19 +20,19 @@
       };
       layout = {
         default = ''
-	layout {
-		pane {
-			split_direction "Horizontal"
-		}
-		pane {
-			split_direction "Vertical"
-			pane {
-			}
-			pane {
-				command "btop"
-			}
-		}
-	}
+          layout {
+            pane {
+              split_direction "Horizontal"
+            }
+            pane {
+              split_direction "Vertical"
+              pane {
+	      }
+              pane {
+                command "btop"
+              }
+            }
+          }
 	'';
       };
     };
