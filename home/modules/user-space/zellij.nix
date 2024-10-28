@@ -1,8 +1,26 @@
 { config, pkgs, home-manager, lib, ... }:
 
+let
+  zellijLayout = builtins.toFile "zellij-layout.kdl" ''
+    layout {
+      pane {
+        split_direction "Horizontal"
+      }
+      pane {
+        split_direction "Vertical"
+        pane {
+        }
+        pane {
+          command "btop"
+        }
+      }
+    }
+  '';
+in
+
 {
   programs.zellij = {
-  enable = true;
+    enable = true;
     settings = {
       theme = "nord";
       themes.nord = {
@@ -18,21 +36,7 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout = lib.mkForce ''
-        layout {
-	  pane {
-	    split_direction "Horizontal"
-	  }
-	  pane {
-	    split_direction "Vertical"
-	    pane {
-	    }
-	    pane {
-	      command "btop"
-	    }
-	  }
-	}
-      '';
+      layout.default = "${zellijLayout}";
     };
   };
 }
