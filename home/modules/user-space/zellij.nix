@@ -20,8 +20,8 @@
       };
       layout = {
         default = ''
-	  layout {
-	  	pane {
+	layout {
+		pane {
 			split_direction "Horizontal"
 		}
 		pane {
@@ -32,8 +32,8 @@
 				command "btop"
 			}
 		}
-	  }
-        '';
+	}
+	'';
       };
     };
   };
