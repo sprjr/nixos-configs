@@ -18,7 +18,7 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout = ''
+      layout = lib.mkForce ''
         layout {
 	  pane {
 	    split_direction "Horizontal"
