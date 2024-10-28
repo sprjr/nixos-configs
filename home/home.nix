@@ -6,7 +6,7 @@
 #   ./linux/s-gnome.nix
 #   ./linux/s-hyprland.nix
   ]; ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-#   ./some-darwin-import.nix
+    ./linux/shell/zellij.nix
   ];
 
   # Git configuration
