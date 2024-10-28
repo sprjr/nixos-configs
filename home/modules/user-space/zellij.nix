@@ -18,21 +18,7 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout.default = lib.strings.trim (''
-        layout {
-          pane {
-            split_direction "Horizontal"
-          }
-          pane {
-            split_direction "Vertical"
-            pane {
-            }
-            pane {
-              command "btop"
-            }
-          }
-        }
-      '');
+      layout.default = "layout { pane { split_direction \"Horizontal\" } pane { split_direction \"Vertical\" pane { } pane { command \"btop\" } } }";
     };
   };
 }
