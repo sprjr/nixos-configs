@@ -129,21 +129,6 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-    layout = "seanix";
-    layout.seanix = {
-      pane = {
-        split_direction = "Horizontal";
-	borderless = true;
-      };
-      pane = {
-        split_direction = "Vertical";
-	pane = {
-	  borderless = true;
-	};
-	pane = {
-	  command = "btop";
-	};
-      };
     };
   };
 
