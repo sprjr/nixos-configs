@@ -130,7 +130,7 @@
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout = lib.mkOption {
+      layout = {
         default = ''
 	  layout {
 	  	pane {
