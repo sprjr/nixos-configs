@@ -1,13 +1,13 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
-    ./linux/shell/zellij.nix
+# imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
+#   ./linux/shell/zellij.nix
 #   ./linux/s-gnome.nix
 #   ./linux/s-hyprland.nix
 # ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
 #   ./linux/shell/zellij.nix
-  ];
+# ];
 
   # Git configuration
   programs.git = {
