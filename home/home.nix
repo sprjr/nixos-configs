@@ -135,12 +135,10 @@
 	  layout {
 	  	pane {
 			split_direction "Horizontal"
-			borderless true
 		}
 		pane {
 			split_direction "Vertical"
 			pane {
-				borderless true
 			}
 			pane {
 				command "btop"
