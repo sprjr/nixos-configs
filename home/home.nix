@@ -131,16 +131,16 @@
       };
     layout = "seanix";
     layout.seanix = {
-      pane {
+      pane = {
         split_direction = "Horizontal";
 	borderless = true;
       };
-      pane {
+      pane = {
         split_direction = "Vertical";
-	pane {
+	pane = {
 	  borderless = true;
 	};
-	pane {
+	pane = {
 	  command = "btop";
 	};
       };
