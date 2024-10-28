@@ -135,7 +135,7 @@
     mtr
     syncthing
     tldr
-#   zellij
+    zellij
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     anki
