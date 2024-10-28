@@ -31,6 +31,7 @@ in {
         '';
       };
     };
+  };
   config = mkIf cfg.enable {
     home.packages = [pkgs.zellij];
     home.file.".config/zellij/layouts/default.kdl".text = cfg.layout;
