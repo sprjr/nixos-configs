@@ -17,7 +17,6 @@ let
     }
   '';
 in
-
 {
   programs.zellij = {
     enable = true;
@@ -36,7 +35,7 @@ in
         white = "#E5E9F0";
         orange = "#D08770";
       };
-      layout.default = "${zellijLayout}";
+      layout.default = builtins.readFile zellijLayout;
     };
   };
 }
