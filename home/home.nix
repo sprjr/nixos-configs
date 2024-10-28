@@ -1,12 +1,16 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
-    ./modules/user-space/zellij.nix
+# imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
+#   ./modules/user-space/zellij.nix
 #   ./linux/s-gnome.nix
 #   ./linux/s-hyprland.nix
 # ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
 #   ./linux/shell/zellij.nix
+# ];
+
+  imports = [
+    ./modules/user-space/zellij.nix
   ];
 
   # Git configuration
