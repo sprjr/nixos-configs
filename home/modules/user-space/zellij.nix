@@ -3,17 +3,15 @@
 let
   zellijConfigContent = ''
     layout {
-      default layout {
+      pane {
+        split_direction "Horizontal"
+      }
+      pane {
+        split_direction "Vertical"
         pane {
-          split_direction "Horizontal"
         }
         pane {
-          split_direction "Vertical"
-          pane {
-          }
-          pane {
-            command "btop"
-          }
+          command "btop"
         }
       }
     }
