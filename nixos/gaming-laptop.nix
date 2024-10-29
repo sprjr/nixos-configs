@@ -130,7 +130,7 @@
       name = "origin";
       url = "git@github.com:sprjr/nixos-configs.git";
       branches.main.name = "main";
-      poller.period = 86400; # Update every 24-hours
+      poller.period = 3600; # Update every hour
     }];
   };
 
