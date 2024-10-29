@@ -28,7 +28,7 @@ in {
   # Homebrew configuration
   homebrew = {
     enable = true;
-    # Packages
+    # Packages / Formulae
     brews = [
       "bash"
       "bat"
@@ -42,6 +42,8 @@ in {
       "lsd"
       "nmap"
       "scrcpy"
+      "spicetify-cli"
+      "spotify-tui"
       "terraform"
       "tldr"
       "watch"
