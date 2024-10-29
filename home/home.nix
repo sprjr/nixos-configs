@@ -4,7 +4,7 @@
   imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
     ./modules/user-space/zellij/zellij-config.nix
     ./modules/user-space/zellij/zellij-layout.nix
-  ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+  ]; ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
     ./modules/user-space/zellij/zellij-layout-darwin.nix
   ];
 
