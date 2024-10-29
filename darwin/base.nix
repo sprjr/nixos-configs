@@ -43,7 +43,7 @@ in {
       "nmap"
       "scrcpy"
       "spicetify-cli"
-      "spotify-tui"
+      "spotify_player"
       "terraform"
       "tldr"
       "watch"
