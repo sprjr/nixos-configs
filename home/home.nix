@@ -1,18 +1,17 @@
 { config, pkgs, home-manager, ... }:
 
 {
-# imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
-#   ./modules/user-space/zellij.nix
-#   ./linux/s-gnome.nix
-#   ./linux/s-hyprland.nix
-# ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-#   ./linux/shell/zellij.nix
-# ];
-
-  imports = [
-    ./modules/user-space/zellij-layout.nix
-    ./modules/user-space/zellij-config.nix
+  imports = pkgs.lib.optionals pkgs.stdenv.isLinux [
+    ./modules/user-space/zellij/zellij-config.nix
+    ./modules/user-space/zellij/zellij-layout.nix
+  ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+    ./modules/user-space/zellij/zellij-layout-darwin.nix
   ];
+
+# imports = [
+#   ./modules/user-space/zellij/zellij-layout.nix
+#   ./modules/user-space/zellij/zellij-config.nix
+# ];
 
   # Git configuration
   programs.git = {
