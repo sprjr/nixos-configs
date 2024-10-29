@@ -10,7 +10,8 @@
 # ];
 
   imports = [
-    ./modules/user-space/zellij.nix
+    ./modules/user-space/zellij-layout.nix
+    ./modules/user-space/zellij-config.nix
   ];
 
   # Git configuration
