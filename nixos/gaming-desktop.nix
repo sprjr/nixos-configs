@@ -84,7 +84,7 @@ in {
   };
 
   # Enable the gnome-keyring service for Signal
-  services.gnome-keyring.enable = true;
+ #services.gnome-keyring.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -220,6 +220,11 @@ in {
     wireguard-tools
     wireshark
     xpipe
+
+    # Gnome Packages
+    gnome = {
+      gnome-keyring
+    };
 
     # KDE Packages
     kdePackages.kate
