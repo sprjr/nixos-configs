@@ -12,6 +12,7 @@
     enable = true;
     userName = "sprjr";
     userEmail = "patrick@rawlinson.ws";
+  };
 
   # Neovim configuration
   programs.neovim = {
