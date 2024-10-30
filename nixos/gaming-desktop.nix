@@ -222,9 +222,7 @@ in {
     xpipe
 
     # Gnome Packages
-    gnome = {
-      gnome-keyring
-    };
+    gnome.gnome-keyring 
 
     # KDE Packages
     kdePackages.kate
