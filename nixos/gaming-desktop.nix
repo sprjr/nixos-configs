@@ -23,20 +23,16 @@ in {
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Enable bluetooth
+  # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true; # GUI management
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
 
   # Enable Wake on Lan
-  networking.interfaces.enp34s0.wakeOnLan.enable = true;
+  #networking.interfaces.enp34s0.wakeOnLan.enable = true;
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
@@ -48,9 +44,10 @@ in {
     { from = 1714; to = 1764; }
   ];
 
-  # Enable Docker
-  virtualisation.docker = {
-    enable = true;
+  # Enable Docker and Podman
+  virtualisation = {
+      docker.enable = true;
+      podman.enable = true;
   };
 
   # Set your time zone.
@@ -73,17 +70,18 @@ in {
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+ #services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+ #services.displayManager.sddm.enable = true;
+ #services.desktopManager.plasma6.enable = true;
 
-  # KDE Plasma default package exclusions
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-   #konsole
-  ];
-
+  # Enable the GNOME and GDM Desk Environment
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
