@@ -222,6 +222,7 @@ in {
     kdePackages.kate
     kdePackages.kdeconnect-kde
     kdePackages.kiten
+    kdePackages.konsole
     kdePackages.krdp
 
     # scrcpy packages
