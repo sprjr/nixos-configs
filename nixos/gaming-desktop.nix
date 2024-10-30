@@ -5,9 +5,9 @@ let
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
-      comin.nixosModules.comin
-      home-manager.nixosModules.home-manager
-    ];
+    comin.nixosModules.comin
+    home-manager.nixosModules.home-manager
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
