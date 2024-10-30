@@ -1,18 +1,6 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports = lib.optionals stdenv.isLinux [
-    ./modules/user-space/zellij/zellij-config.nix
-    ./modules/user-space/zellij/zellij-layout.nix
-  ] ++ lib.optionals stdenv.isDarwin [
-    ./modules/user-space/zellij/zellij-layout-darwin.nix
-  ];
-
-# imports = [
-#   ./modules/user-space/zellij/zellij-layout.nix
-#   ./modules/user-space/zellij/zellij-config.nix
-# ];
-
   # Git configuration
   programs.git = {
     enable = true;
