@@ -83,9 +83,6 @@ in {
     desktopManager.gnome.enable = true;
   };
 
-  # Enable the gnome-keyring service for Signal
- #services.gnome-keyring.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -222,7 +219,8 @@ in {
     xpipe
 
     # Gnome Packages
-    gnome.gnome-keyring 
+    gnome-keyring
+    gnome-session
 
     # KDE Packages
     kdePackages.kate
