@@ -20,6 +20,7 @@
     gnome-keyring
     gnome-session
     gnome-tweaks
+    guake
   ];
 
   # Remove unneeded packages
