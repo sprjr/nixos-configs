@@ -11,8 +11,13 @@
   # Enable gnome-settings-daemon udev rules
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
-  # Set icon theme
-  environment.systemPackages = [ gnome.adwaita-icon-theme ];
+  # Set packages
+  environment.systemPackages = with pkgs; [
+    adwaita-theme
+    gnome-keyring
+    gnome-session
+    gnome-tweaks
+  ];
 
   # Remove unneeded packages
   environment.gnome.excludePackages = (with pkgs; [
