@@ -24,7 +24,6 @@
     gnome-photos
     gnome-tour
     gedit # text editor
-  ]) ++ (with pkgs.gnome; [
     cheese # webcam tool
     gnome-music
     gnome-terminal
@@ -38,21 +37,4 @@
     hitori # sudoku game
     atomix # puzzle game
   ]);
-
-  # Via Home-Manager, set preferences and extensions
-  home-manager.users.patrick = {
-    dconf = {
-      enable = true;
-      settings = {
-        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-        "org/gnome/shell" = {
-          disable-user-extensions = false;
-	  enabled-extensions = with pkgs.gnomeExtensions; [
-	    blur-myshell.extensionUuid
-	    gsconnect.extensionUuid
-	  ];
-	};
-      };
-    };
-  };
 }
