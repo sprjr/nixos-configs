@@ -21,9 +21,6 @@
     gnome-tweaks
   ];
 
-  # Set theme
-  environment.systemPackages = [ adwaita-icon-theme ];
-
   # Remove unneeded packages
   environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
