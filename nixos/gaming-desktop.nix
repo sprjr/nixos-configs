@@ -221,6 +221,7 @@ in {
     # Gnome Packages
     gnome-keyring
     gnome-session
+    gnome-tweaks
 
     # KDE Packages
     kdePackages.kate
