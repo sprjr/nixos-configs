@@ -219,12 +219,8 @@ in {
     wireshark
     xpipe
 
-    # Gnome Packages
-#   gnome-keyring
-#   gnome-session
-#   gnome-tweaks
-
     # KDE Packages
+    kdePackages.dolphin
     kdePackages.kate
     kdePackages.kdeconnect-kde
     kdePackages.kiten
