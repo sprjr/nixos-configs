@@ -8,16 +8,21 @@
     desktopManager.gnome.enable = true;
   };
 
+  # Enable dconf module
+  programs.dconf.enable = true;
+
   # Enable gnome-settings-daemon udev rules
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Set packages
   environment.systemPackages = with pkgs; [
-    adwaita-theme
     gnome-keyring
     gnome-session
     gnome-tweaks
   ];
+
+  # Set theme
+  environment.systemPackages = [ adwaita-icon-theme ];
 
   # Remove unneeded packages
   environment.gnome.excludePackages = (with pkgs; [
