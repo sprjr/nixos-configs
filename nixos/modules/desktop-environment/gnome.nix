@@ -12,7 +12,7 @@
   programs.dconf.enable = true;
 
   # Enable gnome-settings-daemon udev rules
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   # Set packages
   environment.systemPackages = with pkgs; [
