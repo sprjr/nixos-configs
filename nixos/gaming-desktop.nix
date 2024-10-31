@@ -7,6 +7,7 @@ in {
   imports = [
     comin.nixosModules.comin
     home-manager.nixosModules.home-manager
+    ./modules/desktop-environment/gnome.nix
   ];
 
   # Bootloader.
@@ -77,11 +78,11 @@ in {
  #services.desktopManager.plasma6.enable = true;
 
   # Enable the GNOME and GDM Desk Environment
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+# services.xserver = {
+#   enable = true;
+#   displayManager.gdm.enable = true;
+#   desktopManager.gnome.enable = true;
+# };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -219,9 +220,9 @@ in {
     xpipe
 
     # Gnome Packages
-    gnome-keyring
-    gnome-session
-    gnome-tweaks
+#   gnome-keyring
+#   gnome-session
+#   gnome-tweaks
 
     # KDE Packages
     kdePackages.kate
