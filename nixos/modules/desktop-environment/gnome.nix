@@ -16,6 +16,7 @@
 
   # Set packages
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
     gnome-keyring
     gnome-session
     gnome-tweaks
