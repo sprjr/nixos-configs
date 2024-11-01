@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +27,6 @@
   outputs = inputs@{  self,
                       comin,
                       darwin,
-		      determinate,
                       flake-utils,
                       heywoodlh-configs,
                       home-manager,
@@ -102,7 +100,10 @@
         system = "x86_64-linux";
 	specialArgs = inputs;
 	modules = [
-	  determinate.nixosModules.default
+	  ./nixos/hardware-configuration/seanvy.nix
+	  ./nixos/gaming-desktop.nix
+	  ./nixos/modules/virtualization/containers/syncthing.nix
+	  ./nixos/monitoring/node-exporter.nix
 	];
       };
     };
