@@ -102,7 +102,7 @@
         modules = [
           ./nixos/hardware-configuration/seanvy.nix
           ./nixos/hp-envy.nix
-          ./nixos/modules/virtualization/containers/syncthing.nix
+          ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/monitoring/node-exporter.nix
         ];
       };
