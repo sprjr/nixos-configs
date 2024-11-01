@@ -14,8 +14,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
-  networking.hostName = "seanix"; # Define your hostname.
+  networking.hostName = "seanvy"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Disable NetworkManager-wait-online.service
@@ -31,6 +30,9 @@ in {
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Enable Wake on Lan
+  #networking.interfaces.enp34s0.wakeOnLan.enable = true;
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
@@ -87,6 +89,10 @@ in {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -127,9 +133,6 @@ in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable OpenRGB udev rules
-  services.hardware.openrgb.enable = true;
-
   # Enable Steam
   programs.steam.enable = true;
 
@@ -152,11 +155,9 @@ in {
     git
     pciutils
     pipewire
-    thermald
     wget
 
     # User environment
-    blender
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
@@ -167,11 +168,11 @@ in {
     fzf
     gamescope
     gimp
+    kitty
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
     openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
-    scrcpy
     signal-desktop
     thunderbird
     tree
@@ -193,18 +194,10 @@ in {
     xpipe
 
     # KDE Packages
-    kdePackages.dolphin
     kdePackages.kate
     kdePackages.kdeconnect-kde
-    kdePackages.kiten
     kdePackages.konsole
     kdePackages.krdp
-
-    # scrcpy packages
-    android-tools
-    libusb1
-    meson
-    pkg-config
 
     # Gaming
     prismlauncher
@@ -213,7 +206,7 @@ in {
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
   # Home-Manager
   home-manager = {

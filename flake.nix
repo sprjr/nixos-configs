@@ -101,7 +101,7 @@
 	specialArgs = inputs;
 	modules = [
 	  ./nixos/hardware-configuration/seanvy.nix
-	  ./nixos/gaming-desktop.nix
+	  ./nixos/hp-envy.nix
 	  ./nixos/modules/virtualization/containers/syncthing.nix
 	  ./nixos/monitoring/node-exporter.nix
 	];
