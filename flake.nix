@@ -103,7 +103,7 @@
           ./nixos/hardware-configuration/seanvy.nix
           ./nixos/hp-envy.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/monitoring/node-exporter.nix
+          ./nixos/modules/monitoring/node-exporter.nix
         ];
       };
     };
