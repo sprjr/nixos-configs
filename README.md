@@ -9,15 +9,18 @@ This stores my NixOS configs
 #### NixOS
 ```trixos```
 ```seanix```
+```seanvy```
 
 #### Darwin
 ```seair```
 
-Assuming you want to switch to the ```trixos``` configuration:
+Assuming you want to switch to the ```seanix``` configuration:
 
 ```
-nixos-rebuild switch --flake github:sprjr/nixos-configs#trixos
+nixos-rebuild switch --flake github:sprjr/nixos-configs#seanix
 ```
+
+Note: I've realized that hardware-specific information is present in these system flakes, so it may need to be ran as `--impure` or with other flags as needed.
 
 ### MacOS:
 
