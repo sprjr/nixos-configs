@@ -98,13 +98,13 @@
 
       seanvy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-	specialArgs = inputs;
-	modules = [
-	  ./nixos/hardware-configuration/seanvy.nix
-	  ./nixos/hp-envy.nix
-	  ./nixos/modules/virtualization/containers/syncthing.nix
-	  ./nixos/monitoring/node-exporter.nix
-	];
+        specialArgs = inputs;
+        modules = [
+          ./nixos/hardware-configuration/seanvy.nix
+          ./nixos/hp-envy.nix
+          ./nixos/modules/virtualization/containers/syncthing.nix
+          ./nixos/monitoring/node-exporter.nix
+        ];
       };
     };
 
