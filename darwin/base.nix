@@ -57,6 +57,7 @@ in {
       "android-platform-tools"
       "anki"
       "arc"
+      "balenaetcher"
       "battle-net"
       "bitwarden"
       "crossover"
