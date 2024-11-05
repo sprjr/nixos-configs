@@ -1,5 +1,5 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
+{ lib, home-manager, ... }:
 
 with lib.hm.gvariant;
 
