@@ -29,7 +29,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/control-center" = {
-      last-panel = "power";
+      last-panel = "multitasking";
       window-state = mkTuple [ 980 640 false ];
     };
 
@@ -80,7 +80,7 @@ with lib.hm.gvariant;
       cursor-size = 24;
       document-font-name = "Hack Nerd Font Mono 11";
       enable-animations = true;
-      enable-hot-corners = false;
+      enable-hot-corners = true;
       font-antialiasing = "grayscale";
       font-hinting = "slight";
       font-name = "Hack Nerd Font,  10";
@@ -93,7 +93,11 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "signal-desktop" "steam" "firefox" "gnome-power-panel" "org-gnome-tweaks" "org-gnome-nautilus" ];
+      application-children = [ "signal-desktop" "steam" "firefox" "gnome-power-panel" "org-gnome-tweaks" "org-gnome-nautilus" "org-gnome-extensions" ];
+    };
+
+    "org/gnome/desktop/notifications/application/com-nextcloud-desktopclient-nextcloud" = {
+      application-id = "com.nextcloud.desktopclient.nextcloud.desktop";
     };
 
     "org/gnome/desktop/notifications/application/firefox" = {
@@ -104,12 +108,24 @@ with lib.hm.gvariant;
       application-id = "gnome-power-panel.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/org-gnome-extensions" = {
+      application-id = "org.gnome.Extensions.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/org-gnome-nautilus" = {
       application-id = "org.gnome.Nautilus.desktop";
     };
 
     "org/gnome/desktop/notifications/application/org-gnome-tweaks" = {
       application-id = "org.gnome.tweaks.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/org-kde-kdeconnect-daemon" = {
+      application-id = "org.kde.kdeconnect.daemon.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/org-kde-konsole" = {
+      application-id = "org.kde.konsole.desktop";
     };
 
     "org/gnome/desktop/notifications/application/signal-desktop" = {
@@ -122,7 +138,7 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
-      speed = 0.2890625;
+      speed = 0.289062;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
@@ -321,7 +337,7 @@ with lib.hm.gvariant;
       '';
       save-frequency = 1000;
       saved-windows = ''
-        {"konsole":[{"id":3485263230,"hash":3485263230,"sequence":2,"title":"~ : zellij — Konsole","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":2,"x":4000,"y":360,"width":1920,"height":1080,"occupied":true}],"firefox":[{"id":3485263232,"hash":3485263232,"sequence":4,"title":"Messages for web — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":771,"y":0,"width":669,"height":680,"occupied":true},{"id":3485263233,"hash":3485263233,"sequence":5,"title":"(7) 🎲Random Ladder🎲 - Twitch — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":681,"width":1440,"height":896,"occupied":true},{"id":3485263231,"hash":3485263231,"sequence":3,"title":"Tickets | Southeast X-Ray — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":1579,"width":1440,"height":980,"occupied":true},{"id":3485263234,"hash":3485263234,"sequence":6,"title":"nix-community/dconf2nix: :feet: Convert dconf files (e.g. GNOME Shell) to Nix, as expected by Home Manager [maintainer=@jtojnar] — Mozilla Firefox","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":40,"width":2560,"height":1400,"occupied":true},{"id":3485263248,"hash":3485263248,"sequence":20,"title":"Extension: (Bitwarden Password Manager) - Bitwarden — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":49,"y":49,"width":380,"height":667,"occupied":false}],"org.gnome.Extensions":[{"id":30826530,"hash":30826530,"sequence":78,"title":"Extensions","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2386,"y":622,"width":800,"height":500,"occupied":false}],"Signal":[{"id":3288821483,"hash":3288821483,"sequence":36,"title":"Signal","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":0,"width":769,"height":680,"occupied":false}],"org.gnome.tweaks":[{"id":1860511694,"hash":1860511694,"sequence":16,"title":"GNOME Tweaks","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1539,"y":765,"width":980,"height":640,"occupied":false}],"org.gnome.Software":[{"id":3288821509,"hash":3288821509,"sequence":62,"title":"Software","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":1200,"height":800,"occupied":false}],"Bitwarden":[{"id":3485263229,"hash":3485263229,"sequence":1,"title":"Bitwarden","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1480,"y":524,"width":1086,"height":721,"occupied":true}],"lutris":[{"id":3485263237,"hash":3485263237,"sequence":9,"title":"Lutris","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1521,"y":651,"width":998,"height":696,"occupied":true}],"steam":[{"id":3485263241,"hash":3485263241,"sequence":13,"title":"Steam","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1528,"y":103,"width":1284,"height":719,"occupied":true},{"id":3190286588,"hash":3190286588,"sequence":12,"title":"Special Offers","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2857,"y":181,"width":706,"height":830,"occupied":false},{"id":3485263267,"hash":3485263267,"sequence":39,"title":"Steam Settings","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2785,"y":235,"width":850,"height":722,"occupied":false},{"id":3485263269,"hash":3485263269,"sequence":41,"title":"Launching...","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1876,"y":331,"width":600,"height":286,"occupied":false},{"id":3485263265,"hash":3485263265,"sequence":37,"title":"Install","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1906,"y":234,"width":540,"height":480,"occupied":false}],"org.gnome.Nautilus":[{"id":3190286590,"hash":3190286590,"sequence":14,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":890,"height":550,"occupied":false},{"id":30826475,"hash":30826475,"sequence":23,"title":"Documents","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2732,"y":755,"width":890,"height":550,"occupied":false},{"id":2644414027,"hash":2644414027,"sequence":22,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":40,"width":890,"height":550,"occupied":false},{"id":3485263262,"hash":3485263262,"sequence":34,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1485,"y":89,"width":890,"height":550,"occupied":true}],"dolphin":[{"id":3190286602,"hash":3190286602,"sequence":26,"title":"931.5 GiB Internal Drive (sdc) — Dolphin","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2210,"y":1427,"width":1202,"height":687,"occupied":false},{"id":30826473,"hash":30826473,"sequence":21,"title":"Trash — Dolphin","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1776,"y":378,"width":1202,"height":687,"occupied":false}],"org.gnome.Settings":[{"id":30826609,"hash":30826609,"sequence":157,"title":"Settings","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1499,"y":464,"width":980,"height":640,"occupied":false}],"steam_app_669330":[{"id":3485263281,"hash":3485263281,"sequence":53,"title":"Mechabellum","workspace":0,"maximized":0,"fullscreen":true,"above":false,"monitor":0,"x":1440,"y":0,"width":2560,"height":1440,"occupied":false}],".guake-wrapped":[{"id":30826528,"hash":30826528,"sequence":76,"title":"Guake Preferences","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1822,"y":325,"width":1154,"height":774,"occupied":false}],"org.remmina.Remmina":[{"id":30826560,"hash":30826560,"sequence":108,"title":"Remmina Remote Desktop Client","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1490,"y":79,"width":1148,"height":842,"occupied":false},{"id":30826561,"hash":30826561,"sequence":109,"title":"SXR AD - Patrick","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":2560,"height":1411,"occupied":false}]}
+        {"konsole":[{"id":3841966265,"hash":3841966265,"sequence":3,"title":"~ : zellij — Konsole","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":2,"x":4000,"y":360,"width":1920,"height":1080,"occupied":true}],"firefox":[{"id":3841966268,"hash":3841966268,"sequence":6,"title":"Messages for web — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":771,"y":0,"width":669,"height":680,"occupied":true},{"id":3841966266,"hash":3841966266,"sequence":4,"title":"(7) 👻Spooky Zerg👻~ !rapidfire - Twitch — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":681,"width":1440,"height":898,"occupied":true},{"id":3841966264,"hash":3841966264,"sequence":2,"title":"SXR IT - patrick.rawlinson@patriotmed.us - patriotmed.us Mail — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":1580,"width":1440,"height":980,"occupied":true},{"id":3485263234,"hash":3485263234,"sequence":6,"title":"nix-community/dconf2nix: :feet: Convert dconf files (e.g. GNOME Shell) to Nix, as expected by Home Manager [maintainer=@jtojnar] — Mozilla Firefox","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":40,"width":2560,"height":1400,"occupied":false},{"id":3485263248,"hash":3485263248,"sequence":20,"title":"Extension: (Bitwarden Password Manager) - Bitwarden — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":49,"y":49,"width":380,"height":667,"occupied":false},{"id":3841966267,"hash":3841966267,"sequence":5,"title":"nix-community/dconf2nix: :feet: Convert dconf files (e.g. GNOME Shell) to Nix, as expected by Home Manager [maintainer=@jtojnar] — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1626,"y":160,"width":2074,"height":1229,"occupied":true},{"id":3841966278,"hash":3841966278,"sequence":16,"title":"Plex — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1646,"y":89,"width":2074,"height":1229,"occupied":false},{"id":3841966279,"hash":3841966279,"sequence":17,"title":"Restore from Backup · Kareadita/Kavita · Discussion #3016 — Mozilla Firefox","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1752,"y":75,"width":2074,"height":1229,"occupied":false}],"org.gnome.Extensions":[{"id":3841966273,"hash":3841966273,"sequence":11,"title":"Extensions","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2386,"y":622,"width":800,"height":500,"occupied":false}],"Signal":[{"id":3288821483,"hash":3288821483,"sequence":36,"title":"Signal","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":1,"x":0,"y":0,"width":769,"height":680,"occupied":false}],"org.gnome.tweaks":[{"id":1860511694,"hash":1860511694,"sequence":16,"title":"GNOME Tweaks","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1539,"y":765,"width":980,"height":640,"occupied":false}],"org.gnome.Software":[{"id":3288821509,"hash":3288821509,"sequence":62,"title":"Software","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":1200,"height":800,"occupied":false}],"Bitwarden":[{"id":3841966263,"hash":3841966263,"sequence":1,"title":"Bitwarden","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1485,"y":586,"width":1086,"height":721,"occupied":true}],"lutris":[{"id":3841966270,"hash":3841966270,"sequence":8,"title":"Lutris","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1512,"y":651,"width":998,"height":696,"occupied":true}],"steam":[{"id":3841966345,"hash":3841966345,"sequence":83,"title":"Steam","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1486,"y":51,"width":1284,"height":719,"occupied":true},{"id":3190286588,"hash":3190286588,"sequence":12,"title":"Special Offers","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2857,"y":181,"width":706,"height":830,"occupied":false},{"id":3841966327,"hash":3841966327,"sequence":65,"title":"Steam Settings","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2785,"y":235,"width":850,"height":722,"occupied":false},{"id":3485263269,"hash":3485263269,"sequence":41,"title":"Launching...","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1876,"y":331,"width":600,"height":286,"occupied":false},{"id":3485263265,"hash":3485263265,"sequence":37,"title":"Install","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1906,"y":234,"width":540,"height":480,"occupied":false}],"org.gnome.Nautilus":[{"id":3190286590,"hash":3190286590,"sequence":14,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":890,"height":550,"occupied":false},{"id":30826475,"hash":30826475,"sequence":23,"title":"Documents","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2732,"y":755,"width":890,"height":550,"occupied":false},{"id":2644414027,"hash":2644414027,"sequence":22,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":40,"width":890,"height":550,"occupied":false},{"id":3485263262,"hash":3485263262,"sequence":34,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1485,"y":89,"width":890,"height":550,"occupied":false},{"id":3841966281,"hash":3841966281,"sequence":19,"title":"Downloads","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1535,"y":136,"width":890,"height":550,"occupied":false},{"id":3841966321,"hash":3841966321,"sequence":59,"title":"1.0 TB Volume","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":40,"width":890,"height":550,"occupied":false}],"dolphin":[{"id":3190286602,"hash":3190286602,"sequence":26,"title":"931.5 GiB Internal Drive (sdc) — Dolphin","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":2210,"y":1427,"width":1202,"height":687,"occupied":false},{"id":30826473,"hash":30826473,"sequence":21,"title":"Trash — Dolphin","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1776,"y":378,"width":1202,"height":687,"occupied":false}],"org.gnome.Settings":[{"id":3841966365,"hash":3841966365,"sequence":103,"title":"Settings","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1499,"y":464,"width":980,"height":640,"occupied":false}],"steam_app_669330":[{"id":3841966331,"hash":3841966331,"sequence":69,"title":"Mechabellum","workspace":0,"maximized":0,"fullscreen":true,"above":false,"monitor":0,"x":1440,"y":0,"width":2560,"height":1440,"occupied":false}],".guake-wrapped":[{"id":30826528,"hash":30826528,"sequence":76,"title":"Guake Preferences","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1822,"y":325,"width":1154,"height":774,"occupied":false}],"org.remmina.Remmina":[{"id":30826560,"hash":30826560,"sequence":108,"title":"Remmina Remote Desktop Client","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1490,"y":79,"width":1148,"height":842,"occupied":false},{"id":30826561,"hash":30826561,"sequence":109,"title":"SXR AD - Patrick","workspace":0,"maximized":3,"fullscreen":false,"above":false,"monitor":0,"x":1440,"y":29,"width":2560,"height":1411,"occupied":false}],"Paradox Launcher":[{"id":3841966341,"hash":3841966341,"sequence":79,"title":"Stellaris","workspace":0,"maximized":0,"fullscreen":false,"above":false,"monitor":0,"x":1853,"y":642,"width":1280,"height":670,"occupied":false}],"stellaris":[{"id":3841966344,"hash":3841966344,"sequence":82,"title":"Stellaris","workspace":0,"maximized":0,"fullscreen":true,"above":false,"monitor":0,"x":1440,"y":0,"width":2560,"height":1440,"occupied":false}]}
       '';
       startup-delay = 2500;
       sync-frequency = 100;
@@ -394,9 +410,9 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/software" = {
-      check-timestamp = mkInt64 1730482772;
+      check-timestamp = mkInt64 1730818744;
       first-run = false;
-      flatpak-purge-timestamp = mkInt64 1730475507;
+      flatpak-purge-timestamp = mkInt64 1730825883;
     };
 
     "org/gnome/tweaks" = {
@@ -417,8 +433,8 @@ with lib.hm.gvariant;
     };
 
     "org/gtk/settings/color-chooser" = {
-      custom-colors = [ (mkTuple [ 2.3529411764705882e-2 0.5942473487449454 0.6039215686274509 1.0 ]) (mkTuple [ 5.4901960784313725e-2 0.6784313725490196 0.4117647058823529 1.0 ]) (mkTuple [ 0.0 0.8588235294117647 0.3764705882352941 1.0 ]) (mkTuple [ 1.0 0.9215686274509803 6.274509803921569e-2 1.0 ]) (mkTuple [ 1.0 0.5215686274509804 0.10588235294117647 1.0 ]) (mkTuple [ 1.0 0.2549019607843137 0.21176470588235294 1.0 ]) (mkTuple [ 0.4980392156862745 0.13725490196078433 1.0 1.0 ]) (mkTuple [ 9.803921568627451e-2 0.45098039215686275 1.0 1.0 ]) ];
-      selected-color = mkTuple [ true 2.3529411764705882e-2 0.5942473487449454 0.6039215686274509 1.0 ];
+      custom-colors = [ (mkTuple [ 2.3529e-2 0.594247 0.603922 1.0 ]) (mkTuple [ 5.4902e-2 0.678431 0.411765 1.0 ]) (mkTuple [ 0.0 0.858824 0.376471 1.0 ]) (mkTuple [ 1.0 0.921569 6.2745e-2 1.0 ]) (mkTuple [ 1.0 0.521569 0.105882 1.0 ]) (mkTuple [ 1.0 0.254902 0.211765 1.0 ]) (mkTuple [ 0.498039 0.137255 1.0 1.0 ]) (mkTuple [ 9.8039e-2 0.45098 1.0 1.0 ]) ];
+      selected-color = mkTuple [ true 2.3529e-2 0.594247 0.603922 1.0 ];
     };
 
     "org/gtk/settings/file-chooser" = {
