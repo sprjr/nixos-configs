@@ -157,7 +157,6 @@ in {
     wget
 
     # User environment
-    blender
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
