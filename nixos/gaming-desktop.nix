@@ -8,7 +8,7 @@ in {
     comin.nixosModules.comin
     home-manager.nixosModules.home-manager
     ./modules/desktop-environment/gnome.nix
-    ../home/linux/desktop_environments/gnome-dconf.nix
+#   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
   # Bootloader.
