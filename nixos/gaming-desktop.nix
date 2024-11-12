@@ -167,7 +167,6 @@ in {
     fzf
     gamescope
     gimp
-    heroic
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
@@ -208,6 +207,7 @@ in {
     pkg-config
 
     # Gaming
+    heroic
     prismlauncher
   ];
 
