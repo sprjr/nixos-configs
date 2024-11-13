@@ -7,7 +7,7 @@ in {
   imports = [
     comin.nixosModules.comin
     home-manager.nixosModules.home-manager
-    ./modules/desktop-environment/gnome.nix
+#   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
@@ -68,8 +68,8 @@ in {
   };
 
   # Enable the KDE Plasma Desktop Environment.
- #services.displayManager.sddm.enable = true;
- #services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
