@@ -162,6 +162,8 @@ in {
     pkgs-stable.bitwarden-cli
     cli-visualizer
     discord
+    distrobox
+    distrobox-tui
     duplicati
     file
     fzf
