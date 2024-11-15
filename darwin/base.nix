@@ -72,6 +72,7 @@ in {
       "minecraft"
       "moonlight"
       "nextcloud"
+      "nvidia-geforce-now"
       "obsidian"
       "signal"
       "steam"
