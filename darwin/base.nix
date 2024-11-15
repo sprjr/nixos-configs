@@ -60,8 +60,6 @@ in {
       "balenaetcher"
       "battle-net"
       "bitwarden"
-      "crossover"
-      "diffusionbee"
       "discord"
       "epic-games"
       "font-jetbrains-mono-nerd-font"
