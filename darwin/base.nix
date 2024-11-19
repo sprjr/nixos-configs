@@ -28,6 +28,8 @@ in {
   # Homebrew configuration
   homebrew = {
     enable = true;
+    # Enable auto-clean
+    onActivation.cleanup = "zap";
     # Packages / Formulae
     brews = [
       "bash"
