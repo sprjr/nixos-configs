@@ -63,6 +63,7 @@ in {
       "moonlight"
       "nvidia-geforce-now"
       "obsidian"
+      "orbstack"
       "signal"
       "steam"
       "syncthing"
