@@ -54,6 +54,7 @@ in {
       "battle-net"
       "bitwarden"
       "discord"
+      "docker"
       "epic-games"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
