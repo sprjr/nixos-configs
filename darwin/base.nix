@@ -73,8 +73,7 @@ in {
       "wine-stable"
     ];
     taps = [
-      "hashicorp/tap"
-      "homebrew/core"
+      "hashicorp/tap/terraform"
     ];
   };
 
