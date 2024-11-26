@@ -34,7 +34,6 @@ in {
     brews = [
       "bash"
       "bat"
-      "cowsay"
       "duf"
      #"firefox" # re-add later
       "glow" # markdown reader
@@ -42,7 +41,6 @@ in {
       "hyfetch"
       "lsd"
       "nmap"
-      "terraform"
       "tldr"
       "watch"
       "zsh"
