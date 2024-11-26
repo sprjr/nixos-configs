@@ -34,6 +34,7 @@ in {
     brews = [
       "bash"
       "bat"
+      "btop"
       "duf"
      #"firefox" # re-add later
       "glow" # markdown reader
