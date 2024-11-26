@@ -85,6 +85,7 @@
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
         dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
+        tf = "terraform";
       };
     };
     zsh = {
