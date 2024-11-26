@@ -41,7 +41,6 @@ in {
       "hyfetch"
       "lsd"
       "nmap"
-      "hashicorp/tap/terraform"
       "tldr"
       "watch"
       "zsh"
@@ -72,6 +71,10 @@ in {
       "vmware-fusion"
       "whisky"
       "wine-stable"
+    ];
+    taps = [
+      "hashicorp/tap"
+      "homebrew/core"
     ];
   };
 
