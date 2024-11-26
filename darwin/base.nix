@@ -41,6 +41,7 @@ in {
       "hyfetch"
       "lsd"
       "nmap"
+      "terraform"
       "tldr"
       "watch"
       "zsh"
