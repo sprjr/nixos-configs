@@ -95,15 +95,16 @@
      #'';
       # Aliases
       shellAliases = {
-        ls = "lsd -l";
-	cat = "bat";
+	bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
+ 	cat = "bat";
+	compose2nix-start = "nix shell github:aksiksi/compose2nix";
 	df = "duf";
 	gomuks = "docker run -e TERM=xterm -it --rm heywoodlh/gomuks";
 	kubectl = "k3s kubectl";
-	compose2nix-start = "nix shell github:aksiksi/compose2nix";
-	yt-dl = "nix-shell -p yt-dlp";
+        ls = "lsd -l";
+	tf = "terraform";
 	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
-	bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
+	yt-dl = "nix-shell -p yt-dlp";
       };
     };
   };
