@@ -68,7 +68,6 @@ in {
       "thunderbird"
       "vlc"
       "vmware-fusion"
-      "whisky"
       "wine-stable"
     ];
     taps = [
