@@ -42,7 +42,7 @@ in {
       "hyfetch"
       "lsd"
       "nmap"
-      "hashicorp/tap/terraform"
+      "opentofu"
       "tldr"
       "watch"
       "zsh"
@@ -71,7 +71,6 @@ in {
       "wine-stable"
     ];
     taps = [
-      "hashicorp/tap"
     ];
   };
 
