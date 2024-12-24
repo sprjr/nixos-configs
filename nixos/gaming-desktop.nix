@@ -179,7 +179,6 @@ in {
     tree
     vim
     vimPlugins.nvchad
-    weasis
 
     ### Net tools ###
     pkgs-stable.tailscale
@@ -189,10 +188,14 @@ in {
     lshw
     nmap
     openvas-scanner
-    remmina
     wireguard-tools
     wireshark
     xpipe
+
+    # Sysadmin Tools
+    opentofu
+    remmina
+    weasis
 
     # KDE Packages
     kdePackages.dolphin
