@@ -55,6 +55,7 @@ in {
       "battle-net"
       "bitwarden"
       "discord"
+      "docker"
       "font-jetbrains-mono-nerd-font"
       "iterm2"
       "microsoft-remote-desktop"
