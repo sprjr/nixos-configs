@@ -62,6 +62,7 @@ in {
       "moonlight"
       "obsidian"
       "orbstack"
+      "shortcat"
       "signal"
       "steam"
       "syncthing"
