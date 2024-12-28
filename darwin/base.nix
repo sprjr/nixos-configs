@@ -59,6 +59,7 @@ in {
       "font-jetbrains-mono-nerd-font"
       "iterm2"
       "microsoft-remote-desktop"
+      "minecraft"
       "moonlight"
       "obsidian"
       "orbstack"
