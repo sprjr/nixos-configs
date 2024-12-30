@@ -84,7 +84,6 @@
 	gomuks = "docker run -e TERM=xterm -it --rm heywoodlh/gomuks";
 	kubectl = "k3s kubectl";
         ls = "lsd -l";
-	tf = "terraform";
 	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
 	yt-dl = "nix-shell -p yt-dlp";
       };
@@ -105,14 +104,13 @@
 	gomuks = "docker run -e TERM=xterm -it --rm heywoodlh/gomuks";
 	kubectl = "k3s kubectl";
         ls = "lsd -l";
-	tf = "terraform";
 	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
 	yt-dl = "nix-shell -p yt-dlp";
       };
     };
   };
 
-  programs.starship = {
+  programs.fish = {
     enable = true;
   };
 
