@@ -57,6 +57,7 @@ in {
       "discord"
       "docker"
       "font-jetbrains-mono-nerd-font"
+      "nvidia-geforce-now"
       "ghostty"
       "iterm2"
       "microsoft-remote-desktop"
