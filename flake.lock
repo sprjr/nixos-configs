@@ -780,11 +780,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-n71lC2OiJlNHPDtTyPB3xb8aH9bQOM7V40XcTmEemD4=",
-        "path": "/nix/store/zzzal01mdb7drhkhqrbv22k4lf9z3zrx-source/flakes/fish",
+        "path": "/nix/store/8814977vax5vilrsh2c65iasiqkvbrkm-source/flakes/fish",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/zzzal01mdb7drhkhqrbv22k4lf9z3zrx-source/flakes/fish",
+        "path": "/nix/store/8814977vax5vilrsh2c65iasiqkvbrkm-source/flakes/fish",
         "type": "path"
       }
     },
@@ -9691,11 +9691,11 @@
     },
     "nixpkgs_106": {
       "locked": {
-        "lastModified": 1735362117,
-        "narHash": "sha256-UHRbyEPjyMWNP/T3SaVNuyO5j4eVdzP9ofogbYxt3bc=",
+        "lastModified": 1735523292,
+        "narHash": "sha256-opBsbR/nrGxiiF6XzlVluiHYb6yN/hEwv+lBWTy9xoM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9e09ce2d47c7700b877becef99ce7e27f15604dc",
+        "rev": "6d97d419e5a9b36e6293887a89a078cf85f5a61b",
         "type": "github"
       },
       "original": {
