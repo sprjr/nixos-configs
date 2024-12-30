@@ -57,6 +57,7 @@ in {
       "discord"
       "docker"
       "font-jetbrains-mono-nerd-font"
+      "ghostty"
       "iterm2"
       "microsoft-remote-desktop"
       "minecraft"
