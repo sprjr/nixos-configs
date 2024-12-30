@@ -110,7 +110,7 @@
     };
   };
 
-  programs.fish = {
+  programs.starship = {
     enable = true;
   };
 
