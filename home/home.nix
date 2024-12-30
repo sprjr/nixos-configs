@@ -67,6 +67,8 @@
 
   # .bashrc configuration
   programs = {
+    # Enable Starship
+    starship.enable = true;
     # Bash/Starship
     bash = {
       enable = true;
@@ -111,9 +113,15 @@
     };
     zsh = {
       enable = true;
+      initExtra = ''
+        if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]
+        then
+          exec fish -l
+        fi
+      '';
       # Terminal startup tasks
-     #bashrcExtra = ''
-     #'';
+      #bashrcExtra = ''
+      #'';
       # Aliases
       shellAliases = {
 	bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
