@@ -37,6 +37,7 @@ in {
       "btop"
       "duf"
      #"firefox" # re-add later
+      "fish"
       "glow" # markdown reader
       "htop"
       "hyfetch"
