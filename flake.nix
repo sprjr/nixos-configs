@@ -22,16 +22,16 @@
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-#   fish-flake = {
-#     url = "./flakes/fish";
-#     inputs.nixpkgs.follows = "nixpkgs";
-#   };
+    fish-flake = {
+      url = "github:sprjr/flakes/fish";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{  self,
                       comin,
                       darwin,
-#                     fish-flake,
+                      fish-flake,
 		      flake-utils,
                       heywoodlh-configs,
                       home-manager,
