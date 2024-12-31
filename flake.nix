@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fish-flake = {
-      url = "github:sprjr/flakes/fish";
+      url = "./flakes/fish";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
