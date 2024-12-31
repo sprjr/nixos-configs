@@ -42,6 +42,7 @@ in {
       "htop"
       "hyfetch"
       "lsd"
+      "mtr"
       "nmap"
       "opentofu"
       "tldr"
