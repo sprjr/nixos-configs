@@ -178,7 +178,7 @@
       theme = nord
       background-opacity = 0.7
       background-blur-radius = 20
-      window-decoration = false
+     #window-decoration = false
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 
