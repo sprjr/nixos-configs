@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +18,6 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     comin = {
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +36,7 @@
                       comin,
                       darwin,
                       fish-flake,
-		      flake-utils,
+                      flake-utils,
                       ghostty,
                       heywoodlh-configs,
                       home-manager,
