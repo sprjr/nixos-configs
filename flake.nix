@@ -26,6 +26,10 @@
       url = "./flakes/fish";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{  self,
@@ -33,6 +37,7 @@
                       darwin,
                       fish-flake,
 		      flake-utils,
+                      ghostty
                       heywoodlh-configs,
                       home-manager,
                       nixpkgs,
