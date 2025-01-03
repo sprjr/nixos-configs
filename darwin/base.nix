@@ -60,7 +60,7 @@ in {
       "docker"
       "font-jetbrains-mono-nerd-font"
       "nvidia-geforce-now"
-#     "ghostty"
+      "ghostty"
       "iterm2"
       "microsoft-remote-desktop"
       "minecraft"
