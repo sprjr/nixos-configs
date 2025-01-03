@@ -37,7 +37,7 @@
                       darwin,
                       fish-flake,
 		      flake-utils,
-                      ghostty
+                      ghostty,
                       heywoodlh-configs,
                       home-manager,
                       nixpkgs,
