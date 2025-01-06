@@ -780,11 +780,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-mfD0Zm652BcdsKzBRDKgh8rMcVpjgk3OzCNDSwus/B4=",
-        "path": "/nix/store/7kb6gcxyv5y33iwklf625g3i3iybaaa6-source/flakes/fish",
+        "path": "/nix/store/ywi4fpffg7yxqdk0d9x6bzqirvqppyjc-source/flakes/fish",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/7kb6gcxyv5y33iwklf625g3i3iybaaa6-source/flakes/fish",
+        "path": "/nix/store/ywi4fpffg7yxqdk0d9x6bzqirvqppyjc-source/flakes/fish",
         "type": "path"
       }
     },
