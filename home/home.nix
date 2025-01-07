@@ -179,7 +179,7 @@
       background-opacity = 0.7
       background-blur-radius = 20
       macos-titlebar-style = hidden
-      term = screen256-color
+      initial-command = export TERM=screen-256color
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 
