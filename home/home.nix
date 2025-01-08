@@ -180,7 +180,8 @@
       background-blur-radius = 20
       macos-titlebar-style = hidden
       initial-command = export TERM=screen-256color
-      command = zellij --layout /home/patrick/.config/zellij/layouts/default.kdl
+      command - /bin/zsh
+      command = zellij --layout=~/.config/zellij/layouts/default.kdl && /bin/zsh
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 
