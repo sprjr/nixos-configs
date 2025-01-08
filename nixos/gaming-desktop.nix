@@ -179,6 +179,7 @@ in {
     tree
     vim
     vimPlugins.nvchad
+    zsh
 
     ### Net tools ###
     pkgs-stable.tailscale
@@ -192,7 +193,7 @@ in {
     wireshark
     xpipe
 
-    # Sysadmin Tools
+    # Work Tools
     opentofu
     remmina
     weasis
