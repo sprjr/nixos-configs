@@ -4,15 +4,6 @@ let
   zellijLayoutsContent = ''
 	layout {
 		pane {
-			split_direction "Horizontal"
-		}
-		pane {
-			split_direction "Vertical"
-			pane {
-			}
-			pane {
-				command "htop"
-			}
 		}
 	}
   '';

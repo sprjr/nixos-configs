@@ -21,7 +21,7 @@ in {
       pkgs.gcc
       pkgs.git
       pkgs.gnupg
-      pkgs.tmux
+#     pkgs.tmux
     ];
   };
 
@@ -85,7 +85,7 @@ in {
   services.nix-daemon.enable = true;
 
   # Home-Manager configuration
-  home-manager.users.patrick.imports = [ ../home/home.nix ];
+  home-manager.users.patrick.imports = [ ../home/darwin-home.nix ];
 
   # Hide the top bar
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
