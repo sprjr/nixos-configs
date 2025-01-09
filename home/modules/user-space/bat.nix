@@ -5,7 +5,7 @@
     text = ''
       # Specify desired highlighting theme (e.g. "TwoDark"). Run `bat --list-themes`
       # for a list of all available themes
-       --theme="Solarized (light)"
+       --theme="Nord"
 
        # Show line numbers, git modifications, and file header (no grid)
        --style="numbers,changes,header"
