@@ -5,6 +5,7 @@
   imports = [
     ./modules/user-space/zellij/zellij-layout.nix
     ./modules/user-space/zellij/zellij-config.nix
+    ./modules/user-space/bat.nix
     ./modules/tools/neovim.nix
     ./modules/tools/shell.nix
     ./modules/tools/ghostty.nix
