@@ -3,12 +3,12 @@
 {
   # Modules
   imports = [
+    ./modules/user-space/bat.nix
+    ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
-    ./modules/user-space/bat.nix
-    ./modules/tools/neovim.nix
-    ./modules/tools/shell.nix
     ./modules/tools/ghostty.nix
+    ./modules/tools/neovim.nix
     ./modules/general/packages.nix
   ];
 
