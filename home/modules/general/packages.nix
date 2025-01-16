@@ -15,6 +15,7 @@
     mtr
     syncthing
     tldr
+    tree
     zellij
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
