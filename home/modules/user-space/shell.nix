@@ -46,7 +46,8 @@
 	dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
 	kubectl = "k3s kubectl";
         ls = "lsd -l";
-	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
+	tree = "tree -C";
+        weather = "curl -s v2.wttr.in/saratoga+springs+utah";
 	yt-dl = "nix-shell -p yt-dlp";
       };
     };
