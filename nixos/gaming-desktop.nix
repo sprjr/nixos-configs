@@ -170,7 +170,7 @@ in {
     file
     fzf
     gamescope
-    gimp
+    ghostty
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
