@@ -121,8 +121,10 @@ in {
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
+  fonts.packages = [
+    pkgs.nerd-fonts.hack
+    pkgs.nerd-fonts.droid-sans-mono
+    pkgs.nerd-fonts.jet-brains-mono
   ];
 
   # Allow unfree packages
