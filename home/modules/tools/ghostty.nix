@@ -10,13 +10,16 @@
       bold-is-bright = true
       background-opacity = 0.7
       background-blur-radius = 20
-      macos-titlebar-style = hidden
       term = screen-256color
+      window-decoration = false
+      window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 
+      ## MacOS-specific Settings
       # quake mode; on MacOS give Ghostty accessibility permissions
       keybind = global:ctrl+grave_accent=toggle_quick_terminal
+      macos-titlebar-style = hidden
       quick-terminal-animation-duration = 0.2
     '';
   };
