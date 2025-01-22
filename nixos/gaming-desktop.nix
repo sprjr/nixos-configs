@@ -7,7 +7,7 @@ in {
   imports = [
     comin.nixosModules.comin
     home-manager.nixosModules.home-manager
-    ./modules/desktop-environment/gnome.nix
+#   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
@@ -68,8 +68,8 @@ in {
   };
 
   # Enable the KDE Plasma Desktop Environment.
-# services.displayManager.sddm.enable = true;
-# services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -81,7 +81,7 @@ in {
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -121,8 +121,10 @@ in {
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
+  fonts.packages = [
+    pkgs.nerd-fonts.hack
+    pkgs.nerd-fonts.droid-sans-mono
+    pkgs.nerd-fonts.jetbrains-mono
   ];
 
   # Allow unfree packages
@@ -168,7 +170,7 @@ in {
     file
     fzf
     gamescope
-    gimp
+    ghostty
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
