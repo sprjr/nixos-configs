@@ -11,6 +11,9 @@ in {
 #   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
+  # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
