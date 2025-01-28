@@ -7,7 +7,7 @@
     starship.enable = true;
     # Bash/Starship
     bash = {
-      enable = true;
+      enable = false;
       # Terminal startup tasks
      #bashrcExtra = ''
      #'';
