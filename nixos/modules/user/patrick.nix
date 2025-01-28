@@ -16,6 +16,8 @@
     shell = pkgs.zsh;
   };
 
+  programs.zsh.enable = true;
+
   # Home-Manager
   home-manager = {
     useGlobalPkgs = true;
