@@ -96,21 +96,6 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.patrick = {
-    isNormalUser = true;
-    description = "Patrick";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
-    packages = with pkgs; [
-      kdePackages.kate
-      (wineWowPackages.full.override {
-        wineRelease = "staging";
-        mingwSupport = true;
-      })
-      winetricks
-    ];
-  };
-
   # CI/CD Automation
   services.comin = {
     enable = true;
@@ -226,14 +211,4 @@ in {
   services.openssh.enable = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?
-
-  # Home-Manager
-  home-manager = {
-    useGlobalPkgs = true;
-    users.patrick = {
-      imports = [
-        ../home/home.nix
-      ];
-    };
-  };
 }
