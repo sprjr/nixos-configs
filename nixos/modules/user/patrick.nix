@@ -13,7 +13,6 @@
       })
       winetricks
     ];
-    shell = "zsh";
   };
 
   # Home-Manager
