@@ -20,7 +20,7 @@
     useGlobalPkgs = true;
     users.patrick = {
       imports = [
-        ../home/home.nix
+        ../../../home/home.nix
       ];
     };
   };
