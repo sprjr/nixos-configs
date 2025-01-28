@@ -13,6 +13,7 @@
       })
       winetricks
     ];
+    shell = pkgs.zsh;
   };
 
   # Home-Manager
