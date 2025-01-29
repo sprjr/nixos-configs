@@ -130,7 +130,6 @@
     }];
   };
 
-  # Packages for every desktop system
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
@@ -156,6 +155,10 @@
     gimp
     vlc
     pkgs.gnome-terminal
+
+    ### AI ###
+    ollama
+    open-webui
 
     ### Net tools ###
     inetutils
