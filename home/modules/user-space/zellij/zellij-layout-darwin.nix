@@ -3,8 +3,7 @@
 let
   zellijLayoutsContent = ''
 	layout {
-		pane {
-		    borderless=true
+		pane borderless=true {
 		}
 	}
   '';
