@@ -4,6 +4,7 @@ let
   zellijLayoutsContent = ''
 	layout {
 		pane {
+		    borderless=true
 		}
 	}
   '';
