@@ -10,6 +10,7 @@
       background-opacity = 0.7
       background-blur-radius = 30
       term = screen-256color
+      cursor-style = bar
       window-decoration = false
       window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
