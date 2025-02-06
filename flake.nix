@@ -18,10 +18,6 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    comin = {
-      url = "github:nlewo/comin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     fish-flake = {
       url = "./flakes/fish";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,7 +29,6 @@
   };
 
   outputs = inputs@{  self,
-                      comin,
                       darwin,
                       fish-flake,
                       flake-utils,

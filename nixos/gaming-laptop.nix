@@ -3,9 +3,8 @@
 {
   imports =
     [
-      comin.nixosModules.comin
       home-manager.nixosModules.home-manager
-      /home/patrick/opt/hetzner-box-cifs.nix
+#     /home/patrick/opt/hetzner-box-cifs.nix
     ];
 
   # Bootloader.

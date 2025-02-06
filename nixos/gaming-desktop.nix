@@ -5,7 +5,6 @@ let
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
-    comin.nixosModules.comin
     home-manager.nixosModules.home-manager
 #   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
