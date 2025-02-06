@@ -95,18 +95,6 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  # CI/CD Automation
-  services.comin = {
-    enable = true;
-    # Define the source for the build (git)
-    remotes = [{
-      name = "origin";
-      url = "git@github.com:sprjr/nixos-configs.git";
-      branches.main.name = "main";
-      poller.period = 86400; # Update every 24-hours
-    }];
-  };
-
   # Fonts
   fonts.packages = [
     pkgs.nerd-fonts.hack

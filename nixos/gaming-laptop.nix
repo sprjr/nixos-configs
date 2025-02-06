@@ -117,18 +117,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # CI/CD Automation
-  services.comin = {
-    enable = true;
-    # Define the source for the build (git)
-    remotes = [{
-      name = "origin";
-      url = "git@github.com:sprjr/nixos-configs.git";
-      branches.main.name = "main";
-      poller.period = 3600; # Update every hour
-    }];
-  };
-
+  # Packages
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
