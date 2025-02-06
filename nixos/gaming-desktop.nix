@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, comin, ... }:
+{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
 
 let
   system = pkgs.system;

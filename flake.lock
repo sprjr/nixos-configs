@@ -255,26 +255,6 @@
         "type": "path"
       }
     },
-    "comin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1738792744,
-        "narHash": "sha256-Sz748DrkHzhWBKZM2yWeyCoN/SxeSLCOULBzno04Kgk=",
-        "owner": "nlewo",
-        "repo": "comin",
-        "rev": "44d2cb3086e84a3a00a0b1125077b8187b1b15f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nlewo",
-        "repo": "comin",
-        "type": "github"
-      }
-    },
     "cosmic-session": {
       "inputs": {
         "crane": "crane_2",
@@ -780,11 +760,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-mfD0Zm652BcdsKzBRDKgh8rMcVpjgk3OzCNDSwus/B4=",
-        "path": "/nix/store/ygh50v13118bcpkhz5l31qd1a176h309-source/flakes/fish",
+        "path": "/nix/store/d5bnv7dcbclfps7f90wf8lggp9z788ns-source/flakes/fish",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/ygh50v13118bcpkhz5l31qd1a176h309-source/flakes/fish",
+        "path": "/nix/store/d5bnv7dcbclfps7f90wf8lggp9z788ns-source/flakes/fish",
         "type": "path"
       }
     },
@@ -12131,7 +12111,6 @@
     },
     "root": {
       "inputs": {
-        "comin": "comin",
         "darwin": "darwin",
         "fish-flake": "fish-flake",
         "flake-utils": "flake-utils_2",
