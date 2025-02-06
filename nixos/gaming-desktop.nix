@@ -205,6 +205,9 @@ in {
     # Gaming
     heroic
     prismlauncher
+
+    # Other
+    rustc
   ];
 
   # Enable the OpenSSH daemon.
