@@ -146,6 +146,7 @@ in {
     fzf
     gamescope
     ghostty
+    libreoffice
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
