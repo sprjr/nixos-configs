@@ -168,6 +168,7 @@ in {
     nmap
     openvas-scanner
     wireguard-tools
+    wireguard-ui
     wireshark
     xpipe
 
