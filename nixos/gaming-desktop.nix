@@ -145,6 +145,7 @@ in {
     file
     fzf
     gamescope
+    garuda
     ghostty
     libreoffice
     mdp # fullscreen markdown reader
