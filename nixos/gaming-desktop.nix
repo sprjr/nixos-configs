@@ -145,7 +145,6 @@ in {
     file
     fzf
     gamescope
-    garuda
     ghostty
     libreoffice
     mdp # fullscreen markdown reader
@@ -158,6 +157,7 @@ in {
     tree
     vim
     vimPlugins.nvchad
+    vlc
     zsh
 
     ### Net tools ###
