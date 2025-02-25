@@ -165,6 +165,7 @@ in {
     inetutils
     mullvad-vpn
     nextcloud-client
+    looking-glass-client
     lshw
     nmap
     openvas-scanner
