@@ -3,6 +3,7 @@
 {
   # Modules
   imports = [
+    ./modules/gaming/looking-glass-client.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
     ./modules/user-space/bat.nix
