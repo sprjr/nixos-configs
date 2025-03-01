@@ -91,7 +91,6 @@
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/gaming-desktop.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/modules/gaming/looking-glass-client.nix
 	  ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/monitoring/node-exporter.nix
           ./nixos/modules/disks/seanix-disks.nix # not automounting yet
