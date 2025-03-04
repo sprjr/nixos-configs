@@ -8,6 +8,7 @@ in {
     home-manager.nixosModules.home-manager
 #   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
+    ./modules/gaming/windows-vm.nix
   ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
@@ -26,6 +27,12 @@ in {
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Windows VM Boot Toggler
+  specialisation."VFIO".configuration = {
+    system.nixos.tags = [ "with-vfio" ];
+    vfio.enable = true;
+  };
 
   # Bluetooth
   hardware.bluetooth.enable = true;
