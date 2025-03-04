@@ -33,6 +33,6 @@ in { pkgs, lib, config, ... }:
     };
 
     hardware.opengl.enable = true;
-    virtualisation.spaceUSBRedirection.enable = true;
+    virtualisation.spiceUSBRedirection.enable = true;
   };
 }
