@@ -124,6 +124,9 @@ in {
   # Wireguard
   networking.wireguard.enable = true;
 
+  # Needed this to run bash scripts
+  services.envfs.enable = true;
+
   # System packages
   environment.systemPackages = with pkgs; [
     fanctl
