@@ -20,6 +20,14 @@ in {
 
   boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
   networking.hostName = "seanix"; # Define your hostname.
+
+  # OS-Prober (auto-detect which other systems are present on the machine)
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    useOSProber = true;
+  };
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Disable NetworkManager-wait-online.service
