@@ -5,6 +5,7 @@
   home.packages = with pkgs; [
     # Global packages
     bat
+    cowsay
     docker
     docker-compose
     duf
