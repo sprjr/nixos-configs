@@ -8,12 +8,16 @@
     docker
     docker-compose
     duf
+    figlet
+    fortune
     glow
     htop
     lima # VMs/Docker
+    lolcat
     lsd
     mtr
     syncthing
+    ternimal
     tldr
     tree
     zellij
