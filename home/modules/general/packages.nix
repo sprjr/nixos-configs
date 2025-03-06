@@ -22,7 +22,6 @@
     zellij
 
     # Dumb CLI tools
-    aafire
     asciiquarium
     cbonsai
     cool-retro-term
