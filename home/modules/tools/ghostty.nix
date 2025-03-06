@@ -7,12 +7,12 @@
       font-family = "JetBrains Mono"
       theme = nord
       bold-is-bright = true
-      background-opacity = 0.9
-      background-blur-radius = 30
+      background-opacity = 0.7
+      background-blur = 20
       term = screen-256color
       cursor-style = bar
-      window-decoration = false
-#     window-theme = ghostty
+      window-decoration = none
+      window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 
