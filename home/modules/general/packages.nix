@@ -31,7 +31,6 @@
     lavat
     lolcat
     nms
-    pond
     sl
     ternimal
   ] ++ lib.optionals stdenv.isLinux [
