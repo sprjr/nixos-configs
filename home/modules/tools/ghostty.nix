@@ -12,7 +12,7 @@
       term = screen-256color
       cursor-style = bar
       window-decoration = false
-      window-theme = ghostty
+#     window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
       # quick-terminal-size = 80%
 

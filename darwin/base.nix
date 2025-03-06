@@ -81,7 +81,7 @@ in {
   };
 
   # Set the nix daemon
-  services.nix-daemon.enable = true;
+# services.nix-daemon.enable = true; # remove if unneeded
 
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../home/darwin-home.nix ];
