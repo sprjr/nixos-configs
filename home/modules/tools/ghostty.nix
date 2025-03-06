@@ -8,7 +8,7 @@
       theme = nord
       bold-is-bright = true
       background-opacity = 0.3
-      background-blur = 20
+      background-blur = 15
       term = screen-256color
       cursor-style = bar
       window-decoration = none
