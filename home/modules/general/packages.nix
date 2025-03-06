@@ -5,24 +5,36 @@
   home.packages = with pkgs; [
     # Global packages
     bat
-    cool-retro-term
-    cowsay
     docker
     docker-compose
+    dua # file size checker
     duf
-    figlet
-    fortune
     glow
     htop
     lima # VMs/Docker
-    lolcat
     lsd
     mtr
+    pv
+    rig
     syncthing
-    ternimal
     tldr
     tree
     zellij
+
+    # Dumb CLI tools
+    aafire
+    asciiquarium
+    cbonsai
+    cool-retro-term
+    cowsay
+    figlet
+    fortune
+    lavat
+    lolcat
+    nms
+    pond
+    sl
+    ternimal
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
     anki
