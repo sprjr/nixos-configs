@@ -10,20 +10,20 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    spicetify-nix = {
-      url = "gitlab:kylesferrazza/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     fish-flake = {
       url = "./flakes/fish";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ghostty = {
       url = "github:ghostty-org/ghostty";
+#     inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
