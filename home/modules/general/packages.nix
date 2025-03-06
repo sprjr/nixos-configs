@@ -24,6 +24,7 @@
     # Dumb CLI tools
     asciiquarium
     cbonsai
+    cmatrix
     cool-retro-term
     cowsay
     figlet
