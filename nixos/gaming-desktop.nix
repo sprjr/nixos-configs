@@ -158,6 +158,7 @@ in {
     gamescope
     ghostty
     libreoffice
+    lyrebird
     mdp # fullscreen markdown reader
     mullvad-browser
     obsidian
