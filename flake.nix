@@ -83,6 +83,18 @@
           }
         ];
       };
+      prometheus = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          ./nixos/hardware-configuration/prometheus.nix
+          ./nixos/prometheus.nix
+          ./nixos/modules/user/patrick.nix
+          {
+          # Additional configuration goes here
+          }
+        ]
+      };
 
       seanix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
