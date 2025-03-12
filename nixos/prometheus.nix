@@ -143,6 +143,7 @@ in {
     discord
     duplicati
     file
+    floorp # Privacy-focused Firefox fork
     fzf
     ghostty
     libreoffice
