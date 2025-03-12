@@ -93,7 +93,7 @@
           {
           # Additional configuration goes here
           }
-        ]
+        ];
       };
 
       seanix = nixpkgs.lib.nixosSystem {
