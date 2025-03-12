@@ -7,7 +7,7 @@ in {
   imports = [
     home-manager.nixosModules.home-manager
     ./modules/desktop-environment/gnome.nix
-    ../home/linux/desktop_environments/gnome-dconf.nix
+#   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
