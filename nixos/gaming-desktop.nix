@@ -9,7 +9,7 @@ in {
 #   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
     ./modules/gaming/windows-vm.nix
-    inputs.sops-nix.nixosModules/sops
+    sops-nix.nixosModules.sops
   ];
 
   # Sops configuration
