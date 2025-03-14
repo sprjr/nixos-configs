@@ -152,6 +152,7 @@ in {
     obsidian
     scrcpy
     signal-desktop
+    sops-nix
     thunderbird
     tree
     vim
