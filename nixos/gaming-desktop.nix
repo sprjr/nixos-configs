@@ -9,16 +9,7 @@ in {
 #   ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
     ./modules/gaming/windows-vm.nix
-    inputs.sops-nix.nixosModules.sops
   ];
-
-  # Sops configuration
-  sops.defaultSopsFile = ../sops-nix/sops.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/patrick/.config/sops/age/key.txt";
-
-
-
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
