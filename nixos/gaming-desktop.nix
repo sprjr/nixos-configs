@@ -154,6 +154,7 @@ in {
     distrobox-tui
     duplicati
     file
+    floorp # Privacy-focused Firefox alternative
     fzf
     gamescope
     ghostty
