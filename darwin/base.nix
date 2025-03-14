@@ -35,6 +35,7 @@ in {
       "bash"
       "bat"
       "btop"
+      "docker-compose"
       "duf"
      #"firefox" # re-add later
       "fish"
