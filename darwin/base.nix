@@ -65,6 +65,7 @@ in {
       "microsoft-remote-desktop"
       "minecraft"
       "moonlight"
+      "mullvadvpn"
       "obsidian"
       "orbstack"
       "shortcat"
