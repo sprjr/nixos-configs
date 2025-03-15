@@ -1,0 +1,9 @@
+# .sops.yaml
+
+keys: # Public key
+  - &primary age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
+creation_rules:
+  - path_regex: sops-nix/sops.yaml$
+    key_groups:
+      - age:
+        - *primary

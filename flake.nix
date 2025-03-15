@@ -22,6 +22,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     spicetify-nix = {
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +39,8 @@
                       ghostty,
                       heywoodlh-configs,
                       home-manager,
-                      nixpkgs,
+                      sops-nix,
+		      nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
                       ... }:
@@ -106,7 +111,7 @@
 	  ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/monitoring/node-exporter.nix
           ./nixos/modules/disks/seanix-disks.nix # not automounting yet
-          ./nixos/modules/system/udev-scrcpy.nix
+	  ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
 	  {
           # Additional configuration goes here

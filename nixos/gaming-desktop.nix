@@ -154,6 +154,7 @@ in {
     distrobox-tui
     duplicati
     file
+    floorp # Privacy-focused Firefox alternative
     fzf
     gamescope
     ghostty
@@ -165,6 +166,7 @@ in {
     openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
     scrcpy
     signal-desktop
+    sops
     thunderbird
     tree
     vim
