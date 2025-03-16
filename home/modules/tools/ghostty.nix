@@ -7,8 +7,8 @@
       font-family = "JetBrains Mono"
       theme = nord
       bold-is-bright = true
-      background-opacity = 0.7
-      background-blur = 10
+      background-opacity = 0.9
+      background-blur = 20
       term = screen-256color
       cursor-style = bar
       window-decoration = none
