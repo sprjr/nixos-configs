@@ -46,6 +46,7 @@ in {
       "mtr"
       "nmap"
       "opentofu"
+      "sops"
       "tldr"
       "watch"
       "zsh"
