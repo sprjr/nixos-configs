@@ -56,6 +56,7 @@ in {
     '';
     # Casks
     casks = [
+      "1password"
       "battle-net"
       "bitwarden"
       "discord"
