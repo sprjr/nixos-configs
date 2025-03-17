@@ -145,7 +145,6 @@ in {
     wget
 
     # User environment
-    1password
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli

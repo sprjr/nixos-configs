@@ -4,6 +4,7 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
+    1password
     bat
     docker
     docker-compose
