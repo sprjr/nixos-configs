@@ -12,6 +12,7 @@
     dua # file size checker
     duf
     glow
+    go
     htop
     lima # VMs/Docker
     lsd
