@@ -12,6 +12,7 @@
             blur-my-shell.extensionUuid
             gsconnect.extensionUuid
             paperwm.extensionUuid
+	    space-bar.extensionUuid
 	  ];
 	};
       };
