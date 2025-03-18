@@ -11,7 +11,8 @@
           enabled-extensions = with pkgs.gnomeExtensions; [
             blur-my-shell.extensionUuid
             gsconnect.extensionUuid
-          ];
+            paperwm.extensionUuid
+	  ];
 	};
       };
     };
