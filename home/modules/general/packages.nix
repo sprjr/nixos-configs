@@ -42,6 +42,7 @@
     anki
     firefox
     libvirt
+    polonium
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
     mas
