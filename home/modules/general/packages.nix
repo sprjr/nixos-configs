@@ -4,8 +4,6 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
-#   _1password-gui
-#   _1password-cli
     bat
     docker
     docker-compose
@@ -39,6 +37,8 @@
     ternimal
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
+    _1password-gui
+    _1password-cli
     anki
     firefox
     libvirt
