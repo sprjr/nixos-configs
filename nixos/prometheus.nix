@@ -6,8 +6,8 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
-    ../home/linux/desktop_environments/gnome.nix
-#   ./modules/desktop-environment/gnome.nix
+#   ../home/linux/desktop_environments/gnome.nix
+    ./modules/desktop-environment/gnome.nix
 #   ../home/linux/desktop_environments/gnome-dconf.nix
   ];
 
