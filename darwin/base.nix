@@ -21,9 +21,11 @@ in {
       pkgs.gcc
       pkgs.git
       pkgs.gnupg
-#     pkgs.tmux
     ];
   };
+
+  # Allow unfree software
+  nixpkgs.config.allowUnfree = true;
 
   # Homebrew configuration
   homebrew = {
