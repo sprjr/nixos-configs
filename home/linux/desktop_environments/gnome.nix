@@ -1,5 +1,6 @@
 { config, lib, pkgs, home-manager, ... }:
 
+# This module provides user-level customization of my basic GNOME config as declared in a Nix module
 {
   home-manager.users.patrick = {
     dconf = {

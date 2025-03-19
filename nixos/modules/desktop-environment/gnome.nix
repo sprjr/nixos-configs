@@ -1,5 +1,6 @@
 { config, pkgs, lib, home-manager, ... }:
 
+# This module sets up a basic and default GNOME setup for further customization
 {
   # Set the desktop environment to GDM and GNOME
   services.xserver = {
