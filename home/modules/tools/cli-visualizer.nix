@@ -25,7 +25,7 @@
   home.file.".config/vis/config" = {
     text = ''
       #Refresh rate of the visualizers. A really high refresh rate may cause screen tearing. Default is 20.
-      visualizer.fps=16
+      visualizer.fps=20
 
       #Defaults to "/tmp/mpd.fifo"
       mpd.fifo.path
@@ -51,7 +51,6 @@
       #Configures the visualizers and the order they are in. Available visualizers are spectrum,lorenz,ellipse.
       #Defaults to spectrum,ellipse,lorenz
       #visualizers=spectrum,ellipse,lorenz
-
 
       #Configures what character the spectrum visualizer will use. Specifying a space (e.g " ") means the
       #background will be colored instead of the character. Defaults to " ".
@@ -117,7 +116,7 @@
       #colors.override.terminal=false
 
       #Specifies the color scheme. The color scheme must be in ~/.config/vis/colors/ directory. Default is "colors"
-      #colors.scheme=eos,green,example,raven
+      colors.scheme=nord
     '';
   };
 }
