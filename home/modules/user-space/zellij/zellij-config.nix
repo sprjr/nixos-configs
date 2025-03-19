@@ -2,6 +2,8 @@
 
 let
   zellijConfigContent = ''
+    show_startup_tips false
+
     theme "nord"
     themes {
       nord {
