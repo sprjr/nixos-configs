@@ -87,17 +87,17 @@
 
       #Sets the audio sources to use. Currently available ones are "mpd" and "alsa"Sets the audio sources to use.
       #Currently available ones are "mpd", "pulse", "port", and "alsa". Defaults to "mpd".
-      audio.sources=pulse
+      audio.sources=alsa
 
       ##vis tries to find the correct pulseaudio sink, however this will not work on all systems.
       #If pulse audio is not working with vis try switching the audio source. A list can be found by running the
       #command pacmd list-sinks  | grep -e 'name:'  -e 'index'
-      audio.pulse.source=1
+      audio.pulse.source=3
 
       #vis tries to find the correct portaudio device (through portaudio default method), however its not for-sure.
       #If port audio is not working with vis try switching the audio srouce. A list can be found by setting
       #this value to "list" and checking the vis log file. Replace this value with the device name desired
-      audio.port.source=list
+      audio.port.source=auto
 
       #This configures the sgs smoothing effect on the spectrum visualizer. More points spreads out the smoothing
       #effect and increasing passes runs the smoother multiple times on reach run. Defaults are points=3 and passes=2.
