@@ -21,13 +21,13 @@
        "org/gnome/shell" = {
          disable-user-extensions = false;
          enabled-extensions = with pkgs.gnomeExtensions; [
-           blur-my-shell.aunetx
-           caffeine.patapon.info
-           gsconnect.andyholmes.github.io
-           just-perfection-desktop.just-perfection
-           paperwm.paperwm.github.com
-           search-light.icedman.github.com
-           space-bar.luchrioh
+           blur-my-shell@aunetx
+           caffeine@patapon.info
+           gsconnect@ahdyholmes.github.io
+           just-perfection-desktop@just-perfection
+           paperwm@paperwm.github.com
+           search-light@icedman.github.com
+           space-bar@luchrioh
          ];
        };
      };
