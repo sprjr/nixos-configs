@@ -10,7 +10,7 @@
   };
 
   # Enable dconf module
-  programs.dconf.enable = true;
+# programs.dconf.enable = true;
 
   # Setup user-specific extensions
   home-manager.users.patrick = {
