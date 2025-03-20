@@ -11,12 +11,24 @@
           disable-user-extensions = false;
           enabled-extensions = with pkgs.gnomeExtensions; [
             blur-my-shell.extensionUuid
+	    caffeine.extensionUuid
             gsconnect.extensionUuid
+	    just-perfection.extensionUuid
             paperwm.extensionUuid
+	    search-light.extensionUuid
             space-bar.extensionUuid
-	  ];
-	};
+          ];
+        };
       };
     };
   };
+  home.packages = with pkgs.gnomeExtensions; [
+    blur-my-shell
+    caffeine
+    gsconnect
+    just-perfection
+    paperwm
+    search-light
+    space-bar
+  ];
 }
