@@ -12,6 +12,28 @@
   # Enable dconf module
   programs.dconf.enable = true;
 
+  # Setup user-specific extensions
+  home-manager.users.patrick = {
+    dconf = {
+      enable = true;
+      settings = {
+        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+        "org/gnome/shell" = {
+          disable-user-extensions = false;
+          enabled-extensions = with pkgs.gnomeExtensions; [
+            blur-my-shell.3193
+	    caffeine.517
+            gsconnect.1319
+	    just-perfection.3843
+            paperwm.6099
+	    search-light.5489
+            space-bar.5090
+          ];
+        };
+      };
+    };
+  };
+
   # Enable gnome-settings-daemon udev rules
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
