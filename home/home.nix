@@ -3,6 +3,7 @@
 {
   # Modules
   imports = [
+    ./linux/desktop_environments/gnome.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
     ./modules/user-space/bat.nix
