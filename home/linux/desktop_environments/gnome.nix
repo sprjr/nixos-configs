@@ -10,13 +10,13 @@
         "org/gnome/shell" = {
           disable-user-extensions = false;
           enabled-extensions = with pkgs.gnomeExtensions; [
-            blur-my-shell.extensionUuid
-	    caffeine.extensionUuid
-            gsconnect.extensionUuid
-	    just-perfection.extensionUuid
-            paperwm.extensionUuid
-	    search-light.extensionUuid
-            space-bar.extensionUuid
+            blur-my-shell.3193
+	    caffeine.517
+            gsconnect.1319
+	    just-perfection.3843
+            paperwm.6099
+	    search-light.5489
+            space-bar.5090
           ];
         };
       };
