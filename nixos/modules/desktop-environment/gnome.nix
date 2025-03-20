@@ -10,29 +10,29 @@
   };
 
   # Enable dconf module
-# programs.dconf.enable = true;
+  programs.dconf.enable = true;
 
   # Setup user-specific extensions
-  home-manager.users.patrick = {
-    dconf = {
-      enable = true;
-      settings = {
-        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-        "org/gnome/shell" = {
-          disable-user-extensions = false;
-          enabled-extensions = with pkgs.gnomeExtensions; [
-            blur-my-shell.3193
-	    caffeine.517
-            gsconnect.1319
-	    just-perfection.3843
-            paperwm.6099
-	    search-light.5489
-            space-bar.5090
-          ];
-        };
-      };
-    };
-  };
+#  home-manager.users.patrick = {
+#    dconf = {
+#      enable = true;
+#      settings = {
+#        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+#       "org/gnome/shell" = {
+#         disable-user-extensions = false;
+#         enabled-extensions = with pkgs.gnomeExtensions; [
+#           blur-my-shell.
+#           caffeine.
+#           gsconnect.
+#           just-perfection.
+#           paperwm.
+#           search-light.
+#           space-bar.
+#         ];
+#       };
+#     };
+#    };
+#  };
 
   # Enable gnome-settings-daemon udev rules
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
