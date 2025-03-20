@@ -97,7 +97,7 @@
       #vis tries to find the correct portaudio device (through portaudio default method), however its not for-sure.
       #If port audio is not working with vis try switching the audio srouce. A list can be found by setting
       #this value to "list" and checking the vis log file. Replace this value with the device name desired
-      audio.port.source=auto
+      audio.port.source=list
 
       #This configures the sgs smoothing effect on the spectrum visualizer. More points spreads out the smoothing
       #effect and increasing passes runs the smoother multiple times on reach run. Defaults are points=3 and passes=2.
