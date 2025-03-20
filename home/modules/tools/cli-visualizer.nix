@@ -87,7 +87,7 @@
 
       #Sets the audio sources to use. Currently available ones are "mpd" and "alsa"Sets the audio sources to use.
       #Currently available ones are "mpd", "pulse", "port", and "alsa". Defaults to "mpd".
-      audio.sources=mpd
+      audio.sources=port
 
       ##vis tries to find the correct pulseaudio sink, however this will not work on all systems.
       #If pulse audio is not working with vis try switching the audio source. A list can be found by running the
