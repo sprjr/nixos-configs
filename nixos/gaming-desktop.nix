@@ -171,6 +171,7 @@ in {
     mullvad-browser
     obsidian
     openrgb-with-all-plugins # also check the above rules for services.hardware.openrgb.enable = true;
+    rpi-imager
     scrcpy
     signal-desktop
     sops
