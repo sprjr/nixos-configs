@@ -165,6 +165,8 @@ in {
     fzf
     gamescope
     ghostty
+    input-remapper
+    piper
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
