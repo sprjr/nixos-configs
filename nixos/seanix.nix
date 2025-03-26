@@ -167,6 +167,7 @@ in {
     ghostty
     input-remapper
     piper
+    libratbag
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
