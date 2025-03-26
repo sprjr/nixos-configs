@@ -133,8 +133,8 @@
         specialArgs = inputs;
         modules = [
           ./nixos/hardware-configuration/shikisha.nix
-  	./nixos/shikisha.nix
-	  ./nixos/modules/virtualization/containers/syncthing.nix
+  	  ./nixos/shikisha.nix
+	  ./nixos/modules/virtualisation/containers/syncthing.nix
         ];
       };
     };
