@@ -760,11 +760,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-mfD0Zm652BcdsKzBRDKgh8rMcVpjgk3OzCNDSwus/B4=",
-        "path": "/nix/store/x9mwgh9lxbmxwbi16cf9428mzxn75w51-source/flakes/fish",
+        "path": "/nix/store/gbpcqhikzcvvqf916mrxlb4kvkzva4ya-source/flakes/fish",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/x9mwgh9lxbmxwbi16cf9428mzxn75w51-source/flakes/fish",
+        "path": "/nix/store/gbpcqhikzcvvqf916mrxlb4kvkzva4ya-source/flakes/fish",
         "type": "path"
       }
     },
@@ -5224,11 +5224,11 @@
         "zon2nix": "zon2nix"
       },
       "locked": {
-        "lastModified": 1742941134,
-        "narHash": "sha256-sBbZcxiiv4BYBU/PdpqYZcG8HTu5BTMsRKqv2celzEQ=",
+        "lastModified": 1743017635,
+        "narHash": "sha256-8NANQx7t05UYXW6YKuk5QtNB8/PXzK/fG4ar6H1Y7Tw=",
         "owner": "ghostty-org",
         "repo": "ghostty",
-        "rev": "bcff4e18f430e0e34412f631215f196c9e0c885b",
+        "rev": "494279419af16aba382fc0c25d3edb25dbec1d7f",
         "type": "github"
       },
       "original": {

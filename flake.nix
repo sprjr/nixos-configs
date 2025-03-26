@@ -127,16 +127,16 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
         ];
       };
-    };
 
-    shikisha = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = inputs;
-      modules = [
-        ./nixos/hardware-configuration/shikisha.nix
-	./nixos/shikisha.nix
-	./nixos/modules/virtualization/containers/syncthing.nix
-      ];
+      shikisha = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          ./nixos/hardware-configuration/shikisha.nix
+  	./nixos/shikisha.nix
+	  ./nixos/modules/virtualization/containers/syncthing.nix
+        ];
+      };
     };
 
     # Darwin
