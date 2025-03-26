@@ -57,7 +57,7 @@
         specialArgs = inputs;
         modules = [
           ./nixos/hardware-configuration/trixos.nix
-          ./nixos/gaming-laptop.nix
+          ./nixos/trixos.nix
           ./nixos/modules/nvidia.nix
           ./nixos/modules/monitoring/node-exporter.nix
 	 #./nixos/modules/backups/rsnapshot.nix
@@ -106,10 +106,9 @@
         specialArgs = inputs;
         modules = [
           ./nixos/hardware-configuration/seanix.nix
-          ./nixos/gaming-desktop.nix
+          ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
 	  ./nixos/modules/gaming/sunshine.nix
-          ./nixos/modules/monitoring/node-exporter.nix
           ./nixos/modules/disks/seanix-disks.nix # not automounting yet
 	  ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
@@ -126,9 +125,18 @@
           ./nixos/hardware-configuration/seanvy.nix
           ./nixos/hp-envy.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/modules/monitoring/node-exporter.nix
         ];
       };
+    };
+
+    shikisha = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = inputs;
+      modules = [
+        ./nixos/hardware-configuration/shikisha.nix
+	./nixos/shikisha.nix
+	./nixos/modules/virtualization/containers/syncthing.nix
+      ];
     };
 
     # Darwin
