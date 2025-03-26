@@ -85,6 +85,7 @@ in {
     duplicati
     file
     fzf
+    k0sctl
     sops
     tree
     vim
