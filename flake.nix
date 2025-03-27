@@ -40,7 +40,7 @@
                       heywoodlh-configs,
                       home-manager,
                       sops-nix,
-		      nixpkgs,
+                      nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
                       ... }:
@@ -60,8 +60,8 @@
           ./nixos/trixos.nix
           ./nixos/modules/nvidia.nix
           ./nixos/modules/monitoring/node-exporter.nix
-	 #./nixos/modules/backups/rsnapshot.nix
-	  {
+         #./nixos/modules/backups/rsnapshot.nix
+          {
             networking.hostName = "trixos";
             hardware.nvidia.prime = {
               # Verify BUS ID
@@ -108,11 +108,11 @@
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-	  ./nixos/modules/gaming/sunshine.nix
+          ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-disks.nix # not automounting yet
-	  ./nixos/modules/system/udev-scrcpy.nix
+          ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
-	  {
+          {
           # Additional configuration goes here
           }
         ];
@@ -133,8 +133,8 @@
         specialArgs = inputs;
         modules = [
           ./nixos/hardware-configuration/shikisha.nix
-  	  ./nixos/shikisha.nix
-	  ./nixos/modules/virtualisation/containers/syncthing.nix
+          ./nixos/shikisha.nix
+          ./nixos/modules/virtualisation/containers/syncthing.nix
         ];
       };
     };
