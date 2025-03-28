@@ -162,12 +162,11 @@ in {
     duplicati
     file
     floorp # Privacy-focused Firefox alternative
+    freetube
     fzf
     gamescope
     ghostty
     input-remapper
-    piper
-    libratbag
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
