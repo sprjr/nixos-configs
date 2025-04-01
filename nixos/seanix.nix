@@ -139,6 +139,15 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
+  # Input-remapper service
+  services.input-remapper = {
+    package = pkgs.input-remapper;
+    enable = true;
+    serviceWantedBy = [
+      "multi-user.target"
+    ];
+  };
+
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
@@ -166,7 +175,6 @@ in {
     fzf
     gamescope
     ghostty
-    input-remapper
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
