@@ -139,15 +139,6 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
-  # Input-remapper service
-  services.input-remapper = {
-    package = pkgs.input-remapper;
-    enable = true;
-    serviceWantedBy = [
-      "multi-user.target"
-    ];
-  };
-
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
@@ -190,6 +181,7 @@ in {
     vim
     vimPlugins.nvchad
     vlc
+    xbindkeys-config # graphic interface for xbindkeys (input mapper)
     zsh
 
     ### Net tools ###
