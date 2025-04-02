@@ -19,6 +19,7 @@
     rig
     syncthing
     tldr
+    todoist
     tree
     zellij
 
