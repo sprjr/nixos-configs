@@ -162,12 +162,10 @@ in {
     duplicati
     file
     floorp # Privacy-focused Firefox alternative
+    freetube
     fzf
     gamescope
     ghostty
-    input-remapper
-    piper
-    libratbag
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
@@ -184,6 +182,7 @@ in {
     vim
     vimPlugins.nvchad
     vlc
+    xbindkeys-config # graphic interface for xbindkeys (input mapper)
     zsh
 
     ### Net tools ###
