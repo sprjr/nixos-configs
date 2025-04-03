@@ -163,7 +163,7 @@ in {
     signal-desktop
     sops
     thunderbird
-    tree
+    ulauncher
     vim
     vimPlugins.nvchad
     vlc
