@@ -47,6 +47,5 @@
     mas
     m-cli
     pinentry_mac
-    tree
   ];
 }
