@@ -178,7 +178,6 @@ in {
     signal-desktop
     sops
     thunderbird
-    todoist
     vim
     vimPlugins.nvchad
     vlc
