@@ -19,7 +19,6 @@
     rig
     syncthing
     tldr
-    tree
     zellij
 
     # Dumb CLI tools
@@ -48,5 +47,6 @@
     mas
     m-cli
     pinentry_mac
+    tree
   ];
 }
