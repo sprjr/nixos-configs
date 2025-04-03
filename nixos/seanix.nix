@@ -179,6 +179,7 @@ in {
     sops
     thunderbird
     tree
+    ulauncher
     vim
     vimPlugins.nvchad
     vlc

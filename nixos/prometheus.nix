@@ -163,7 +163,6 @@ in {
     signal-desktop
     sops
     thunderbird
-    todoist
     ulauncher
     vim
     vimPlugins.nvchad
