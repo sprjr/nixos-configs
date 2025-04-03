@@ -22,6 +22,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,7 +42,8 @@
                       ghostty,
                       heywoodlh-configs,
                       home-manager,
-                      sops-nix,
+                      nixos-hardware,
+		      sops-nix,
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
