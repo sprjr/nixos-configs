@@ -178,6 +178,7 @@ in {
     signal-desktop
     sops
     thunderbird
+    tree
     vim
     vimPlugins.nvchad
     vlc
