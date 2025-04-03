@@ -19,6 +19,7 @@
     rig
     syncthing
     tldr
+    tree
     zellij
 
     # Dumb CLI tools
