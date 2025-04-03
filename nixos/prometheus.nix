@@ -164,7 +164,6 @@ in {
     sops
     thunderbird
     todoist
-    ulauncher
     vim
     vimPlugins.nvchad
     vlc
