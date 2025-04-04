@@ -187,7 +187,6 @@ in {
     zsh
 
     ### Net tools ###
-    atuin
     pkgs-stable.tailscale
     inetutils
     mullvad-vpn
