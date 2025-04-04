@@ -17,6 +17,7 @@
     mtr
     pv
     rig
+    rustlings
     syncthing
     tldr
     todoist
