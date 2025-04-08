@@ -21,8 +21,6 @@ in {
   boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
   networking.hostName = "seanix"; # Define your hostname.
 
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
@@ -41,7 +39,8 @@ in {
   services.blueman.enable = true; # GUI management
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
