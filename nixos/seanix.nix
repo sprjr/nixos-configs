@@ -168,7 +168,7 @@ in {
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
-    moonlight
+    moonlight-qt
     mullvad-browser
     obsidian
     rpi-imager

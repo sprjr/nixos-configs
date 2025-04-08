@@ -156,7 +156,7 @@ in {
     ghostty
     libreoffice
     mdp # fullscreen markdown reader
-    moonlight
+    moonlight-qt
     mullvad-browser
     obsidian
     scrcpy
