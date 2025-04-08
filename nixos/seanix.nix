@@ -173,7 +173,6 @@ in {
     mullvad-browser
     obsidian
     rpi-imager
-    spotify-player
     scrcpy
     signal-desktop
     sops
