@@ -15,6 +15,7 @@
     htop
     lima # VMs/Docker
     lsd
+    minikube
     mtr
     pv
     rig
