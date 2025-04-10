@@ -189,6 +189,7 @@ in {
     nextcloud-client
     looking-glass-client
     lshw
+    netop
     nmap
     openvas-scanner
     wireguard-tools

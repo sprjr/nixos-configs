@@ -176,6 +176,7 @@ in {
     mullvad-vpn
     nextcloud-client
     lshw
+    netop
     nmap
     openvas-scanner
     wireguard-tools
