@@ -109,7 +109,6 @@ in {
     sops
     vim
     vimPlugins.nvchad
-    zsh
 
     ### Net tools ###
 #   pkgs-stable.tailscale
