@@ -43,7 +43,7 @@
                       heywoodlh-configs,
                       home-manager,
                       nixos-hardware,
-		      sops-nix,
+                      sops-nix,
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
