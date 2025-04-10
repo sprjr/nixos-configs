@@ -6,7 +6,6 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
-    sops-nix.nixosModules.sops
     ./modules/system/sops.nix
 #   ../home/linux/desktop_environments/gnome.nix # This module does user-specific configuration (extensions, dark mode, etc)
     ./modules/desktop-environment/gnome.nix # This module uses Nix to setup a basic default gnome config (default apps, etc)
