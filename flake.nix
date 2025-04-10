@@ -97,7 +97,7 @@
         specialArgs = inputs;
         modules = [
           sops-nix.nixosModules.sops
-	  ./nixos/hardware-configuration/prometheus.nix
+          ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
           {
@@ -110,6 +110,7 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+           sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
@@ -137,12 +138,13 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+           sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/system/sops.nix
-	  ./nixos/modules/virtualisation/containers/syncthing.nix
+          ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-node.nix
-	  ./nixos/modules/user/patrick.nix
+          ./nixos/modules/user/patrick.nix
         ];
       };
     };
