@@ -198,5 +198,12 @@ in {
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # Garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "delete-older-than 14d";
+  };
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }
