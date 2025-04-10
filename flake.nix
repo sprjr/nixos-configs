@@ -98,9 +98,7 @@
         modules = [
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
-          ./nixos/modules/system/sops.nix
 	  ./nixos/modules/user/patrick.nix
-	  ./nixos/modules/virtualisation/k3s-node.nix
           {
           # Additional configuration goes here
           }
