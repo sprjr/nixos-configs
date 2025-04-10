@@ -7,7 +7,7 @@
     age.keyFile = "/home/patrick/.config/sops/age/keys.txt";
 
     secrets = {
-      "kubernetes-homelab-node-key".owner = "patrick";
+      "kubernetes/kubernetes-homelab-node-key".owner = "patrick";
     };
   };
 }
