@@ -8,16 +8,14 @@ in {
     home-manager.nixosModules.home-manager
   ];
 
-  # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # General Networking Options
   networking.hostName = "shikisha"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -25,12 +23,12 @@ in {
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Enable Docker and Podman
   virtualisation = {
@@ -56,6 +54,10 @@ in {
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Enable the KDE Plasma Desktop Environment.
+# services.displayManager.sddm.enable = true;
+# services.desktopManager.plasma6.enable = true;
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -69,29 +71,6 @@ in {
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Flatpaks
-  services.flatpak.enable = true;
-
-  # Tailscale
-  services.tailscale.enable = true;
-
-  # Mullvad
-  services.mullvad-vpn.enable = true;
-  networking.iproute2.enable = true;
-
-  # Wireguard
-  networking.wireguard.enable = true;
-
-  # 1Password
-  programs._1password = { enable = true; };
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [ "patrick" ];
-  };
-
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
@@ -99,8 +78,6 @@ in {
   environment.systemPackages = with pkgs; [
     git
     pciutils
-    pipewire
-    thermald
     wget
 
     # User environment
@@ -108,39 +85,31 @@ in {
     duplicati
     file
     fzf
-    mdp # fullscreen markdown reader
+    k0sctl
     sops
+    tree
     vim
     vimPlugins.nvchad
     zsh
 
     ### Net tools ###
-#   pkgs-stable.tailscale
+    pkgs-stable.tailscale
     inetutils
-    mullvad-vpn
     lshw
-    netop
     nmap
     openvas-scanner
-    wireguard-tools
-    wireguard-ui
     wireshark
     xpipe
 
-    # Operations tools
+    # Work Tools
     opentofu
-
   ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Garbage collection
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "delete-older-than 14d";
-  };
+  # Tailscale
+  services.tailscale.enable = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }
