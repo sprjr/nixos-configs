@@ -6,8 +6,6 @@
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/patrick/.config/sops/age/keys.txt";
 
-    secrets = {
-      "kubernetes/kubernetes-homelab-node-key".owner = "patrick";
-    };
+    secrets."kubernetes/kubernetes-homelab-node-key" = { };
   };
 }
