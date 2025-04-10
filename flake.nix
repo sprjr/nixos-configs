@@ -98,7 +98,7 @@
         modules = [
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
-	  ./nixos/modules/user/patrick.nix
+          ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
           }
@@ -114,7 +114,7 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-disks.nix # not automounting yet
-	  ./nixos/modules/system/udev-scrcpy.nix
+          ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
