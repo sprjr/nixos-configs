@@ -72,9 +72,6 @@ in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Flatpaks
-  services.flatpak.enable = true;
-
   # Tailscale
   services.tailscale.enable = true;
 
