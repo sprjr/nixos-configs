@@ -141,7 +141,7 @@
           ./nixos/shikisha.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/user/patrick.nix
-	];
+        ];
       };
     };
 
