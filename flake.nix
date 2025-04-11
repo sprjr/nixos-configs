@@ -171,7 +171,7 @@
         inherit pkgs;
         extraSpecialArgs = inputs;
         modules = [
-          ./home/home.nix
+          ./home/linux-home.nix
           {
             home = {
               username = "patrick";
