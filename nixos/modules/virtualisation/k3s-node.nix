@@ -14,7 +14,7 @@
   services.k3s = {
     enable = true;
     role = "agent";
-    token = config.sops.secrets."kubernetes/kubernetes-homelab-node-key";
+    tokenFile = /opt/secrets/kubernetes/k3s-node.txt;
     serverAddr = "https://100.67.20.13:6443";
   };
 }
