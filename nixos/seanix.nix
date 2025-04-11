@@ -151,7 +151,7 @@ in {
     wget
 
     # User environment
-    btop
+    btop-rocm
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     cli-visualizer
