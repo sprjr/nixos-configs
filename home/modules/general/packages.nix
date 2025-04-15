@@ -4,6 +4,7 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
+    ansible
     atuin
     bat
     docker
