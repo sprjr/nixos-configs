@@ -95,6 +95,7 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     git
+    usbutils
     pciutils
     pipewire
     thermald
