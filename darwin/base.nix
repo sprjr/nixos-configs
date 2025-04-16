@@ -24,9 +24,6 @@ in {
     ];
   };
 
-  # Allow unfree software
-  nixpkgs.config.allowUnfree = true;
-
   # Homebrew configuration
   homebrew = {
     enable = true;
