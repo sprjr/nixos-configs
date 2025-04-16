@@ -144,7 +144,8 @@
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
          #./nixos/modules/virtualisation/k3s-node.nix
-          ./nixos/modules/user/patrick.nix
+          ./nixos/modules/virutalisation/k3s-server.nix
+	  ./nixos/modules/user/patrick.nix
         ];
       };
     };
