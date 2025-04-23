@@ -14,9 +14,10 @@
     glow
     go
     htop
+    kubectx # supplementary kubernetes tools
     lima # VMs/Docker
     lsd
-    minikube
+    minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
     pv
     rig
