@@ -116,7 +116,7 @@ in {
   services.hardware.openrgb.enable = true;
 
   # Enable Steam
-# programs.steam.enable = true;
+  programs.steam.enable = true;
 
   # Flatpaks
   services.flatpak.enable = true;
