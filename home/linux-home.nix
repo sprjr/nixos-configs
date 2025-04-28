@@ -4,14 +4,14 @@
   # Modules
   imports = [
     ./linux/desktop_environments/gnome.nix
-    ./modules/user-space/zellij/zellij-layout-darwin.nix
-    ./modules/user-space/zellij/zellij-config.nix
+    ./modules/general/packages.nix
+    ./modules/tools/cli-visualizer.nix
+    ./modules/tools/ghostty.nix
+    ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
-    ./modules/tools/cli-visualizer.nix
-    ./modules/tools/neovim.nix
-    ./modules/tools/ghostty.nix
-    ./modules/general/packages.nix
+    ./modules/user-space/zellij/zellij-layout-darwin.nix
+    ./modules/user-space/zellij/zellij-config.nix
   ];
 
   # Git configuration

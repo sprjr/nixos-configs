@@ -8,15 +8,12 @@ in {
     home-manager.nixosModules.home-manager
   ];
 
-  # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # General Networking Options
-  networking.hostName = "shikisha"; # Define your hostname.
+  networking.hostName = "starter"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
   # Disable NetworkManager-wait-online.service
@@ -31,12 +28,6 @@ in {
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Enable Docker and Podman
-  virtualisation = {
-      docker.enable = true;
-      podman.enable = true;
-  };
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -95,15 +86,10 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     git
-    usbutils
-    pciutils
-    pipewire
-    thermald
     wget
 
     # User environment
     btop
-    duplicati
     file
     fzf
     mdp # fullscreen markdown reader
@@ -113,7 +99,6 @@ in {
     zsh
 
     ### Net tools ###
-#   pkgs-stable.tailscale
     inetutils
     mullvad-vpn
     lshw
