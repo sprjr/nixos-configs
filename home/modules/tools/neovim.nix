@@ -10,6 +10,7 @@
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
       ale
+      codecompanion
       nord-vim
       vim-airline
       vim-airline-themes
