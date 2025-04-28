@@ -54,8 +54,8 @@ in {
 
   # Enable Docker and Podman
   virtualisation = {
-      docker.enable = true;
-      podman.enable = true;
+    docker.enable = true;
+    podman.enable = true;
   };
 
   # Set your time zone.
@@ -81,9 +81,12 @@ in {
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  services.xserver = {
+    enable = true;
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
   };
 
   # Enable CUPS to print documents.
