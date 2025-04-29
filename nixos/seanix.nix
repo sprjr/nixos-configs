@@ -174,6 +174,7 @@ in {
     moonlight-qt
     mullvad-browser
     obsidian
+    ollama-rocm
     rpi-imager
     scrcpy
     signal-desktop
