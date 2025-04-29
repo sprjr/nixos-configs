@@ -1,0 +1,17 @@
+{ config, pkgs, ... }:
+
+{
+  services.nextjs-ollama-llm-ui = {
+    enable = true;
+    package = pkgs.nextjs-ollama-llm-ui;
+    hostname = "0.0.0.0";
+    ollamaUrl = "http://127.0.0.1:11434";
+    port = 3000;
+  };
+  services.ollama = {
+   #package = pkgs.ollama-rocm;
+    rocmOverrideGfx = "10.1.0";
+    home = "/var/lib/ollama";
+    acceleration = "rocm";
+  };
+}
