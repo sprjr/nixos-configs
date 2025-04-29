@@ -13,5 +13,12 @@
     rocmOverrideGfx = "10.1.0";
     home = "/var/lib/ollama";
     acceleration = "rocm";
+    loadModels = [
+      codegemma
+      codellama
+      deepseek-coder-v2
+      deepseek-r1
+      gemma3:4b
+    ];
   };
 }
