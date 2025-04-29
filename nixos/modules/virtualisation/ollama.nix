@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.nextjs-ollama-llm-ui;
     hostname = "0.0.0.0";
-    ollamaUrl = "http://localhost:11434";
+    ollamaUrl = "http://100.95.41.49:11434";
     port = 3000;
   };
   services.ollama = {
