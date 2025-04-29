@@ -9,7 +9,7 @@
     port = 3000;
   };
   services.ollama = {
-   #package = pkgs.ollama-rocm;
+    package = pkgs.ollama-rocm;
     rocmOverrideGfx = "10.1.0";
     home = "/var/lib/ollama";
     acceleration = "rocm";
