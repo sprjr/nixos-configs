@@ -32,7 +32,7 @@
     };
     zsh = {
       enable = true;
-      initExtra = ''
+      initContent = ''
         # Run fish if it's not already running
         if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]
         then
