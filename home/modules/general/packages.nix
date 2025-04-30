@@ -13,6 +13,7 @@
     duf
     glow
     go
+    helm
     htop
     kubectx # supplementary kubernetes tools
     lima # VMs/Docker
