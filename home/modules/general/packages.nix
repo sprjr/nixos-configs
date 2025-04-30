@@ -19,6 +19,7 @@
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
+    openssl
     pv
     rig
     rustlings
