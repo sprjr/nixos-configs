@@ -9,9 +9,11 @@
       "nofail" # prevent system from failing if the drive doesn't mount
       "noatime"
       "defaults"
-      "user"
-#     "x-systemd.automount"
-#     "x.systemd.idle-timeout=1min"
     ];
   };
+
+  # Ensure mount point directory exists:
+  systemd.tmpfiles.rules = [
+    "d /mnt/media/drive-0 0755 root root - -"
+  ];
 }
