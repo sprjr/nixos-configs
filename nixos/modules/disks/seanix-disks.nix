@@ -9,6 +9,9 @@
       "nofail" # prevent system from failing if the drive doesn't mount
       "noatime"
       "defaults"
+      "user"
+      "x-systemd.automount"
+      "x.systemd.idle-timeout=1min"
     ];
   };
 }
