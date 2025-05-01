@@ -2,7 +2,7 @@
 
 {
   # 1TB Samsung 860 m.2
-  fileSystems."/mnt/media/drive-0" = {
+  fileSystems."/mnt/media/drive0" = {
     device = "/dev/disk/by-uuid/6655e2e3-ce9e-42eb-8043-6a553ced1d76";
     fsType = "ext4";
     options = [
@@ -14,6 +14,6 @@
 
   # Ensure mount point directory exists:
   systemd.tmpfiles.rules = [
-    "d /mnt/media/drive-0 0755 root root - -"
+    "d /mnt/media/drive0 0755 root root - -"
   ];
 }
