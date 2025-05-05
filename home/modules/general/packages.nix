@@ -4,7 +4,6 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
-    ansible
     atuin
     bat
     docker
@@ -13,12 +12,14 @@
     duf
     glow
     go
+    kubernetes-helm
     htop
     kubectx # supplementary kubernetes tools
     lima # VMs/Docker
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
+    openssl
     pv
     rig
     rustlings

@@ -19,7 +19,7 @@
 	df = "duf";
 	dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
 	dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
-	kubectl = "k3s kubectl";
+	kubectl = "sudo k3s kubectl";
         ls = "lsd -l";
 	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
 	yt-dl = "nix-shell -p yt-dlp";
