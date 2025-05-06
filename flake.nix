@@ -114,7 +114,7 @@
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/modules/virutalisation/k3s-node.nix
+          ./nixos/modules/virtualisation/k3s-node.nix
 	  ./nixos/modules/virtualisation/ollama.nix
 	  ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix # not automounting yet
