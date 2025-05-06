@@ -126,8 +126,8 @@ in {
     xpipe
 
     # Operations tools
+    openiscsi
     opentofu
-
   ];
 
   # Enable the OpenSSH daemon.
