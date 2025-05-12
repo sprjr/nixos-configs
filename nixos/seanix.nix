@@ -126,6 +126,9 @@ in {
 
   # Tailscale
   services.tailscale.enable = true;
+  # to fix broken internet when using an exit node
+  networking.firewall.checkReversePath = "loose";
+
 
   # Mullvad
   services.mullvad-vpn.enable = true;
