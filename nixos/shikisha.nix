@@ -113,7 +113,6 @@ in {
     zsh
 
     ### Net tools ###
-#   pkgs-stable.tailscale
     inetutils
     mullvad-vpn
     lshw
