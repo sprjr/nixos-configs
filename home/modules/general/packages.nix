@@ -17,7 +17,6 @@
     kubectx # supplementary kubernetes tools
     lima # VMs/Docker
     lsd
-    microk8s
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
     openssl
