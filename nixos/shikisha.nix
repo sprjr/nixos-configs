@@ -125,6 +125,7 @@ in {
     xpipe
 
     # Operations tools
+    argocd
     openiscsi
     opentofu
   ];
