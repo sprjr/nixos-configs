@@ -126,6 +126,7 @@ in {
 
     # Operations tools
     argocd
+    garage
     openiscsi
     opentofu
   ];
