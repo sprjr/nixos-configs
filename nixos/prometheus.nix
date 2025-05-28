@@ -10,6 +10,9 @@ in {
 #   ../home/linux/desktop_environments/gnome.nix # This module does user-specific configuration (extensions, dark mode, etc)
 #   ./modules/desktop-environment/gnome.nix # This module uses Nix to setup a basic default gnome config (default apps, etc)
 #   ../home/linux/desktop_environments/gnome-dconf.nix # This is sometimes buggy, but it allows a type of "snapshotting" approach to dconf
+    # Hyprland
+    ../home/modules/user-space/hyprland/hyprpaper.nix
+    ../home/modules/user-space/hyprland/hypridle.nix
   ];
 
   # Hyprland and assets (all the way down to Stylix)
@@ -19,6 +22,15 @@ in {
       xwayland.enable = true;
     };
   };
+
+  wayland.windowManager.hyprland = {
+    enable = true; # enable hyprland
+    extraConfig = "source = ../home/modules/user-space/hyprland/config/hyprland.conf";
+    plugins = [
+      pkgs.hyprlandPlugins.hyprspace
+    ];
+  };
+
 
   # Stylix allows easy theme management of hyprland
   stylix = {
@@ -187,6 +199,12 @@ in {
     vimPlugins.nvchad
     vlc
     zsh
+
+    # Hyprland
+    hyprsession.packages.${pkgs.system}.default
+    #hyprlock
+    hyprpaper
+    hyprlandPlugins.hyprspace
 
     ### Net tools ###
     pkgs-stable.tailscale
