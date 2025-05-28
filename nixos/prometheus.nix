@@ -12,6 +12,21 @@ in {
 #   ../home/linux/desktop_environments/gnome-dconf.nix # This is sometimes buggy, but it allows a type of "snapshotting" approach to dconf
   ];
 
+  # Hyprland and assets (all the way down to Stylix)
+  programs = {
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+  };
+
+  # Stylix allows easy theme management of hyprland
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    image = ../home/modules/assets/wallpaper.png;
+  };
+
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
