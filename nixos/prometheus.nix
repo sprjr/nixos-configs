@@ -11,7 +11,7 @@ in {
 #   ./modules/desktop-environment/gnome.nix # This module uses Nix to setup a basic default gnome config (default apps, etc)
 #   ../home/linux/desktop_environments/gnome-dconf.nix # This is sometimes buggy, but it allows a type of "snapshotting" approach to dconf
     # Hyprland
-    ../home/modules/user-space/hyprland/hyprpaper.nix
+#   ../home/modules/user-space/hyprland/hyprpaper.nix
 #   ../home/modules/user-space/hyprland/hypridle.nix
   ];
 
