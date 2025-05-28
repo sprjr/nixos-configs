@@ -12,7 +12,7 @@ in {
 #   ../home/linux/desktop_environments/gnome-dconf.nix # This is sometimes buggy, but it allows a type of "snapshotting" approach to dconf
     # Hyprland
     ../home/modules/user-space/hyprland/hyprpaper.nix
-    ../home/modules/user-space/hyprland/hypridle.nix
+#   ../home/modules/user-space/hyprland/hypridle.nix
   ];
 
   # Hyprland and assets (all the way down to Stylix)
