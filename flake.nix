@@ -22,6 +22,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprsession = {
+      url = "github:tiecia/hyprsession";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
@@ -33,6 +37,10 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{  self,
@@ -42,12 +50,14 @@
                       ghostty,
                       heywoodlh-configs,
                       home-manager,
+		      hyprsession,
                       nixos-hardware,
                       sops-nix,
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
-                      ... }:
+                      stylix,
+		      ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
       inherit system;
@@ -97,6 +107,7 @@
         specialArgs = inputs;
         modules = [
           sops-nix.nixosModules.sops
+	  stylix.nixosModules.stylix
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
