@@ -6,3 +6,6 @@
 
 # Ignore all environment files
 *.env
+
+# Ignore home-manager results
+result
