@@ -15,9 +15,9 @@
     enable = true;
     settings = {
       preload =
-        [ "../../assets/wallpaper.png" ];
+        [ "../../assets/wallpaper.jpeg" ];
       wallpaper = [
-        ", ../../assets/wallpaper.png"
+        ", ../../assets/wallpaper.jpeg"
       ];
     };
   };
