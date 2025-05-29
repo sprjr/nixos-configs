@@ -185,7 +185,7 @@
     $mainMod = SUPER # Sets the Windows key as the main modifier
 
     # Binds
-    bind = $mainMod, return, exec, $terminal
+    bind = $mainMod, enter, exec, $terminal
     bind = $mainMod, Q, killactive,
     bind = $mainMod, M, exit,
     bind = $mainMod, E, exec, $fileManager
