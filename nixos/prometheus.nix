@@ -203,7 +203,7 @@ in {
     zsh
 
     # Hyprland
-    hyprsession.packages.${pkgs.system}.default
+#   hyprsession.packages.${pkgs.system}.default
     #hyprlock
     hyprpaper
     hyprlandPlugins.hyprspace
