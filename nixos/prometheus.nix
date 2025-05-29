@@ -31,6 +31,16 @@ in {
     ];
   };
 
+  # XDG
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
 
   # Stylix allows easy theme management of hyprland
   stylix = {
@@ -205,6 +215,7 @@ in {
     #hyprlock
     hyprpaper
     hyprlandPlugins.hyprspace
+    xdg-utils
 
     ### Net tools ###
     pkgs-stable.tailscale
