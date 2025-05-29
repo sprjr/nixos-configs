@@ -23,7 +23,7 @@
     };
   };
 
-  home.file."~/.config/hypr/hyprland.conf".text = ''
+  home.file.".config/hypr/hyprland.conf".text = ''
     # Monitors
     source = ~/.config/hypr/monitors.conf
     monitor=,preferred,auto,1
