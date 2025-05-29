@@ -24,7 +24,7 @@ in {
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-    image = ../home/modules/assets/wallpaper.png;
+    image = ../home/modules/assets/wallpaper.jpeg;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
