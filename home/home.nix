@@ -16,13 +16,13 @@
   ];
 
   # Enable Hyprland
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = "source = ./modules/user-space/hyprland/config/hyprland.conf";
-    plugins = [
-      pkgs.hyprlandPlugins.hyprspace
-    ];
-  };
+# wayland.windowManager.hyprland = {
+#   enable = true;
+#   extraConfig = "source = ./modules/user-space/hyprland/config/hyprland.conf";
+#   plugins = [
+#     pkgs.hyprlandPlugins.hyprspace
+#   ];
+# };
 
   # Git configuration
   programs.git = {
