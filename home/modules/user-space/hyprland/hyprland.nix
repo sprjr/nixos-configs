@@ -5,7 +5,6 @@
     package = pkgs.hyprland;
     xwayland.enable = true;
     systemd.enable = true;
-#   extraConfig = "source = ~/.config/hypr/hyprland.conf";
     plugins = [
       pkgs.hyprlandPlugins.hyprspace
     ];
