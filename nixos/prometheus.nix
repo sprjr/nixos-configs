@@ -190,7 +190,8 @@ in {
 
     # Hyprland
 #   hyprsession.packages.${pkgs.system}.default
-    #hyprlock
+    hyprland
+    hyprlock
     hyprpaper
     hyprlandPlugins.hyprspace
     xdg-utils
