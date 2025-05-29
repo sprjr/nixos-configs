@@ -23,6 +23,7 @@ in {
     };
   };
 
+<<<<<<< HEAD
 # wayland.windowManager.hyprland = {
 #   enable = true; # enable hyprland
 #   extraConfig = "source = ../home/modules/user-space/hyprland/config/hyprland.conf";
@@ -30,6 +31,26 @@ in {
 #     pkgs.hyprlandPlugins.hyprspace
 #   ];
 # };
+=======
+  wayland.windowManager.hyprland = {
+    enable = true; # enable hyprland
+    extraConfig = "source = ../home/modules/user-space/hyprland/config/hyprland.conf";
+    plugins = [
+      pkgs.hyprlandPlugins.hyprspace
+    ];
+  };
+
+  # XDG
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
+>>>>>>> bfb51925f7761e19747b38148e41bb0dbaf98b5c
 
   # Stylix allows easy theme management of hyprland
   stylix = {
@@ -204,6 +225,7 @@ in {
     #hyprlock
     hyprpaper
     hyprlandPlugins.hyprspace
+    xdg-utils
 
     ### Net tools ###
     pkgs-stable.tailscale
