@@ -23,14 +23,13 @@ in {
     };
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true; # enable hyprland
-    extraConfig = "source = ../home/modules/user-space/hyprland/config/hyprland.conf";
-    plugins = [
-      pkgs.hyprlandPlugins.hyprspace
-    ];
-  };
-
+# wayland.windowManager.hyprland = {
+#   enable = true; # enable hyprland
+#   extraConfig = "source = ../home/modules/user-space/hyprland/config/hyprland.conf";
+#   plugins = [
+#     pkgs.hyprlandPlugins.hyprspace
+#   ];
+# };
 
   # Stylix allows easy theme management of hyprland
   stylix = {
