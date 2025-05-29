@@ -7,18 +7,7 @@ in {
   imports = [
     home-manager.nixosModules.home-manager
     ./modules/system/sops.nix
-#   ../home/linux/desktop_environments/gnome.nix # This module does user-specific configuration (extensions, dark mode, etc)
-#   ./modules/desktop-environment/gnome.nix # This module uses Nix to setup a basic default gnome config (default apps, etc)
-#   ../home/linux/desktop_environments/gnome-dconf.nix # This is sometimes buggy, but it allows a type of "snapshotting" approach to dconf
   ];
-
-  # Hyprland and assets (all the way down to Stylix)
-  programs = {
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
-  };
 
   # XDG
   xdg = {
