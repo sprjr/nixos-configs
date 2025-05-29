@@ -9,7 +9,7 @@
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
-    ./modules/user-space/hyprland/hyprpaper.nix
+    ./modules/user-space/hyprland/hyprland.nix
     ./modules/user-space/hyprland/hypridle.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
