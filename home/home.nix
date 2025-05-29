@@ -25,6 +25,7 @@
   home.username = "patrick";
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
+  nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.stateVersion = "24.05";
