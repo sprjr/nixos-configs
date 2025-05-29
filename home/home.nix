@@ -15,15 +15,6 @@
     ./modules/user-space/zellij/zellij-config.nix
   ];
 
-  # Enable Hyprland
-# wayland.windowManager.hyprland = {
-#   enable = true;
-#   extraConfig = "source = ./modules/user-space/hyprland/config/hyprland.conf";
-#   plugins = [
-#     pkgs.hyprlandPlugins.hyprspace
-#   ];
-# };
-
   # Git configuration
   programs.git = {
     enable = true;
