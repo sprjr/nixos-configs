@@ -8,6 +8,8 @@ in {
     heywoodlh-darwin-modules
   ];
 
+  system.primaryUser = "patrick";
+
   # Define user settings
   users.users.patrick = {
     description = "Patrick Rawlinson";
