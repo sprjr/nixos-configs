@@ -1,7 +1,7 @@
 { config, pkgs, home-manager, hyprsession, ... }:
 {
   wayland.windowManager.hyprland = {
-    enable = true;
+#   enable = true;
     package = pkgs.hyprland;
     xwayland.enable = true;
     systemd.enable = true;
