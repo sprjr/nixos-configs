@@ -195,6 +195,8 @@ in {
     hyprlock
     hyprpaper
     hyprlandPlugins.hyprspace
+    ulauncher
+    waybar
     xdg-utils
 
     ### Net tools ###
