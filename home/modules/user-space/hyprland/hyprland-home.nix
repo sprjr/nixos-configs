@@ -210,8 +210,8 @@
         "$mainMod, mouse-up, workspace, e-1"
 
         # Move/resize windows with mainMod + LMB/RMB and dragging
-        "$mainMod, mouse:272, movewindow
-        "$mainMod, mouse:273, resizewindow
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
         "$SUPER_SHIFT, 4, exec, hyprshot -m region"
         ", XF86LaunchA, exec, hyprctl dispatch overview:toggle all"
        ];
