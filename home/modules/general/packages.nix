@@ -13,7 +13,6 @@
     glow
     go
     kubernetes-helm
-    home-manager
     htop
     kubectx # supplementary kubernetes tools
     lima # VMs/Docker
