@@ -184,7 +184,7 @@
         inherit pkgs;
         extraSpecialArgs = inputs;
         modules = [
-          ./home/darwin-home.nix
+          ./home/home.nix
           {
             home = {
               username = "patrick";

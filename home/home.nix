@@ -1,7 +1,7 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  # Modules
+  # Configuration files
   imports = [
     ./modules/general/packages.nix
     ./modules/tools/cli-visualizer.nix
