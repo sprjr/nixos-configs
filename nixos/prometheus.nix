@@ -196,12 +196,11 @@ in {
 
     # Hyprland
 #   hyprsession.packages.${pkgs.system}.default
-    hyprland
-    hyprlock
-    hyprpaper
+#   hyprland
+#   hyprlock
+#   hyprpaper
     hyprlandPlugins.hyprspace
-    ulauncher
-    waybar
+#   ulauncher
     xdg-utils
 
     ### Net tools ###
