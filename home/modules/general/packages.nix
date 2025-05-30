@@ -49,6 +49,7 @@
     anki
     firefox
     hyprland
+    hyprpaper
     libvirt
     polonium
   ] ++ lib.optionals stdenv.isDarwin [
