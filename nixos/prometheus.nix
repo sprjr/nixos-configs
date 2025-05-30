@@ -25,16 +25,6 @@ in {
     };
   };
 
-<<<<<<< HEAD
-=======
-  # Stylix allows easy theme management of hyprland
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-    image = ../home/modules/assets/wallpaper.jpeg;
-  };
-
->>>>>>> e7a163f3449ba556baa4ba620f8486778c729f1d
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
