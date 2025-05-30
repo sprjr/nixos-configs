@@ -9,6 +9,11 @@ in {
     ./modules/system/sops.nix
   ];
 
+  services.displayManager = {
+    enable = true;
+    defaultSession = "hyprland";
+  };
+
   # XDG
   xdg = {
     portal = {
