@@ -19,6 +19,7 @@
 	df = "duf";
 	dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
 	dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
+	hmrb = "nix run nixpkgs#home-manager -- build -f ./home/home.nix";
 	kubectl = "sudo k3s kubectl";
         ls = "lsd -l";
 	weather = "curl -s v2.wttr.in/saratoga+springs+utah";
@@ -49,7 +50,8 @@
 	df = "duf";
 	dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
 	dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
-	kubectl = "k3s kubectl";
+	hmrb = "nix run nixpkgs#home-manager -- build -f ./home/home.nix";
+        kubectl = "k3s kubectl";
         ls = "lsd -l";
 	tree = "tree -C";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
@@ -75,7 +77,8 @@
         dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
         dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
         docres = "docker restart $(docker ps -q)";
-	kubectl = "k3s kubectl";
+	hmrb = "nix run nixpkgs#home-manager -- build -f ./home/home.nix";
+        kubectl = "k3s kubectl";
         ls = "lsd -l";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";

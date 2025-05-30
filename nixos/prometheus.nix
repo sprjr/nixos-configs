@@ -9,6 +9,11 @@ in {
     ./modules/system/sops.nix
   ];
 
+  services.displayManager = {
+    sddm.wayland.enable = true;
+    defaultSession = "hyprland";
+  };
+
   # XDG
   xdg = {
     portal = {
@@ -20,6 +25,16 @@ in {
     };
   };
 
+<<<<<<< HEAD
+=======
+  # Stylix allows easy theme management of hyprland
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    image = ../home/modules/assets/wallpaper.jpeg;
+  };
+
+>>>>>>> e7a163f3449ba556baa4ba620f8486778c729f1d
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -165,6 +180,7 @@ in {
     floorp # Privacy-focused Firefox fork
     fzf
     ghostty
+    home-manager
     kitty
     libreoffice
     mdp # fullscreen markdown reader
@@ -183,10 +199,11 @@ in {
 
     # Hyprland
 #   hyprsession.packages.${pkgs.system}.default
-    hyprland
-    hyprlock
-    hyprpaper
+#   hyprland
+#   hyprlock
+#   hyprpaper
     hyprlandPlugins.hyprspace
+#   ulauncher
     xdg-utils
 
     ### Net tools ###

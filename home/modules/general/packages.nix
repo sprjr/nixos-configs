@@ -48,8 +48,14 @@
     _1password-cli
     anki
     firefox
+    hyprland
+    hyprlock
+    hyprpaper
     libvirt
     polonium
+    swayosd
+    ulauncher
+    waybar
   ] ++ lib.optionals stdenv.isDarwin [
     # MacOS-specific packages
     mas
