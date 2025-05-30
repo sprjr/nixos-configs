@@ -48,6 +48,7 @@
     _1password-cli
     anki
     firefox
+    hyprland
     libvirt
     polonium
   ] ++ lib.optionals stdenv.isDarwin [

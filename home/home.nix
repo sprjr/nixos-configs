@@ -15,6 +15,9 @@
     ./modules/user-space/zellij/zellij-config.nix
   ];
 
+  # Enable Hyprland
+  hyprland.enable = true;
+
   # Git configuration
   programs.git = {
     enable = true;
