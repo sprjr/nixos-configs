@@ -10,7 +10,12 @@
   };
 
   home.packages = with pkgs; [
+    ashell
+    swaynotificationcenter
+    sysmenu
     ulauncher
+    waybar
+    wofi
   ];
 
   home.sessionVariables.XDG_CURRENT_DESKTOP = "Hyprland";
@@ -24,16 +29,16 @@
       "mainMod" = "SUPER";
 
       exec-once = [
-        exec-once = waybar
-        exec-once = hyprpaper
-        exec-once = swayosd-server
-        exec-once = udiskie
-        exec-once = [workspace 1 silent] ghostty
-        exec-once = [workspace 2 silent] firefox
-        exec-once = hyprctl setcursor Nordzy-catppuccin-frappe-dark 24
-        exec-once = nm-applet --indicator
-        exec-once = blueman-applet
-        exec-once = ulauncher --hide-window
+        "waybar"
+        "hyprpaper"
+        "swayosd-server"
+        "udiskie"
+        "[workspace 1 silent] ghostty"
+        "[workspace 2 silent] firefox"
+        "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
+        "nm-applet --indicator"
+        "blueman-applet"
+        "ulauncher --hide-window"
       ];
 
       monitor = ",preferred,auto,1";
@@ -231,3 +236,7 @@
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioPrev, exec, playerctl previous"
         ];
+      };
+    };
+  };
+}
