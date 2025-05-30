@@ -9,8 +9,8 @@ in {
     ./modules/system/sops.nix
   ];
 
-  services.displayManager.sddm = {
-    enable = true;
+  services.displayManager = {
+    sddm.enable = true;
     defaultSession = "hyprland";
   };
 
