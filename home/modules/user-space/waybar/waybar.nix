@@ -3,6 +3,7 @@
 {
   programs.waybar = {
     enable = true;
+    package = pkgs.waybar;
     settings = [
       {
         mainBar = {
@@ -19,28 +20,41 @@
 	    "wlr/taskbar"
 	  ];
 	  modules-center = [
-	    "sway/window"
-	    "custom/hello-from-waybar"
+	    "clock"
 	  ];
 	  modules-right = [
+	    "battery"
+	    "modules"
 	    "mpd"
+	    "network"
+	   #"pulseaudio"
 	    "temperature"
+	    "tray"
 	  ];
+
+          "clock" = {
+	    format = "{:%Y-%m-%d %H:%M:%S}";
+	  };
 
 	  "sway/workspaces" = {
 	    disable-scroll = true;
 	    all-outputs = true;
 	  };
-	  "custom/hello-from-waybar" = {
-	    format = "hello {}";
-	    max-length = 40;
-	    interval = "once";
-	    exec = pkgs.writeShellScript "hello-from-waybar" ''
-	      echo "from within waybar"
-	    '';
-	  };
 	};
       }
     ];
+    style = ''
+      * {
+        font-family: "JetBrainsMono Nerd Font", sans-serif;
+	font-size: 13px;
+	color: #ffffff;
+      }
+      window#waybar {
+        background-color: rgba(40, 44, 52, 0.9);
+      }
+      #clock {
+        font-weight: bold;
+      }
+    '';
   };
 }
