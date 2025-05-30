@@ -172,6 +172,7 @@ in {
     floorp # Privacy-focused Firefox fork
     fzf
     ghostty
+    home-manager
     kitty
     libreoffice
     mdp # fullscreen markdown reader
