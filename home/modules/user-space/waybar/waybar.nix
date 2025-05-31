@@ -63,17 +63,41 @@
       }
 
       #battery.charging {
-        color: #A3BE8C;
+        color: #2E3440;
+	background-color: #A3BE8C;
       }
 
       #battery.warning {
-        color: #EBCB8B;
+        color: #2E3440;
+	background-color: #EBCB8B;
       }
 
       #battery.critical {
-        color: #BF616A;
+        color: #2E3440;
+	background-color: #BF616A;
       }
 
+      #clock,
+      #battery,
+      #network,
+      #temperature,
+      #mpd,
+      #tray {
+        background-color: #3B4252;
+	padding: 4px 10px;
+	margin: 2px;
+	border-radius: 8px;
+	transition: background-color 0.2s ease;
+      };
+
+      #clock:hover,
+      #battery:hover,
+      #network:hover,
+      #temperature:hover,
+      #mpd:hover,
+      #tray:hover {
+        background-color: #434C5E;
+      }
       #workspaces button.focused {
         background-color: #5E81AC;
 	color: #ECEFF4;
@@ -83,6 +107,16 @@
         padding: 0 6px;
 	color: #D8DEE9;
 	background-color: #2E3440;
+      }
+
+      #mpd.playing {
+        background-color: #BF616A;
+	color: #2E3440;
+      }
+
+      #network.disconnected {
+        background-color: #BF616A;
+	color: #2E3440;
       }
     '';
   };
