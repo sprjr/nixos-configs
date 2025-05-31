@@ -109,7 +109,6 @@
           sops-nix.nixosModules.sops
 	  stylix.nixosModules.stylix
           ./nixos/hardware-configuration/prometheus.nix
-          ./home/home.nix
 	  ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
           home-manager.nixosModules.home-manager
