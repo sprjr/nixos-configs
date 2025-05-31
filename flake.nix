@@ -113,8 +113,6 @@
           ./nixos/modules/user/patrick.nix
           home-manager.nixosModules.home-manager
 	  {
-	    home-manager.useGlobalPkgs = true;
-	    home-manager.useUserPackages = true;
 	    home-manager.users.patrick = import ./home/home.nix;
           }
         ];
