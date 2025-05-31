@@ -4,8 +4,7 @@
   programs.waybar = {
     enable = true;
     package = pkgs.waybar;
-    settings = [
-      {
+    settings = {
         mainBar = {
 	  layer = "top";
 	  position = "top";
@@ -41,8 +40,7 @@
 	    all-outputs = true;
 	  };
 	};
-      }
-    ];
+    };
     style = ''
       * {
         font-family: "JetBrainsMono Nerd Font", sans-serif;
