@@ -126,7 +126,7 @@
       }
 
       dwindle {
-          psuedotile = true # Master switch for psuedotiling. Enabling is bound to mainMod + P
+         #psuedotile = true # Master switch for psuedotiling. Enabling is bound to mainMod + P
           preserve_split = true # You probably want this
       }
 
@@ -202,7 +202,7 @@
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, F, togglefloating,
       bind = $mainMod, space, exec, $menu
-      bind = $mainMod, P, psuedo, # dwindle
+     #bind = $mainMod, P, psuedo, # dwindle
       bind = $mainMod, J, togglesplit, # dwindle
       bind = $SUPER_SHIFT, l, exec, hyprlock
       bind = $mainMod, D, exec, nwg-drawer
