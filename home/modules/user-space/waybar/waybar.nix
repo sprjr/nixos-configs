@@ -87,7 +87,8 @@
 	padding: 4px 10px;
 	margin: 2px;
 	border-radius: 8px;
-      };
+        transition: background-color 0.2s ease;
+      }
 
       #clock:hover,
       #battery:hover,
