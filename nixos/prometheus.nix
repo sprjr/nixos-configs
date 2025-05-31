@@ -150,6 +150,7 @@ in {
 
   # Home-Manager configuration
   home-manager.backupFileExtension = "backup";
+  home-manager.users.patrick.imports = [ ../home/home.nix ];
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
