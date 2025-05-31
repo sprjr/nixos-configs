@@ -113,7 +113,7 @@
           ./nixos/modules/user/patrick.nix
           home-manager.nixosModules.home-manager
 	  {
-	    home-manager.users.patrick = import ./home/home.nix;
+#           home-manager.users.patrick = import ./home/home.nix;
           }
         ];
       };
