@@ -148,6 +148,9 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
+  # Home-Manager configuration
+  home-manager.backupFileExtension = "backup";
+
   # Needed this to run bash scripts
   services.envfs.enable = true;
 

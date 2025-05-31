@@ -109,7 +109,8 @@
           sops-nix.nixosModules.sops
 	  stylix.nixosModules.stylix
           ./nixos/hardware-configuration/prometheus.nix
-          ./nixos/prometheus.nix
+          ./home/home.nix
+	  ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
