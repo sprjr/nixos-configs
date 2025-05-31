@@ -14,7 +14,7 @@
     ./modules/user-space/hyprland/hypridle.nix
     ./modules/user-space/waybar/waybar.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
-    ./modules/user-space/zellij/zellij-config.nix
+#   ./modules/user-space/zellij/zellij-config.nix
   ];
 
   # Git configuration
