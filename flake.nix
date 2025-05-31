@@ -112,8 +112,11 @@
           ./home/home.nix
 	  ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
-          {
-          # Additional configuration goes here
+          home-manager.nixosModules.home-manager
+	  {
+	    home-manager.useGlobalPkgs = true;
+	    home-manager.useUserPackages = true;
+	    home-manager.users.patrick = import ./home/home.nix;
           }
         ];
       };
