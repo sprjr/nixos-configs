@@ -5,6 +5,7 @@ let
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
+    <home-manager/nixos>
     home-manager.nixosModules.home-manager
     ./modules/system/sops.nix
   ];
