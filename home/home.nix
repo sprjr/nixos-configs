@@ -27,7 +27,7 @@
   home.username = "patrick";
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
-  nix.package = pkgs.nix;
+# nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
