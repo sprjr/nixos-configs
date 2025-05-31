@@ -14,7 +14,7 @@
     ./modules/user-space/hyprland/hypridle.nix
     ./modules/user-space/waybar/waybar.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
-#   ./modules/user-space/zellij/zellij-config.nix
+    ./modules/user-space/zellij/zellij-config.nix
   ];
 
   # Git configuration
@@ -27,7 +27,6 @@
   home.username = "patrick";
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
 
-# nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 

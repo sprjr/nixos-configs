@@ -106,14 +106,13 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+	  home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
 	  stylix.nixosModules.stylix
-          ./nixos/hardware-configuration/prometheus.nix
+	  ./nixos/hardware-configuration/prometheus.nix
 	  ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
-          home-manager.nixosModules.home-manager
 	  {
-#           home-manager.users.patrick = import ./home/home.nix;
           }
         ];
       };
