@@ -20,4 +20,11 @@
     QT_STYLE_OVERRIDE = "gtk"; # makes qt apps follow the gtk theme
     XCURSOR_THEME = "Adwaita";
   };
+
+  home.pointerCursor = {
+    git.enable = true;
+    name = "Adwaita";
+    size = 24;
+    package = pkgs.gnome-adwaita-icon-theme;
+  };
 }
