@@ -15,10 +15,10 @@
       window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
       keybind = global:alt+grave_accent=toggle_quick_terminal
-      quick-terminal-position = top
-      quick-termianl-screen = mouse
+      quick-terminal-position = "top"
+      quick-terminal-screen = "mouse"
       quick-terminal-size = 80%
-      quick-termianl-space-behavior = move
+      quick-terminal-space-behavior = "move"
 
       ## MacOS-specific Settings
       # quake mode; on MacOS give Ghostty accessibility permissions
