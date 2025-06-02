@@ -14,8 +14,8 @@
       window-decoration = none
       window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
-      keybind = global:alt+grave_accent=toggle_quick_terminal
-      quick-terminal-position = "top"
+      keybind = global:ctrl+grave_accent=toggle_quick_terminal
+     #quick-terminal-position = "top"
       quick-terminal-screen = "mouse"
       quick-terminal-size = 80%
       quick-terminal-space-behavior = "move"
