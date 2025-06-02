@@ -14,7 +14,7 @@
       window-decoration = none
       window-theme = ghostty
       # https://github.com/ghostty-org/ghostty/pull/3742
-      # quick-terminal-size = 80%
+      quick-terminal-size = 80%
 
       ## MacOS-specific Settings
       # quake mode; on MacOS give Ghostty accessibility permissions
