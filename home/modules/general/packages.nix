@@ -5,6 +5,7 @@
   home.packages = with pkgs; [
     # Global packages
     atuin
+    awscli
     bat
     docker
     docker-compose
