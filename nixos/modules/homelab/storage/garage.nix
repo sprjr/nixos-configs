@@ -1,6 +1,25 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
+  # Nix-sops configuration
+  imports = [
+    <sops-nix/modules/sops>
+  ];
+  sops.secrets = {
+    garage_rpc_secret = {
+      sopsFile = ../../../../sops-nix/sops.yaml;
+      key = "garage.rpc_secret";
+    };
+    garage_admin_token = {
+      sopsFile = ../../../../sops-nix/sops.yaml;
+      key = "garage.admin_token";
+    };
+    garage_metrics_token = {
+      sopsFile = ../../../../sops-nix-sops.yaml;
+      key = "garage.metrics_token";
+    };
+  };
+
   services.garage = {
     enable = true;
     package = pkgs.garage;
@@ -12,7 +31,7 @@
 
       rpc_bind_addr = "[::]:3901";
       rpc_public_addr = "http://100.67.20.13:3901";
-      rpc_secret = "";
+      rpc_secret = config.sops.secrets.garage_rpc_secret.path;
 
       # node identity (must be unique per node)
       node_name = "shikisha";
@@ -42,8 +61,8 @@
 
       admin = {
         api_bind_addr = "[::]:3903";
-	admin_token = "";
-	metrics_token = "";
+	admin_token = config.sops.secrets.garage_admin_token.path;
+	metrics_token = config.sops.secrets.garage_metrics_token.path;
       };
     };
   };
