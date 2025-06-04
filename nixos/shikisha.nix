@@ -127,6 +127,7 @@ in {
     # Operations tools
     argocd
     garage
+    kubeseal
     openiscsi
     opentofu
   ];
