@@ -12,7 +12,7 @@
       key = "garage.admin_token";
     };
     garage_metrics_token = {
-      sopsFile = ../../../../sops-nix-sops.yaml;
+      sopsFile = ../../../../sops-nix/sops.yaml;
       key = "garage.metrics_token";
     };
   };
