@@ -153,7 +153,8 @@
            sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
-          ./nixos/modules/system/sops.nix
+          ./nixos/modules/homelab/storage/garage.nix
+	  ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
