@@ -6,14 +6,17 @@
     garage_rpc_secret = {
       sopsFile = ../../../../sops-nix/sops.yaml;
       key = "garage.rpc_secret";
+      owner = "garage";
     };
     garage_admin_token = {
       sopsFile = ../../../../sops-nix/sops.yaml;
       key = "garage.admin_token";
+      owner = "garage";
     };
     garage_metrics_token = {
       sopsFile = ../../../../sops-nix/sops.yaml;
       key = "garage.metrics_token";
+      owner = "garage";
     };
   };
 
