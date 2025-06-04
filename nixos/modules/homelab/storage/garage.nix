@@ -2,9 +2,6 @@
 
 {
   # Nix-sops configuration
-  imports = [
-    <sops-nix/modules/sops>
-  ];
   sops.secrets = {
     garage_rpc_secret = {
       sopsFile = ../../../../sops-nix/sops.yaml;
