@@ -61,8 +61,8 @@
 
       admin = {
         api_bind_addr = "[::]:3903";
-	admin_token = config.sops.secrets.garage_admin_token.path;
-	metrics_token = config.sops.secrets.garage_metrics_token.path;
+        admin_token = config.sops.secrets.garage_admin_token.path;
+        metrics_token = config.sops.secrets.garage_metrics_token.path;
       };
     };
   };
