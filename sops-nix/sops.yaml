@@ -2,8 +2,8 @@
 #ENC[AES256_GCM,data:KodC9EZq3kjrFm9jXh7JcbBm6Mys9DFc+jmggaYGyMkpBcMINKG1VuZ2jXLIbgdLpBcJMEsCzog=,iv:0BL9fY6K8HPQBWXTc1ckGvx6rIpnpvEH8HFIj7l/e7c=,tag:6R3BwEyV5WCFufmgoE/vCw==,type:comment]
 #ENC[AES256_GCM,data:aWsgLO4yKeFojfevn1ks8ZmJm5LxbAOOC3+y6ylsxt8gEl0IojnUoE38/Bz2p/vdWFMGyh5/a84gk9QpUdC1YvgcFXvw+fWf,iv:tNTJE5j897zr89r02hnl80XWzlKgqnSrzE7p06g9ymo=,tag:yuFTj5WPSw25kLKlx0HhgQ==,type:comment]
 #ENC[AES256_GCM,data:QDBafKU=,iv:hS90Jj/OpVwK3LSFPBKqW46Bf2B3o7o24f4oJTwfRGk=,tag:Whn/3tnInX397FemsC5DEw==,type:comment]
-#ENC[AES256_GCM,data:l+wQH6dYExsOwps=,iv:BI9f93ZuOmYyms4ZIjaGP4khjYkzGlaKoAeLO0qVaEk=,tag:YUfUdH59epWjuopTg5Fhkg==,type:comment]
-#ENC[AES256_GCM,data:NA28VgjBMFUQCV1RJHw7vnMY4t0Lje22L09XLbof2KKg2TqgfeX0HcY5KfXagdyxx4t0YJ8mYkQ9wzTdclnbhz7SQ0vj,iv:prjepFqlfSJS+tZvgDNfMpCC9ZfS0PdawglhSS8hkpY=,tag:1hd9kgyuBEGJVJEHDtD3Qw==,type:comment]
+kubernetes:
+    kubernetes-homelab-node-key: ENC[AES256_GCM,data:pxketiuN6zNcKHfihZtp0PFya/wxd8tukM1O/tTDX1kXv0Fx,iv:kSbKyA7cpU1zLQsBce2G4zphz6rglLvRnkAY5lorLyU=,tag:nQSyM6clcvgonrIPPz55ww==,type:str]
 garage:
     admin_token: ENC[AES256_GCM,data:Vt+HwMhCe9NKHpAayv/1mkmLAe8F0R9C494+ReDpNN4s2J7eekkEzHwl8Ow=,iv:WHQy85ZewDV6LtxuKe31pj8yWdTlxRMq3DkIRr49gMs=,tag:/g642wPUB+ct571SgC7CKA==,type:str]
     metrics_token: ENC[AES256_GCM,data:tffyYiIwMubqA6q2tr0SyaKJryWcZ8VackoeHNzgUFdyHBvl3kgo98nhYoA=,iv:w5uteEbOC5DP1iEnqkbAAyGBwv7/J48vWbrYxQsrx4Y=,tag:iJrt1LupcbHArXLbncGc4A==,type:str]
@@ -19,7 +19,7 @@ sops:
             YXlCM2J2a0wyWDV0c283RDNjekc2VXMKPWley8IXCEpYzLo1LA1z5RMI+/a/VN34
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-06-06T17:46:59Z"
-    mac: ENC[AES256_GCM,data:FfN2EVynjRj2MWI11NVukSZvrvParPVdc7ggqn3BM6Nh1e0Snphw9WuGV0tQ2fsMHlaa06EqEmQxmJq3qGRuTq86Oo7CLynXYKo+8N2ft1LJHUlHVvs/z/Yxk7/Vjvyu5OUP6ptl3tzjJPbF79apx+A5P1alK3FRfWsBcisCNn0=,iv:A5RH989lSpa2T8JIJPce2G07VwhvqFmsKwHs9f9XokQ=,tag:WHLPHm3e1yQ1GnzUp4XmhA==,type:str]
+    lastmodified: "2025-06-06T18:35:32Z"
+    mac: ENC[AES256_GCM,data:OKfjbvAANrv5xqnA4+zFppqxT7lkOHazAaLPa0XshKat6etZAciPS12EKfHPVpaHsI5HaoqI5CQjJ4AOOPYSMeT7XwbRIuQLSzilbbqYeM8BL9LrmaUi0BPXv85TgFJstIWMgxG538vGFPksOM5RojuhWtOmAdNnppoVQyBIXL0=,iv:jSosOdEdf+O8XpaKELx6/kcJUvDAluMqsKz5m0fNlEc=,tag:wcovlKs3dXyo57ofMlf48w==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.10.2
