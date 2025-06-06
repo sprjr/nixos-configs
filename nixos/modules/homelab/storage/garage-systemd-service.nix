@@ -6,7 +6,7 @@
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.garage}/bin/garage server -c /etc/garage.toml";
+      ExecStart = "${pkgs.garage}/bin/garage server -c /home/patrick/garage/garage.toml";
       Restart = "on-failure";
       User = "garage";
       Group = "garage";
