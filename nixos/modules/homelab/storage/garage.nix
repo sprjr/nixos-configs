@@ -23,7 +23,7 @@
   services.garage = {
     enable = true;
     package = pkgs.garage;
-    environmentFile = /etc/garage.toml;
+   #environmentFile = /etc/garage.toml;
     logLevel = "debug";
     settings = {
       metadata_dir = "/var/lib/garage/meta";
