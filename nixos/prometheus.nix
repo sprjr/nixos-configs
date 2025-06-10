@@ -180,6 +180,7 @@ in {
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
+    nautilus
     obsidian
     scrcpy
     signal-desktop
