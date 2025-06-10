@@ -26,10 +26,10 @@
       enable = true;
       settings = {
         preload = [
-          "~/Nextcloud/Photos/Wallpapers/Desktop/celestial_vortex.jpeg"
+          "~/Nextcloud/Photos/Wallpapers/Desktop/lone_wanderer.png"
         ];
         wallpaper = [
-          ",~/Nextcloud/Photos/Wallpapers/Desktop/celestial_vortex.jpeg"
+          ",~/Nextcloud/Photos/Wallpapers/Desktop/lone_wanderer.png"
         ];
       };
     };
