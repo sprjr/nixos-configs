@@ -170,6 +170,7 @@ in {
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     cli-visualizer
+    legcord # alt discord client
     discord
     distrobox
     distrobox-tui

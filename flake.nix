@@ -127,7 +127,7 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-node.nix
 	  ./nixos/modules/gaming/sunshine.nix
-          ./nixos/modules/disks/seanix-mount.nix # not automounting yet
+          ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
           {
@@ -153,7 +153,8 @@
            sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
-          ./nixos/modules/system/sops.nix
+          ./nixos/modules/homelab/storage/garage-systemd-service.nix
+	  ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
