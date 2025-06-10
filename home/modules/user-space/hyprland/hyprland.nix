@@ -59,10 +59,15 @@
       exec-once = blueman-applet
       exec-once = ulauncher --hide-window
 
+      # Dark Mode
+      exec = gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+      exec = gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+      env = QT_QPA_PLATFORMTHEME,qt6ct
+
       # Environment Variables
-      env = XCURSOR_SIZE,24
-      env = HYPRCURSOR_SIZE,24
-      env = HYPRCURSOR_THEME,Nordzy-hyprcursors*
+      env = XCURSOR_SIZE, 24
+      env = HYPRCURSOR_SIZE, 24
+      env = HYPRCURSOR_THEME, Nordzy-hyprcursors*
 
       # Look and Feel
       # https://wiki.hyprland.org/Configuring/Variables/
