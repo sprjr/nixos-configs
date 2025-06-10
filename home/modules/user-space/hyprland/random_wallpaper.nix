@@ -2,11 +2,18 @@
 
 {
   systemd.user.timers.random-wallpaper = {
-    wantedBy = [ "timers.target" ];
-    timerCOnfig = {
-      OnBootSec = "2min";
-      OnUnitActiveSec = "10min";
+    Unit = {
+      Description = "Timer to set a random wallpaper in Hyprpaper";
+    };
+    Timer = {
+      OnBootSec = "5min";
+      OnUnitActiveSec = "30min";
       Unit = "random-wallpaper.service";
+    };
+    Install = {
+      wantedBy = {
+        "timers.target" = true;
+      };
     };
   };
 
