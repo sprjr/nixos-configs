@@ -11,9 +11,7 @@
       Unit = "random-wallpaper.service";
     };
     Install = {
-      wantedBy = {
-        "timers.target" = true;
-      };
+      wantedBy = [ "timers.target" ];
     };
   };
 
