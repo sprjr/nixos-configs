@@ -27,9 +27,9 @@
       settings = {
         preload = [
           "../../assets/wallpaper.jpeg"
-	];
+        ];
         wallpaper = [
-          ", ../../assets/wallpaper.jpeg"
+          ",../../assets/wallpaper.jpeg"
         ];
       };
     };
