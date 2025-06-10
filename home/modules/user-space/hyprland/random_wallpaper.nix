@@ -1,4 +1,4 @@
-{ config, home-manager, ... }:
+{ config, pkgs, home-manager, ... }:
 
 {
   systemd.user.timers.random-wallpaper = {
