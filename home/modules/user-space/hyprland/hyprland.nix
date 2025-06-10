@@ -26,10 +26,10 @@
       enable = true;
       settings = {
         preload = [
-          "~/.config/hypr/wallpaper.jpeg"
+          "~/Nextcloud/Photos/Wallpapers/Desktop/celestial_vortex.jpeg"
         ];
         wallpaper = [
-          ",~/.config/hypr/wallpaper.jpeg"
+          ",~/Nextcloud/Photos/Wallpapers/Desktop/celestial_vortex.jpeg"
         ];
       };
     };
