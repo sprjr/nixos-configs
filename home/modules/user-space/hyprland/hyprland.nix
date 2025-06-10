@@ -26,10 +26,10 @@
       enable = true;
       settings = {
         preload = [
-          "../../assets/wallpaper.jpeg"
+          "~/.config/hypr/wallpaper.jpeg"
         ];
         wallpaper = [
-          ",../../assets/wallpaper.jpeg"
+          ",~/.config/hypr/wallpaper.jpeg"
         ];
       };
     };
