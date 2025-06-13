@@ -166,6 +166,7 @@ in {
     wget
 
     # Audio utilities
+    alsa-utils
     pavucontrol
     qjackctl
 
