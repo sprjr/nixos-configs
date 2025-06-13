@@ -165,6 +165,11 @@ in {
     thermald
     wget
 
+    # Audio utilities
+    pavucontrol
+    plasma-pa
+    qjackctl
+
     # User environment
     btop-rocm
     pkgs-stable.bitwarden
