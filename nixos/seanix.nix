@@ -167,7 +167,6 @@ in {
 
     # Audio utilities
     pavucontrol
-    plasma-pa
     qjackctl
 
     # User environment
