@@ -44,8 +44,8 @@ in {
   services.blueman.enable = true; # GUI management
 
   # Enable networking
-  # networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
