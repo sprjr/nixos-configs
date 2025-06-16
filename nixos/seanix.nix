@@ -12,8 +12,11 @@ in {
   ];
 
   # Select Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  # Plasma
+  #services.displayManager.sddm.enable = true;
   #services.desktopManager.plasma6.enable = true;
+  # Cosmic
+  services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
