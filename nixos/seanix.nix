@@ -11,6 +11,11 @@ in {
     ./modules/gaming/windows-vm.nix
   ];
 
+  # Select Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  #services.desktopManager.plasma6.enable = true;
+  services.desktopManager.cosmic.enable = true;
+
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -75,10 +80,6 @@ in {
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
