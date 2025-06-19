@@ -4,7 +4,6 @@
   # Configuration files
   imports = [
     ./modules/general/packages.nix
-    ./modules/tools/cli-visualizer.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix

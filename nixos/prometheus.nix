@@ -167,7 +167,6 @@ in {
     btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
-    cli-visualizer
     discord
     duplicati
     file

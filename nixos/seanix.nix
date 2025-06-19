@@ -192,7 +192,6 @@ in {
     btop-rocm
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
-    cli-visualizer
     legcord # alt discord client
     discord
     distrobox
