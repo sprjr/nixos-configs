@@ -3,6 +3,13 @@
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
+  # Fix Sound BlasterX AE-5 Plus output issue on boot
+  ae-5_audioFix = ''
+    #!/bin/sh
+    ${pkgs.coreutils}/bin/sleep 3
+    ${pkgs.pulseaudio}/bin/pactl set-default-sink alsa_output.pci-0000_21_00.0.analog-stereo
+    ${pkgs.pulseaudio}/bin/pactl set-sink-port alsa_output.pci-0000_21_00.0.analog-stereo "analog-output-headphones;output-headphones"
+  '';
 in {
   imports = [
     home-manager.nixosModules.home-manager
@@ -10,6 +17,13 @@ in {
 #   ../home/linux/desktop_environments/gnome-dconf.nix
     ./modules/gaming/windows-vm.nix
   ];
+
+  # Sound BlasterX AE-5
+  systemd.user.services.set-audio = {
+    description = "Set default audio and port for Sound BlasterX AE-5";
+    wantedBy = [ "default.target" ];
+    script = ae-5_audioFix;
+  };
 
   # Select Desktop Environment.
   # Plasma
