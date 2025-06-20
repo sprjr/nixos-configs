@@ -171,8 +171,10 @@ in {
     wget
 
     # Audio utilities
+    alsa-plugins
     alsa-utils
     pavucontrol
+    pulseaudio
     qjackctl
 
     # User environment
