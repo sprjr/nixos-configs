@@ -96,12 +96,6 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound state saving
-  hardware.alsa = {
-    enable = true;
-    enablePersistence = true;
-  };
-
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
