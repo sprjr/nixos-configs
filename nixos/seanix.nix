@@ -97,7 +97,10 @@ in {
   services.printing.enable = true;
 
   # Enable sound state saving
-  sound.enable = true;
+  hardware.alsa = {
+    enable = true;
+    enablePersistence = true;
+  };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
