@@ -96,16 +96,6 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Systemd service to set audio output
-  systemd.user.services.set-audio = {
-    description = "Set default audio sink to pro-output-1";
-    wantedBy = [ "default.target" ];
-    script = ''
-      ${pkgs.coreutils}/bin/sleep 3
-      ${pkgs.pulseaudio}/bin/pactl set-default-sink alsa_output.pci-0000_21_00.0.pro-output-1
-    '';
-  };
-
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
