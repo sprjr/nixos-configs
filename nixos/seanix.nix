@@ -217,6 +217,7 @@ in {
     nextcloud-client
     looking-glass-client
     lshw
+    nethogs # shows bandwidth usage by application
     netop
     nmap
     openvas-scanner
