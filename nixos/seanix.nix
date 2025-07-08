@@ -227,13 +227,13 @@ in {
     xpipe
 
     # PyTorch
-    numpy
-    nibabel # dicom-specific
-    opencv-python
-    pandas
-    scikit-learn
-    pydicom # dicom-specific
     python312Packages.matplotlib
+    python312Packages.nibabel # dicom-specific
+    python312Packages.numpy
+    python312Packages.opencv-python
+    python312Packages.pandas
+    python312Packages.pydicom # dicom-specific
+    python312Packages.scikit-learn
     python312Packages.torch
     python312Packages.torchaudio
     python312Packages.torchvision
