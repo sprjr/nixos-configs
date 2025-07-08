@@ -7,7 +7,8 @@
     acceleration = "rocm";
     loadModels = [
       "codegemma"
-      "codellama"
+      "codellama:34b"
+      "codestral:22b"
       "deepseek-coder-v2"
       "deepseek-r1"
       "gemma3:4b"
