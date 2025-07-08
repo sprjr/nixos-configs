@@ -2,9 +2,16 @@
 
 {
   services.ollama = {
-    package = pkgs.ollama;
+    package = pkgs.ollama-rocm;
     enable = true;
     acceleration = "rocm";
+    loadModels = [
+      "codegemma"
+      "codellama"
+      "deepseek-coder-v2"
+      "deepseek-r1"
+      "gemma3:4b"
+    ];
   };
 
   systemd.services.ollama.serviceConfig = {
