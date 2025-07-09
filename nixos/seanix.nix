@@ -167,6 +167,7 @@ in {
     git
     pciutils
     pipewire
+    python312
     thermald
     wget
 
