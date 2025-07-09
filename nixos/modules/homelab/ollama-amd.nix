@@ -12,6 +12,7 @@
       "deepseek-coder-v2"
       "deepseek-r1"
       "gemma3:4b"
+      "meditron:70b"
     ];
   };
 
