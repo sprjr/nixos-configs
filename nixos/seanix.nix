@@ -168,6 +168,7 @@ in {
     pciutils
     pipewire
     python312
+    python312Packages.pip
     thermald
     wget
 
