@@ -167,6 +167,8 @@ in {
     git
     pciutils
     pipewire
+    python312
+    python312Packages.pip
     thermald
     wget
 
@@ -217,6 +219,7 @@ in {
     nextcloud-client
     looking-glass-client
     lshw
+    nethogs # shows bandwidth usage by application
     netop
     nmap
     openvas-scanner
@@ -224,6 +227,18 @@ in {
     wireguard-ui
     wireshark
     xpipe
+
+    # PyTorch
+    python312Packages.matplotlib
+    python312Packages.nibabel # dicom-specific
+    python312Packages.numpy
+    python312Packages.opencv-python
+    python312Packages.pandas
+    python312Packages.pydicom # dicom-specific
+    python312Packages.scikit-learn
+    python312Packages.torch
+    python312Packages.torchaudio
+    python312Packages.torchvision
 
     # Work Tools
     opentofu
