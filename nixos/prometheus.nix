@@ -10,9 +10,15 @@ in {
   ];
 
   services.displayManager = {
-    sddm.wayland.enable = true;
-    defaultSession = "hyprland";
+    # Hyprland
+#   sddm.wayland.enable = true;
+#   defaultSession = "hyprland";
+    # Cosmic
+    cosmic-greeter.enable = true;
   };
+
+  # Cosmic DE
+  services.desktopManager.cosmic.enable = true;
 
   # XDG
   xdg = {
