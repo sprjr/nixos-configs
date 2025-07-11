@@ -201,6 +201,7 @@ in {
     mullvad-browser
     obsidian
     ollama-rocm
+    openrazer
     rpi-imager
     scrcpy
     signal-desktop
