@@ -7,7 +7,6 @@
     atuin
     awscli
     bat
-    direnv
     docker
     docker-compose
     dua # file size checker
