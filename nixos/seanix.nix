@@ -187,6 +187,7 @@ in {
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     legcord # alt discord client
+    direnv
     discord
     distrobox
     distrobox-tui
