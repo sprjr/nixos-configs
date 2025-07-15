@@ -47,6 +47,7 @@ in {
       "lsd"
       "mtr"
       "nmap"
+      "ollama"
       "opentofu"
       "sops"
       "tldr"
