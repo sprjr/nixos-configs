@@ -168,7 +168,7 @@ in {
     pciutils
     pipewire
     python314Full
-    python314Packages.pip
+   #python314Packages.pip
     thermald
     wget
 
