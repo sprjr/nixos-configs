@@ -77,7 +77,7 @@ in {
       "signal"
       "steam"
       "syncthing"
-      "tailscale"
+     #"tailscale"
       "thunderbird"
       "vlc"
       "vmware-fusion"
