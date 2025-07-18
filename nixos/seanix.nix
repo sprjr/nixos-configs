@@ -183,6 +183,7 @@ in {
     qjackctl
 
     # User environment
+    alacritty
     btop-rocm
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
@@ -197,7 +198,8 @@ in {
     freetube
     fzf
     gamescope
-    ghostty
+   #ghostty
+    gimp
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
