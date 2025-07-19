@@ -67,6 +67,8 @@
       enable = true;
       interactiveShellInit = ''
         set fish_greeting # disable greeting
+        # direnv
+	eval (${pkgs.direnv}/bin/direnv hook fish)
       '';
       # Aliases
       shellAliases = {

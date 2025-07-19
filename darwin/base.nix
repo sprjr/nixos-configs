@@ -41,11 +41,13 @@ in {
      #"firefox" # re-add later
       "fish"
       "glow" # markdown reader
+      "golang"
       "htop"
       "hyfetch"
       "lsd"
       "mtr"
       "nmap"
+      "ollama"
       "opentofu"
       "sops"
       "tldr"

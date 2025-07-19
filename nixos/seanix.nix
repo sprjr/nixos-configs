@@ -32,6 +32,9 @@ in {
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
+  # TEMPORARY Allow Broken
+  nixpkgs.config.allowBroken = true;
+
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -167,8 +170,8 @@ in {
     git
     pciutils
     pipewire
-    python312
-    python312Packages.pip
+    #python313Full
+    #python313Packages.pip
     thermald
     wget
 
@@ -180,10 +183,12 @@ in {
     qjackctl
 
     # User environment
+    alacritty
     btop-rocm
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
     legcord # alt discord client
+    direnv
     discord
     distrobox
     distrobox-tui
@@ -193,7 +198,8 @@ in {
     freetube
     fzf
     gamescope
-    ghostty
+   #ghostty
+    gimp
     libreoffice
     lyrebird
     mdp # fullscreen markdown reader
@@ -201,6 +207,7 @@ in {
     mullvad-browser
     obsidian
     ollama-rocm
+    #python313Packages.openrazer
     rpi-imager
     scrcpy
     signal-desktop
@@ -229,16 +236,16 @@ in {
     xpipe
 
     # PyTorch
-    python312Packages.matplotlib
-    python312Packages.nibabel # dicom-specific
-    python312Packages.numpy
-    python312Packages.opencv-python
-    python312Packages.pandas
-    python312Packages.pydicom # dicom-specific
-    python312Packages.scikit-learn
-    python312Packages.torch
-    python312Packages.torchaudio
-    python312Packages.torchvision
+    #python313Packages.matplotlib
+    #python313Packages.nibabel # dicom-specific
+    #python313Packages.numpy
+    #python313Packages.opencv-#python
+    #python313Packages.pandas
+    #python313Packages.pydicom # dicom-specific
+    #python313Packages.scikit-learn
+    #python313Packages.torch
+    #python313Packages.torchaudio
+    #python313Packages.torchvision
 
     # Work Tools
     opentofu
