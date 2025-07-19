@@ -9,16 +9,22 @@ in {
     ./modules/system/sops.nix
   ];
 
-  services.displayManager = {
+# services.displayManager = {
     # Hyprland
 #   sddm.wayland.enable = true;
 #   defaultSession = "hyprland";
     # Cosmic
-    cosmic-greeter.enable = true;
-  };
+#   cosmic-greeter.enable = true;
+# };
 
   # Cosmic DE
-  services.desktopManager.cosmic.enable = true;
+# services.desktopManager.cosmic.enable = true;
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  }
 
   # XDG
   xdg = {
