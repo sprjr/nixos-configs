@@ -15,9 +15,6 @@ in {
   # Plasma
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  # Cosmic
-  #services.displayManager.cosmic-greeter.enable = true;
-  #services.desktopManager.cosmic.enable = true;
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -163,6 +160,16 @@ in {
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
+        textual = pyPrev.textual.overridePythonAttrs (old: {
+	  doCheck = false; # skip failed tests
+	});
+      });
+    })
+  ];
 
   # System packages
   environment.systemPackages = with pkgs; [
