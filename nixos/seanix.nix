@@ -170,8 +170,8 @@ in {
     git
     pciutils
     pipewire
-    #python313Full
-    #python313Packages.pip
+    python313Full
+    python313Packages.pip
     thermald
     wget
 
@@ -207,7 +207,7 @@ in {
     mullvad-browser
     obsidian
     ollama-rocm
-    #python313Packages.openrazer
+    python313Packages.openrazer
     rpi-imager
     scrcpy
     signal-desktop
@@ -236,16 +236,16 @@ in {
     xpipe
 
     # PyTorch
-    #python313Packages.matplotlib
-    #python313Packages.nibabel # dicom-specific
-    #python313Packages.numpy
-    #python313Packages.opencv-#python
-    #python313Packages.pandas
-    #python313Packages.pydicom # dicom-specific
-    #python313Packages.scikit-learn
-    #python313Packages.torch
-    #python313Packages.torchaudio
-    #python313Packages.torchvision
+    python313Packages.matplotlib
+    python313Packages.nibabel # dicom-specific
+    python313Packages.numpy
+    python313Packages.opencv-#python
+    python313Packages.pandas
+    python313Packages.pydicom # dicom-specific
+    python313Packages.scikit-learn
+    python313Packages.torch
+    python313Packages.torchaudio
+    python313Packages.torchvision
 
     # Work Tools
     opentofu
