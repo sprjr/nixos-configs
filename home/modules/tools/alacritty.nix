@@ -9,7 +9,6 @@
       [window]
       decorations = "none"
       opacity = 0.2
-      blur = true
       decorations_theme_variant = "dark"
 
       # Nord theme
