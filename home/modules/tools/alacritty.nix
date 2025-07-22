@@ -1,7 +1,7 @@
 { config, home-manager, ... }:
 
 {
-  config.home.file.".config/alacritty/alacritty.toml" = {
+  home.file.".config/alacritty/alacritty.toml" = {
     text = ''
       # Alacritty Configuration
 
