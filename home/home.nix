@@ -4,7 +4,7 @@
   # Configuration files
   imports = [
     ./modules/general/packages.nix
-    ./modules/tools/ghostty.nix
+    ./modules/tools/alacritty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
