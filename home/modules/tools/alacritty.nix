@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, home-manager, ... }:
 
 {
   config.home.file.".config/alacritty/alacritty.toml" = {
