@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
 
 {
-  config.home.file.".config/test.txt".text = "hellow world";
+  home.file."test-home-file.txt".text = "hello world";
 }
