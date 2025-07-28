@@ -92,6 +92,9 @@ in {
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
+  # Allow broken; pin textual (since it's broken)
+  nixpkgs.config.allowBroken = true;
+
   nixpkgs.overlays = [
     (final: prev: {
       python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
