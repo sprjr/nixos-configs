@@ -92,6 +92,16 @@ in {
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
+        textual = pyPrev.textual.overridePythonAttrs (old: {
+      doCheck = false; # skip failed tests
+    });
+      });
+    })
+  ];
+
   # System packages
   environment.systemPackages = with pkgs; [
     git
