@@ -106,17 +106,16 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-	  home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-	  stylix.nixosModules.stylix
-	  ./nixos/hardware-configuration/prometheus.nix
-	  ./nixos/prometheus.nix
+          stylix.nixosModules.stylix
+          ./nixos/hardware-configuration/prometheus.nix
+          ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
 	  {
           }
         ];
       };
-
       seanix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
@@ -125,7 +124,7 @@
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/homelab/ollama-amd.nix
-	  ./nixos/modules/virtualisation/containers/syncthing.nix
+          ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-node.nix
 	  ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
@@ -136,7 +135,6 @@
           }
         ];
       };
-
       seanvy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
@@ -146,7 +144,6 @@
           ./nixos/modules/virtualisation/containers/syncthing.nix
         ];
       };
-
       shikisha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
@@ -154,12 +151,13 @@
            sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
-          ./nixos/modules/homelab/storage/garage-systemd-service.nix
-	  ./nixos/modules/system/sops.nix
+          ./nixos/modules/homelab/ollama-cpu.nix
+	  ./nixos/modules/homelab/storage/garage-systemd-service.nix
+          ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
-	  ./nixos/modules/user/patrick.nix
+          ./nixos/modules/user/patrick.nix
         ];
       };
     };
