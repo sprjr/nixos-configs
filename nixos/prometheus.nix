@@ -26,15 +26,15 @@ in {
   };
 
   # XDG
-  xdg = {
-    portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-      ];
-    };
-  };
+# xdg = {
+#   portal = {
+#     enable = true;
+#     xdgOpenUsePortal = true;
+#     extraPortals = with pkgs; [
+#       xdg-desktop-portal-gtk
+#     ];
+#   };
+# };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
