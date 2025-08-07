@@ -171,6 +171,11 @@ in {
     })
   ];
 
+  ### REMOVE THIS WHEN YOU CAN ###
+  nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
+  ];
+
   # System packages
   environment.systemPackages = with pkgs; [
     fanctl
@@ -205,7 +210,6 @@ in {
     freetube
     fzf
     gamescope
-   #ghostty
     gimp
     libreoffice
     lyrebird
