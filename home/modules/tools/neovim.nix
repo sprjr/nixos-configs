@@ -27,6 +27,14 @@
           autocmd TermOpen * :DisableWhitespace
       augroup END
 
+      " Remove background color in Normal mode (transparency)
+      highlight Normal ctermbg=none guibg=none
+
+      " Make other elements transparent (testing)
+      highlight NonText ctermbg=none guibg=none
+      highlight NormalNC ctermbg=none guibg=none
+      highlight EndOfBuffer ctermbg=none guibg=none
+
       " Spell check in markdown files
       autocmd FileType markdown setlocal spell spelllang=en_us
 
