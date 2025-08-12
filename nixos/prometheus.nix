@@ -166,6 +166,10 @@ in {
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
+  ];
+
   # System packages
   environment.systemPackages = with pkgs; [
     git
