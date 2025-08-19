@@ -187,9 +187,10 @@ in {
     thermald
     wget
 
-    # Audio utilities
+    # AV utilities
     alsa-plugins
     alsa-utils
+    obs-studio
     pavucontrol
     pulseaudio
     qjackctl
