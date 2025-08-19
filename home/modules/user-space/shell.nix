@@ -76,6 +76,7 @@
         bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
  	cat = "bat";
         compose2nix-start = "nix shell github:aksiksi/compose2nix";
+	comfin = "paplay /home/patrick/Documents/Obs-Studio/halo_game-over.mp3";
         df = "duf";
         dfl = "du -aBm ./ 2>/dev/null | sort -nr | head -n 20";
         dockername = "docker inspect --format='{{.Name}}' $(sudo docker ps -aq --no-trunc)";
