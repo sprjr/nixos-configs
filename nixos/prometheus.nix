@@ -229,6 +229,7 @@ in {
     pkgs-stable.tailscale
     inetutils
     mullvad-vpn
+    nethogs
     nextcloud-client
     lshw
     netop
