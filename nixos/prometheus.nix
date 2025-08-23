@@ -227,7 +227,9 @@ in {
 
     ### Net tools ###
     pkgs-stable.tailscale
+    bandwhich
     inetutils
+    iproute2
     mullvad-vpn
     nethogs
     nextcloud-client
@@ -235,6 +237,7 @@ in {
     netop
     nmap
     openvas-scanner
+    sysstat
     wireguard-tools
     wireguard-ui
     wireshark
