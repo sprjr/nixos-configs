@@ -187,9 +187,10 @@ in {
     thermald
     wget
 
-    # Audio utilities
+    # AV utilities
     alsa-plugins
     alsa-utils
+    obs-studio
     pavucontrol
     pulseaudio
     qjackctl
@@ -216,6 +217,7 @@ in {
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
+    mumble
     obsidian
     ollama-rocm
     python313Packages.openrazer
