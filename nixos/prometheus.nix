@@ -128,6 +128,16 @@ in {
     pulse.enable = true;
   };
 
+  # Nethogs rules (probably want to re-do this)
+  security.sudo.extraRules = [
+    {
+      users = [ "patrick" ];
+      commands = [
+        { command = "${pkgs.nethogs}/bin/nethogs"; options = [ "NOPASSWD" ]; }
+      ];
+    }
+  ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
