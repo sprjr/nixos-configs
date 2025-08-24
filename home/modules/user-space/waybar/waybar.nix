@@ -1,123 +1,94 @@
-{ config, pkgs, home-manager, lib, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  netUsage = pkgs.writeShellScriptBin "net-usage" ''
+    #!/usr/bin/env bash
+    DEV=$(ip route | awk '/default/ {print $5; exit}')
+
+    RX1=$(cat /sys/class/net/$DEV/statistics/rx_bytes)
+    TX1=$(cat /sys/class/net/$DEV/statistics/tx_bytes)
+    sleep 1
+    RX2=$(cat /sys/class/net/$DEV/statistics/rx_bytes)
+    TX2=$(cat /sys/class/net/$DEV/statistics/tx_bytes)
+
+    RXBPS=$(( (RX2 - RX1) / 1024 / 1024 ))
+    TXBPS=$(( (TX2 - TX1) / 1024 / 1024 ))
+
+    echo "↓ ${RXBPS}MB/s ↑ ${TXBPS}MB/s"
+  '';
+
+  topNet = pkgs.writeShellScriptBin "top-net" ''
+    #!/usr/bin/env bash
+    # Requires nethogs with sudo NOPASSWD
+    sudo -n ${pkgs.nethogs}/bin/nethogs -t -c 1 2>/dev/null \
+      | awk 'NR==1 {print $1 " " $2 "KB/s"}'
+  '';
+in
 {
+  home.packages = with pkgs; [
+    sysstat
+    iproute2
+    nethogs
+    bandwhich
+    netUsage
+    topNet
+  ];
+
   programs.waybar = {
     enable = true;
-    package = pkgs.waybar;
     settings = {
-        mainBar = {
-	  layer = "top";
-	  position = "top";
-	  height = 30;
-	  output = [
-	    "eDP-1"
-	    #"HDMI-A-1"
-	  ];
-	  modules-left = [
-	    "sway/workspaces"
-	    "sway/mode"
-	    "wlr/taskbar"
-	  ];
-	  modules-center = [
-	    "clock"
-	  ];
-	  modules-right = [
-	    "battery"
-	    "modules"
-	    "mpd"
-	    "network"
-	   #"pulseaudio"
-	    "temperature"
-	    "tray"
-	  ];
+      mainBar = {
+        layer = "top";
+        position = "top";
 
-          "clock" = {
-	    format = "{:%Y-%m-%d %H:%M:%S}";
-	  };
+        modules-left = [
+          "cpu"
+          "memory"
+          "custom/net"
+          "custom/top-net"
+        ];
 
-	  "sway/workspaces" = {
-	    disable-scroll = true;
-	    all-outputs = true;
-	  };
-	};
+        modules-right = [
+          "clock"
+          "tray"
+        ];
+
+        cpu = {
+          format = " {usage}%";
+        };
+
+        memory = {
+          format = " {used:0.1f}G/{total:0.1f}G";
+        };
+
+        "custom/net" = {
+          exec = "net-usage";
+          interval = 1;
+          format = " {output}";
+        };
+
+        "custom/top-net" = {
+          exec = "top-net";
+          interval = 2;
+          format = " {output}";
+        };
+      };
     };
+
     style = ''
-      * {
-        font-family: "JetBrainsMono Nerd Font", sans-serif;
-	font-size: 13px;
-	color: #ffffff;
+      #cpu {
+        color: #ff6e67;
       }
-
-      window#waybar {
-        background-color: #2E3440;
-	border-bottom: 1px solid #4C566A;
+      #memory {
+        color: #f9e79f;
       }
-
-      #clock {
-        padding: 0 10px;
-	color: #ECEFF4;
-	background-color: #3B4252;
-	border-radius: 6px;
-	margin: 2px;
-        font-weight: bold;
+      #custom-net {
+        color: #5dade2;
       }
-
-      #battery.charging {
-        color: #2E3440;
-	background-color: #A3BE8C;
-      }
-
-      #battery.warning {
-        color: #2E3440;
-	background-color: #EBCB8B;
-      }
-
-      #battery.critical {
-        color: #2E3440;
-	background-color: #BF616A;
-      }
-
-      #clock,
-      #battery,
-      #network,
-      #temperature,
-      #mpd,
-      #tray {
-        background-color: #3B4252;
-	padding: 4px 10px;
-	margin: 2px;
-	border-radius: 8px;
-        transition: background-color 0.2s ease;
-      }
-
-      #clock:hover,
-      #battery:hover,
-      #network:hover,
-      #temperature:hover,
-      #mpd:hover,
-      #tray:hover {
-        background-color: #434C5E;
-      }
-      #workspaces button.focused {
-        background-color: #5E81AC;
-	color: #ECEFF4;
-      }
-
-      #workspaces button {
-        padding: 0 6px;
-	color: #D8DEE9;
-	background-color: #2E3440;
-      }
-
-      #mpd.playing {
-        background-color: #BF616A;
-	color: #2E3440;
-      }
-
-      #network.disconnected {
-        background-color: #BF616A;
-	color: #2E3440;
+      #custom-top-net {
+        color: #58d68d;
       }
     '';
   };
 }
+
