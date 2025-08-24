@@ -14,7 +14,7 @@ let
     RXBPS=$(( (RX2 - RX1) / 1024 / 1024 ))
     TXBPS=$(( (TX2 - TX1) / 1024 / 1024 ))
 
-    echo "↓ ${RXBPS}MB/s ↑ ${TXBPS}MB/s"
+    echo "↓ ''${RXBPS}MB/s ↑ ''${TXBPS}MB/s"
   '';
 
   topNet = pkgs.writeShellScriptBin "top-net" ''
