@@ -181,7 +181,7 @@ in {
 
   # Home-Manager configuration
   home-manager.backupFileExtension = "backup";
-  home-manager.users.patrick.imports = [ ../home/linux-home.nix ];
+  home-manager.users.patrick.imports = [ ../home/hyprland-home.nix ];
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
