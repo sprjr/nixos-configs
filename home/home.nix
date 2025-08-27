@@ -11,7 +11,7 @@
 #   ./modules/user-space/hyprland/hyprland.nix
 #   ./modules/user-space/hyprland/hyprlock.nix
 #   ./modules/user-space/hyprland/hypridle.nix
-    ./modules/user-space/waybar/waybar.nix
+#   ./modules/user-space/waybar/waybar.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
   ];
