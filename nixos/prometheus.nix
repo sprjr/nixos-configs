@@ -232,7 +232,7 @@ in {
 #   hyprland
 #   hyprlock
 #   hyprpaper
-    hyprlandPlugins.hyprspace
+#   hyprlandPlugins.hyprspace
 #   ulauncher
     xdg-utils
 

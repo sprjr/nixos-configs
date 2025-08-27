@@ -49,7 +49,7 @@
     _1password-cli
     anki
     firefox
-    hyprland
+#   hyprland
     hyprlock
     hyprpaper
     libvirt
