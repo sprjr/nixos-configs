@@ -114,22 +114,22 @@
         modules = [
           home-manager.nixosModules.home-manager
           omarchy-nix.nixosModules.default
-	  sops-nix.nixosModules.sops
+          sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
 	  {
-	    omarchy = {
-	      full_name = "patrick";
-	      email_address = "patrick@rawlinson.ws";
-	      theme = "nord";
-	    };
-	    home-manager = {
-	      users.patrick = {
-	        imports = [ omarchy-nix.homeManagerModules.default ];
-	      };
-	    };
+            omarchy = {
+              full_name = "sprjr";
+              email_address = "patrick@rawlinson.ws";
+              theme = "nord";
+            };
+            home-manager = {
+              users.patrick = {
+                imports = [ omarchy-nix.homeManagerModules.default ];
+              };
+            };
           }
         ];
       };
