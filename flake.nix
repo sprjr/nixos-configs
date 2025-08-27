@@ -29,6 +29,11 @@
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
+    omarchy-nix = {
+      url = "github:henrysipp/omarchy-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -52,7 +57,8 @@
                       home-manager,
 		      hyprsession,
                       nixos-hardware,
-                      sops-nix,
+                      omarchy-nix,
+		      sops-nix,
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
@@ -107,12 +113,23 @@
         specialArgs = inputs;
         modules = [
           home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
+          omarchy-nix.nixosModules.default
+	  sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
 	  {
+	    omarchy = {
+	      full_name = "patrick";
+	      email_address = "patrick@rawlinson.ws";
+	      theme = "nord";
+	    };
+	    home-manager = {
+	      users.patrick = {
+	        imports = [ omarchy-nix.homeManagerModules.default ];
+	      };
+	    };
           }
         ];
       };
