@@ -169,7 +169,8 @@
           ./nixos/shikisha.nix
           ./nixos/modules/homelab/ollama-cpu.nix
 	  ./nixos/modules/homelab/storage/garage-systemd-service.nix
-          ./nixos/modules/system/sops.nix
+          ./nixos/modules/network/scripts/ip_check.nix
+	  ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
