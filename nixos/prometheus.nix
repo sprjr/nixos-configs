@@ -217,6 +217,8 @@ in {
     moonlight-qt
     mullvad-browser
     nautilus
+    nrfconnect
+    nrfutil
     obsidian
     scrcpy
     signal-desktop
