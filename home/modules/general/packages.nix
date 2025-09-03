@@ -20,8 +20,6 @@
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
-    nrfconnect
-    nrfutil
     openssl
     pv
     rig
