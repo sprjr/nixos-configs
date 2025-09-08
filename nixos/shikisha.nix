@@ -124,6 +124,8 @@ in {
     duplicati
     file
     fzf
+    kiwix
+    kiwix-tools
     mdp # fullscreen markdown reader
     sops
     vim
