@@ -124,6 +124,7 @@ in {
     duplicati
     file
     fzf
+    haskellPackages.makefile
     kiwix
     kiwix-tools
     mdp # fullscreen markdown reader
