@@ -145,15 +145,15 @@ in {
     wireshark
     xpipe
 
-    # Pinned
-    pkgs-stable.qtwebengine
-
     # Operations tools
     argocd
     garage
     kubeseal
     openiscsi
     opentofu
+  ] ++ [
+    # Pinned to Stable
+    pkgs-stable.qtwebengine
   ];
 
   # Enable the OpenSSH daemon.
