@@ -145,6 +145,9 @@ in {
     wireshark
     xpipe
 
+    # Pinned
+    pkgs-stable.qtwebengine
+
     # Operations tools
     argocd
     garage
