@@ -110,11 +110,6 @@ in {
     "libsoup-2.74.3"
   ];
 
-  # Pinned
-  nixpkgs.config.packageOverrides = pkgs {
-    qtwebengine = pkgs-stable.qtwebengine;
-  };
-
   # System packages
   environment.systemPackages = with pkgs; [
     git
