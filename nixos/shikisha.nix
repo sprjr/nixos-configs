@@ -108,6 +108,7 @@ in {
   ### REMOVE THIS WHEN YOU CAN ###
   nixpkgs.config.permittedInsecurePackages = [
     "libsoup-2.74.3"
+    "qtwebengine-5.15.19"
   ];
 
   # System packages
@@ -153,7 +154,6 @@ in {
     opentofu
   ] ++ [
     # Pinned to Stable
-    pkgs-stable.qtwebengine
   ];
 
   # Enable the OpenSSH daemon.
