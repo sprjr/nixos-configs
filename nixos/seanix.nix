@@ -233,7 +233,7 @@ in {
     zsh
 
     ### Net tools ###
-    pkgs-stable.tailscale
+    tailscale
     inetutils
     mullvad-vpn
     nextcloud-client
