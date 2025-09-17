@@ -207,7 +207,7 @@ in {
     discord
     duplicati
     file
-    floorp # Privacy-focused Firefox fork
+    floorp-bin # Privacy-focused Firefox fork
     fzf
     ghostty
     home-manager

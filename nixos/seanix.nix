@@ -207,7 +207,7 @@ in {
     distrobox-tui
     duplicati
     file
-    floorp # Privacy-focused Firefox alternative
+    floorp-bin # Privacy-focused Firefox alternative
     freetube
     fzf
     gamescope
