@@ -4,7 +4,16 @@
   # .bashrc configuration
   programs = {
     # Enable Starship
-    starship.enable = true;
+    starship = {
+      enable = true;
+      settings = {
+        aws = {
+	  format = "[$symbol$profile]($style)";
+	  disabled = false;
+	  detect_files = [ "template.yaml" ".aws-sam" "serverless.yml" ];
+	};
+      };
+    };
     # Bash/Starship
     bash = {
       enable = true;
