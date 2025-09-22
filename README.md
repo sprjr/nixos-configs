@@ -10,6 +10,9 @@ This stores my NixOS configs
 ```trixos```
 ```seanix```
 ```seanvy```
+```shikisha```
+```prometheus```
+The names vaguely have relation to their function, but just as well might not.
 
 #### Darwin
 ```seair```
