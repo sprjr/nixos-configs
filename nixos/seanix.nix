@@ -184,6 +184,7 @@ in {
     pipewire
    #python313Full
     python313Packages.pip
+    python311
     thermald
     wget
 
