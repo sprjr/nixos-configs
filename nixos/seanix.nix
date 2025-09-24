@@ -213,6 +213,7 @@ in {
     distrobox
     distrobox-tui
     duplicati
+    esptool
     file
     floorp-bin # Privacy-focused Firefox alternative
     freetube

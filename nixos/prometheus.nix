@@ -206,6 +206,7 @@ in {
     pkgs-stable.bitwarden-cli
     discord
     duplicati
+    esptool
     file
     floorp-bin # Privacy-focused Firefox fork
     fzf

@@ -123,6 +123,7 @@ in {
     # User environment
     btop
     duplicati
+    esptool
     file
     fzf
     haskellPackages.makefile
