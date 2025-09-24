@@ -251,6 +251,7 @@ in {
     netop
     nmap
     openvas-scanner
+    usbutils
     wireguard-tools
     wireguard-ui
     wireshark
