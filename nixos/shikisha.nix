@@ -147,6 +147,15 @@ in {
     wireshark
     xpipe
 
+    # Docker OSX/macOS
+    bridge-utils
+    libvirt
+    libvirt-clients
+    libvirt-daemon-system
+    virt-manager
+    qemu
+    qemu-kvm
+
     # Python
     python313
     python313Packages.pip
