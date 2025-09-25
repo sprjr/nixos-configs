@@ -147,6 +147,10 @@ in {
     wireshark
     xpipe
 
+    # Python
+    python313
+    python313Packages.pip
+
     # Operations tools
     argocd
     garage
