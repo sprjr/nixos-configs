@@ -152,7 +152,7 @@ in {
     libvirt
     virt-manager
     qemu
-    qemu-kvm
+    qemu_kvm
 
     # Python
     python313
