@@ -126,7 +126,8 @@ in {
     esptool
     file
     fzf
-    haskellPackages.makefile
+    #haskellPackages.makefile
+    gnumake # makefile ^ alternative
     kiwix
     kiwix-tools
     mdp # fullscreen markdown reader
