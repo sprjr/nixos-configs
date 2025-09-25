@@ -150,8 +150,6 @@ in {
     # Docker OSX/macOS
     bridge-utils
     libvirt
-    libvirt-clients
-    libvirt-daemon-system
     virt-manager
     qemu
     qemu-kvm
