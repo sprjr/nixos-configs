@@ -157,6 +157,7 @@ in {
 
     # Python
     python313
+    python313Packages.cryptography
     python313Packages.pip
 
     # Operations tools
