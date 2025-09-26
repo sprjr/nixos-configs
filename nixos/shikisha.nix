@@ -114,6 +114,7 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     attic-server
+    attic-client
     git
     usbutils
     pciutils
