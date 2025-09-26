@@ -206,7 +206,6 @@ in {
     pkgs-stable.bitwarden-cli
     discord
     duplicati
-    esptool
     file
     floorp-bin # Privacy-focused Firefox fork
     fzf
@@ -230,6 +229,12 @@ in {
     vimPlugins.nvchad
     vlc
     zsh
+
+    # ESP32 stuff
+    esptool
+    python313
+    python313Packages.cryptography
+    python313Packages.pip
 
     # Hyprland
 #   hyprsession.packages.${pkgs.system}.default
@@ -268,6 +273,8 @@ in {
     libusb1
     meson
     pkg-config
+  ] ++ [
+    # Pinned to stable
   ];
 
   # Enable the OpenSSH daemon.
