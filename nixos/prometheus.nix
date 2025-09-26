@@ -19,6 +19,17 @@ in {
   # Cosmic DE
 # services.desktopManager.cosmic.enable = true;
 
+  # ESP32 Serial Converter
+  boot.kernelModules = [
+    "cp210x"
+    "cp341"
+  ];
+  services.udev.extraRules = ''
+    # Allow dialout group access to USB serial devices
+    KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
+  '';
+  users.users.patrick.extraGroups = [ "dialout" ];
+
   services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
