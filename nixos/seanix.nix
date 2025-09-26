@@ -178,6 +178,7 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
+    attic-client
     fanctl
     git
     pciutils

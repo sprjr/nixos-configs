@@ -113,6 +113,7 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
+    attic-server
     git
     usbutils
     pciutils
