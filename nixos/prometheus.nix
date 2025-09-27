@@ -237,6 +237,7 @@ in {
     sops
     thunderbird
     ulauncher
+    usbutils
     vim
     vimPlugins.nvchad
     vlc
