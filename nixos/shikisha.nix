@@ -15,6 +15,12 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # ESP32 serial converter
+  boot.kernelModules = [
+    "cp210x"
+   #"cp341" # Not needed at this time; current model is a cp2102
+  ];
+
   # General Networking Options
   networking.hostName = "shikisha"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
@@ -137,6 +143,12 @@ in {
     vim
     vimPlugins.nvchad
     zsh
+
+    # ESP32 stuff
+    esptool
+    python313
+    python313Packages.cryptography
+    python313Packages.pip
 
     ### Net tools ###
     inetutils
