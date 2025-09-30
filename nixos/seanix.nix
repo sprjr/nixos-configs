@@ -188,13 +188,6 @@ in {
     thermald
     wget
 
-    # AWS stuff
-    awscli2
-    aws-sam-cli
-    python311
-    python311Packages.boto3
-    python311Packages.pip
-
     # AV utilities
     alsa-plugins
     alsa-utils
