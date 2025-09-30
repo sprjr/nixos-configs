@@ -55,15 +55,15 @@
                       ghostty,
                       heywoodlh-configs,
                       home-manager,
-		      hyprsession,
+       	              hyprsession,
                       nixos-hardware,
                       omarchy-nix,
-		      sops-nix,
+                      sops-nix,
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
                       stylix,
-		      ... }:
+                      ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
       inherit system;
