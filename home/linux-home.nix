@@ -8,7 +8,7 @@
     ./modules/tools/alacritty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
-    ./modules/user-space/btop.nix
+#   ./modules/user-space/btop.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
