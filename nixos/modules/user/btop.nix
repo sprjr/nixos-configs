@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  # Install btop package
-  home.packages = [ pkgs.btop ];
+  # Install btop system-wide
+  environment.systemPackages = [ pkgs.btop ];
 
-  # Manage btop configuration file
-  home.file.".config/btop/btop.conf".text = ''
+  # For a specific user, use their home directory
+  # Replace "yourusername" with your actual username
+  environment.etc."btop-config".text = ''
     color_theme = "${pkgs.btop}/share/btop/themes/nord.theme"
     theme_background = True
     truecolor = True
@@ -85,5 +86,18 @@
     custom_gpu_name3 = ""
     custom_gpu_name4 = ""
     custom_gpu_name5 = ""
+  '';
+
+  # Create a systemd service to copy the config to user's home directory on boot
+  # This will apply for all users
+  system.activationScripts.btopConfig = ''
+    for homedir in /home/*; do
+      if [ -d "$homedir" ]; then
+        username=$(basename "$homedir")
+        mkdir -p "$homedir/.config/btop"
+        cp /etc/btop-config "$homedir/.config/btop/btop.conf"
+        chown -R "$username:users" "$homedir/.config/btop"
+      fi
+    done
   '';
 }
