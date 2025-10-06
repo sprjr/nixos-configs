@@ -17,6 +17,7 @@
     htop
     kubectx # supplementary kubernetes tools
     lima # VMs/Docker
+    localsend
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
