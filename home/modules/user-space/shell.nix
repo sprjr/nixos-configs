@@ -9,8 +9,7 @@
       settings = {
         aws = {
 	  format = "[$symbol$profile]($style)";
-	  disabled = false;
-	  detect_files = [ "template.yaml" ".aws-sam" "serverless.yml" ];
+	  disabled = true;
 	};
       };
     };
