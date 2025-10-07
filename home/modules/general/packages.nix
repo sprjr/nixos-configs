@@ -7,6 +7,7 @@
     atuin
     awscli
     bat
+    caligula
     docker
     docker-compose
     dua # file size checker
