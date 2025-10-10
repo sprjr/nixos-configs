@@ -223,7 +223,6 @@ in {
     mumble
     obsidian
     ollama-rocm
-    python313Packages.openrazer
     rpi-imager
     scrcpy
     signal-desktop
@@ -253,6 +252,7 @@ in {
     xpipe
 
     # Razer crap (temporary)
+    openrazer-daemon
     razer-cli
     razergenie
     polychromatic
