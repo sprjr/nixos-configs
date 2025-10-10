@@ -251,12 +251,6 @@ in {
     wireshark
     xpipe
 
-    # Razer crap (temporary)
-    openrazer-daemon
-    razer-cli
-    razergenie
-    polychromatic
-
     # PyTorch
     python313Packages.matplotlib
     python313Packages.nibabel # dicom-specific
