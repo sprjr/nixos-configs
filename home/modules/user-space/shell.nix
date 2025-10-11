@@ -48,6 +48,10 @@
         then
           exec fish -l
         fi
+	# auto-start Zellij
+	if status is-interactive
+	  eval (zellij setup --generate-auto-start fish | string collect))
+	end
         export TERM=screen-256color
       '';
       # Terminal startup tasks
