@@ -48,8 +48,6 @@
         then
           exec fish -l
         fi
-	# auto-start Zellij
-	echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
         export TERM=screen-256color
       '';
       # Terminal startup tasks
@@ -80,6 +78,9 @@
         set fish_greeting # disable greeting
         # direnv
 	eval (${pkgs.direnv}/bin/direnv hook fish)
+	if status is-interactive
+	  eval (zellij setup --generate-auto-start fish | string collect)
+	end
       '';
       # Aliases
       shellAliases = {
