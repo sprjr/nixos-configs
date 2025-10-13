@@ -183,7 +183,7 @@ in {
     git
     pciutils
     pipewire
-    python313Full
+    python314
     python313Packages.pip
     thermald
     wget
