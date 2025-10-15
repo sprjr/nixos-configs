@@ -31,6 +31,7 @@
     todoist
     tree
     zellij
+    zoxide
 
     # Dumb CLI tools
     asciiquarium
