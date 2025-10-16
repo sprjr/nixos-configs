@@ -14,10 +14,12 @@
     duf
     glow
     go
+    htop
     impala
     kubernetes-helm
-    htop
     kubectx # supplementary kubernetes tools
+    lazydocker
+    lazygit
     lima # VMs/Docker
     localsend
     lsd
