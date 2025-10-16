@@ -168,9 +168,9 @@
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/homelab/ollama-cpu.nix
-	  ./nixos/modules/homelab/storage/garage-systemd-service.nix
+          ./nixos/modules/homelab/storage/garage-systemd-service.nix
           ./nixos/modules/network/scripts/ip_check.nix
-	  ./nixos/modules/system/sops.nix
+          ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
@@ -207,7 +207,7 @@
               username = "patrick";
               homeDirectory = "/home/patrick";
             };
-            fonts.fontconfig.enable = true;
+           #fonts.fontconfig.enable = true;
             programs.home-manager.enable = true;
             targets.genericLinux.enable = true;
             home.packages = [
