@@ -14,6 +14,7 @@
     duf
     glow
     go
+    impala
     kubernetes-helm
     htop
     kubectx # supplementary kubernetes tools
