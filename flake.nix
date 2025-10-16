@@ -210,9 +210,9 @@
             fonts.fontconfig.enable = true;
             programs.home-manager.enable = true;
             targets.genericLinux.enable = true;
-            home.packages = [
+           #home.packages = [
              #(pkgs.nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
-            ];
+           #];
           }
         ];
       };
