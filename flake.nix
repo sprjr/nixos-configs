@@ -207,11 +207,11 @@
               username = "patrick";
               homeDirectory = "/home/patrick";
             };
-           #fonts.fontconfig.enable = true;
+            fonts.fontconfig.enable = true;
             programs.home-manager.enable = true;
             targets.genericLinux.enable = true;
             home.packages = [
-              (pkgs.nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
+             #(pkgs.nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
             ];
           }
         ];
