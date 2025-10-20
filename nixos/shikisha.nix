@@ -156,7 +156,7 @@ in {
     lshw
     netop
     nmap
-    openvas-scanner
+   #openvas-scanner
     wireguard-tools
     wireguard-ui
     wireshark

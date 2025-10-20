@@ -269,7 +269,7 @@ in {
     lshw
     netop
     nmap
-    openvas-scanner
+   #openvas-scanner
     sysstat
     wireguard-tools
     wireguard-ui

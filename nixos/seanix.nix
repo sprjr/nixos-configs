@@ -244,7 +244,7 @@ in {
     nethogs # shows bandwidth usage by application
     netop
     nmap
-    openvas-scanner
+   #openvas-scanner
     usbutils
     wireguard-tools
     wireguard-ui
