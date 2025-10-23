@@ -6,9 +6,6 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
-#   ./modules/desktop-environment/gnome.nix
-#   ../home/linux/desktop_environments/gnome-dconf.nix
-    ./modules/gaming/windows-vm.nix
   ];
 
   # Select Desktop Environment.
