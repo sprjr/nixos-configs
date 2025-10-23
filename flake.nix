@@ -116,7 +116,7 @@
           omarchy-nix.nixosModules.default
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
-          ./nixos/hardware-configuration/prometheus.nix
+          /etc/nixos/hardware-configuration.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
 	  {
