@@ -187,7 +187,8 @@
           stylix.nixosModules.stylix
           /etc/nixos/hardware-configuration.nix
           ./nixos/voyager.nix
-          ./nixos/modules/user/patrick.nix
+          ./nixos/modules/system/fprintd.nix
+	  ./nixos/modules/user/patrick.nix
 	  {
             omarchy = {
               full_name = "sprjr";
