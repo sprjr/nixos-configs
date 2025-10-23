@@ -177,6 +177,31 @@
           ./nixos/modules/user/patrick.nix
         ];
       };
+      voyager = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          home-manager.nixosModules.home-manager
+          omarchy-nix.nixosModules.default
+          sops-nix.nixosModules.sops
+          stylix.nixosModules.stylix
+          /etc/nixos/hardware-configuration.nix
+          ./nixos/voyager.nix
+          ./nixos/modules/user/patrick.nix
+	  {
+            omarchy = {
+              full_name = "sprjr";
+              email_address = "patrick@rawlinson.ws";
+              theme = "nord";
+            };
+            home-manager = {
+              users.patrick = {
+                imports = [ omarchy-nix.homeManagerModules.default ];
+              };
+            };
+          }
+        ];
+      };
     };
 
     # Darwin
