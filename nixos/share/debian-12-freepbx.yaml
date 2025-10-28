@@ -1,0 +1,59 @@
+# debian-12-limabean.yaml
+# Create with: limactl start ./debian-12-limabean.yaml
+
+images:
+- location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
+  arch: "x86_64"
+- location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2"
+  arch: "aarch64"
+
+mounts:
+- location: "~"
+  writable: true
+- location: "/tmp/lima"
+  writable: true
+
+containerd:
+  system: false
+  user: false
+
+provision:
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -y
+    apt-get install -y sudo curl
+    useradd -m -s /bin/bash limabean
+    echo "limabean ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/limabean
+    chmod 440 /etc/sudoers.d/limabean
+
+- mode: user
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    echo "Welcome, limabean. Installing basic tools..."
+    sudo apt install -y vim git htop
+
+probes:
+- script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    id limabean >/dev/null 2>&1 || exit 1
+    echo "User limabean exists."
+  hint: Verify user creation in /var/log/cloud-init-output.log
+
+hostResolver:
+  hosts:
+    host.docker.internal: host.lima.internal
+
+portForwards: []
+
+message: |
+  Debian 12 (Bookworm) is ready.
+  Default user: limabean
+  To enter the VM:
+  ------
+  limactl shell {{.Name}}
+  ------

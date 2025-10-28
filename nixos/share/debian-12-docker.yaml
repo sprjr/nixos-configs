@@ -1,0 +1,91 @@
+# debian-12-limabean.yaml
+# Create with: limactl start ./debian-12-limabean.yaml
+
+images:
+- location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
+  arch: "x86_64"
+- location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2"
+  arch: "aarch64"
+
+mounts:
+- location: "~"
+  writable: true
+- location: "/tmp/lima"
+  writable: true
+
+containerd:
+  system: false
+  user: false
+
+provision:
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -y
+    apt-get install -y sudo curl ca-certificates gnupg lsb-release
+    useradd -m -s /bin/bash limabean
+    echo "limabean ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/limabean
+    chmod 440 /etc/sudoers.d/limabean
+
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    sed -i 's/host.lima.internal.*/host.lima.internal host.docker.internal/' /etc/hosts
+
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    command -v docker >/dev/null 2>&1 && exit 0
+    if [ ! -e /etc/systemd/system/docker.socket.d/override.conf ]; then
+      mkdir -p /etc/systemd/system/docker.socket.d
+      cat <<-EOF >/etc/systemd/system/docker.socket.d/override.conf
+      [Socket]
+      SocketUser={{.User}}
+    EOF
+    fi
+    curl -fsSL https://get.docker.com | sh
+
+- mode: user
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    sudo systemctl enable docker
+    sudo systemctl start docker
+    echo "Welcome, limabean. Docker has been installed."
+
+probes:
+- script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    if ! timeout 30s bash -c "until command -v docker >/dev/null 2>&1; do sleep 3; done"; then
+      echo >&2 "docker is not installed yet"
+      exit 1
+    fi
+    if ! timeout 30s bash -c "until pgrep dockerd; do sleep 3; done"; then
+      echo >&2 "dockerd is not running"
+      exit 1
+    fi
+  hint: See "/var/log/cloud-init-output.log" in the guest
+
+hostResolver:
+  hosts:
+    host.docker.internal: host.lima.internal
+
+portForwards:
+- guestSocket: "/var/run/docker.sock"
+  hostSocket: "{{.Dir}}/sock/docker.sock"
+
+message: |
+  Debian 12 (Bookworm) is ready.
+  Default user: limabean
+  To run `docker` on the host (assumes docker-cli is installed):
+  ------
+  docker context create lima-{{.Name}} --docker "host=unix://{{.Dir}}/sock/docker.sock"
+  docker context use lima-{{.Name}}
+  docker run hello-world
+  ------
+
