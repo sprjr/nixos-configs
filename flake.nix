@@ -119,7 +119,7 @@
           /etc/nixos/hardware-configuration.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
-	  {
+          {
             omarchy = {
               full_name = "sprjr";
               email_address = "patrick@rawlinson.ws";
@@ -142,10 +142,10 @@
           ./nixos/seanix.nix
           ./nixos/modules/homelab/ollama-amd.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
-	  ./nixos/modules/gaming/sunshine.nix
+          ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/udev-scrcpy.nix
-	  ./nixos/modules/user/patrick.nix
+          ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
           }
@@ -188,8 +188,8 @@
           /etc/nixos/hardware-configuration.nix
           ./nixos/voyager.nix
           ./nixos/modules/system/fprintd.nix
-	  ./nixos/modules/user/patrick.nix
-	  {
+          ./nixos/modules/user/patrick.nix
+          {
             omarchy = {
               full_name = "sprjr";
               email_address = "patrick@rawlinson.ws";
@@ -232,7 +232,7 @@
             home = {
               username = "patrick";
               homeDirectory = "/home/patrick";
-            };
+                    };
             fonts.fontconfig.enable = true;
             programs.home-manager.enable = true;
             targets.genericLinux.enable = true;

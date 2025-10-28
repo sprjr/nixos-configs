@@ -156,7 +156,7 @@ in {
     (final: prev: {
       python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
         textual = pyPrev.textual.overridePythonAttrs (old: {
-	  doCheck = false; # skip failed tests
+          doCheck = false; # skip failed tests
 	});
       });
     })
