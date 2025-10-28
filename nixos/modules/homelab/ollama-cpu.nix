@@ -15,6 +15,17 @@
     ];
   };
 
+  # Handle pgvector throwing errors on build
+  nixpkgs.overlays = [
+    (final: prev: {
+      python3Packages = prev.python3Packages // {
+        pgvector = prev.python3Packages.pgvector.overrideAttrs (old: {
+	  doCheck = false;
+	});
+      };
+    })
+  ];
+
   systemd.services.ollama.serviceConfig = {
     Environment = [ "OLLAMA_HOST=0.0.0.0:11434" ];
   };
