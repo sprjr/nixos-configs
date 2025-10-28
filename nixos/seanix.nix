@@ -211,6 +211,7 @@ in {
     freetube
     fzf
     gamescope
+    ghostty
     gimp
     libreoffice
     lyrebird
