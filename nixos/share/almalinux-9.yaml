@@ -1,5 +1,5 @@
-# almalinux-9-limabean.yaml
-# Create with: limactl start ./almalinux-9-limabean.yaml
+# almalinux-9.yaml
+# Create with: limactl start ./almalinux-9.yaml
 
 images:
 - location: "https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
@@ -22,10 +22,7 @@ provision:
   script: |
     #!/bin/bash
     set -eux -o pipefail
-    dnf install -y sudo curl
-    useradd -m -s /bin/bash limabean
-    echo "limabean ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/limabean
-    chmod 440 /etc/sudoers.d/limabean
+    dnf install -y sudo curl dnf-plugins-core
 
 - mode: system
   script: |
@@ -38,14 +35,6 @@ provision:
     #!/bin/bash
     set -eux -o pipefail
     command -v docker >/dev/null 2>&1 && exit 0
-    if [ ! -e /etc/systemd/system/docker.socket.d/override.conf ]; then
-      mkdir -p /etc/systemd/system/docker.socket.d
-      cat <<-EOF >/etc/systemd/system/docker.socket.d/override.conf
-      [Socket]
-      SocketUser={{.User}}
-    EOF
-    fi
-    dnf install -y dnf-plugins-core
     dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
@@ -55,7 +44,7 @@ provision:
     set -eux -o pipefail
     sudo systemctl enable docker
     sudo systemctl start docker
-    echo "Welcome, limabean. Docker has been installed."
+    echo "Docker has been installed."
 
 probes:
 - script: |
@@ -81,10 +70,10 @@ portForwards:
 
 message: |
   AlmaLinux 9 is ready.
-  Default user: limabean
   To run `docker` on the host (assumes docker-cli is installed):
   ------
   docker context create lima-{{.Name}} --docker "host=unix://{{.Dir}}/sock/docker.sock"
   docker context use lima-{{.Name}}
   docker run hello-world
   ------
+
