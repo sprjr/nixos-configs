@@ -1,6 +1,3 @@
-# debian-12-freepbx.yaml
-# Create with: limactl start ./debian-12-freepbx.yaml
-
 images:
 - location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
   arch: "x86_64"
@@ -10,7 +7,6 @@ images:
 mounts:
 - location: "~"
   writable: true
-# Removed /tmp/lima mount since it may not exist
 
 containerd:
   system: false
@@ -24,39 +20,11 @@ provision:
     export DEBIAN_FRONTEND=noninteractive
 
     # Basic system setup
-    apt-get update -y
-    apt-get install -y sudo curl ca-certificates gnupg lsb-release wget
+    apt update -y
+    apt upgrade -y
+    apt install -y curl wget sudo ca-certificates lsb-release gnupg vim git
 
-    # Create default user
-    useradd -m -s /bin/bash limabean
-    echo "limabean ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/limabean
-    chmod 440 /etc/sudoers.d/limabean
-
-- mode: system
-  script: |
-    #!/bin/bash
-    set -eux -o pipefail
-    sed -i 's/host.lima.internal.*/host.lima.internal/' /etc/hosts
-
-- mode: user
-  script: |
-    #!/bin/bash
-    set -eux -o pipefail
-    # FreePBX installation
-    cd /tmp
-    wget https://github.com/FreePBX/sng_freepbx_debian_install/raw/master/sng_freepbx_debian_install.sh -O /tmp/sng_freepbx_debian_install.sh
-    chmod +x /tmp/sng_freepbx_debian_install.sh
-    sudo /tmp/sng_freepbx_debian_install.sh
-
-probes:
-- script: |
-    #!/bin/bash
-    set -eux -o pipefail
-    if ! timeout 60s bash -c "until pgrep asterisk >/dev/null 2>&1; do sleep 5; done"; then
-      echo >&2 "Asterisk is not running"
-      exit 1
-    fi
-  hint: See "/var/log/pbx/freepbx17-install-*.log" in the guest
+probes: []
 
 hostResolver: {}
 
