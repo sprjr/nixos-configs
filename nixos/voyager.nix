@@ -5,38 +5,41 @@ let
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
-    home-manager.nixosModules.home-manager
+    ./modules/system/sops.nix
   ];
 
-  # Select Desktop Environment.
-  # Plasma
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # ESP32 Serial Converter
+  boot.kernelModules = [
+    "cp210x"
+    "cp341"
+  ];
+  services.udev.extraRules = ''
+    # Allow dialout group access to USB serial devices
+    KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
+  '';
+  users.users.patrick.extraGroups = [ "dialout" ];
+
+  services = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  # Bootloader.
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
-  networking.hostName = "seanix"; # Define your hostname.
+  # General Networking Options
+  networking.hostName = "voyager"; # Define your hostname.
+# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # TEMPORARY Allow Broken
-  nixpkgs.config.allowBroken = true;
-
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Windows VM Boot Toggler
-  specialisation."VFIO".configuration = {
-    system.nixos.tags = [ "with-vfio" ];
-    vfio.enable = true;
-  };
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -44,8 +47,17 @@ in {
   services.blueman.enable = true; # GUI management
 
   # Enable networking
-  networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;
+
+  # Enable resolved to handle DNS issue after sleeping
+  networking.nameservers = [" 1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+  services.resolved = {
+    enable = true;
+    dnssec = "true";
+    domains = [ "~." ];
+    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+    dnsovertls = "true";
+  };
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
@@ -59,8 +71,8 @@ in {
 
   # Enable Docker and Podman
   virtualisation = {
-    docker.enable = true;
-    podman.enable = true;
+      docker.enable = true;
+      podman.enable = true;
   };
 
   # Set your time zone.
@@ -81,13 +93,14 @@ in {
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Enable the KDE Plasma Desktop Environment.
+# services.displayManager.sddm.enable = true;
+# services.desktopManager.plasma6.enable = true;
+
   # Configure keymap in X11
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -101,17 +114,17 @@ in {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber.enable = true;
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    users.patrick = {
-      imports = [
-        ../home/linux-home.nix
+  # Nethogs rules (probably want to re-do this)
+  security.sudo.extraRules = [
+    {
+      users = [ "patrick" ];
+      commands = [
+        { command = "${pkgs.nethogs}/bin/nethogs"; options = [ "NOPASSWD" ]; }
       ];
-    };
-  };
+    }
+  ];
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -125,6 +138,7 @@ in {
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.segger-jlink.acceptLicense = true; # For nRF Utility tools
 
   # Enable OpenRGB udev rules
   services.hardware.openrgb.enable = true;
@@ -140,7 +154,6 @@ in {
   # to fix broken internet when using an exit node
   networking.firewall.checkReversePath = "loose";
 
-
   # Mullvad
   services.mullvad-vpn.enable = true;
   networking.iproute2.enable = true;
@@ -155,144 +168,115 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
+  # Home-Manager configuration
+# home-manager = {
+#   backupFileExtension = "backup";
+   #users.patrick.imports = [ ../home/hyprland-home.nix ];
+# };
+
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
-        textual = pyPrev.textual.overridePythonAttrs (old: {
-	  doCheck = false; # skip failed tests
-	});
-      });
-    })
+  nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
   ];
-
-  ### REMOVE THIS WHEN YOU CAN ###
- #nixpkgs.config.permittedInsecurePackages = [
- #  "libsoup-2.74.3"
- #];
 
   # System packages
   environment.systemPackages = with pkgs; [
     attic-client
-    fanctl
     git
     pciutils
     pipewire
-    python314
-    python313Packages.pip
     thermald
     wget
 
-    # AV utilities
-    alsa-plugins
-    alsa-utils
-    obs-studio
-    pavucontrol
-    pulseaudio
-    qjackctl
-
     # User environment
-    alacritty
-    btop-rocm
+    btop
     pkgs-stable.bitwarden
     pkgs-stable.bitwarden-cli
-    legcord # alt discord client
-    direnv
     discord
-    distrobox
-    distrobox-tui
     duplicati
-    espflash
-    esptool
     file
-    floorp-bin # Privacy-focused Firefox alternative
-    freetube
+    floorp-bin # Privacy-focused Firefox fork
     fzf
-    gamescope
-    gimp
+    ghostty
+    home-manager
+    kitty
     libreoffice
-    lyrebird
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
-    mumble
+    nautilus
+    nrfconnect
+    nrfutil
     obsidian
-    ollama-rocm
-    rpi-imager
     scrcpy
     signal-desktop
     sops
     thunderbird
+    ulauncher
+    usbutils
     vim
     vimPlugins.nvchad
     vlc
-    xbindkeys-config # graphic interface for xbindkeys (input mapper)
     zsh
 
+    # ESP32 stuff
+    esptool
+    python313
+    python313Packages.cryptography
+    python313Packages.pip
+
+    # Hyprland
+#   hyprsession.packages.${pkgs.system}.default
+#   hyprland
+#   hyprlock
+#   hyprpaper
+#   hyprlandPlugins.hyprspace
+#   ulauncher
+    xdg-utils
+
     ### Net tools ###
-    tailscale
+    pkgs-stable.tailscale
+    bandwhich
     inetutils
+    iproute2
     mullvad-vpn
+    nethogs
     nextcloud-client
-    looking-glass-client
     lshw
-    nethogs # shows bandwidth usage by application
     netop
     nmap
    #openvas-scanner
-    usbutils
+    sysstat
     wireguard-tools
     wireguard-ui
     wireshark
     xpipe
-
-    # PyTorch
-    python313Packages.matplotlib
-    python313Packages.nibabel # dicom-specific
-    python313Packages.numpy
-    python313Packages.opencv-python
-    python313Packages.pandas
-    python313Packages.pydicom # dicom-specific
-    python313Packages.scikit-learn
-    python313Packages.torch
-    python313Packages.torchaudio
-    python313Packages.torchvision
 
     # Work Tools
     opentofu
     remmina
     weasis
 
-    # KDE Packages
-    kdePackages.dolphin
-    kdePackages.kate
-    kdePackages.kdeconnect-kde
-    kdePackages.kiten
-    kdePackages.konsole
-    kdePackages.krdp
-
     # scrcpy packages
     android-tools
     libusb1
     meson
     pkg-config
-
-    # Gaming
-    heroic
-    prismlauncher
+  ] ++ [
+    # Pinned to stable
   ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Garbage collect
+  # Garbage collection
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "delete-older-than 14d";
   };
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

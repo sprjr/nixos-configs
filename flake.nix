@@ -116,7 +116,7 @@
           omarchy-nix.nixosModules.default
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
-          ./nixos/hardware-configuration/prometheus.nix
+          /etc/nixos/hardware-configuration.nix
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
 	  {
@@ -175,6 +175,32 @@
           ./nixos/modules/virtualisation/k3s-server.nix
           ./nixos/modules/virtualisation/longhorn-configuration.nix
           ./nixos/modules/user/patrick.nix
+        ];
+      };
+      voyager = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          home-manager.nixosModules.home-manager
+          omarchy-nix.nixosModules.default
+          sops-nix.nixosModules.sops
+          stylix.nixosModules.stylix
+          /etc/nixos/hardware-configuration.nix
+          ./nixos/voyager.nix
+          ./nixos/modules/system/fprintd.nix
+	  ./nixos/modules/user/patrick.nix
+	  {
+            omarchy = {
+              full_name = "sprjr";
+              email_address = "patrick@rawlinson.ws";
+              theme = "nord";
+            };
+            home-manager = {
+              users.patrick = {
+                imports = [ omarchy-nix.homeManagerModules.default ];
+              };
+            };
+          }
         ];
       };
     };
