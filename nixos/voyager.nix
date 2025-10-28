@@ -185,15 +185,14 @@ in {
   environment.systemPackages = with pkgs; [
     attic-client
     git
+    haskellPackages.libfuse3 # For fprintd
     pciutils
     pipewire
     thermald
     wget
 
     # User environment
-    btop
     pkgs-stable.bitwarden
-    pkgs-stable.bitwarden-cli
     discord
     duplicati
     file
