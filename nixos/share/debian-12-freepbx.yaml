@@ -28,11 +28,11 @@ probes: []
 
 hostResolver: {}
 
-portForwards:
-- hostPort: 8080
-  guestPort: 80
-- hostPort: 2525
-  guestPort: 25
+ports:
+- local: 8080
+  guest: 80
+- local: 2525
+  guest: 25
 
 message: |
   Debian 12 with FreePBX 17 is ready.

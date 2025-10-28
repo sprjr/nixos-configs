@@ -75,7 +75,7 @@ hostResolver:
   hosts:
     host.docker.internal: host.lima.internal
 
-portForwards:
+ports:
 - guestSocket: "/var/run/docker.sock"
   hostSocket: "{{.Dir}}/sock/docker.sock"
 
