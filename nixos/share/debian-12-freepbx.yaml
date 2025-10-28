@@ -1,5 +1,5 @@
-# debian-12-limabean.yaml
-# Create with: limactl start ./debian-12-limabean.yaml
+# debian-12-freepbx.yaml
+# Create with: limactl start ./debian-12-freepbx.yaml
 
 images:
 - location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
@@ -23,37 +23,76 @@ provision:
     #!/bin/bash
     set -eux -o pipefail
     export DEBIAN_FRONTEND=noninteractive
+
+    # Basic system setup
     apt-get update -y
-    apt-get install -y sudo curl
+    apt-get install -y sudo curl ca-certificates gnupg lsb-release wget
+
+    # Create default user
     useradd -m -s /bin/bash limabean
     echo "limabean ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/limabean
     chmod 440 /etc/sudoers.d/limabean
+
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    sed -i 's/host.lima.internal.*/host.lima.internal host.docker.internal/' /etc/hosts
+
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    # Install Docker for FreePBX dependencies
+    command -v docker >/dev/null 2>&1 || curl -fsSL https://get.docker.com | sh
+    if [ ! -e /etc/systemd/system/docker.socket.d/override.conf ]; then
+      mkdir -p /etc/systemd/system/docker.socket.d
+      cat <<-EOF >/etc/systemd/system/docker.socket.d/override.conf
+      [Socket]
+      SocketUser={{.User}}
+    EOF
+    fi
+    systemctl enable docker
+    systemctl start docker
 
 - mode: user
   script: |
     #!/bin/bash
     set -eux -o pipefail
-    echo "Welcome, limabean. Installing basic tools..."
-    sudo apt install -y vim git htop
+    # FreePBX installation
+    cd /tmp
+    wget https://github.com/FreePBX/sng_freepbx_debian_install/raw/master/sng_freepbx_debian_install.sh -O /tmp/sng_freepbx_debian_install.sh
+    chmod +x /tmp/sng_freepbx_debian_install.sh
+    sudo /tmp/sng_freepbx_debian_install.sh
 
 probes:
 - script: |
     #!/bin/bash
     set -eux -o pipefail
-    id limabean >/dev/null 2>&1 || exit 1
-    echo "User limabean exists."
-  hint: Verify user creation in /var/log/cloud-init-output.log
+    if ! timeout 60s bash -c "until command -v freepbx >/dev/null 2>&1; do sleep 5; done"; then
+      echo >&2 "FreePBX is not installed yet"
+      exit 1
+    fi
+    if ! timeout 60s bash -c "until pgrep asterisk >/dev/null 2>&1; do sleep 5; done"; then
+      echo >&2 "Asterisk is not running"
+      exit 1
+    fi
+  hint: See "/var/log/pbx/freepbx17-install-*.log" in the guest
 
 hostResolver:
   hosts:
     host.docker.internal: host.lima.internal
 
-portForwards: []
+portForwards:
+- guestSocket: "/var/run/docker.sock"
+  hostSocket: "{{.Dir}}/sock/docker.sock"
 
 message: |
-  Debian 12 (Bookworm) is ready.
+  Debian 12 with FreePBX 17 is ready.
   Default user: limabean
   To enter the VM:
   ------
   limactl shell {{.Name}}
   ------
+  FreePBX web interface is available after installation.
+
