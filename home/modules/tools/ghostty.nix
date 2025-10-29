@@ -5,7 +5,7 @@
   home.file.".config/ghostty/config" = {
     text = ''
       font-family = "JetBrains Mono"
-      theme = nord
+      theme = Nord
       bold-is-bright = true
       background-opacity = 0.2
       background-blur = 20
