@@ -18,12 +18,8 @@
   # Git configuration
   programs.git = {
     enable = true;
-    settings = {
-      user = {
-        name = "sprjr";
-        email = "patrick@rawlinson.ws";
-      };
-    };
+    userName = "sprjr";
+    userEmail = "patrick@rawlinson.ws";
   };
 
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
