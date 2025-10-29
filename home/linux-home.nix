@@ -6,6 +6,7 @@
     ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
     ./modules/tools/alacritty.nix
+    ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
 #   ./modules/user-space/btop.nix
