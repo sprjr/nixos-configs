@@ -22,7 +22,10 @@
     userEmail = "patrick@rawlinson.ws";
   };
 
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+  home = {
+    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+    username = "patrick";
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
