@@ -18,8 +18,12 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "sprjr";
-    userEmail = "patrick@rawlinson.ws";
+    settings = {
+      user = {
+        name = "sprjr";
+        email = "patrick@rawlinson.ws";
+      };
+    };
   };
 
   home = {
