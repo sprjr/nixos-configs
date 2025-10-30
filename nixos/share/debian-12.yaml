@@ -32,8 +32,8 @@ probes: []
 hostResolver: {}
 
 networks:
-  - interface: enp34s0
-    type: bridged
+  - lima: false
+    socket: "tap0"
 
 #ports: []
 ports:
