@@ -21,9 +21,6 @@ provision:
     apt upgrade -y
     apt install -y curl wget sudo ca-certificates lsb-release gnupg vim git
 
-networks:
-  - lima: true   # default NAT networking
-
 ports:
   - local: 8080   # host port
     guest: 80     # FreePBX web
