@@ -31,6 +31,10 @@ probes: []
 
 hostResolver: {}
 
+networks:
+  - interface: enp34s0
+    type: bridged
+
 #ports: []
 ports:
 - local: 8080
