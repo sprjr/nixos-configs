@@ -6,12 +6,13 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
+    ./modules/desktop-environment/gnome.nix
   ];
 
   # Select Desktop Environment.
   # Plasma
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+ #services.displayManager.sddm.enable = true;
+ #services.desktopManager.plasma6.enable = true;
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
