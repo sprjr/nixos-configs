@@ -182,7 +182,6 @@
         specialArgs = inputs;
         modules = [
           home-manager.nixosModules.home-manager
-          omarchy-nix.nixosModules.default
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
           /etc/nixos/hardware-configuration.nix
