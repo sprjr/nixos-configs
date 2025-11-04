@@ -20,8 +20,12 @@ in {
   users.users.patrick.extraGroups = [ "dialout" ];
 
   services = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # KDE
+   #displayManager.gdm.enable = true;
+   #desktopManager.gnome.enable = true;
+    # Cosmic
+    displayManager.cosmic-greeter.enable = true;
+    desktopManager.cosmic.enable = true;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
