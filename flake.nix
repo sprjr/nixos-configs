@@ -120,16 +120,16 @@
           ./nixos/prometheus.nix
           ./nixos/modules/user/patrick.nix
           {
-           #omarchy = {
-           #  full_name = "sprjr";
-           #  email_address = "patrick@rawlinson.ws";
-           #  theme = "nord";
-           #};
-           #home-manager = {
-           #  users.patrick = {
-           #    imports = [ omarchy-nix.homeManagerModules.default ];
-           #  };
-           #};
+            omarchy = {
+              full_name = "sprjr";
+              email_address = "patrick@rawlinson.ws";
+              theme = "nord";
+            };
+            home-manager = {
+              users.patrick = {
+                imports = [ omarchy-nix.homeManagerModules.default ];
+              };
+            };
           }
         ];
       };
@@ -189,17 +189,8 @@
           ./nixos/modules/system/fprintd.nix
           ./nixos/modules/user/patrick.nix
           {
-            omarchy = {
-              full_name = "sprjr";
-              email_address = "patrick@rawlinson.ws";
-              theme = "nord";
-            };
-            home-manager = {
-              users.patrick = {
-                imports = [ omarchy-nix.homeManagerModules.default ];
-              };
-            };
-          }
+          # Extra config here
+	  }
         ];
       };
     };
