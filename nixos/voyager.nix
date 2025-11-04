@@ -172,12 +172,6 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
-  # Home-Manager configuration
-# home-manager = {
-#   backupFileExtension = "backup";
-   #users.patrick.imports = [ ../home/hyprland-home.nix ];
-# };
-
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
