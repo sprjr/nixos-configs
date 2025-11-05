@@ -216,7 +216,6 @@ in {
     mumble
     obsidian
     ollama-rocm
-    rpi-imager
     scrcpy
     signal-desktop
     sops
