@@ -15,7 +15,6 @@
     glow
     go
     htop
-    impala
     kubernetes-helm
     kubectx # supplementary kubernetes tools
     lazydocker
@@ -58,6 +57,7 @@
 #   hyprland
     hyprlock
     hyprpaper
+    impala
     libvirt
     polonium
     swayosd
