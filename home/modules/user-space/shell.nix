@@ -60,15 +60,6 @@
         fi
         export TERM=screen-256color
         # Define cht function (cheat.sh helper)
-        cht() {
-          if [ $# -eq 0 ]; then
-            printf 'usage: cht <query>\n' >&2
-            return 1
-          fi
-          local encoded
-          encoded=$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' "$@")
-          curl "https://cht.sh/$encoded"
-        }
       '';
       shellAliases = {
 	bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
@@ -99,7 +90,16 @@
 	eval (${pkgs.direnv}/bin/direnv hook fish)
 	if status is-interactive
 	  eval (zellij setup --generate-auto-start fish | string collect)
-	end
+	cht() {
+          if [ $# -eq 0 ]; then
+            printf 'usage: cht <query>\n' >&2
+            return 1
+          fi
+          local encoded
+          encoded=$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' "$@")
+          curl "https://cht.sh/$encoded"
+        }
+        end
       '';
       # Aliases
       shellAliases = {
