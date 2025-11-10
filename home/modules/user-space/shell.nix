@@ -59,8 +59,6 @@
           exec fish -l
         fi
         export TERM=screen-256color
-      '';
-      initExtra = ''
         # Define cht function (cheat.sh helper)
         cht() {
           if [ $# -eq 0 ]; then
