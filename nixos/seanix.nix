@@ -208,7 +208,6 @@ in {
     gamescope
     ghostty
     gimp
-    libreoffice
     lyrebird
     mdp # fullscreen markdown reader
     moonlight-qt
