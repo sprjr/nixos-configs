@@ -90,15 +90,18 @@
 	eval (${pkgs.direnv}/bin/direnv hook fish)
 	if status is-interactive
 	  eval (zellij setup --generate-auto-start fish | string collect)
-	cht() {
-          if [ $# -eq 0 ]; then
+        end
+        function cht
+          if test (count $argv) -eq 0
             printf 'usage: cht <query>\n' >&2
             return 1
-          fi
-          local encoded
-          encoded=$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' "$@")
+          end
+
+          # Join all arguments into one string and URL-encode it
+          set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
+
+          # Fetch from cheat.sh
           curl "https://cht.sh/$encoded"
-        }
         end
       '';
       # Aliases
