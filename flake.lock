@@ -895,15 +895,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-mfD0Zm652BcdsKzBRDKgh8rMcVpjgk3OzCNDSwus/B4=",
-        "path": "/nix/store/icn5djrc8x3mns5dc1b0xz84dj9bd3x2-source/flakes/fish",
+        "path": "./flakes/fish",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/icn5djrc8x3mns5dc1b0xz84dj9bd3x2-source/flakes/fish",
+        "path": "./flakes/fish",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "fish-flake_10": {
       "inputs": {
