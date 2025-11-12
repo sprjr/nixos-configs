@@ -6,6 +6,7 @@ in {
   imports = [
     home-manager.darwinModules.home-manager
     heywoodlh-darwin-modules
+    ./modules/sketchybar.nix
   ];
 
   system.primaryUser = "patrick";
@@ -97,7 +98,7 @@ in {
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Sketchybar and Yabai
-  patrick.darwin.sketchybar.enable = true;
+ #heywoodlh.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
