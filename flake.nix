@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
-   #heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +53,7 @@
                       fish-flake,
                       flake-utils,
                       ghostty,
-                     #heywoodlh-configs,
+                      heywoodlh-configs,
                       home-manager,
        	              hyprsession,
                       nixos-hardware,
@@ -203,7 +203,6 @@
         specialArgs = inputs;
         modules = [
           ./darwin/base.nix
-          ./darwin/modules/sketchybar.nix
 	  {
             # Set hostname
             networking.hostName = "seair";
