@@ -5,7 +5,7 @@ let
 in {
   imports = [
     home-manager.darwinModules.home-manager
-   #heywoodlh-darwin-modules
+    heywoodlh-darwin-modules
   ];
 
   system.primaryUser = "patrick";
