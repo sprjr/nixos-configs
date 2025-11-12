@@ -97,7 +97,7 @@ in {
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Sketchybar and Yabai
-  heywoodlh.patrick.sketchybar.enable = true;
+  patrick.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
