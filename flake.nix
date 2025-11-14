@@ -154,6 +154,7 @@
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/udev-scrcpy.nix
+	  ./nixos/modules/user/menus.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
