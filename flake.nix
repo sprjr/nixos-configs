@@ -6,10 +6,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
-    # Menus
-    bzmenu.url = "github:e-tho/bzmenu";
-    iwmenu.url = "github:e-tho/iwmenu";
-    pwmenu.url = "github:e-tho/pwmenu";
     # Other
     heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     darwin = {
@@ -69,9 +65,6 @@
                       nixpkgs-stable,
                       spicetify-nix,
                       stylix,
-                      bzmenu,
-                      iwmenu,
-                      pwmenu,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
@@ -154,7 +147,6 @@
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/udev-scrcpy.nix
-	  ./nixos/modules/user/menus.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
