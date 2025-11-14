@@ -2,9 +2,15 @@
   description = "sprjr nixos configs flake";
 
   inputs = {
+    # Nix stuff
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
+    # Menus
+    bzmenu.url = "github:e-tho/bzmenu";
+    iwmenu.url = "github:e-tho/iwmenu";
+    pwmenu.url = "github:e-tho/pwmenu";
+    # Other
     heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     darwin = {
       url = "github:LnL7/nix-darwin";
@@ -63,6 +69,9 @@
                       nixpkgs-stable,
                       spicetify-nix,
                       stylix,
+                      bzmenu,
+                      iwmenu,
+                      pwmenu,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
