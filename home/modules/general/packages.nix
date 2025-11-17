@@ -4,16 +4,18 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
+    andcli
     atuin
     awscli
     bat
     caligula
+    castero
     docker
     docker-compose
     dua # file size checker
     duf
     glow
-    go
+    gocheat
     htop
     kubernetes-helm
     kubectx # supplementary kubernetes tools
@@ -28,6 +30,7 @@
     openssl
     pv
     rig
+    russ
     rustlings
     syncthing
     tldr
