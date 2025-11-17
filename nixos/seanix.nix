@@ -213,7 +213,6 @@ in {
     moonlight-qt
     mullvad-browser
     mumble
-    nrf-command-line-tools
     obsidian
     ollama-rocm
     scrcpy
