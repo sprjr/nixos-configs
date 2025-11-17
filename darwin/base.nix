@@ -9,7 +9,27 @@ in {
     ./modules/sketchybar.nix
   ];
 
-  system.primaryUser = "patrick";
+  system = {
+    primaryUser = "patrick";
+    defaults = {
+      dock = {
+        persistent-apps = [
+          "/Applications/Finder.app"
+          "/Applications/Messages.app"
+          "/Applications/Firefox.app"
+          "/Applications/System Settings.app"
+          "/Applications/Line.app"
+          "/Applications/Steam.app"
+          "/Applications/Battle.net.app"
+          "/Applications/Discord.app"
+          "/Applications/Thunderbird.app"
+          "/Applications/Ghostty.app"
+          "/Applications/1Password.app"
+          "/Applications/Signal.app"
+	];
+      };
+    };
+  };
 
   # Define user settings
   users.users.patrick = {
