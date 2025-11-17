@@ -26,7 +26,6 @@
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
-    nrf-command-line-tools
     openssl
     pv
     rig
