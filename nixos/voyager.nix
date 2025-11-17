@@ -206,6 +206,7 @@ in {
     nautilus
     nrfconnect
     nrfutil
+    nrf-command-line-tools
     obsidian
     scrcpy
     signal-desktop
