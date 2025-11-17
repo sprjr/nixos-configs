@@ -33,6 +33,7 @@
     tldr
     todoist
     tree
+    yazi
     zellij
     zoxide
 
