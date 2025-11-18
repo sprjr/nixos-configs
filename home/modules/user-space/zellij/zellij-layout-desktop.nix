@@ -3,13 +3,13 @@
 let
   zellijLayoutsContent = ''
     layout {
-      tab name="main" split_direction="horizontal" {
-        pane bordless=true
+      tab name="main" borderless="true" split_direction="horizontal" {
+        pane
         pane command="btop"
       }
 
-      tab name="second" split_direction="horizontal" {
-        pane borderless=true
+      tab name="second" borderless="true" split_direction="horizontal" {
+        pane
         pane
       }
     }
