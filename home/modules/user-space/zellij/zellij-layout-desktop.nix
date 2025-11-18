@@ -4,12 +4,12 @@ let
   zellijLayoutsContent = ''
     layout {
       tab name="main" split_direction="horizontal" {
-        pane
+        pane bordless=true
         pane command="btop"
       }
 
       tab name="second" split_direction="horizontal" {
-        pane
+        pane borderless=true
         pane
       }
     }
