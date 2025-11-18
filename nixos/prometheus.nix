@@ -206,6 +206,7 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     attic-client
+    gcompris # educational stuff for kids
     git
     pciutils
     pipewire

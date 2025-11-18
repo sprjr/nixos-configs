@@ -182,6 +182,7 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     attic-client
+    gcompris # educational stuff for kids
     git
     haskellPackages.libfuse3 # For fprintd
     pciutils
