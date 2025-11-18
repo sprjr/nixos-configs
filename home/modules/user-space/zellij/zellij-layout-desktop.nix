@@ -3,18 +3,14 @@
 let
   zellijLayoutsContent = ''
     layout {
-      tab name="main" {
-        split_direction "Vertical" {
-          pane
-          pane commmand="btop"
-        }
+      tab name="main" split_direction="vertical" {
+        pane
+        pane command="btop"
       }
 
-      tab name="second" {
-        split_direction "Vertical" {
-          pane
-          pane
-        }
+      tab name="second" split_direction="vertical" {
+        pane
+        pane
       }
     }
   '';
