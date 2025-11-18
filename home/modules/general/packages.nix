@@ -9,7 +9,6 @@
     awscli
     bat
     caligula
-    castero
     docker
     docker-compose
     dua # file size checker
@@ -57,6 +56,7 @@
     _1password-gui
     _1password-cli
     anki
+    castero
     firefox
 #   hyprland
     hyprlock

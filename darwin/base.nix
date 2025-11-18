@@ -74,6 +74,8 @@ in {
       "tldr"
       "watch"
       "zsh"
+      # nrf util stuff
+      "binutils"
     ];
     extraConfig = ''
       cask_args appdir: "~/Applications"
@@ -103,8 +105,12 @@ in {
       "vlc"
       "vmware-fusion"
       "wine-stable"
+      # nrf-utils stuff
+      "nordic-nrf-command-line-tools"
+      "gcc-arm-embedded"
     ];
     taps = [
+     #"homebrew/cask-drivers"
     ];
   };
 
