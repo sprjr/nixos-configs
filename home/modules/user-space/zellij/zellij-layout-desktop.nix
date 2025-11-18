@@ -9,6 +9,12 @@ let
         }
         pane command="btop"{
         }
+      tab name="second" {
+        pane borderless=true {
+	  split_direction "Horizontal"
+	}
+	pane {
+	}
       }
     }
   '';
