@@ -17,6 +17,20 @@ let
         pane {
         }
       }
+      tab name="third" {
+        pane borderless=true {
+          split_direction "Horizontal"
+        }
+        pane {
+        }
+      }
+      tab name="fourth" {
+        pane borderless=true {
+          split_direction "Horizontal"
+        }
+        pane {
+        }
+      }
     }
   '';
 in
