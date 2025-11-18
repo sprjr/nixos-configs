@@ -110,7 +110,7 @@ in {
       "gcc-arm-embedded"
     ];
     taps = [
-      "homebrew/cask-drivers"
+      "cask-drivers"
     ];
   };
 
