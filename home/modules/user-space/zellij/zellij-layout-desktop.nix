@@ -3,12 +3,12 @@
 let
   zellijLayoutsContent = ''
     layout {
-      tab name="main" split_direction="vertical" {
+      tab name="main" split_direction="horizontal" {
         pane
         pane command="btop"
       }
 
-      tab name="second" split_direction="vertical" {
+      tab name="second" split_direction="horizontal" {
         pane
         pane
       }
