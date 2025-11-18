@@ -18,6 +18,13 @@ in {
     };
   };
 
+  # Desktop Environment
+  services = {
+    # Gnome
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
