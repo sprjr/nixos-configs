@@ -11,10 +11,10 @@ let
         }
       tab name="second" {
         pane borderless=true {
-	  split_direction "Horizontal"
-	}
-	pane {
-	}
+          split_direction "Horizontal"
+        }
+        pane {
+        }
       }
     }
   '';
