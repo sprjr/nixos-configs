@@ -3,8 +3,11 @@
 let
   zellijLayoutsContent = ''
     layout {
-      tab name="main" split_direction="horizontal" {
-        pane { borderless=true }
+      tab name="main" {
+        pane {
+          borderless=true
+          split_direction="horizontal"
+	}
         pane command="btop"
       }
 
