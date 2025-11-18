@@ -4,18 +4,16 @@ let
   zellijLayoutsContent = ''
     layout {
       tab name="main" {
-        split_direction="Vertical" {
-          pane { }
-          pane {
-            command "btop"
-          }
+        split_direction "Vertical" {
+          pane
+          pane commmand="btop"
         }
       }
 
       tab name="second" {
-        split_direction="Vertical" {
-          pane { }
-          pane { }
+        split_direction "Vertical" {
+          pane
+          pane
         }
       }
     }
