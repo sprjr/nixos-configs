@@ -20,7 +20,7 @@ in {
   users.users.patrick.extraGroups = [ "dialout" ];
 
   services = {
-    # KDE
+    # Gnome
    #displayManager.gdm.enable = true;
    #desktopManager.gnome.enable = true;
     # Cosmic
