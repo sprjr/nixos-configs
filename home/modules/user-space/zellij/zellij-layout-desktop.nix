@@ -3,10 +3,12 @@
 let
   zellijLayoutsContent = ''
     layout {
-      pane borderless=true {
-        split_direction "Horizontal"
-      }
-      pane command="btop"{
+      tab name="main" {
+        pane borderless=true {
+          split_direction "Horizontal"
+        }
+        pane command="btop"{
+        }
       }
     }
   '';
