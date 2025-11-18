@@ -6,7 +6,7 @@ let
       tab name="main" {
         pane {
           borderless=true
-          split_direction="horizontal"
+          split_direction "horizontal"
 	}
         pane command="btop"
       }
