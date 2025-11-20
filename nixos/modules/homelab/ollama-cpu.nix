@@ -31,7 +31,7 @@
   };
 
   services.open-webui = {
-    enable = true;
+    enable = false; # disabling to save on CPU -- seems to be taking up a decent amount of usage
     port = 31131;
     host = "0.0.0.0";
     environment = {
