@@ -170,6 +170,9 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
+    # Temporary
+    gcompris
+
     attic-client
     fanctl
     git
