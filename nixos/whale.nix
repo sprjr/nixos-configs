@@ -25,6 +25,17 @@ in {
     desktopManager.gnome.enable = true;
   };
 
+  # Kiosk Mode for GCompris
+  services.cage = {
+    enable = true;
+    program = "${gcompris}/bin/gcompris";
+    user = "whale";
+  };
+  systemd.services."cage-tty1".after = [
+    "network-online.target"
+    "systemd-resolved.service"
+  ];
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
