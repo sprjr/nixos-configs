@@ -96,11 +96,7 @@
             printf 'usage: cht <query>\n' >&2
             return 1
           end
-
-          # Join all arguments into one string and URL-encode it
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
-
-          # Fetch from cheat.sh
           curl "https://cht.sh/$encoded"
         end
       '';
