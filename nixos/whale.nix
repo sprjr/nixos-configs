@@ -11,7 +11,7 @@ in {
   # Home Manager
   home-manager = {
     useGlobalPkgs = true;
-    users.patrick = {
+    users.whale = {
       imports = [
         ../home/linux-home.nix
       ];
@@ -29,7 +29,7 @@ in {
   services.cage = {
     enable = true;
     program = "${gcompris}/bin/gcompris";
-    user = "whale";
+    user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
     "network-online.target"
