@@ -103,7 +103,7 @@ in {
     useGlobalPkgs = true;
     users.patrick = {
       imports = [
-        ../home/linux-home.nix
+        ../home/desktop-home.nix
       ];
     };
   };
