@@ -170,9 +170,6 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
-    # Temporary
-    gcompris
-
     attic-client
     fanctl
     git
@@ -213,6 +210,7 @@ in {
     gimp
     lyrebird
     mdp # fullscreen markdown reader
+    microsoft-edge # for specific applications
     moonlight-qt
     mullvad-browser
     mumble
