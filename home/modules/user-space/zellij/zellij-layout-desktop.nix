@@ -39,5 +39,8 @@ in
   programs.zellij.enable = true;
 
   # Write config.kdl directly to ~/.config/zellij/config.kdl
-  home.file.".config/zellij/layouts/default.kdl".text = zellijLayoutsContent;
+  home.file.".config/zellij/layouts/default.kdl" = {
+    text = zellijLayoutsContent;
+    force = true;
+  };
 }
