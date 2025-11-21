@@ -1,7 +1,7 @@
 { config, pkgs, home-manager, ... }:
 
 let
-  zellijLayoutsContent = ''
+  zellijLayoutsContentDesktop = ''
     layout {
       tab name="main" {
         pane borderless=true {
@@ -40,7 +40,6 @@ in
 
   # Write config.kdl directly to ~/.config/zellij/config.kdl
   home.file.".config/zellij/layouts/default.kdl" = {
-    text = zellijLayoutsContent;
-    force = true;
+    text = zellijLayoutsContentDesktop;
   };
 }
