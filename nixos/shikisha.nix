@@ -121,6 +121,7 @@ in {
   environment.systemPackages = with pkgs; [
     attic-server
     attic-client
+    cachix
     git
     usbutils
     pciutils
@@ -134,7 +135,6 @@ in {
     esptool
     file
     fzf
-    #haskellPackages.makefile
     gnumake # makefile ^ alternative
     kiwix
     kiwix-tools
@@ -156,18 +156,14 @@ in {
     lshw
     netop
     nmap
-   #openvas-scanner
-    wireguard-tools
-    wireguard-ui
-    wireshark
     xpipe
 
     # Docker OSX/macOS
-    bridge-utils
-    libvirt
-    virt-manager
-    qemu
-    qemu_kvm
+   #bridge-utils
+   #libvirt
+   #virt-manager
+   #qemu
+   #qemu_kvm
 
     # Python
     python313
