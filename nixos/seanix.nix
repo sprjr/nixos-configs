@@ -135,7 +135,6 @@ in {
   # to fix broken internet when using an exit node
   networking.firewall.checkReversePath = "loose";
 
-
   # Mullvad
   services.mullvad-vpn.enable = true;
   networking.iproute2.enable = true;
@@ -158,7 +157,7 @@ in {
       python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
         textual = pyPrev.textual.overridePythonAttrs (old: {
           doCheck = false; # skip failed tests
-	});
+        });
       });
     })
   ];
