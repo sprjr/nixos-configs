@@ -158,6 +158,9 @@ in {
         textual = pyPrev.textual.overridePythonAttrs (old: {
           doCheck = false; # skip failed tests
         });
+        langchain-community = pyPrev.langchain-community.overridePythonAttrs (old: {
+	  doCheck = false;
+	});
       });
     })
   ];
