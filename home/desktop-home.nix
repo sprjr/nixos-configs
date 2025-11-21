@@ -9,7 +9,6 @@
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
-#   ./modules/user-space/btop.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-desktop.nix
     ./modules/user-space/zellij/zellij-config.nix
@@ -33,6 +32,7 @@
 
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
+    package = pkgs.nix;
   };
 
   home.stateVersion = "24.05";
