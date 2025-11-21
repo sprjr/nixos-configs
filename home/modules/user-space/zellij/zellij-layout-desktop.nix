@@ -7,7 +7,7 @@ let
         pane borderless=true {
           split_direction "Horizontal"
         }
-        pane command="btop"{
+        pane command="btop" {
         }
       }
       tab name="second" {
@@ -33,8 +33,8 @@ let
       }
     }
   '';
-in
 
+in
 {
   programs.zellij.enable = true;
 
