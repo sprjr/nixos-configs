@@ -142,7 +142,6 @@
            sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
-          ./nixos/modules/homelab/ollama-amd.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
