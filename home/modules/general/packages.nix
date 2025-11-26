@@ -56,11 +56,7 @@
     _1password-gui
     _1password-cli
     anki
-    castero
     firefox
-#   hyprland
-    hyprlock
-    hyprpaper
     impala
     libvirt
     polonium
