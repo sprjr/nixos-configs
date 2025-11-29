@@ -6,6 +6,8 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
+    # Systemd Timers
+    ./hosts/shikisha/cron/docker-findmy-restart.nix
   ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
