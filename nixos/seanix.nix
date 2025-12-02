@@ -207,6 +207,7 @@ in {
     gamescope
     ghostty
     gimp
+    iotop
     lyrebird
     mdp # fullscreen markdown reader
     microsoft-edge # for specific applications
