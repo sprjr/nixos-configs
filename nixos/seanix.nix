@@ -290,5 +290,8 @@ in {
     options = "delete-older-than 14d";
   };
 
+  # nix-store optimise
+  nix.optimise.automatic = true;
+
   system.stateVersion = "24.05"; # Did you read the comment?
 }
