@@ -220,6 +220,7 @@ in {
     signal-desktop
     sops
     thunderbird
+    typst
     vim
     vimPlugins.nvchad
     vlc
