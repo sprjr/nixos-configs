@@ -8,6 +8,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     # Other
     heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
+    comin = {
+      url = "github:nlewo/comin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +55,8 @@
   };
 
   outputs = inputs@{  self,
-                      darwin,
+                      comin,
+		      darwin,
                       fish-flake,
                       flake-utils,
                       ghostty,
@@ -139,7 +144,8 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-           sops-nix.nixosModules.sops
+          comin.nixosModules.comin
+	  sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
