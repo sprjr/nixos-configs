@@ -376,6 +376,26 @@
         "type": "path"
       }
     },
+    "comin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764355943,
+        "narHash": "sha256-ong0HRmdxO+Mqasi/Zi6hJP5N5o6OD6IC7Sj6xDCdtc=",
+        "owner": "nlewo",
+        "repo": "comin",
+        "rev": "7186ec4b9d0d86554a3dadb54f8c9b1e101f3fa1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nlewo",
+        "repo": "comin",
+        "type": "github"
+      }
+    },
     "cosmic-session": {
       "inputs": {
         "crane": "crane_2",
@@ -10167,16 +10187,16 @@
     },
     "nixpkgs-stable_7": {
       "locked": {
-        "lastModified": 1763622513,
-        "narHash": "sha256-1jQnuyu82FpiSxowrF/iFK6Toh9BYprfDqfs4BB+19M=",
+        "lastModified": 1764677808,
+        "narHash": "sha256-H3lC7knbXOBrHI9hITQ7modLuX20mYJVhZORL5ioms0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c58bc7f5459328e4afac201c5c4feb7c818d604b",
+        "rev": "1aab89277eb2d87823d5b69bae631a2496cff57a",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-25.05",
+        "ref": "nixos-25.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -12768,6 +12788,7 @@
     },
     "root": {
       "inputs": {
+        "comin": "comin",
         "darwin": "darwin",
         "fish-flake": "fish-flake",
         "flake-utils": "flake-utils_2",
