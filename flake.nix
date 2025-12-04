@@ -145,14 +145,14 @@
         specialArgs = inputs;
         modules = [
           comin.nixosModules.comin
-	  sops-nix.nixosModules.sops
+          sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/comin.nix
-	  ./nixos/modules/system/udev-scrcpy.nix
+          ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
@@ -172,12 +172,14 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-           sops-nix.nixosModules.sops
+          comin.nixosModules.comin
+          sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
           ./nixos/modules/network/scripts/ip_check.nix
+          ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
