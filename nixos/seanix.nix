@@ -196,6 +196,7 @@ in {
     distrobox
     distrobox-tui
     duplicati
+    easyeffects
     espflash
     esptool
     file
