@@ -190,8 +190,6 @@ in {
     # User environment
     alacritty
     btop-rocm
-    pkgs-stable.bitwarden
-    pkgs-stable.bitwarden-cli
     legcord # alt discord client
     direnv
     discord
