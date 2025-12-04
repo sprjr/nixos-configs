@@ -9,7 +9,6 @@
       branches.main.name = "main";
       poller.period = 60;
     }];
-    externalDiff.enable = true;
     hostname = config.networking.hostName;
   };
   systemd.services.comin.environment = {
