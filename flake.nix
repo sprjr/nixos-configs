@@ -201,8 +201,6 @@
         system = "aarch64-darwin";
         specialArgs = inputs;
         modules = [
-          comin.nixosModules.comin
-          ./nixos/modules/system/comin.nix
           ./darwin/base.nix
 	  {
             # Set hostname
