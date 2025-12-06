@@ -14,10 +14,10 @@ in {
     defaults = {
       dock = {
         persistent-apps = [
-          "/Applications/Finder.app"
-          "/Applications/Messages.app"
+          "~/Applications/Finder.app"
+          "~/Applications/Messages.app"
           "/Applications/Firefox.app"
-          "/Applications/System Settings.app"
+          "~/Applications/System Settings.app"
           "/Applications/Line.app"
           "/Applications/Steam.app"
           "/Applications/Battle.net.app"
