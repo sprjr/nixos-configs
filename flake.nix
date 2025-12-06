@@ -83,7 +83,7 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-          ./nixos/hardware-configuration/trixos.nix
+          /etc/nixos/hardware-configuration.nix
           ./nixos/trixos.nix
           ./nixos/modules/nvidia.nix
           ./nixos/modules/monitoring/node-exporter.nix
@@ -145,36 +145,26 @@
         specialArgs = inputs;
         modules = [
           comin.nixosModules.comin
-	  sops-nix.nixosModules.sops
+          sops-nix.nixosModules.sops
           /etc/nixos/hardware-configuration.nix
-	 #./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/comin.nix
-	  ./nixos/modules/system/udev-scrcpy.nix
+          ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here
           }
         ];
       };
-      seanvy = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          ./nixos/hardware-configuration/seanvy.nix
-          ./nixos/hp-envy.nix
-          ./nixos/modules/virtualisation/containers/syncthing.nix
-        ];
-      };
       shikisha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-           sops-nix.nixosModules.sops
-          ./nixos/hardware-configuration/shikisha.nix
+          sops-nix.nixosModules.sops
+          /etc/nixos/hardware-configuration.nix
           ./nixos/shikisha.nix
           ./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
