@@ -26,7 +26,6 @@
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
     openssl
-    piper-tts
     pv
     rig
     russ
