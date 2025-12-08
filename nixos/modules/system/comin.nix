@@ -9,7 +9,7 @@
       branches.main.name = "main";
       poller.period = 60;
     }];
-    extnixos-rebuild-args = [ "--impure" ];
+    extraOptions = [ "--impure" ];
     hostname = config.networking.hostName;
   };
 }
