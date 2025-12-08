@@ -3,6 +3,7 @@
 {
   services.comin = {
     enable = true;
+    hostname = config.networking.hostName;
     remotes = [{
       name = "origin";
       url = "https://github.com/sprjr/nixos-configs.git";
@@ -10,6 +11,5 @@
       poller.period = 60;
     }];
     extraOptions = [ "--impure" ];
-    hostname = config.networking.hostName;
   };
 }
