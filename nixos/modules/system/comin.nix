@@ -9,9 +9,7 @@
       branches.main.name = "main";
       poller.period = 60;
     }];
+    extnixos-rebuild-args = [ "--impure" ];
     hostname = config.networking.hostName;
-  };
-  systemd.services.comin.environment = {
-    NIXOS_REBUILD_FLAGS = "--impure";
   };
 }
