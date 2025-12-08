@@ -10,6 +10,5 @@
       branches.main.name = "main";
       poller.period = 60;
     }];
-    extraOptions = [ "--impure" ];
   };
 }
