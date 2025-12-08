@@ -119,24 +119,14 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-          home-manager.nixosModules.home-manager
-          omarchy-nix.nixosModules.default
+          comin.nixosModules.comin
+	  home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          stylix.nixosModules.stylix
-          /etc/nixos/hardware-configuration.nix
+          ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
+	  ./nixos/modules/system/comin.nix
           ./nixos/modules/user/patrick.nix
           {
-            omarchy = {
-              full_name = "sprjr";
-              email_address = "patrick@rawlinson.ws";
-              theme = "nord";
-            };
-            home-manager = {
-              users.patrick = {
-                imports = [ omarchy-nix.homeManagerModules.default ];
-              };
-            };
           }
         ];
       };
@@ -164,7 +154,7 @@
         specialArgs = inputs;
         modules = [
           sops-nix.nixosModules.sops
-          /etc/nixos/hardware-configuration.nix
+          ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
@@ -183,7 +173,7 @@
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
-          /etc/nixos/hardware-configuration.nix
+          ./nixos/hardware-configuration/voyager.nix
           ./nixos/voyager.nix
           ./nixos/modules/system/fprintd.nix
           ./nixos/modules/user/patrick.nix

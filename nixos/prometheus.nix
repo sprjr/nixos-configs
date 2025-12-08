@@ -8,16 +8,14 @@ in {
     ./modules/system/sops.nix
   ];
 
-# services.displayManager = {
+  services = {
     # Hyprland
-#   sddm.wayland.enable = true;
-#   defaultSession = "hyprland";
+   #sddm.wayland.enable = true;
+   #defaultSession = "hyprland";
     # Cosmic
-#   cosmic-greeter.enable = true;
-# };
-
-  # Cosmic DE
-# services.desktopManager.cosmic.enable = true;
+    displayManager.cosmic-greeter.enable = true;
+    desktopManager.cosmic.enable = true;
+  };
 
   # ESP32 Serial Converter
   boot.kernelModules = [
