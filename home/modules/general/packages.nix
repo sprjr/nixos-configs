@@ -25,6 +25,7 @@
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
+    nps
     openssl
     pv
     rig
