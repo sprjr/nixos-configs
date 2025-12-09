@@ -224,15 +224,6 @@ in {
     python313Packages.cryptography
     python313Packages.pip
 
-    # Hyprland
-#   hyprsession.packages.${pkgs.system}.default
-#   hyprland
-#   hyprlock
-#   hyprpaper
-#   hyprlandPlugins.hyprspace
-#   ulauncher
-    xdg-utils
-
     ### Net tools ###
     pkgs-stable.tailscale
     bandwhich
