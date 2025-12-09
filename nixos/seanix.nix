@@ -169,6 +169,7 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
+    ansible
     attic-client
     fanctl
     git
