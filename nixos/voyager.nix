@@ -191,7 +191,6 @@ in {
     wget
 
     # User environment
-    pkgs-stable.bitwarden
     discord
     duplicati
     file
