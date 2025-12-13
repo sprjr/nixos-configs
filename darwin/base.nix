@@ -65,6 +65,7 @@ in {
       "htop"
       "hyfetch"
       "lsd"
+      "lsusb"
       "mtr"
       "nmap"
       "ollama"
