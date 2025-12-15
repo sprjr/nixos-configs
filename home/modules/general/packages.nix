@@ -41,6 +41,7 @@
 
     # Dumb CLI tools
     asciiquarium
+    blahaj
     cbonsai
     cmatrix
     cool-retro-term
