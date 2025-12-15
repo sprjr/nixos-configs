@@ -224,7 +224,6 @@ in {
     vim
     vimPlugins.nvchad
     vlc
-    xbindkeys-config # graphic interface for xbindkeys (input mapper)
     zsh
 
     ### Net tools ###
