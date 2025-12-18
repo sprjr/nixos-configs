@@ -216,6 +216,7 @@ in {
     mumble
     obsidian
     ollama-rocm
+    opencv
     scrcpy
     signal-desktop
     sops
