@@ -42,6 +42,9 @@ in {
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
+  # Disable Orca screen reader
+  services.orca.enable = false;
+
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
