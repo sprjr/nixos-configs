@@ -200,7 +200,7 @@ in {
     # User environment
     alacritty
     btop-rocm
-    legcord # alt discord client
+    cavasik # audio visualizer
     direnv
     discord
     distrobox
@@ -217,6 +217,7 @@ in {
     ghostty
     gimp
     iotop
+    legcord # alt discord client
     lyrebird
     mdp # fullscreen markdown reader
     microsoft-edge # for specific applications
