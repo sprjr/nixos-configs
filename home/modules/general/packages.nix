@@ -9,6 +9,7 @@
     awscli
     bat
     caligula
+    cavasik # audio visualizer
     docker
     docker-compose
     dua # file size checker
@@ -58,7 +59,6 @@
     _1password-gui
     _1password-cli
     anki
-    cavasik # audio visualizer
     firefox
     impala
     libvirt
