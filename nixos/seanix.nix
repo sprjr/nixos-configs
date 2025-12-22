@@ -20,7 +20,7 @@ in {
     # Cosmic
     displayManager.cosmic-greeter.enable = true;
     desktopManager.cosmic.enable = true;
-    system76-schedule.enable = true;
+    system76-scheduler.enable = true;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
