@@ -58,7 +58,7 @@
     _1password-gui
     _1password-cli
     anki
-    cli-visualizer
+    cavasik # audio visualizer
     firefox
     impala
     libvirt
