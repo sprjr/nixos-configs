@@ -58,6 +58,7 @@
     _1password-gui
     _1password-cli
     anki
+    cli-visualizer
     firefox
     impala
     libvirt
