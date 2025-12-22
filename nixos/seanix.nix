@@ -200,7 +200,6 @@ in {
     # User environment
     alacritty
     btop-rocm
-    cavasik # audio visualizer
     direnv
     discord
     distrobox
