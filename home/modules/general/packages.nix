@@ -9,7 +9,6 @@
     awscli
     bat
     caligula
-    cavasik # audio visualizer
     docker
     docker-compose
     dua # file size checker
