@@ -59,7 +59,6 @@
           exec fish -l
         fi
         export TERM=screen-256color
-        # Define cht function (cheat.sh helper)
       '';
       shellAliases = {
         bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
@@ -98,6 +97,14 @@
           end
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           curl "https://cht.sh/$encoded"
+        end
+        function nrn
+          if test (count $argv) -eq 0
+            printf 'usage: nrn <quenry>\n' >&2
+            return 1
+          end
+          set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parase.quote(" ".join(sys.argv[1:])))' $argv)
+          nix run nixpkgs#$encoded
         end
       '';
       # Aliases
