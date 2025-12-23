@@ -15,12 +15,12 @@ in {
    #displayManager.gdm.enable = true;
    #desktopManager.gnome.enable = true;
     # Plasma
-   #displayManager.sddm.enable = true;
-   #desktopManager.plasma6.enable = true;
+    displayManager.sddm.enable = true;
+    desktopManager.plasma6.enable = true;
     # Cosmic
-    displayManager.cosmic-greeter.enable = true;
-    desktopManager.cosmic.enable = true;
-    system76-scheduler.enable = true;
+   #displayManager.cosmic-greeter.enable = true;
+   #desktopManager.cosmic.enable = true;
+   #system76-scheduler.enable = true;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
