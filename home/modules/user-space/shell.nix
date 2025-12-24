@@ -103,7 +103,7 @@
             printf 'usage: nrn <query>\n' >&2
             return 1
           end
-          set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parase.quote(" ".join(sys.argv[1:])))' $argv)
+          set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           nix run nixpkgs#$encoded
         end
       '';
