@@ -100,7 +100,7 @@
         end
         function nrn
           if test (count $argv) -eq 0
-            printf 'usage: nrn <quenry>\n' >&2
+            printf 'usage: nrn <query>\n' >&2
             return 1
           end
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parase.quote(" ".join(sys.argv[1:])))' $argv)
