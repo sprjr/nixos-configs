@@ -209,6 +209,7 @@ in {
     nrfconnect
     nrfutil
     obsidian
+    prismlauncher
     scrcpy
     signal-desktop
     sops
