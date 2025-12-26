@@ -56,7 +56,7 @@
 
   outputs = inputs@{  self,
                       comin,
-		      darwin,
+	              darwin,
                       fish-flake,
                       flake-utils,
                       ghostty,
@@ -87,7 +87,6 @@
           ./nixos/trixos.nix
           ./nixos/modules/nvidia.nix
           ./nixos/modules/monitoring/node-exporter.nix
-         #./nixos/modules/backups/rsnapshot.nix
           {
             networking.hostName = "trixos";
             hardware.nvidia.prime = {
@@ -120,11 +119,11 @@
         specialArgs = inputs;
         modules = [
           comin.nixosModules.comin
-	  home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/prometheus.nix
           ./nixos/prometheus.nix
-	  ./nixos/modules/system/comin.nix
+          ./nixos/modules/system/comin.nix
           ./nixos/modules/user/patrick.nix
           {
           }
@@ -153,14 +152,16 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
-          sops-nix.nixosModules.sops
+          comin.nixosModules.comin
+	  sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
-	  ./nixos/modules/disks/unraid-other.nix
-	  ./nixos/modules/disks/unraid-kubernetes.nix
+          ./nixos/modules/disks/unraid-other.nix
+          ./nixos/modules/disks/unraid-kubernetes.nix
           ./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
           ./nixos/modules/network/scripts/ip_check.nix
+          ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
@@ -172,16 +173,18 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+          comin.nixosModules.comin
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
           ./nixos/hardware-configuration/voyager.nix
           ./nixos/voyager.nix
+          ./nixos/modules/system/comin.nix
           ./nixos/modules/system/fprintd.nix
           ./nixos/modules/user/patrick.nix
           {
           # Extra config here
-	  }
+          }
         ];
       };
     };
@@ -194,7 +197,7 @@
         specialArgs = inputs;
         modules = [
           ./darwin/base.nix
-	  {
+          {
             # Set hostname
             networking.hostName = "seair";
           }
@@ -213,13 +216,10 @@
             home = {
               username = "patrick";
               homeDirectory = "/home/patrick";
-                    };
+            };
             fonts.fontconfig.enable = true;
             programs.home-manager.enable = true;
             targets.genericLinux.enable = true;
-           #home.packages = [
-             #(pkgs.nerdfonts.override { fonts = [ "Hack" "DroidSansMono" "JetBrainsMono" ]; })
-           #];
           }
         ];
       };
