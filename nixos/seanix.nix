@@ -145,7 +145,6 @@ in {
   networking.firewall.checkReversePath = "loose";
 
   # Mullvad
-  services.mullvad-vpn.enable = true;
   networking.iproute2.enable = true;
 
   # Wireguard
@@ -221,7 +220,6 @@ in {
     mdp # fullscreen markdown reader
     microsoft-edge # for specific applications
     moonlight-qt
-    mullvad-browser
     mumble
     obsidian
     ollama-rocm
@@ -239,7 +237,6 @@ in {
     ### Net tools ###
     tailscale
     inetutils
-    mullvad-vpn
     nextcloud-client
     looking-glass-client
     lshw
