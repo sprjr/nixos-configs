@@ -27,6 +27,10 @@ in {
   networking.hostName = "shikisha"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
+  networking.firewall = {
+    allowedUDPPorts = [ 8472 ];
+  };
+
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
