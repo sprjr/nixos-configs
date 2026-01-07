@@ -199,6 +199,7 @@ in {
     # User environment
     alacritty
     btop-rocm
+    cavalier
     direnv
     discord
     distrobox
