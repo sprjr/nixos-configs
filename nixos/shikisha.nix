@@ -152,9 +152,9 @@ in {
 
     # ESP32 stuff
     esptool
-    python313
-    python313Packages.cryptography
-    python313Packages.pip
+   #python313
+   #python313Packages.cryptography
+   #python313Packages.pip
 
     ### Net tools ###
     inetutils
@@ -170,11 +170,6 @@ in {
    #virt-manager
    #qemu
    #qemu_kvm
-
-    # Python
-    python313
-    python313Packages.cryptography
-    python313Packages.pip
 
     # Operations tools
     argocd
