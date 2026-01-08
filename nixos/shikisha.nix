@@ -158,6 +158,7 @@ in {
 
     ### Net tools ###
     inetutils
+    mosquitto
     mullvad-vpn
     lshw
     netop
