@@ -4,7 +4,7 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
-    _1password
+    _1password-cli
     _1password-gui
     andcli
     atuin
