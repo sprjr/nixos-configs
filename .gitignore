@@ -6,6 +6,7 @@
 
 # Ignore all environment files
 *.env
+.direnv
 
 # Ignore backup files
 *bak*
