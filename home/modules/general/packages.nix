@@ -4,6 +4,8 @@
   # Home-manager packages
   home.packages = with pkgs; [
     # Global packages
+    _1password
+    _1password-gui
     andcli
     atuin
     awscli
@@ -56,8 +58,8 @@
     ternimal
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
-    _1password-gui
-    _1password-cli
+#   _1password-gui
+#   _1password-cli
     anki
     firefox
     impala
