@@ -200,7 +200,6 @@ in {
     alacritty
     btop-rocm
     cavalier
-    direnv
     discord
     distrobox
     distrobox-tui
