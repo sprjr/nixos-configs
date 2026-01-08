@@ -9,6 +9,7 @@
     awscli
     bat
     caligula
+    direnv
     docker
     docker-compose
     dua # file size checker
