@@ -199,7 +199,6 @@ in {
     # User environment
     alacritty
     btop-rocm
-    cavalier
     discord
     distrobox
     distrobox-tui
