@@ -215,7 +215,7 @@ in {
     ghostty
     gimp
     iotop
-    ladybird
+   #ladybird
     legcord # alt discord client
     lyrebird
     mdp # fullscreen markdown reader
