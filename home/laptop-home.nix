@@ -11,6 +11,7 @@
     ./modules/user-space/bat.nix
 #   ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/cosmic.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout.nix
     ./modules/user-space/zellij/zellij-config.nix
