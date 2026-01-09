@@ -1,5 +1,5 @@
 {
-  description = "sprjr nixos configs flake";
+  description = "sprjr nix configs flake";
 
   inputs = {
     # Nix stuff
