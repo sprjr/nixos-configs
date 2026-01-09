@@ -75,8 +75,7 @@
                       nixpkgs-stable,
                       spicetify-nix,
                       stylix,
-		      # Custom stuff
-		      dark-wallpaper-laptop,
+                      dark-wallpaper-laptop,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
