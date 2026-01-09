@@ -8,6 +8,9 @@ garage:
     admin_token: ENC[AES256_GCM,data:Vt+HwMhCe9NKHpAayv/1mkmLAe8F0R9C494+ReDpNN4s2J7eekkEzHwl8Ow=,iv:WHQy85ZewDV6LtxuKe31pj8yWdTlxRMq3DkIRr49gMs=,tag:/g642wPUB+ct571SgC7CKA==,type:str]
     metrics_token: ENC[AES256_GCM,data:tffyYiIwMubqA6q2tr0SyaKJryWcZ8VackoeHNzgUFdyHBvl3kgo98nhYoA=,iv:w5uteEbOC5DP1iEnqkbAAyGBwv7/J48vWbrYxQsrx4Y=,tag:iJrt1LupcbHArXLbncGc4A==,type:str]
     rpc_secret: ENC[AES256_GCM,data:NII8ViOdyCnBM2w1uqYsHcldEvlUa3g78V4zPuggYQZP5QGk+qFAzsURc0gM7zQPHZWOP4OWljF9uLwpbdgjhQ==,iv:N8835caoZYrivQhmusefMFxfNPRCi5VZ2ZzN43vN9ok=,tag:0DERo92tYqdh6R4MgelR3g==,type:str]
+mosquitto:
+    mosquitto_user: ENC[AES256_GCM,data:hO8mFi4LR/N5XSRdwcAmWsNQbQ==,iv:1N1IVP6hql5COpoKnEw0yd5HuFtvch/fb8nQSzKKr9k=,tag:Qv2ij8F4hQonaBT6vajnHw==,type:str]
+    mosquitto_password: ENC[AES256_GCM,data:LRPrTXZtu//m8W3GNMj8WKxgTF0=,iv:8pLB6mYrb3jCTt2gSwK1CohNHv26AtdNo71DO+MLc1s=,tag:Vy3pS/pKcqPnZ3T7tQH8zQ==,type:str]
 sops:
     age:
         - recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
@@ -19,7 +22,7 @@ sops:
             YXlCM2J2a0wyWDV0c283RDNjekc2VXMKPWley8IXCEpYzLo1LA1z5RMI+/a/VN34
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-06-06T18:35:32Z"
-    mac: ENC[AES256_GCM,data:OKfjbvAANrv5xqnA4+zFppqxT7lkOHazAaLPa0XshKat6etZAciPS12EKfHPVpaHsI5HaoqI5CQjJ4AOOPYSMeT7XwbRIuQLSzilbbqYeM8BL9LrmaUi0BPXv85TgFJstIWMgxG538vGFPksOM5RojuhWtOmAdNnppoVQyBIXL0=,iv:jSosOdEdf+O8XpaKELx6/kcJUvDAluMqsKz5m0fNlEc=,tag:wcovlKs3dXyo57ofMlf48w==,type:str]
+    lastmodified: "2026-01-09T23:55:13Z"
+    mac: ENC[AES256_GCM,data:T2PpmNQf1mPt4VgTlxOUkgmUe2LS8PVaur0idU+Jo+g/i2ezaC3o704f+na9JF/8b42FIWVBVYHNyY8gJXyFsKG8iuKQ7saFgASQui0yrHaPkfIDQMLBlF/EdHpEDWU57g/nTMbZPWvKuzNxyo3MFNbYm8Pr4Du5zDDUNXUVJao=,iv:onfb3W8ggAhE7VGaH83h/YrCVtWc1aCP1zzWqilQfmU=,tag:TFTR6x5TlkRMivsJ6XNaCg==,type:str]
     unencrypted_suffix: _unencrypted
-    version: 3.10.2
+    version: 3.11.0
