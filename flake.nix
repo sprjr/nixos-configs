@@ -168,7 +168,8 @@
           ./nixos/modules/homelab/nextcloud.nix
 	 #./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
-          ./nixos/modules/network/scripts/ip_check.nix
+          ./nixos/modules/network/mosquitto.nix
+	  ./nixos/modules/network/scripts/ip_check.nix
           ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
