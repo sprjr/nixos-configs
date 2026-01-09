@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, dark-wallpaper-laptop, ... }:
 
 with lib;
 
@@ -300,7 +300,7 @@ in {
     xdg.configFile."com.system76.CosmicBackground/v1/all".text = ''
       (
           output: "all",
-          source: Path("/home/patrick/Downloads/chill_nebula.jpg"),
+          source: Path("${dark-wallpaper-laptop}"),
           filter_by_theme: true,
           rotation_frequency: 300,
           filter_method: Lanczos,
