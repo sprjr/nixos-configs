@@ -52,6 +52,11 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Custom stuff
+    dark-wallpaper-laptop = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/main/anime/a_train_crossing_with_a_train_track_and_a_body_of_water.png";
+      flake = false;
+    };
   };
 
   outputs = inputs@{  self,
@@ -70,6 +75,8 @@
                       nixpkgs-stable,
                       spicetify-nix,
                       stylix,
+		      # Custom stuff
+		      dark-wallpaper-laptop,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {
