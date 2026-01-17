@@ -18,6 +18,7 @@
     duf
     glow
     gocheat
+    harper
     htop
     kubernetes-helm
     kubectx # supplementary kubernetes tools
