@@ -175,6 +175,12 @@ in {
     polkitPolicyOwners = [ "patrick" ];
   };
 
+  # fprintd
+  services.fprintd = {
+    enable = true;
+    tod.driver = pkgs.libfprint-2-tod1-goodix;
+  };
+
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
@@ -185,8 +191,8 @@ in {
   # System packages
   environment.systemPackages = with pkgs; [
     attic-client
-    gcompris # educational stuff for kids
     fprintd
+    gcompris # educational stuff for kids
     git
     haskellPackages.libfuse3 # For fprintd
     imagemagick
