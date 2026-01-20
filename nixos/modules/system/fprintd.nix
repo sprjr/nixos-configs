@@ -3,8 +3,8 @@
 {
   environment.systemPackages = [
     pkgs.fprintd
-   #pkgs.haskellPackages.libfuse3
-   #pkgs.imagemagick
+    pkgs.haskellPackages.libfuse3
+    pkgs.imagemagick
   ];
 
   services.fprintd = {
