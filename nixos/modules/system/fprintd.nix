@@ -2,9 +2,9 @@
 
 {
   environment.systemPackages = [
-    pkgs.open-fprintd
-    pkgs.haskellPackages.libfuse3
-    pkgs.imagemagick
+    pkgs.fprintd
+   #pkgs.haskellPackages.libfuse3
+   #pkgs.imagemagick
   ];
 
   services.fprintd = {
@@ -14,4 +14,5 @@
       driver = pkgs.libfprint-2-tod1-goodix;
     };
   };
+  security.pam.services.login.fprintAuth = false;
 }
