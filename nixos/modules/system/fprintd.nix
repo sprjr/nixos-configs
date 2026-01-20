@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = [
-    pkgs.fprintd
+    pkgs.open-fprintd
     pkgs.haskellPackages.libfuse3
     pkgs.imagemagick
   ];
