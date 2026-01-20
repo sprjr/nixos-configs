@@ -5,7 +5,6 @@
     pkgs.open-fprintd
     pkgs.haskellPackages.libfuse3
     pkgs.imagemagick
-    pkgs.python3-validity
   ];
 
   services.fprintd = {
