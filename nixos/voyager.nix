@@ -192,6 +192,10 @@ in {
     thermald
     wget
 
+    # Development tools
+    code-cursor
+    cursor-cli
+
     # User environment
     discord
     duplicati
