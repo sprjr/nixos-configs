@@ -251,7 +251,7 @@ in {
     # Work Tools
     opentofu
     remmina
-    weasis
+    terraformer
 
     # scrcpy packages
     android-tools

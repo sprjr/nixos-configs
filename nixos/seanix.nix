@@ -268,10 +268,10 @@ in {
     python313Packages.torchaudio
     python313Packages.torchvision
 
-    # Work Tools
+    # Work/Infra
     opentofu
     remmina
-    weasis
+    terraformer
 
     # KDE Packages
     kdePackages.dolphin
