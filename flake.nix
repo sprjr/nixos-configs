@@ -159,17 +159,15 @@
         specialArgs = inputs;
         modules = [
           comin.nixosModules.comin
-	  sops-nix.nixosModules.sops
+          sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/disks/unraid-other.nix
           ./nixos/modules/disks/unraid-kubernetes.nix
           ./nixos/modules/disks/unraid-nextcloud.nix
           ./nixos/modules/homelab/nextcloud.nix
-	 #./nixos/modules/homelab/ollama-cpu.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
           ./nixos/modules/network/mosquitto.nix
-	  ./nixos/modules/network/scripts/ip_check.nix
           ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
