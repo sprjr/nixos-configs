@@ -196,6 +196,12 @@ in {
     pulseaudio
     qjackctl
 
+    # Development Tools
+    code-cursor
+    cursor-cli
+    lens
+
+
     # User environment
     alacritty
     btop-rocm
