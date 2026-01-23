@@ -8,7 +8,7 @@
     _1password-gui
     andcli
     atuin
-    awscli
+    awscli2
     bat
     caligula
     direnv
