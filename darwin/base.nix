@@ -124,7 +124,6 @@ in {
   patrick.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
   system.stateVersion = 4;
 }
 
