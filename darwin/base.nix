@@ -61,21 +61,17 @@ in {
      #"firefox" # re-add later
       "fish"
       "glow" # markdown reader
-      "golang"
       "htop"
       "hyfetch"
       "lsd"
       "lsusb"
       "mtr"
       "nmap"
-      "ollama"
       "opentofu"
       "sops"
       "tldr"
       "watch"
       "zsh"
-      # nrf util stuff
-      "binutils"
     ];
     extraConfig = ''
       cask_args appdir: "~/Applications"

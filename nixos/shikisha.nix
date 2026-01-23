@@ -171,12 +171,13 @@ in {
    #qemu
    #qemu_kvm
 
-    # Operations tools
+    # Infra/Operations tools
     argocd
     garage
     kubeseal
     openiscsi
     opentofu
+    terraformer
   ] ++ [
     # Pinned to Stable
   ];

@@ -196,6 +196,12 @@ in {
     pulseaudio
     qjackctl
 
+    # Development Tools
+    code-cursor
+    cursor-cli
+    lens
+
+
     # User environment
     alacritty
     btop-rocm
@@ -262,10 +268,10 @@ in {
     python313Packages.torchaudio
     python313Packages.torchvision
 
-    # Work Tools
+    # Work/Infra
     opentofu
     remmina
-    weasis
+    terraformer
 
     # KDE Packages
     kdePackages.dolphin

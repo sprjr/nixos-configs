@@ -5,7 +5,7 @@
     nextcloud = {
       enable = true;
       datadir = "/mnt/unraid/Nextcloud/nextcloud";
-      hostName = "nextcloud.rawliyosh.com";
+      hostName = "0.0.0.0";
       package = pkgs.nextcloud31;
       database.createLocally = true;
       configureRedis = true;
