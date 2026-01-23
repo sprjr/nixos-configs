@@ -38,6 +38,7 @@
     tldr
     todoist
     tree
+    xclip
     yazi
     zellij
     zoxide
