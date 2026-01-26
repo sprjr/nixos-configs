@@ -271,6 +271,7 @@ in {
     # Work/Infra
     opentofu
     remmina
+    terraform
     terraformer
 
     # KDE Packages
