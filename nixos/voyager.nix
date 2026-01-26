@@ -197,13 +197,14 @@ in {
     cursor-cli
 
     # User environment
-    discord
+   #discord # Currently using 'legcord'
     duplicati
     file
     fzf
     ghostty
     home-manager
     kitty
+    legcord
     libreoffice
     mdp # fullscreen markdown reader
     moonlight-qt
