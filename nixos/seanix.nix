@@ -217,6 +217,7 @@ in {
     freetube
     fzf
     gamescope
+    gh-dash
     ghostty
     gimp
     iotop

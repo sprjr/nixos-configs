@@ -201,6 +201,7 @@ in {
     duplicati
     file
     fzf
+    gh-dash
     ghostty
     home-manager
     kitty
