@@ -219,7 +219,6 @@
         inherit pkgs;
         extraSpecialArgs = inputs;
         modules = [
-	  home-manager.nixosModules.home-manager
 	  ./home/home.nix
           {
             home = {
