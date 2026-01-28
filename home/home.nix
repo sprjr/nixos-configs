@@ -15,9 +15,9 @@
   ];
 
   # Git configuration
-  programs = {
-    git = {
-      enable = true;
+  programs.git = {
+    enable = true;
+    settings = {
       user = {
         name = "sprjr";
         email = "patrick@rawlinson.ws";
