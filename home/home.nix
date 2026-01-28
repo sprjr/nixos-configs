@@ -5,19 +5,23 @@
   imports = [
     ./modules/general/packages.nix
     ./modules/tools/alacritty.nix
+    ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
+    ./modules/user-space/colors.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
     ./modules/user-space/zellij/zellij-config.nix
   ];
 
   # Git configuration
-  programs.git = {
-    enable = true;
-    user = {
-      name = "sprjr";
-      email = "patrick@rawlinson.ws";
+  programs = {
+    git = {
+      enable = true;
+      user = {
+        name = "sprjr";
+        email = "patrick@rawlinson.ws";
+      };
     };
   };
 
@@ -28,7 +32,6 @@
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
-  nixpkgs.config.allowUnfree = true;
 
   home.stateVersion = "24.05";
 }
