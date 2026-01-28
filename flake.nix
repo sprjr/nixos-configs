@@ -163,7 +163,7 @@
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
           ./nixos/modules/disks/unraid-gitea.nix
-	  ./nixos/modules/disks/unraid-other.nix
+          ./nixos/modules/disks/unraid-other.nix
           ./nixos/modules/disks/unraid-kubernetes.nix
           ./nixos/modules/disks/unraid-nextcloud.nix
           ./nixos/modules/homelab/nextcloud.nix
@@ -219,7 +219,8 @@
         inherit pkgs;
         extraSpecialArgs = inputs;
         modules = [
-          ./home/home.nix
+	  home-manager.nixosModules.home-manager
+	  ./home/home.nix
           {
             home = {
               username = "patrick";
