@@ -143,6 +143,16 @@ in {
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
+  home-manager = {
+    useGlobalPackages = true;
+    useUserPackages = true;
+    extraGlobalPkgs = [];
+    users.patrick = import ./home/home.nix;
+    specialArgs = {
+      inherit dark-wallpaper-laptop;
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.segger-jlink.acceptLicense = true; # For nRF Utility tools
