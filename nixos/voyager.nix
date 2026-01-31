@@ -144,11 +144,7 @@ in {
   ];
 
   home-manager = {
-    useGlobalPackages = true;
-    useUserPackages = true;
-    extraGlobalPkgs = [];
-    users.patrick = import ./home/home.nix;
-    specialArgs = {
+    extraSpecialArgs = {
       inherit dark-wallpaper-laptop;
     };
   };
