@@ -17,6 +17,9 @@
     ./modules/user-space/zellij/zellij-config.nix
   ];
 
+  # Enable Cosmic
+  patrick.home.cosmic = true;
+
   # Git configuration
   programs.git = {
     enable = true;
