@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{ config, pkgs, lib, home-manager, dark-wallpaper-laptop, nixpkgs-stable, ... }:
 
 let
   system = pkgs.system;
