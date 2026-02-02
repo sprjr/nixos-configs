@@ -9,7 +9,7 @@ let
 in {
   options = {
     patrick.home.cosmic = mkOption {
-      default = false;
+      default = true;
       description = ''
         Load Patrick's custom Cosmic tweaks and configuration
       '';
