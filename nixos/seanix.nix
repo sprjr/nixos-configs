@@ -295,7 +295,7 @@ in {
     users = ["patrick"];
   };
   users.users.patrick = {
-    extraGroups [ "openrazer" ];
+    extraGroups = [ "openrazer" ];
   };
 
   # Enable the OpenSSH daemon.
