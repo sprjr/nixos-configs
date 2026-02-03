@@ -162,6 +162,7 @@
           sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/shikisha.nix
           ./nixos/shikisha.nix
+          ./nixos/modules/disks/unraid-docker.nix
           ./nixos/modules/disks/unraid-gitea.nix
           ./nixos/modules/disks/unraid-other.nix
           ./nixos/modules/disks/unraid-kubernetes.nix
