@@ -63,6 +63,7 @@ in {
       "glow" # markdown reader
       "htop"
       "hyfetch"
+      "kind"
       "lsd"
       "lsusb"
       "mtr"
@@ -118,6 +119,9 @@ in {
 
   # Hide the top bar
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Sketchybar and Yabai
  #heywoodlh.darwin.sketchybar.enable = true;

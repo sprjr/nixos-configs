@@ -164,16 +164,10 @@ in {
     nmap
     xpipe
 
-    # Docker OSX/macOS
-   #bridge-utils
-   #libvirt
-   #virt-manager
-   #qemu
-   #qemu_kvm
-
     # Infra/Operations tools
     argocd
     garage
+    kind
     kubeseal
     openiscsi
     opentofu
