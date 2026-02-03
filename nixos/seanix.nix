@@ -285,6 +285,7 @@ in {
 
     # Temporary
     openrazer-daemon
+    polychromatic
     razergenie
   ];
 
@@ -293,7 +294,9 @@ in {
     enable = true;
     users = ["patrick"];
   };
-
+  users.users.patrick = {
+    extraGroups [ "openrazer" ];
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
