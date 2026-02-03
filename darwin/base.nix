@@ -79,7 +79,7 @@ in {
     '';
     # Casks
     casks = [
-     #"1password"
+      "1password"
       "battle-net"
       "bitwarden"
       "discord"
