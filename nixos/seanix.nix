@@ -282,6 +282,9 @@ in {
     # Gaming
     heroic
     prismlauncher
+
+    # Temporary
+    razergenie
   ];
 
   # Enable the OpenSSH daemon.
