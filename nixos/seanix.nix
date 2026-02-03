@@ -288,6 +288,13 @@ in {
     razergenie
   ];
 
+  # OpenRazer Temporary
+  hardware.openrazer = {
+    enable = true;
+    users = ["patrick"];
+  };
+
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
