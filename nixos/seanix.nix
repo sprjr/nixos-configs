@@ -258,16 +258,16 @@ in {
     xpipe
 
     # PyTorch
-    python313Packages.matplotlib
-    python313Packages.nibabel # dicom-specific
-    python313Packages.numpy
-    python313Packages.opencv-python
-    python313Packages.pandas
-    python313Packages.pydicom # dicom-specific
-    python313Packages.scikit-learn
-    python313Packages.torch
-    python313Packages.torchaudio
-    python313Packages.torchvision
+   #python313Packages.matplotlib
+   #python313Packages.nibabel # dicom-specific
+   #python313Packages.numpy
+   #python313Packages.opencv-python
+   #python313Packages.pandas
+   #python313Packages.pydicom # dicom-specific
+   #python313Packages.scikit-learn
+   #python313Packages.torch
+   #python313Packages.torchaudio
+   #python313Packages.torchvision
 
     # Work/Infra
     opentofu
@@ -292,6 +292,9 @@ in {
     # Gaming
     heroic
     prismlauncher
+
+    # Temporary
+    razergenie
   ];
 
   # Enable the OpenSSH daemon.
