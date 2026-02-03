@@ -284,6 +284,7 @@ in {
     prismlauncher
 
     # Temporary
+    openrazer-daemon
     razergenie
   ];
 
