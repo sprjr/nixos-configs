@@ -63,6 +63,7 @@ in {
       "glow" # markdown reader
       "htop"
       "hyfetch"
+      "kind"
       "lsd"
       "lsusb"
       "mtr"
