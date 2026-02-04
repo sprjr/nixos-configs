@@ -69,6 +69,7 @@ in {
       "mtr"
       "nmap"
       "opentofu"
+      "soduto"
       "sops"
       "tldr"
       "watch"
