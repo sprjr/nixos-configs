@@ -212,11 +212,9 @@ in {
     home-manager
     kitty
     legcord
-    libreoffice
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
-    nautilus
     nrfconnect
     nrfutil
     obsidian
@@ -250,7 +248,6 @@ in {
     netop
     nmap
    #openvas-scanner
-    sysstat
     wireguard-tools
     wireguard-ui
     wireshark
