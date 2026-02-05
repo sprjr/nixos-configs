@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, lib, home-manager, dark-wallpaper-laptop, ... }:
 
 {
   users.users.patrick = {
@@ -20,6 +20,9 @@
 
   # Home-Manager
   home-manager = {
+    extraSpecialArgs = {
+      inherit dark-wallpaper-laptop;
+    };
     useGlobalPkgs = true;
     users.patrick = {
       imports = [
