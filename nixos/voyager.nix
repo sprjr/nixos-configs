@@ -143,11 +143,11 @@ in {
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
-  home-manager = {
-    extraSpecialArgs = {
-      inherit dark-wallpaper-laptop;
-    };
-  };
+# home-manager = {
+#   extraSpecialArgs = {
+#     inherit dark-wallpaper-laptop;
+#   };
+# };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -212,11 +212,9 @@ in {
     home-manager
     kitty
     legcord
-    libreoffice
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
-    nautilus
     nrfconnect
     nrfutil
     obsidian
@@ -250,7 +248,6 @@ in {
     netop
     nmap
    #openvas-scanner
-    sysstat
     wireguard-tools
     wireguard-ui
     wireshark
