@@ -153,9 +153,6 @@ in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.segger-jlink.acceptLicense = true; # For nRF Utility tools
 
-  # Enable OpenRGB udev rules
-  services.hardware.openrgb.enable = true;
-
   # Enable Steam
   programs.steam.enable = true;
 
