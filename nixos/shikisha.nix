@@ -128,6 +128,7 @@ in {
     attic-server
     attic-client
     cachix
+    certbot
     git
     usbutils
     pciutils
