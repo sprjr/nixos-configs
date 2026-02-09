@@ -5,7 +5,7 @@
 *hetzner*
 
 # Ignore cert stuff
-*cert*
+#*cert*
 
 # Ignore all environment files
 *.env
