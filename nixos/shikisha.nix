@@ -37,6 +37,18 @@ in {
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Sops Secrets References:
+  sops.secrets = {
+    acme-email = {
+      owner = "root";
+      mode = "0400";
+    };
+    cloudflare-api-token = {
+      owner = "root";
+      mode = "0400";
+    };
+  };
+
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
