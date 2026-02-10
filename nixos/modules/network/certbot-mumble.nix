@@ -11,6 +11,10 @@
       owner = "murmur";
       mode = "0400";
     };
+    mumble-server-password = {
+      owner = "murmur";
+      mode = "0400";
+    };
   };
 
   # ACME / Let's Encrypt
@@ -22,7 +26,7 @@
       group = "murmur";
       dnsProvider = "cloudflare";
       credentialsFile = config.sops.secrets.cloudflare-api-token.path;
-      postRun = "systemctl restart murmur.service";  # Changed from reload to restart
+      postRun = "systemctl restart murmur.service";
     };
   };
 
@@ -36,7 +40,8 @@
 
     registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";  # Will be overridden
+    registerPassword = "";  # Will be injected
+    password = "";  # Server password - will be injected
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
@@ -47,35 +52,39 @@
     '';
   };
 
-  # Inject register password from sops at runtime
+  # Override to inject both passwords from sops
   systemd.services.murmur = {
-    preStart = ''
-      # Ensure directory exists
-      mkdir -p /var/lib/murmur
-
-      # If config doesn't exist, create minimal config
-      if [ ! -f /var/lib/murmur/murmur.ini ]; then
-        touch /var/lib/murmur/murmur.ini
-      fi
-
-      # Read password from sops
-      REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
-
-      # Update or add registerpassword in config
-      if grep -q "^registerpassword=" /var/lib/murmur/murmur.ini; then
-        ${pkgs.gnused}/bin/sed -i \
-          "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" \
-          /var/lib/murmur/murmur.ini
-      else
-        echo "registerpassword=$REGISTER_PASSWORD" >> /var/lib/murmur/murmur.ini
-      fi
-    '';
-
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
       LogsDirectory = "murmur";
       ReadWritePaths = [ "/var/log/murmur" ];
     };
+
+    script = pkgs.lib.mkForce ''
+      # Read passwords from sops
+      REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
+      SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
+
+      # Get the config file path
+      CONFIG_FILE=/var/lib/murmur/murmur.ini
+
+      # Update or add registerpassword
+      if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
+        ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
+      else
+        echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
+      fi
+
+      # Update or add serverpassword (this requires users to enter password)
+      if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
+        ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
+      else
+        echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
+      fi
+
+      # Start murmur
+      exec ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE"
+    '';
   };
 
   # Firewall
