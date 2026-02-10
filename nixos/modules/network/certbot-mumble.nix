@@ -53,6 +53,8 @@
     preStart = ''
       # Ensure directory exists
       mkdir -p /var/lib/murmur
+      mkdir -p /var/log/murmur
+      chown murmur:murmur /var/log/murmur
 
       # If config doesn't exist, let murmur create it first
       if [ ! -f /var/lib/murmur/murmur.ini ]; then
