@@ -16,7 +16,7 @@
   # ACME / Let's Encrypt
   security.acme = {
     acceptTerms = true;
-    defaults.email = "your-email@example.com";
+    defaults.email = "acme@rawliyosh.com";
 
     certs."talk.rawlinson.xyz" = {
       group = "murmur";
