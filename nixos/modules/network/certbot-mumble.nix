@@ -34,7 +34,7 @@
     bandwidth = 130000;
     users = 100;
 
-    registerName = "The Messiest, Wettest Mumble Server Around";
+    registerName = "The Messiest, Wettest Server Around";
     registerHostname = "talk.rawlinson.xyz";
     registerPassword = "";  # Will be overridden
 
@@ -43,7 +43,6 @@
 
     extraConfig = ''
       allowhtml=true
-      logfile=/var/log/murmur/murmur.log
       database=/var/lib/murmur/murmur.sqlite
     '';
   };
@@ -53,12 +52,9 @@
     preStart = ''
       # Ensure directory exists
       mkdir -p /var/lib/murmur
-      mkdir -p /var/log/murmur
-      chown murmur:murmur /var/log/murmur
 
-      # If config doesn't exist, let murmur create it first
+      # If config doesn't exist, create minimal config
       if [ ! -f /var/lib/murmur/murmur.ini ]; then
-        # Create a minimal config that murmur will expand
         touch /var/lib/murmur/murmur.ini
       fi
 
@@ -77,6 +73,9 @@
 
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
+      # Let systemd create the log directory with proper permissions
+      LogsDirectory = "murmur";
+      ReadWritePaths = [ "/var/log/murmur" ];
     };
   };
 
