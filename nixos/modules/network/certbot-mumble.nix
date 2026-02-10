@@ -34,9 +34,9 @@
     bandwidth = 130000;
     users = 100;
 
-    registerName = "The Messiest, Wettest Mumble Server";
+    registerName = "The Messiest, Wettest Mumble Server Around";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";  # Will be overridden by secret
+    registerPassword = "";  # Will be overridden
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
@@ -51,13 +51,26 @@
   # Inject register password from sops at runtime
   systemd.services.murmur = {
     preStart = ''
+      # Ensure directory exists
+      mkdir -p /var/lib/murmur
+
+      # If config doesn't exist, let murmur create it first
+      if [ ! -f /var/lib/murmur/murmur.ini ]; then
+        # Create a minimal config that murmur will expand
+        touch /var/lib/murmur/murmur.ini
+      fi
+
       # Read password from sops
       REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
 
-      # Update config file with actual password
-      ${pkgs.gnused}/bin/sed -i \
-        "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" \
-        /var/lib/murmur/murmur.ini
+      # Update or add registerpassword in config
+      if grep -q "^registerpassword=" /var/lib/murmur/murmur.ini; then
+        ${pkgs.gnused}/bin/sed -i \
+          "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" \
+          /var/lib/murmur/murmur.ini
+      else
+        echo "registerpassword=$REGISTER_PASSWORD" >> /var/lib/murmur/murmur.ini
+      fi
     '';
 
     serviceConfig = {
