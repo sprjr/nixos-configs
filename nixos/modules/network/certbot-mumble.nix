@@ -3,10 +3,6 @@
 {
   # Sops secrets
   sops.secrets = {
-    acme-email = {
-      owner = "root";
-      mode = "0400";
-    };
     cloudflare-api-token = {
       owner = "root";
       mode = "0400";
@@ -17,10 +13,10 @@
     };
   };
 
-  # ACME / Let's Encrypt - use placeholder email
+  # ACME / Let's Encrypt
   security.acme = {
     acceptTerms = true;
-    defaults.email = "placeholder@example.com";  # Placeholder, will be overridden
+    defaults.email = "acme@rawliyosh.com";
 
     certs."talk.rawlinson.xyz" = {
       group = "murmur";
@@ -28,32 +24,6 @@
       credentialsFile = config.sops.secrets.cloudflare-api-token.path;
       postRun = "systemctl reload murmur.service";
     };
-  };
-
-  # Override ACME service to use real email from sops
-  systemd.services."acme-talk.rawlinson.xyz" = {
-    serviceConfig = {
-      LoadCredential = "email:${config.sops.secrets.acme-email.path}";
-    };
-    script = pkgs.lib.mkForce ''
-      EMAIL=$(cat $CREDENTIALS_DIRECTORY/email)
-      export EMAIL
-      ${pkgs.writeShellScript "acme-start" ''
-        # Run certbot with email from credential
-        exec ${config.security.acme.package}/bin/certbot \
-          certonly \
-          --non-interactive \
-          --agree-tos \
-          --email "$EMAIL" \
-          --dns-cloudflare \
-          --dns-cloudflare-credentials ${config.sops.secrets.cloudflare-api-token.path} \
-          -d talk.rawlinson.xyz \
-          --cert-name talk.rawlinson.xyz \
-          --work-dir /var/lib/acme/.lego/talk.rawlinson.xyz \
-          --config-dir /var/lib/acme/talk.rawlinson.xyz \
-          --logs-dir /var/log/acme/talk.rawlinson.xyz
-      ''}
-    '';
   };
 
   # Murmur (Mumble Server)
@@ -64,9 +34,9 @@
     bandwidth = 130000;
     users = 100;
 
-    registerName = "The Messiest and Wettest Mumble Server";
+    registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";
+    registerPassword = "";  # Will be overridden by secret
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
@@ -78,12 +48,7 @@
     '';
   };
 
-  # Firewall
-  networking.firewall = {
-    allowedTCPPorts = [ 64738 ];
-    allowedUDPPorts = [ 64738 ];
-  };
-
+  # Inject register password from sops at runtime
   systemd.services.murmur = {
     preStart = ''
       # Read password from sops
@@ -100,4 +65,9 @@
     };
   };
 
+  # Firewall
+  networking.firewall = {
+    allowedTCPPorts = [ 64738 ];
+    allowedUDPPorts = [ 64738 ];
+  };
 }
