@@ -27,10 +27,10 @@ let
     fi
 
     # Set SuperUser password
-    ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
+    ${config.services.murmur.package}/bin/murmurd -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
 
     # Start murmur
-    exec ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE"
+    exec ${config.services.murmur.package}/bin/murmurd -ini "$CONFIG_FILE"
   '';
 in
 {
