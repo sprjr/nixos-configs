@@ -15,6 +15,10 @@
       owner = "murmur";
       mode = "0400";
     };
+    mumble-superuser-password = {
+      owner = "murmur";
+      mode = "0400";
+    };
   };
 
   # ACME / Let's Encrypt
@@ -49,10 +53,18 @@
     extraConfig = ''
       allowhtml=true
       database=/var/lib/murmur/murmur.sqlite
+
+      # Disable remote admin interfaces for security
+      ice=""
+      dbus=system
+
+      # Additional security settings
+      allowping=false
+      sendversion=false
     '';
   };
 
-  # Override to inject both passwords from sops
+  # Override to inject passwords from sops
   systemd.services.murmur = {
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
@@ -64,6 +76,7 @@
       # Read passwords from sops
       REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
       SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
+      SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
 
       # Get the config file path
       CONFIG_FILE=/var/lib/murmur/murmur.ini
@@ -75,21 +88,25 @@
         echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
       fi
 
-      # Update or add serverpassword (this requires users to enter password)
+      # Update or add serverpassword
       if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
         ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
       else
         echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
       fi
 
+      # Set SuperUser password BEFORE starting server
+      ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
+
       # Start murmur
       exec ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE"
     '';
   };
 
-  # Firewall
+  # Firewall - only allow Mumble port
   networking.firewall = {
     allowedTCPPorts = [ 64738 ];
     allowedUDPPorts = [ 64738 ];
+    # Do NOT open Ice ports (6502) or DBus
   };
 }
