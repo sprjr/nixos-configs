@@ -208,9 +208,9 @@ in {
     home-manager
     kitty
     legcord
+    librewolf
     mdp # fullscreen markdown reader
     moonlight-qt
-    mullvad-browser
     mumble
     nrfconnect
     nrfutil
