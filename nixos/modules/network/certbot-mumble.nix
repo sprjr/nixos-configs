@@ -1,7 +1,40 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  # Create a wrapper script that sets passwords then starts murmur
+  murmurWrapper = pkgs.writeShellScript "murmur-wrapper" ''
+    set -euo pipefail
+
+    # Read passwords from sops
+    REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
+    SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
+    SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
+
+    CONFIG_FILE=/run/murmur/murmurd.ini
+
+    # Update or add registerpassword
+    if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
+      ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
+    else
+      echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
+    fi
+
+    # Update or add serverpassword
+    if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
+      ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
+    else
+      echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
+    fi
+
+    # Set SuperUser password
+    ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
+
+    # Start murmur
+    exec ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE"
+  '';
+in
 {
-  # Sops secrets
+  # Sops secrets configuration
   sops.secrets = {
     cloudflare-api-token = {
       owner = "root";
@@ -21,7 +54,7 @@
     };
   };
 
-  # ACME / Let's Encrypt
+  # ACME / Let's Encrypt certificate configuration
   security.acme = {
     acceptTerms = true;
     defaults.email = "acme@rawliyosh.com";
@@ -34,7 +67,7 @@
     };
   };
 
-  # Murmur (Mumble Server)
+  # Murmur (Mumble Server) configuration
   services.murmur = {
     enable = true;
 
@@ -44,8 +77,8 @@
 
     registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";  # Will be injected
-    password = "";  # Server password - will be injected
+    registerPassword = "";  # Will be injected from sops
+    password = "";  # Will be injected from sops
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
@@ -56,7 +89,6 @@
 
       # Disable remote admin interfaces for security
       ice=""
-      dbus=system
 
       # Additional security settings
       allowping=false
@@ -64,49 +96,19 @@
     '';
   };
 
-  # Override to inject passwords from sops
+  # Override systemd service to inject passwords
   systemd.services.murmur = {
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
       LogsDirectory = "murmur";
       ReadWritePaths = [ "/var/log/murmur" ];
+      ExecStart = lib.mkForce murmurWrapper;
     };
-
-    script = pkgs.lib.mkForce ''
-      # Read passwords from sops
-      REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
-      SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
-      SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
-
-      # Get the config file path
-      CONFIG_FILE=/var/lib/murmur/murmur.ini
-
-      # Update or add registerpassword
-      if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
-        ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
-      else
-        echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
-      fi
-
-      # Update or add serverpassword
-      if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
-        ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
-      else
-        echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
-      fi
-
-      # Set SuperUser password BEFORE starting server
-      ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
-
-      # Start murmur
-      exec ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE"
-    '';
   };
 
-  # Firewall - only allow Mumble port
+  # Firewall configuration - only allow Mumble port
   networking.firewall = {
     allowedTCPPorts = [ 64738 ];
     allowedUDPPorts = [ 64738 ];
-    # Do NOT open Ice ports (6502) or DBus
   };
 }
