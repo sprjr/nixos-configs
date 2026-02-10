@@ -15,6 +15,7 @@ mosquitto:
 acme-email: ENC[AES256_GCM,data:w/e5L7MEmV7f9+/qDDHi/if7,iv:F13kdsmSuEioYDW7IOErQvEX7mi0oqMqjBmQaIz1iZw=,tag:AbSxYaw93eG5wBkHQARisQ==,type:str]
 cloudflare-api-token: ENC[AES256_GCM,data:oQMX0DJQyEHnjZ5awzXGhKOAcxCmkC24fOl+oEO+zToMyEguoK5ZDTofAafY2ibXiptwcUjagkuX62PxoL7g16qY,iv:UUptROKWoExTIZoE/xenLE/x+KuUKPy0A90I55+xbAc=,tag:e3+QdttpVZMImT9pidyaIQ==,type:str]
 mumble-register-password: ENC[AES256_GCM,data:pL4zwBokcsfGwhZyLJ95mDY=,iv:V6wSPG0mnuJ2wD2aKFbOLDyen2Gi6Aa5+0nSUTHl5uo=,tag:tO7medWWbGBoBdsO+X9meQ==,type:str]
+mumble-server-password: ENC[AES256_GCM,data:+4TEAWSpJcbjze/7f+4BHylulxg=,iv:jdYaam9gxjCMerRLl4+ACpniRd4r9tqBW2MiSdtu7Kc=,tag:cGhoOeJ6PVISbqi0ulZ/PQ==,type:str]
 sops:
     age:
         - recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
@@ -26,7 +27,7 @@ sops:
             YXlCM2J2a0wyWDV0c283RDNjekc2VXMKPWley8IXCEpYzLo1LA1z5RMI+/a/VN34
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T17:23:59Z"
-    mac: ENC[AES256_GCM,data:YgHq4adyWqa06HMspBRtrr4moIpBkXxJ6urV69OX9LLX5KzBhn0aCV3bEl5rugF7PevMC4ixLfQcWrlyNOCb1yGv6EwP/YrILFQJGBraP7xj+Uf7e45yM6TYMAlWoF1jjCWPL4AxpHrg+Sof5thE/+OqSfy0maeoBvU0MCefKCg=,iv:zmmUSPcRe4wJ+4o/+2L8ss2ZyfDIRTNK4ObKTB5w21A=,tag:aisSgxPR6vpT5FsuYYZnAw==,type:str]
+    lastmodified: "2026-02-10T18:06:30Z"
+    mac: ENC[AES256_GCM,data:uf9TlK/lucgiwfTXy1XL1vDfjuiKUoHFFkIIN4+iWM0iLpRQCTnIQmwewpe5ZmUTCRppAs+1OoQFG5BIJIfarcblcSAxkOtSM/pI4LwWax8FsLorNAOLI6d2ZaEV/a2QcUBOQUqapVNoTX8qa1lqA4VeT7JEbSOWfEig+YY9mUY=,iv:HKBe7Y0pVhes0DLei/vbktzuhezKYaf1NSnYOSL1kp8=,tag:iWGeUsJyTgeOiSIkNvmdVA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.11.0
