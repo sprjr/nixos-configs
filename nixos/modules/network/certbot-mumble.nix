@@ -27,14 +27,14 @@ let
     fi
 
     # Set SuperUser password
-    ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
+    ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
 
     # Start murmur
-    exec ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE"
+    exec ${pkgs.mumble}/bin/murmurd -ini "$CONFIG_FILE"
   '';
 in
 {
-  # Sops secrets
+  # Sops secrets configuration
   sops.secrets = {
     cloudflare-api-token = {
       owner = "root";
@@ -54,7 +54,7 @@ in
     };
   };
 
-  # ACME / Let's Encrypt
+  # ACME / Let's Encrypt certificate configuration
   security.acme = {
     acceptTerms = true;
     defaults.email = "acme@rawliyosh.com";
@@ -67,7 +67,7 @@ in
     };
   };
 
-  # Murmur (Mumble Server)
+  # Murmur (Mumble Server) configuration
   services.murmur = {
     enable = true;
 
@@ -77,8 +77,8 @@ in
 
     registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";
-    password = "";
+    registerPassword = "";  # Will be injected from sops
+    password = "";  # Will be injected from sops
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
@@ -86,13 +86,17 @@ in
     extraConfig = ''
       allowhtml=true
       database=/var/lib/murmur/murmur.sqlite
+
+      # Disable remote admin interfaces for security
       ice=""
+
+      # Additional security settings
       allowping=false
       sendversion=false
     '';
   };
 
-  # Override service to use wrapper
+  # Override systemd service to inject passwords
   systemd.services.murmur = {
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
@@ -102,7 +106,7 @@ in
     };
   };
 
-  # Firewall
+  # Firewall configuration - only allow Mumble port
   networking.firewall = {
     allowedTCPPorts = [ 64738 ];
     allowedUDPPorts = [ 64738 ];
