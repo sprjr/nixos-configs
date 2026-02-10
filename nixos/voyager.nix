@@ -211,7 +211,7 @@ in {
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
-    murmur
+    mumble
     nrfconnect
     nrfutil
     obsidian
