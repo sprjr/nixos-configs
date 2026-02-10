@@ -16,13 +16,13 @@
   # ACME / Let's Encrypt
   security.acme = {
     acceptTerms = true;
-    defaults.email = "acme@rawliyosh.com";
+    defaults.email = "your-email@example.com";
 
     certs."talk.rawlinson.xyz" = {
       group = "murmur";
       dnsProvider = "cloudflare";
       credentialsFile = config.sops.secrets.cloudflare-api-token.path;
-      postRun = "systemctl reload murmur.service";
+      postRun = "systemctl restart murmur.service";  # Changed from reload to restart
     };
   };
 
@@ -34,7 +34,7 @@
     bandwidth = 130000;
     users = 100;
 
-    registerName = "The Messiest, Wettest Server Around";
+    registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
     registerPassword = "";  # Will be overridden
 
@@ -52,8 +52,6 @@
     preStart = ''
       # Ensure directory exists
       mkdir -p /var/lib/murmur
-      mkdir -p /var/log/murmur
-      chown murmur:murmur /var/log/murmur
 
       # If config doesn't exist, create minimal config
       if [ ! -f /var/lib/murmur/murmur.ini ]; then
@@ -75,7 +73,6 @@
 
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
-      # Let systemd create the log directory with proper permissions
       LogsDirectory = "murmur";
       ReadWritePaths = [ "/var/log/murmur" ];
     };
