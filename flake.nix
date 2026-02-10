@@ -169,8 +169,9 @@
           ./nixos/modules/disks/unraid-nextcloud.nix
           ./nixos/modules/homelab/nextcloud.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
-          ./nixos/modules/network/mosquitto.nix
-          ./nixos/modules/system/comin.nix
+          ./nixos/modules/network/certbot-mumble.nix
+	  ./nixos/modules/network/mosquitto.nix
+	  ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix

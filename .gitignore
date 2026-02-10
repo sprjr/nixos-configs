@@ -4,6 +4,9 @@
 # Ignore backup disk config
 *hetzner*
 
+# Ignore cert stuff
+*cert*
+
 # Ignore all environment files
 *.env
 .direnv
