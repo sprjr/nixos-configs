@@ -200,7 +200,6 @@ in {
     cursor-cli
 
     # User environment
-   #discord # Currently using 'legcord'
     duplicati
     file
     fzf
@@ -212,6 +211,7 @@ in {
     mdp # fullscreen markdown reader
     moonlight-qt
     mullvad-browser
+    murmur
     nrfconnect
     nrfutil
     obsidian
