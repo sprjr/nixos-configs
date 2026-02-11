@@ -24,7 +24,7 @@
   # ACME / Let's Encrypt certificate configuration
   security.acme = {
     acceptTerms = true;
-    defaults.email = "your-email@example.com";
+    defaults.email = "acme@rawliyosh.com";
 
     certs."talk.rawlinson.xyz" = {
       group = "murmur";
@@ -38,11 +38,11 @@
   services.murmur = {
     enable = true;
 
-    welcometext = "Welcome to my Mumble server!";
+    welcometext = "Welcome to the Jungle";
     bandwidth = 130000;
     users = 100;
 
-    registerName = "My Mumble Server";
+    registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
     registerPassword = "";  # Will be injected from sops
     password = "";  # Will be injected from sops
