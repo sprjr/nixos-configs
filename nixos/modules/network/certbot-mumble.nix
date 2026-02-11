@@ -1,38 +1,5 @@
 { config, pkgs, lib, ... }:
 
-let
-  # Create a wrapper script that sets passwords then starts murmur
-  murmurWrapper = pkgs.writeShellScript "murmur-wrapper" ''
-    set -euo pipefail
-
-    # Read passwords from sops
-    REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
-    SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
-    SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
-
-    CONFIG_FILE=/run/murmur/murmurd.ini
-
-    # Update or add registerpassword
-    if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
-      ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
-    else
-      echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
-    fi
-
-    # Update or add serverpassword
-    if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
-      ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
-    else
-      echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
-    fi
-
-    # Set SuperUser password
-    ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
-
-    # Start murmur
-    exec ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE"
-  '';
-in
 {
   # Sops secrets configuration
   sops.secrets = {
@@ -96,14 +63,71 @@ in
     '';
   };
 
-  # Override systemd service to inject passwords
+  # Modify service to inject passwords before starting
   systemd.services.murmur = {
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
       LogsDirectory = "murmur";
-      ReadWritePaths = [ "/var/log/murmur" ];
-      ExecStart = lib.mkForce murmurWrapper;
+      ReadWritePaths = [ "/var/log/murmur" "/run/murmur" ];
     };
+
+    # Run this BEFORE the main service starts
+    serviceConfig.ExecStartPre = lib.mkAfter [
+      (pkgs.writeShellScript "inject-murmur-passwords" ''
+        set -euo pipefail
+
+        # Read passwords from sops
+        REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
+        SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
+        SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
+
+        CONFIG_FILE=/run/murmur/murmurd.ini
+
+        # Wait for config to exist
+        timeout=10
+        while [ ! -f "$CONFIG_FILE" ] && [ $timeout -gt 0 ]; do
+          sleep 0.1
+          timeout=$((timeout - 1))
+        done
+
+        # Update or add registerpassword
+        if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
+          ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
+        else
+          echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
+        fi
+
+        # Update or add serverpassword
+        if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
+          ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
+        else
+          echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
+        fi
+      '')
+    ];
+  };
+
+  # Set SuperUser password after service starts (one-time)
+  systemd.services.murmur-set-superuser = {
+    description = "Set Murmur SuperUser Password";
+    after = [ "murmur.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+
+    script = ''
+      # Wait for murmur to be ready
+      sleep 2
+
+      # Read SuperUser password
+      SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
+
+      # Set it (using the actual working murmur command from the service)
+      ${pkgs.murmur}/bin/murmurd -ini /run/murmur/murmurd.ini -supw "$SUPERUSER_PASSWORD" || true
+    '';
   };
 
   # Firewall configuration - only allow Mumble port
