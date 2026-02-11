@@ -1,7 +1,40 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  # Create a wrapper script that sets passwords then starts murmur
+  murmurWrapper = pkgs.writeShellScript "murmur-wrapper" ''
+    set -euo pipefail
+
+    # Read passwords from sops
+    REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
+    SERVER_PASSWORD=$(cat ${config.sops.secrets.mumble-server-password.path})
+    SUPERUSER_PASSWORD=$(cat ${config.sops.secrets.mumble-superuser-password.path})
+
+    CONFIG_FILE=/run/murmur/murmurd.ini
+
+    # Update or add registerpassword
+    if grep -q "^registerpassword=" "$CONFIG_FILE" 2>/dev/null; then
+      ${pkgs.gnused}/bin/sed -i "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" "$CONFIG_FILE"
+    else
+      echo "registerpassword=$REGISTER_PASSWORD" >> "$CONFIG_FILE"
+    fi
+
+    # Update or add serverpassword
+    if grep -q "^serverpassword=" "$CONFIG_FILE" 2>/dev/null; then
+      ${pkgs.gnused}/bin/sed -i "s|^serverpassword=.*|serverpassword=$SERVER_PASSWORD|" "$CONFIG_FILE"
+    else
+      echo "serverpassword=$SERVER_PASSWORD" >> "$CONFIG_FILE"
+    fi
+
+    # Set SuperUser password
+    ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE" -supw "$SUPERUSER_PASSWORD" || true
+
+    # Start murmur
+    exec ${pkgs.mumble}/bin/mumble-server -ini "$CONFIG_FILE"
+  '';
+in
 {
-  # Sops secrets
+  # Sops secrets configuration
   sops.secrets = {
     cloudflare-api-token = {
       owner = "root";
@@ -11,9 +44,17 @@
       owner = "murmur";
       mode = "0400";
     };
+    mumble-server-password = {
+      owner = "murmur";
+      mode = "0400";
+    };
+    mumble-superuser-password = {
+      owner = "murmur";
+      mode = "0400";
+    };
   };
 
-  # ACME / Let's Encrypt
+  # ACME / Let's Encrypt certificate configuration
   security.acme = {
     acceptTerms = true;
     defaults.email = "acme@rawliyosh.com";
@@ -22,11 +63,11 @@
       group = "murmur";
       dnsProvider = "cloudflare";
       credentialsFile = config.sops.secrets.cloudflare-api-token.path;
-      postRun = "systemctl reload murmur.service";
+      postRun = "systemctl restart murmur.service";
     };
   };
 
-  # Murmur (Mumble Server)
+  # Murmur (Mumble Server) configuration
   services.murmur = {
     enable = true;
 
@@ -36,36 +77,36 @@
 
     registerName = "The Messiest, Wettest Mumble Server";
     registerHostname = "talk.rawlinson.xyz";
-    registerPassword = "";  # Will be overridden by secret
+    registerPassword = "";  # Will be injected from sops
+    password = "";  # Will be injected from sops
 
     sslCert = "/var/lib/acme/talk.rawlinson.xyz/fullchain.pem";
     sslKey = "/var/lib/acme/talk.rawlinson.xyz/key.pem";
 
     extraConfig = ''
       allowhtml=true
-      logfile=/var/log/murmur/murmur.log
       database=/var/lib/murmur/murmur.sqlite
+
+      # Disable remote admin interfaces for security
+      ice=""
+
+      # Additional security settings
+      allowping=false
+      sendversion=false
     '';
   };
 
-  # Inject register password from sops at runtime
+  # Override systemd service to inject passwords
   systemd.services.murmur = {
-    preStart = ''
-      # Read password from sops
-      REGISTER_PASSWORD=$(cat ${config.sops.secrets.mumble-register-password.path})
-
-      # Update config file with actual password
-      ${pkgs.gnused}/bin/sed -i \
-        "s|^registerpassword=.*|registerpassword=$REGISTER_PASSWORD|" \
-        /var/lib/murmur/murmur.ini
-    '';
-
     serviceConfig = {
       SupplementaryGroups = [ "murmur" ];
+      LogsDirectory = "murmur";
+      ReadWritePaths = [ "/var/log/murmur" ];
+      ExecStart = lib.mkForce murmurWrapper;
     };
   };
 
-  # Firewall
+  # Firewall configuration - only allow Mumble port
   networking.firewall = {
     allowedTCPPorts = [ 64738 ];
     allowedUDPPorts = [ 64738 ];
