@@ -114,11 +114,11 @@
           set rarity (echo $response | ${pkgs.jq}/bin/jq -r '.rarity')
           set image_url (echo $response | ${pkgs.jq}/bin/jq -r '.image_uris.normal // .card_faces[0].image_uris.normal // empty')
 
-          # Display card art using Kitty protocol (works in Ghostty)
+          # Display card art using chafa (more compatible)
           if test -n "$image_url"
             set temp_img (mktemp --suffix=.jpg)
             ${pkgs.curl}/bin/curl -s "$image_url" -o "$temp_img"
-            ${pkgs.kitty}/bin/kitty +kitten icat --align left "$temp_img"
+            ${pkgs.chafa}/bin/chafa "$temp_img" --size 40x25 --symbols block
             rm "$temp_img"
             echo ""
           end
