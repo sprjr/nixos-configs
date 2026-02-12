@@ -167,10 +167,12 @@
           ./nixos/modules/disks/unraid-other.nix
           ./nixos/modules/disks/unraid-kubernetes.nix
           ./nixos/modules/disks/unraid-nextcloud.nix
-          ./nixos/modules/homelab/nextcloud.nix
+          ./nixos/modules/homelab/attic.nix
+	  ./nixos/modules/homelab/nextcloud.nix
           ./nixos/modules/homelab/storage/garage-systemd-service.nix
-          ./nixos/modules/network/mosquitto.nix
-          ./nixos/modules/system/comin.nix
+          ./nixos/modules/network/certbot-mumble.nix
+	  ./nixos/modules/network/mosquitto.nix
+	  ./nixos/modules/system/comin.nix
           ./nixos/modules/system/sops.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/virtualisation/k3s-server.nix
@@ -186,7 +188,9 @@
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
-          ./nixos/hardware-configuration/voyager.nix
+          ./nixos/modules/system/fprintd.nix
+	  ./nixos/modules/user/patrick.nix
+	  ./nixos/hardware-configuration/voyager.nix
           ./nixos/voyager.nix
           ./nixos/modules/system/comin.nix
           ./nixos/modules/system/fprintd.nix

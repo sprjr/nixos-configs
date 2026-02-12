@@ -143,18 +143,15 @@ in {
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
-  home-manager = {
-    extraSpecialArgs = {
-      inherit dark-wallpaper-laptop;
-    };
-  };
+# home-manager = {
+#   extraSpecialArgs = {
+#     inherit dark-wallpaper-laptop;
+#   };
+# };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.segger-jlink.acceptLicense = true; # For nRF Utility tools
-
-  # Enable OpenRGB udev rules
-  services.hardware.openrgb.enable = true;
 
   # Enable Steam
   programs.steam.enable = true;
@@ -203,7 +200,6 @@ in {
     cursor-cli
 
     # User environment
-   #discord # Currently using 'legcord'
     duplicati
     file
     fzf
@@ -212,9 +208,10 @@ in {
     home-manager
     kitty
     legcord
+    librewolf
     mdp # fullscreen markdown reader
     moonlight-qt
-    mullvad-browser
+    mumble
     nrfconnect
     nrfutil
     obsidian
