@@ -3,6 +3,7 @@
 {
   # Modules
   imports = [
+    ./modules/scripts/random-mtg.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix

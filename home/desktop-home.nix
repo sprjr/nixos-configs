@@ -5,6 +5,7 @@
   imports = [
     ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
+    ./modules/scripts/random-mtg.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix

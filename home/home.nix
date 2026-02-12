@@ -4,6 +4,7 @@
   # Configuration files
   imports = [
     ./modules/general/packages.nix
+    ./modules/scripts/random-mtg.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
