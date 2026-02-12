@@ -59,39 +59,6 @@
           exec fish -l
         fi
         export TERM=screen-256color
-
-	# Fetch random MTG card
-        random-mtg-card() {
-          local response
-          response=$(${pkgs.curl}/bin/curl -s "https://api.scryfall.com/cards/random")
-
-          if [ $? -ne 0 ] || [ -z "$response" ]; then
-            echo "Failed to fetch card from Scryfall"
-            return 1
-          fi
-
-          local name=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.name')
-          local mana_cost=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
-          local type_line=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.type_line')
-          local oracle_text=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
-          local set_name=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.set_name')
-          local rarity=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.rarity')
-
-          echo "╔════════════════════════════════════════╗"
-          echo "║     Random MTG Card of the Day        ║"
-          echo "╚════════════════════════════════════════╝"
-          echo ""
-          echo "🃏 $name $mana_cost"
-          echo "📋 $type_line"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "$oracle_text" | fold -s -w 40
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "📦 $set_name | ✨ $rarity"
-          echo ""
-        }
-
-        # Show card on login
-        random-mtg-card
       '';
       shellAliases = {
         bf = "du -aBm / 2>/dev/null | sort -nr | head -n 20";
@@ -139,6 +106,37 @@
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           nix run nixpkgs#$encoded
         end
+        random-mtg-card() {
+          local response
+          response=$(${pkgs.curl}/bin/curl -s "https://api.scryfall.com/cards/random")
+
+          if [ $? -ne 0 ] || [ -z "$response" ]; then
+            echo "Failed to fetch card from Scryfall"
+            return 1
+          fi
+
+          local name=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.name')
+          local mana_cost=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
+          local type_line=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.type_line')
+          local oracle_text=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
+          local set_name=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.set_name')
+          local rarity=$(echo "$response" | ${pkgs.jq}/bin/jq -r '.rarity')
+
+          echo "╔════════════════════════════════════════╗"
+          echo "║     Random MTG Card of the Day        ║"
+          echo "╚════════════════════════════════════════╝"
+          echo ""
+          echo "🃏 $name $mana_cost"
+          echo "📋 $type_line"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "$oracle_text" | fold -s -w 40
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📦 $set_name | ✨ $rarity"
+          echo ""
+        }
+
+        # Show card on login
+        random-mtg-card
       '';
       # Aliases
       shellAliases = {
