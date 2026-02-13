@@ -99,19 +99,41 @@
           curl "https://cht.sh/$encoded"
         end
         function random-mtg-card
-          set response (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/cards/random")
+          set cache_dir "$HOME/.cache/scryfall"
+          set cache_file "$cache_dir/cards.json"
+          set cache_age_days 7
 
-          if test -z "$response"
-            echo "Failed to fetch card from Scryfall"
-            return 1
+          # Create cache directory if it doesn't exist
+          mkdir -p "$cache_dir"
+
+          # Download bulk data if cache doesn't exist or is older than 7 days
+          if not test -f "$cache_file"; or test (find "$cache_file" -mtime +$cache_age_days 2>/dev/null | wc -l) -gt 0
+            echo "Updating card database..."
+            set bulk_data_url (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/bulk-data/default-cards" | ${pkgs.jq}/bin/jq -r '.download_uri')
+            ${pkgs.curl}/bin/curl -s "$bulk_data_url" -o "$cache_file"
           end
 
-          set name (echo $response | ${pkgs.jq}/bin/jq -r '.name')
-          set mana_cost (echo $response | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
-          set type_line (echo $response | ${pkgs.jq}/bin/jq -r '.type_line')
-          set oracle_text (echo $response | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
-          set set_name (echo $response | ${pkgs.jq}/bin/jq -r '.set_name')
-          set rarity (echo $response | ${pkgs.jq}/bin/jq -r '.rarity')
+          # Get random card from cache
+          set total_cards (${pkgs.jq}/bin/jq '. | length' "$cache_file")
+          set random_index (random 0 (math $total_cards - 1))
+          set card (${pkgs.jq}/bin/jq ".[$random_index]" "$cache_file")
+
+          set name (echo $card | ${pkgs.jq}/bin/jq -r '.name')
+          set mana_cost (echo $card | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
+          set type_line (echo $card | ${pkgs.jq}/bin/jq -r '.type_line')
+          set oracle_text (echo $card | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
+          set set_name (echo $card | ${pkgs.jq}/bin/jq -r '.set_name')
+          set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
+          set image_url (echo $card | ${pkgs.jq}/bin/jq -r '.image_uris.normal // .card_faces[0].image_uris.normal // empty')
+
+          # Display card art using ASCII
+          if test -n "$image_url"
+            set temp_img (mktemp --suffix=.jpg)
+            ${pkgs.curl}/bin/curl -s "$image_url" -o "$temp_img"
+            ${pkgs.chafa}/bin/chafa "$temp_img" --size 60x30 --symbols ascii --colors 16
+            rm "$temp_img"
+            echo ""
+          end
 
           echo "╔════════════════════════════════════════╗"
           echo "║      Random MTG Card of the Day        ║"
