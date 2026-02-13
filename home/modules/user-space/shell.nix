@@ -124,16 +124,6 @@
           set oracle_text (echo $card | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
           set set_name (echo $card | ${pkgs.jq}/bin/jq -r '.set_name')
           set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
-          set image_url (echo $card | ${pkgs.jq}/bin/jq -r '.image_uris.normal // .card_faces[0].image_uris.normal // empty')
-
-          # Display card art using ASCII
-          if test -n "$image_url"
-            set temp_img (mktemp --suffix=.jpg)
-            ${pkgs.curl}/bin/curl -s "$image_url" -o "$temp_img"
-            ${pkgs.chafa}/bin/chafa "$temp_img" --size 60x30 --symbols ascii --colors 16
-            rm "$temp_img"
-            echo ""
-          end
 
           echo "╔════════════════════════════════════════╗"
           echo "║      Random MTG Card of the Day        ║"
