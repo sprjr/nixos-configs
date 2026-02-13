@@ -141,7 +141,7 @@
           set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
 
           echo "╔════════════════════════════════════════╗"
-          echo "║     Random MTG Card of the Day        ║"
+          echo "║      Random MTG Card of the Day        ║"
           echo "╚════════════════════════════════════════╝"
           echo ""
           echo "🃏 $name $mana_cost"
