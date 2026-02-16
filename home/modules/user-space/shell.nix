@@ -98,38 +98,38 @@
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           curl "https://cht.sh/$encoded"
         end
-        function random-mtg-card
-          set response (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/cards/random")
+       #function random-mtg-card
+       #  set response (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/cards/random")
 
-          if test -z "$response"
-            echo "Failed to fetch card from Scryfall"
-            return 1
-          end
+       #  if test -z "$response"
+       #    echo "Failed to fetch card from Scryfall"
+       #    return 1
+       #  end
 
-          set name (echo $response | ${pkgs.jq}/bin/jq -r '.name')
-          set mana_cost (echo $response | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
-          set type_line (echo $response | ${pkgs.jq}/bin/jq -r '.type_line')
-          set oracle_text (echo $response | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
-          set set_name (echo $response | ${pkgs.jq}/bin/jq -r '.set_name')
-          set rarity (echo $response | ${pkgs.jq}/bin/jq -r '.rarity')
+       #  set name (echo $response | ${pkgs.jq}/bin/jq -r '.name')
+       #  set mana_cost (echo $response | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
+       #  set type_line (echo $response | ${pkgs.jq}/bin/jq -r '.type_line')
+       #  set oracle_text (echo $response | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
+       #  set set_name (echo $response | ${pkgs.jq}/bin/jq -r '.set_name')
+       #  set rarity (echo $response | ${pkgs.jq}/bin/jq -r '.rarity')
 
-          echo "╔════════════════════════════════════════╗"
-          echo "║      Random MTG Card of the Day        ║"
-          echo "╚════════════════════════════════════════╝"
-          echo ""
-          echo "🃏 $name $mana_cost"
-          echo "📋 $type_line"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo $oracle_text | fold -s -w 40
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "📦 $set_name | ✨ $rarity"
-          echo ""
-        end
+       #  echo "╔════════════════════════════════════════╗"
+       #  echo "║      Random MTG Card of the Day        ║"
+       #  echo "╚════════════════════════════════════════╝"
+       #  echo ""
+       #  echo "🃏 $name $mana_cost"
+       #  echo "📋 $type_line"
+       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+       #  echo $oracle_text | fold -s -w 40
+       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+       #  echo "📦 $set_name | ✨ $rarity"
+       #  echo ""
+       #end
 
-        # Show card on login (only in interactive shells)
-        if status is-interactive
-          random-mtg-card
-        end
+       ## Show card on login (only in interactive shells)
+       #if status is-interactive
+       #  random-mtg-card
+       #end
       '';
       # Aliases
       shellAliases = {
