@@ -98,64 +98,64 @@
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           curl "https://cht.sh/$encoded"
         end
-        function random-mtg-card
-          set cache_dir "$HOME/.cache/scryfall"
-          set bulk_cache "$cache_dir/cards.json"
-          set daily_card "$cache_dir/card-of-day.json"
-          set today (date +%Y-%m-%d)
+       #function random-mtg-card
+       #  set cache_dir "$HOME/.cache/scryfall"
+       #  set bulk_cache "$cache_dir/cards.json"
+       #  set daily_card "$cache_dir/card-of-day.json"
+       #  set today (date +%Y-%m-%d)
 
-          # Create cache directory
-          mkdir -p "$cache_dir"
+       #  # Create cache directory
+       #  mkdir -p "$cache_dir"
 
-          # Check if we need a new card (different day or file doesn't exist)
-          set needs_new_card true
-          if test -f "$daily_card"
-            set cached_date (${pkgs.jq}/bin/jq -r '.cached_date // ""' "$daily_card")
-            if test "$cached_date" = "$today"
-              set needs_new_card false
-            end
-          end
+       #  # Check if we need a new card (different day or file doesn't exist)
+       #  set needs_new_card true
+       #  if test -f "$daily_card"
+       #    set cached_date (${pkgs.jq}/bin/jq -r '.cached_date // ""' "$daily_card")
+       #    if test "$cached_date" = "$today"
+       #      set needs_new_card false
+       #    end
+       #  end
 
-          # Get new card if needed
-          if test "$needs_new_card" = true
-            # Download bulk data if not present or older than 7 days
-            if not test -f "$bulk_cache"; or test (find "$bulk_cache" -mtime +7 2>/dev/null | wc -l) -gt 0
-              echo "Updating card database (one-time download)..."
-              set bulk_data_url (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/bulk-data/default-cards" | ${pkgs.jq}/bin/jq -r '.download_uri')                                                                                                                                    ${pkgs.curl}/bin/curl -s "$bulk_data_url" -o "$bulk_cache"
-            end
+       #  # Get new card if needed
+       #  if test "$needs_new_card" = true
+       #    # Download bulk data if not present or older than 7 days
+       #    if not test -f "$bulk_cache"; or test (find "$bulk_cache" -mtime +7 2>/dev/null | wc -l) -gt 0
+       #      echo "Updating card database (one-time download)..."
+       #      set bulk_data_url (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/bulk-data/default-cards" | ${pkgs.jq}/bin/jq -r '.download_uri')                                                                                                                                    ${pkgs.curl}/bin/curl -s "$bulk_data_url" -o "$bulk_cache"
+       #    end
 
-            # Select random card and cache it
-            set total_cards (${pkgs.jq}/bin/jq '. | length' "$bulk_cache")
-            set random_index (random 0 (math $total_cards - 1))
-            ${pkgs.jq}/bin/jq ".[$random_index] | . + {cached_date: \"$today\"}" "$bulk_cache" > "$daily_card"
-          end
+       #    # Select random card and cache it
+       #    set total_cards (${pkgs.jq}/bin/jq '. | length' "$bulk_cache")
+       #    set random_index (random 0 (math $total_cards - 1))
+       #    ${pkgs.jq}/bin/jq ".[$random_index] | . + {cached_date: \"$today\"}" "$bulk_cache" > "$daily_card"
+       #  end
 
-          # Read cached card (fast!)
-          set card (cat "$daily_card")
-          set name (echo $card | ${pkgs.jq}/bin/jq -r '.name')
-          set mana_cost (echo $card | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
-          set type_line (echo $card | ${pkgs.jq}/bin/jq -r '.type_line')
-          set oracle_text (echo $card | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
-          set set_name (echo $card | ${pkgs.jq}/bin/jq -r '.set_name')
-          set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
+       #  # Read cached card (fast!)
+       #  set card (cat "$daily_card")
+       #  set name (echo $card | ${pkgs.jq}/bin/jq -r '.name')
+       #  set mana_cost (echo $card | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
+       #  set type_line (echo $card | ${pkgs.jq}/bin/jq -r '.type_line')
+       #  set oracle_text (echo $card | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
+       #  set set_name (echo $card | ${pkgs.jq}/bin/jq -r '.set_name')
+       #  set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
 
-          echo "╔════════════════════════════════════════╗"
-          echo "║      Random MTG Card of the Day        ║"
-          echo "╚════════════════════════════════════════╝"
-          echo ""
-          echo "🃏 $name $mana_cost"
-          echo "📋 $type_line"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo $oracle_text | fold -s -w 40
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "📦 $set_name | ✨ $rarity"
-          echo ""
-        end
+       #  echo "╔════════════════════════════════════════╗"
+       #  echo "║      Random MTG Card of the Day        ║"
+       #  echo "╚════════════════════════════════════════╝"
+       #  echo ""
+       #  echo "🃏 $name $mana_cost"
+       #  echo "📋 $type_line"
+       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+       #  echo $oracle_text | fold -s -w 40
+       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+       #  echo "📦 $set_name | ✨ $rarity"
+       #  echo ""
+       #end
 
-        # Show card on login (only in interactive shells)
-        if status is-interactive
-          random-mtg-card
-        end
+       ## Show card on login (only in interactive shells)
+       #if status is-interactive
+       #  random-mtg-card
+       #end
       '';
       # Aliases
       shellAliases = {
