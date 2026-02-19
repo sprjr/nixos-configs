@@ -238,6 +238,7 @@ in {
     vim
     vimPlugins.nvchad
     vlc
+    xpipe
     zsh
 
     ### Net tools ###
