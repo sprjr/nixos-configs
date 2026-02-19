@@ -205,7 +205,6 @@ in {
     # User environment
     alacritty
     btop-rocm
-    discord
     distrobox
     distrobox-tui
     duplicati
