@@ -284,9 +284,6 @@ in {
     prismlauncher
 
     # Temporary
-    openrazer-daemon
-    polychromatic
-    razergenie
   ];
 
   # OpenRazer Temporary
