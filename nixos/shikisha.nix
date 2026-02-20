@@ -173,6 +173,7 @@ in {
     mosquitto
     mullvad-vpn
     lshw
+    lsof
     netop
     nmap
     xpipe
