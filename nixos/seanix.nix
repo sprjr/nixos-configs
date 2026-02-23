@@ -224,7 +224,6 @@ in {
     legcord # alt discord client
     lyrebird
     mdp # fullscreen markdown reader
-    microsoft-edge # for specific applications
     moonlight-qt
     mumble
     obsidian
