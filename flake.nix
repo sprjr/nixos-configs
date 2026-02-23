@@ -186,7 +186,6 @@
           comin.nixosModules.comin
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          stylix.nixosModules.stylix
           ./nixos/modules/system/fprintd.nix
 	  ./nixos/modules/user/patrick.nix
 	  ./nixos/hardware-configuration/voyager.nix
