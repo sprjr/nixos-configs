@@ -48,9 +48,8 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix = {
-      url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    weathr = {
+      url = "github:Veirt/weathr";
     };
     # Custom stuff
     dark-wallpaper-laptop = {
@@ -74,7 +73,7 @@
                       nixpkgs,
                       nixpkgs-stable,
                       spicetify-nix,
-                      stylix,
+                      weathr,
                       dark-wallpaper-laptop,
                       ... }:
   flake-utils.lib.eachDefaultSystem (system: let
@@ -187,7 +186,6 @@
           comin.nixosModules.comin
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          stylix.nixosModules.stylix
           ./nixos/modules/system/fprintd.nix
 	  ./nixos/modules/user/patrick.nix
 	  ./nixos/hardware-configuration/voyager.nix

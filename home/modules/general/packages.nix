@@ -60,9 +60,6 @@
     ternimal
   ] ++ lib.optionals stdenv.isLinux [
     # Linux-specific packages
-#   _1password-gui
-#   _1password-cli
-    anki
     firefox
     impala
     libvirt
