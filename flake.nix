@@ -34,6 +34,7 @@
     };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     omarchy-nix = {
       url = "github:henrysipp/omarchy-nix";
@@ -50,6 +51,7 @@
     };
     weathr = {
       url = "github:Veirt/weathr";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     # Custom stuff
     dark-wallpaper-laptop = {
