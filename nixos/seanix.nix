@@ -220,6 +220,7 @@ in {
     ghostty
     gimp
     iotop
+    kitty
     ladybird
     legcord # alt discord client
     lyrebird
