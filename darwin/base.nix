@@ -112,9 +112,6 @@ in {
     ];
   };
 
-  # Set the nix daemon
-# services.nix-daemon.enable = true; # remove if unneeded
-
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../home/darwin-home.nix ];
 
@@ -122,7 +119,7 @@ in {
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  allowUnfree = true;
 
   # Sketchybar and Yabai
  #heywoodlh.darwin.sketchybar.enable = true;
