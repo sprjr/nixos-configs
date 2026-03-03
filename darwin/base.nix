@@ -119,7 +119,7 @@ in {
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Allow unfree packages
-  allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
   # Sketchybar and Yabai
  #heywoodlh.darwin.sketchybar.enable = true;
