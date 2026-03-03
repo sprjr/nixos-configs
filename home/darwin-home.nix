@@ -23,11 +23,6 @@
     };
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    users.patrick = import ./darwin-home.nix;
-  };
-
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
