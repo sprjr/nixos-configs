@@ -183,10 +183,10 @@ in {
 
         ############## SPACE DEFAULTS ##############
           sketchybar -m --default \
-            label.padding_left=5 \
+            label.padding_left=3 \
             label.padding_right=2 \
-            icon.padding_left=8 \
-            label.padding_right=8
+            icon.padding_left=4 \
+            label.padding_right=4
 
         ############## PRIMARY DISPLAY SPACES ##############
           # APPLE ICON
@@ -207,7 +207,7 @@ in {
             --set code background.color=0xff57627A  \
             --set code background.height=21 \
             --set code background.padding_left=7 \
-            --set code click_script="$HOME/.nix-profile/bin/wezterm" \
+            --set code click_script="$HOME/.nix-profile/bin/ghostty" \
 
           # SPACE 2: WEB ICON
           sketchybar -m --add space web left \
@@ -225,32 +225,32 @@ in {
             --set web click_script="open -a Firefox.app" \
 
           # SPACE 3: MUSIC ICON
-          #sketchybar -m --add space music left \
-          #  --set music icon= \
-          #  --set music icon.highlight_color=0xff8CABC8 \
-          #  --set music associated_display=1 \
-          #  --set music associated_space=5 \
-          #  --set music icon.padding_left=5 \
-          #  --set music icon.padding_right=5 \
-          #  --set music label.padding_right=0 \
-          #  --set music label.padding_left=0 \
-          #  --set music label.color=0xffeceff4 \
-          #  --set music background.color=0xff57627A  \
-          #  --set music background.height=21 \
-          #  --set music background.padding_left=7 \
-          #  --set music click_script="open -a Spotify.app" \
+          sketchybar -m --add space music left \
+            --set music icon= \
+            --set music icon.highlight_color=0xff8CABC8 \
+            --set music associated_display=1 \
+            --set music associated_space=5 \
+            --set music icon.padding_left=5 \
+            --set music icon.padding_right=5 \
+            --set music label.padding_right=0 \
+            --set music label.padding_left=0 \
+            --set music label.color=0xffeceff4 \
+            --set music background.color=0xff57627A  \
+            --set music background.height=21 \
+            --set music background.padding_left=7 \
+            --set music click_script="open -a Firefox.app 'https://spotify.com'" \
 
           # SPOTIFY STATUS
           # CURRENT SPOTIFY SONG
           # Adding custom events which can listen on distributed notifications from other running processes
-          #sketchybar -m --add event spotify_change "com.spotify.client.PlaybackStateChanged" \
-          #  --add item spotify_indicator left \
-          #  --set spotify_indicator background.color=0xff57627A  \
-          #  --set spotify_indicator background.height=21 \
-          #  --set spotify_indicator background.padding_left=7 \
-          #  --set spotify_indicator script="${spotify-indicator-sh}/bin/spotify-indicator.sh" \
-          #  --set spotify_indicator click_script="osascript -e 'tell application \"Spotify\" to pause'" \
-          #  --subscribe spotify_indicator spotify_change \
+          sketchybar -m --add event spotify_change "com.spotify.client.PlaybackStateChanged" \
+            --add item spotify_indicator left \
+            --set spotify_indicator background.color=0xff57627A  \
+            --set spotify_indicator background.height=21 \
+            --set spotify_indicator background.padding_left=7 \
+            --set spotify_indicator script="${spotify-indicator-sh}/bin/spotify-indicator.sh" \
+            --set spotify_indicator click_script="osascript -e 'tell application \"Spotify\" to pause'" \
+            --subscribe spotify_indicator spotify_change \
 
         ############## ITEM DEFAULTS ###############
           sketchybar -m --default \
