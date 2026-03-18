@@ -29,6 +29,7 @@
     lsd
     minikube # standalone local kubernetes deployments (for testing, primarily)
     mtr
+    nebula
     nps
     openssl
     pv
