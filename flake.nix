@@ -62,7 +62,7 @@
 
   outputs = inputs@{  self,
                       comin,
-	              darwin,
+                      darwin,
                       fish-flake,
                       flake-utils,
                       ghostty,
