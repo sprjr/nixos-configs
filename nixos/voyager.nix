@@ -143,11 +143,14 @@ in {
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
-# home-manager = {
-#   extraSpecialArgs = {
-#     inherit dark-wallpaper-laptop;
-#   };
-# };
+  home-manager = {
+    useGlobalPkgs = true;
+    users.patrick = {
+      imports = [
+        ../home/desktop-home.nix
+      ];
+    };
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
