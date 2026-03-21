@@ -3,7 +3,7 @@
 {
   # Modules
   imports = [
-    ./linux/desktop_environments/gnome.nix
+#   ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/ghostty.nix
