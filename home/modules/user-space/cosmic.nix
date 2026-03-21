@@ -22,19 +22,19 @@ in {
       # add packages here
     ];
     # add services.options here
-    xdg.configFile."com.system76.CosmicComp/v1/active_hint".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/active_hint".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicComp/v1/autotile".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/autotile".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicComp/v1/autotile_behavior".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/autotile_behavior".text = ''
       PerWorkspace
     '';
 
-    xdg.configFile."com.system76.CosmicComp/v1/input_touchpad".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/input_touchpad".text = ''
       (
           state: Enabled,
           acceleration: Some((
@@ -58,14 +58,14 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicComp/v1/workspaces".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/workspaces".text = ''
       (
           workspace_mode: OutputBound,
           workspace_layout: Horizontal,
       )
     '';
 
-    xdg.configFile."com.system76.CosmicComp/v1/xdb_config".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicComp/v1/xkb_config".text = ''
       (
           rules: "",
           model: "pc104",
@@ -77,7 +77,7 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicSettings.Shortcuts/v1/custom".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom".text = ''
       {
           (
               modifiers: [
@@ -88,15 +88,15 @@ in {
       }
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/anchor".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/anchor".text = ''
       bottom
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/anchor_gap".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/anchor_gap".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/autohide".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/autohide".text = ''
       Some((
           wait_time: 500,
           transition_time: 200,
@@ -105,199 +105,199 @@ in {
       ))
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/autohover_delay_ms".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/autohover_delay_ms".text = ''
       Some(500)
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/border_radius".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/border_radius".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/exclusive_zone".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/exclusive_zone".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/expand_to_edges".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/expand_to_edges".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/keyboard_interactivity".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/keyboard_interactivity".text = ''
       OnDemand
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/layer".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/layer".text = ''
       Top
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/margin".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/margin".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/name".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/name".text = ''
       "Dock"
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/opacity".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/opacity".text = ''
       1.0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/output".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/output".text = ''
       All
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/padding".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/padding".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/padding_overlap".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/padding_overlap".text = ''
       0.5
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/plugins_center".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/plugins_center".text = ''
       Some([])
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/plugins_wings".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/plugins_wings".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/size".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/size".text = ''
       L
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/size_center".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/size_center".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/size_wings".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/size_wings".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Dock/v1/spacing".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Dock/v1/spacing".text = ''
       4
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/anchor".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/anchor".text = ''
       Top
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/anchor_gap".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/anchor_gap".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/autohide".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/autohide".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/autohover_delay_ms".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/autohover_delay_ms".text = ''
       Some(500)
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/border_radius".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/border_radius".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/exclusive_zone".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/exclusive_zone".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/expand_to_edges".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/expand_to_edges".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/keyboard_interactivity".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/keyboard_interactivity".text = ''
       OnDemand
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/layer".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/layer".text = ''
       Top
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/margin".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/margin".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/name".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/name".text = ''
       "Panel"
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/opacity".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/opacity".text = ''
       0.0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/output".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/output".text = ''
       All
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/padding".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/padding".text = ''
       0
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/plugins_center".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/plugins_center".text = ''
       Some([
-          "com.system76.CosmicAppletTime"
+          "cosmic/com.system76.CosmicAppletTime"
       ])
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/plugins_wings".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/plugins_wings".text = ''
       Some(([], [
-          "com.system76.CosmicAppletInputSources",
-          "com.system76.CosmicAppletStatusArea",
-          "com.system76.CosmicAppletTiling",
-          "com.system76.CosmicAppletAudio",
-          "com.system76.CosmicAppletBluetooth",
-          "com.system76.CosmicAppletNetwork",
-          "com.system76.CosmicAppletBattery",
-          "com.system76.CosmicAppletNotifications",
-          "com.system76.CosmicAppletPower",
+          "cosmic/com.system76.CosmicAppletInputSources",
+          "cosmic/com.system76.CosmicAppletStatusArea",
+          "cosmic/com.system76.CosmicAppletTiling",
+          "cosmic/com.system76.CosmicAppletAudio",
+          "cosmic/com.system76.CosmicAppletBluetooth",
+          "cosmic/com.system76.CosmicAppletNetwork",
+          "cosmic/com.system76.CosmicAppletBattery",
+          "cosmic/com.system76.CosmicAppletNotifications",
+          "cosmic/com.system76.CosmicAppletPower",
       ]))
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/size".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/size".text = ''
       XS
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/size_center".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/size_center".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/size_wings".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/size_wings".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicPanel.Panel/v1/spacing".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel.Panel/v1/spacing".text = ''
       4
     '';
 
-    xdg.configFile."com.system76.CosmicAppletAudio/v1/show_media_controls_in_top_panel".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppletAudio/v1/show_media_controls_in_top_panel".text = ''
       true
     '';
-    xdg.configFile."com.system76.CosmicAppletTime/v1/first_day_of_week".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppletTime/v1/first_day_of_week".text = ''
       6
     '';
-    xdg.configFile."com.system76.CosmicAppletTime/v1/military_time".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppletTime/v1/military_time".text = ''
       true
     '';
-    xdg.configFile."com.system76.CosmicAppletTime/v1/show_seconds".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppletTime/v1/show_seconds".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicAppList/v1/enable_drag_source".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppList/v1/enable_drag_source".text = ''
       true
     '';
-    xdg.configFile."com.system76.CosmicAppList/v1/favorites".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppList/v1/favorites".text = ''
       [
           "com.mitchellh.ghostty",
           "firefox",
-          "com.system76.CosmicFiles",
+          "cosmic/com.system76.CosmicFiles",
       ]
     '';
 
-    xdg.configFile."com.system76.CosmicAppList/v1/filter_top_levels".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicAppList/v1/filter_top_levels".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicBackground/v1/all".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicBackground/v1/all".text = ''
       (
           output: "all",
           source: Path("${dark-wallpaper-laptop}"),
@@ -309,18 +309,18 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicBackground/v1/same-on-all".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicBackground/v1/same-on-all".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicPanel/v1/entries".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicPanel/v1/entries".text = ''
       [
           "Panel",
           "Dock",
       ]
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/control_tint".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/control_tint".text = ''
       Some((
           red: 0.46666667,
           green: 0.46666667,
@@ -328,7 +328,7 @@ in {
       ))
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/corner_radii".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/corner_radii".text = ''
       (
           radius_0: (0.0, 0.0, 0.0, 0.0),
           radius_xs: (2.0, 2.0, 2.0, 2.0),
@@ -339,19 +339,19 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/is_dark".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/is_dark".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/is_frosted".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/is_frosted".text = ''
       false
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/name".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/name".text = ''
       "cosmic-dark"
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/shade".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/shade".text = ''
       (
           red: 0.0,
           green: 0.0,
@@ -360,7 +360,7 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/spacing".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/spacing".text = ''
       (
           space_none: 4,
           space_xxxs: 8,
@@ -375,27 +375,27 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Dark/v1/window_hint".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Dark/v1/window_hint".text = ''
       None
     '';
 
-    xdg.configFile."com.system76.CosmicTheme.Mode/v1/is_dark".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTheme.Mode/v1/is_dark".text = ''
       true
     '';
 
-    xdg.configFile."com.system76.CosmicTk/v1/header_size".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTk/v1/header_size".text = ''
       Spacious
     '';
 
-    xdg.configFile."com.system76.CosmicTk/v1/icon_theme".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTk/v1/icon_theme".text = ''
       "Cosmic"
     '';
 
-    xdg.configFile."com.system76.CosmicTk/v1/interface_density".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTk/v1/interface_density".text = ''
       Spacious
     '';
 
-    xdg.configFile."com.system76.CosmicTk/v1/interface_font".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTk/v1/interface_font".text = ''
       (
           family: "JetBrainsMono Nerd Font",
           weight: Normal,
@@ -404,7 +404,7 @@ in {
       )
     '';
 
-    xdg.configFile."com.system76.CosmicTk/v1/monospace_font".text = ''
+    xdg.configFile."cosmic/com.system76.CosmicTk/v1/monospace_font".text = ''
       (
           family: "JetBrainsMonoNL Nerd Font Mono",
           weight: Normal,
