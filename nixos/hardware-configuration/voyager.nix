@@ -12,7 +12,7 @@
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/nixos";
-      fsType = "bcachefs";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
