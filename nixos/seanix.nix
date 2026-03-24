@@ -24,7 +24,7 @@ in {
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+ #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
