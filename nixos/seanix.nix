@@ -280,7 +280,6 @@ in {
     pkg-config
 
     # Gaming
-    heroic
     prismlauncher
 
     # Temporary
