@@ -24,6 +24,7 @@ in {
   hardware.nvidia = {
     modesetting.enable = true;
     package = finalPkg;
+    open = true;
     powerManagement.enable = true;
     powerManagement.finegrained = false;
     nvidiaSettings = true;
