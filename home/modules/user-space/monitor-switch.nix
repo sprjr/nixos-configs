@@ -1,6 +1,13 @@
 { config, pkgs, home-manager, ... }:
 
 {
+  xdg.configFile."autostart/kanshi.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Kanshi
+    Exec=sh -c 'systemctl --user import-environment WAYLAND_DISPLAY && systemctl --user restart kanshi'
+  '';
+
   services.kanshi = {
     enable = true;
     profiles = {
