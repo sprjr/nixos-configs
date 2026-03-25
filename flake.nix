@@ -36,6 +36,10 @@
       url = "github:NixOS/nixos-hardware/master";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    nvidia-patch = {
+      url = "github:icewind1991/nvidia-patch-nixos";
+      inputs.nixpkgs.follows = "flake-utils";
+    };
     omarchy-nix = {
       url = "github:henrysipp/omarchy-nix";
       inputs.nixpkgs.follows = "nixpkgs";

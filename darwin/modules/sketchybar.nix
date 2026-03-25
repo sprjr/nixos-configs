@@ -240,6 +240,23 @@ in {
             --set music background.padding_left=7 \
             --set music click_script="open -a Firefox.app 'https://spotify.com'" \
 
+          # SPACE 3: SXR GEMINI ICON
+          sketchybar -m --add space gemini left \
+            --set gemini icon= \
+            --set gemini icon.highlight_color=0xff8CABC8 \
+            --set gemini associated_display=1 \
+            --set gemini associated_space=6 \
+            --set gemini icon.padding_left=5 \
+            --set gemini icon.padding_right=5 \
+            --set gemini label.padding_right=0 \
+            --set gemini label.padding_left=0 \
+            --set gemini label.color=0xffeceff4 \
+            --set gemini background.color=0xff57627A  \
+            --set gemini background.height=21 \
+            --set gemini background.padding_left=7 \
+            --set gemini click_script="open -a Firefox.app 'https://gemini.google.com/u/1/app?pageId=none'" \
+
+
           # SPOTIFY STATUS
           # CURRENT SPOTIFY SONG
           # Adding custom events which can listen on distributed notifications from other running processes

@@ -88,12 +88,11 @@ in {
       "font-jetbrains-mono-nerd-font"
       "ghostty"
       "iterm2"
+      "localsend"
       "microsoft-remote-desktop"
       "minecraft"
       "moonlight"
-      "mullvad-vpn"
       "obsidian"
-      "orbstack"
       "shortcat"
       "signal"
       "steam"
@@ -101,11 +100,6 @@ in {
       "tailscale-app"
       "thunderbird"
       "vlc"
-      "vmware-fusion"
-      "wine-stable"
-      # nrf-utils stuff
-      "nordic-nrf-command-line-tools"
-      "gcc-arm-embedded"
     ];
     taps = [
      #"homebrew/cask-drivers"
