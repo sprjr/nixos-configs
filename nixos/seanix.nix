@@ -227,6 +227,7 @@ in {
     mdp # fullscreen markdown reader
     moonlight-qt
     mumble
+    nvtopPackages.nvidia
     obsidian
     ollama-rocm
     opencv
