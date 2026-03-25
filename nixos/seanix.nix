@@ -61,6 +61,11 @@ in {
     { from = 1714; to = 1764; }
   ];
 
+  # TEMPORARY for nginx testing
+  networking.firewall.allowedTCPPorts = [
+    8443
+  ];
+
   # Enable Docker and Podman
   virtualisation = {
     docker.enable = true;
