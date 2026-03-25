@@ -114,7 +114,7 @@
                  ];
               })
               ### Wine ###
-              (wineWowPackages.full.override {
+              (wineWow64Packages.full.override {
                 wineRelease = "staging";
                 mingwSupport = true;
               })
