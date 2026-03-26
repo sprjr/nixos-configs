@@ -43,6 +43,11 @@
         ls = "lsd -l";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
+        cdn = "cd ~/.nixos-configuration/nixos-configs/";
+        # kscreen monitor switching
+        remon = "~/.local/bin/switch-remote.sh";
+        lomon = "~/.local/bin/switch-local.sh";
+
 
         # For fun/dumb aliases
         anaconda = "ternimal length=100 thickness=1,4,1,0,0 radius=6,12 gradient=0:#666600,0.5:#00ff00,1:#003300";
@@ -74,6 +79,10 @@
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
         cdn = "cd ~/.nixos-configuration/nixos-configs/";
+        # kscreen monitor switching
+        remon = "~/.local/bin/switch-remote.sh";
+        lomon = "~/.local/bin/switch-local.sh";
+
 
         # For fun/dumb aliases
         anaconda = "ternimal length=100 thickness=1,4,1,0,0 radius=6,12 gradient=0:#666600,0.5:#00ff00,1:#003300";
@@ -114,9 +123,9 @@
         ls = "lsd -l";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
-	# kscreen monitor switching
-	remon = "~/.local/bin/switch-remote.sh";
-	lomon = "~/.local/bin/switch-local.sh";
+        # kscreen monitor switching
+        remon = "~/.local/bin/switch-remote.sh";
+        lomon = "~/.local/bin/switch-local.sh";
 
         # For fun/dumb aliases
         anaconda = "ternimal length=100 thickness=1,4,1,0,0 radius=6,12 gradient=0:#666600,0.5:#00ff00,1:#003300";
