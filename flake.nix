@@ -114,7 +114,7 @@
                  ];
               })
               ### Wine ###
-              (wineWowPackages.full.override {
+              (wineWow64Packages.full.override {
                 wineRelease = "staging";
                 mingwSupport = true;
               })
@@ -152,7 +152,8 @@
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
           ./nixos/modules/system/comin.nix
-          ./nixos/modules/system/udev-scrcpy.nix
+          ./nixos/modules/system/nvidia-seanix.nix
+	  ./nixos/modules/system/udev-scrcpy.nix
           ./nixos/modules/user/patrick.nix
           {
           # Additional configuration goes here

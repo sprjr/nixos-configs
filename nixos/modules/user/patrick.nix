@@ -7,7 +7,7 @@
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [
       kdePackages.kate
-      (wineWowPackages.full.override {
+      (wineWow64Packages.full.override {
         wineRelease = "staging";
         mingwSupport = true;
       })
