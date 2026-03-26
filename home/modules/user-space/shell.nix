@@ -1,48 +1,6 @@
 { config, pkgs, home-manager, ... }:
 
 {
-
-  starship_config = pkgs.writeText "starship.toml" ''
-    [character]
-    success_symbol = '[❯](bold white)'
-
-    [container]
-    disabled = true
-  '';
-  aws_config = pkgs.writeText "aws.fish" ''
-    if test -z "$AWS_CONFIG_FILE"
-      set -gx AWS_CONFIG_FILE "$HOME/.aws/config"
-    end
-
-    # Helper function to get aws-profiles
-    function _get_aws_profiles
-      if grep -q '\[profile ' "$AWS_CONFIG_FILE"
-        set -x aws_profiles "$(${pkgs.gnugrep}/bin/grep '\[profile' $AWS_CONFIG_FILE)"
-        set -x aws_profiles "$(echo $aws_profiles | ${pkgs.gnused}/bin/sed 's/\[profile //g' | ${pkgs.gnused}/bin/sed 's/\]//g')"
-        echo $aws_profiles
-      end
-    end
-
-    # Function to easily switch aws profiles in config
-    function asp
-      if test -e "$AWS_CONFIG_FILE"
-        set -x aws_profiles "$(${pkgs.gnugrep}/bin/grep '\[profile' $AWS_CONFIG_FILE)"
-        set -x aws_profiles "$(echo $aws_profiles | ${pkgs.gnused}/bin/sed 's/\[profile //g' | ${pkgs.gnused}/bin/sed 's/\]//g')"
-        set -x profile_selection "$argv[1]"
-        if test -z "$profile_selection"
-          set -x profile_selection "$(echo $aws_profiles | ${pkgs.coreutils}/bin/tr " " "\n" | ${pkgs.fzf}/bin/fzf)"
-        end
-        test -n "$profile_selection" && echo "$aws_profiles" | ${pkgs.gnugrep}/bin/grep -q "$profile_selection" && set -gx AWS_PROFILE "$profile_selection"
-      end
-    end
-
-    # Autocompletion for asp
-    complete -e asp
-    if test -e "$AWS_CONFIG_FILE"
-      complete -x -c asp -d "AWS profiles" -n "_get_aws_profiles" -a "$(_get_aws_profiles)"
-    end
-  '';
-
   # .bashrc configuration
   programs = {
     # Enable Starship
