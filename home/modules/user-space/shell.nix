@@ -1,6 +1,48 @@
 { config, pkgs, home-manager, ... }:
 
 {
+
+  starship_config = pkgs.writeText "starship.toml" ''
+    [character]
+    success_symbol = '[❯](bold white)'
+
+    [container]
+    disabled = true
+  '';
+  aws_config = pkgs.writeText "aws.fish" ''
+    if test -z "$AWS_CONFIG_FILE"
+      set -gx AWS_CONFIG_FILE "$HOME/.aws/config"
+    end
+
+    # Helper function to get aws-profiles
+    function _get_aws_profiles
+      if grep -q '\[profile ' "$AWS_CONFIG_FILE"
+        set -x aws_profiles "$(${pkgs.gnugrep}/bin/grep '\[profile' $AWS_CONFIG_FILE)"
+        set -x aws_profiles "$(echo $aws_profiles | ${pkgs.gnused}/bin/sed 's/\[profile //g' | ${pkgs.gnused}/bin/sed 's/\]//g')"
+        echo $aws_profiles
+      end
+    end
+
+    # Function to easily switch aws profiles in config
+    function asp
+      if test -e "$AWS_CONFIG_FILE"
+        set -x aws_profiles "$(${pkgs.gnugrep}/bin/grep '\[profile' $AWS_CONFIG_FILE)"
+        set -x aws_profiles "$(echo $aws_profiles | ${pkgs.gnused}/bin/sed 's/\[profile //g' | ${pkgs.gnused}/bin/sed 's/\]//g')"
+        set -x profile_selection "$argv[1]"
+        if test -z "$profile_selection"
+          set -x profile_selection "$(echo $aws_profiles | ${pkgs.coreutils}/bin/tr " " "\n" | ${pkgs.fzf}/bin/fzf)"
+        end
+        test -n "$profile_selection" && echo "$aws_profiles" | ${pkgs.gnugrep}/bin/grep -q "$profile_selection" && set -gx AWS_PROFILE "$profile_selection"
+      end
+    end
+
+    # Autocompletion for asp
+    complete -e asp
+    if test -e "$AWS_CONFIG_FILE"
+      complete -x -c asp -d "AWS profiles" -n "_get_aws_profiles" -a "$(_get_aws_profiles)"
+    end
+  '';
+
   # .bashrc configuration
   programs = {
     # Enable Starship
@@ -98,64 +140,6 @@
           set encoded (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(" ".join(sys.argv[1:])))' $argv)
           curl "https://cht.sh/$encoded"
         end
-       #function random-mtg-card
-       #  set cache_dir "$HOME/.cache/scryfall"
-       #  set bulk_cache "$cache_dir/cards.json"
-       #  set daily_card "$cache_dir/card-of-day.json"
-       #  set today (date +%Y-%m-%d)
-
-       #  # Create cache directory
-       #  mkdir -p "$cache_dir"
-
-       #  # Check if we need a new card (different day or file doesn't exist)
-       #  set needs_new_card true
-       #  if test -f "$daily_card"
-       #    set cached_date (${pkgs.jq}/bin/jq -r '.cached_date // ""' "$daily_card")
-       #    if test "$cached_date" = "$today"
-       #      set needs_new_card false
-       #    end
-       #  end
-
-       #  # Get new card if needed
-       #  if test "$needs_new_card" = true
-       #    # Download bulk data if not present or older than 7 days
-       #    if not test -f "$bulk_cache"; or test (find "$bulk_cache" -mtime +7 2>/dev/null | wc -l) -gt 0
-       #      echo "Updating card database (one-time download)..."
-       #      set bulk_data_url (${pkgs.curl}/bin/curl -s "https://api.scryfall.com/bulk-data/default-cards" | ${pkgs.jq}/bin/jq -r '.download_uri')                                                                                                                                    ${pkgs.curl}/bin/curl -s "$bulk_data_url" -o "$bulk_cache"
-       #    end
-
-       #    # Select random card and cache it
-       #    set total_cards (${pkgs.jq}/bin/jq '. | length' "$bulk_cache")
-       #    set random_index (random 0 (math $total_cards - 1))
-       #    ${pkgs.jq}/bin/jq ".[$random_index] | . + {cached_date: \"$today\"}" "$bulk_cache" > "$daily_card"
-       #  end
-
-       #  # Read cached card (fast!)
-       #  set card (cat "$daily_card")
-       #  set name (echo $card | ${pkgs.jq}/bin/jq -r '.name')
-       #  set mana_cost (echo $card | ${pkgs.jq}/bin/jq -r '.mana_cost // "N/A"')
-       #  set type_line (echo $card | ${pkgs.jq}/bin/jq -r '.type_line')
-       #  set oracle_text (echo $card | ${pkgs.jq}/bin/jq -r '.oracle_text // "No text"')
-       #  set set_name (echo $card | ${pkgs.jq}/bin/jq -r '.set_name')
-       #  set rarity (echo $card | ${pkgs.jq}/bin/jq -r '.rarity')
-
-       #  echo "╔════════════════════════════════════════╗"
-       #  echo "║      Random MTG Card of the Day        ║"
-       #  echo "╚════════════════════════════════════════╝"
-       #  echo ""
-       #  echo "🃏 $name $mana_cost"
-       #  echo "📋 $type_line"
-       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-       #  echo $oracle_text | fold -s -w 40
-       #  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-       #  echo "📦 $set_name | ✨ $rarity"
-       #  echo ""
-       #end
-
-       ## Show card on login (only in interactive shells)
-       #if status is-interactive
-       #  random-mtg-card
-       #end
       '';
       # Aliases
       shellAliases = {
