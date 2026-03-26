@@ -48,7 +48,6 @@
         remon = "~/.local/bin/switch-remote.sh";
         lomon = "~/.local/bin/switch-local.sh";
 
-
         # For fun/dumb aliases
         anaconda = "ternimal length=100 thickness=1,4,1,0,0 radius=6,12 gradient=0:#666600,0.5:#00ff00,1:#003300";
         rainbow = "ternimal length=20 thickness=70,15,0,1,0 padding=10 radius=5 gradient=0.03:#ffff00,0.15:#0000ff,0.3:#ff0000,0.5:#00ff00";
@@ -82,7 +81,6 @@
         # kscreen monitor switching
         remon = "~/.local/bin/switch-remote.sh";
         lomon = "~/.local/bin/switch-local.sh";
-
 
         # For fun/dumb aliases
         anaconda = "ternimal length=100 thickness=1,4,1,0,0 radius=6,12 gradient=0:#666600,0.5:#00ff00,1:#003300";
