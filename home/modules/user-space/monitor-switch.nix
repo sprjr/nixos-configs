@@ -6,7 +6,9 @@
       executable = true;
       text = ''
         #!/usr/bin/env bash
-        kscreen-doctor \
+        # Values determined by running `kscreen-doctor -o`.
+
+	kscreen-doctor \
           output.DP-1.enable output.DP-1.mode.2 output.DP-1.position.3191,1080 output.DP-1.scale.1 \
           output.DP-2.enable output.DP-2.mode.16 output.DP-2.position.1920,1080 output.DP-2.scale.1.7 output.DP-2.rotation.left \
           output.DP-3.enable output.DP-3.mode.45 output.DP-3.position.5751,1080 output.DP-3.scale.1.6 \
