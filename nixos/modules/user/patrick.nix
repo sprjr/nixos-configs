@@ -22,7 +22,7 @@
   home-manager = {
     extraSpecialArgs = {
       inherit dark-wallpaper-laptop;
-      inherit nixos-cosmic;
+      cosmicOverlay = nixos-cosmic.overlays.default;
     };
     useGlobalPkgs = true;
     users.patrick = {
