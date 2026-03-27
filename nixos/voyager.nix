@@ -35,11 +35,6 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # nixpkgs overlays for Cosmic Applets
-  nixpkgs.overlays = [
-    inputs.nixos-cosmic.overlays.default
-  ];
-
   # General Networking Options
   networking.hostName = "voyager"; # Define your hostname.
 
