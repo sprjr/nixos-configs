@@ -13,10 +13,10 @@ let
     nativeBuildInputs = with cosmicPkgs; [
       pkg-config
       just
+      libcosmicAppHook
     ];
 
     buildInputs = with cosmicPkgs; [
-      libcosmic
       wayland
       libxkbcommon
       mesa
