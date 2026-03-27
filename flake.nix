@@ -32,6 +32,10 @@
       url = "github:tiecia/hyprsession";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
       inputs.nixpkgs.follows = "nixpkgs-stable";
@@ -73,7 +77,8 @@
                       heywoodlh-configs,
                       home-manager,
        	              hyprsession,
-                      nixos-hardware,
+                      nixos-cosmic,
+		      nixos-hardware,
                       omarchy-nix,
                       sops-nix,
                       nixpkgs,

@@ -17,6 +17,8 @@ cloudflare-api-token: ENC[AES256_GCM,data:oQMX0DJQyEHnjZ5awzXGhKOAcxCmkC24fOl+oE
 mumble-register-password: ENC[AES256_GCM,data:pL4zwBokcsfGwhZyLJ95mDY=,iv:V6wSPG0mnuJ2wD2aKFbOLDyen2Gi6Aa5+0nSUTHl5uo=,tag:tO7medWWbGBoBdsO+X9meQ==,type:str]
 mumble-server-password: ENC[AES256_GCM,data:+4TEAWSpJcbjze/7f+4BHylulxg=,iv:jdYaam9gxjCMerRLl4+ACpniRd4r9tqBW2MiSdtu7Kc=,tag:cGhoOeJ6PVISbqi0ulZ/PQ==,type:str]
 mumble-superuser-password: ENC[AES256_GCM,data:owW02b2JoHnnvdSpKoRoZKRGzEWi4XKXXHpFGNi7Yw4rklPf4CC9Zly5FKABz9Lv2H+fvIY/k/NmsiL1dy6BxQ==,iv:m8jGXYdschHvjSShEApYWP/NovbAiWlf98egqoFXMas=,tag:QMo0whgU7wOyp/en1bTMUw==,type:str]
+#ENC[AES256_GCM,data:iWlh9aCL+gCczxFRSftuNUZaS3DSRpsaWN4hukr9NeRH6YiLuYsWcMNlZWVAf5JxLyY2Uw9BS4VM3A==,iv:k83BhBoxl+kOzSIr+on0/nLQZlmGTIy8g/HiC8I+jbM=,tag:kovaii4Zynw71US8sgBWhQ==,type:comment]
+ha_token: ENC[AES256_GCM,data:zMhQ3KroXK/57UgJIAZYMcWe2Hmb31ky2X/pcm0HOaEQ7gH0xd7DoWoQZeg=,iv:yT+ahcBUUsNKDNFeZ0UgwfDqGsljNfyY4fn3islbkIY=,tag:p+gXF98ouuQhxhqDgDx5mg==,type:str]
 sops:
     age:
         - recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
@@ -28,7 +30,7 @@ sops:
             YXlCM2J2a0wyWDV0c283RDNjekc2VXMKPWley8IXCEpYzLo1LA1z5RMI+/a/VN34
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T18:08:39Z"
-    mac: ENC[AES256_GCM,data:fbD01DEWDVktCck473zLwmxQds/GyCTGpDmi8sMka6BEDjoy13OEghS41U5JsG8XkRaCaUwa8Djztjp5+jcOwiXJABQsSj/gObo88W28OXEnsh/uaXw/d3PBnfXxzuQol+trPrAZRRPdxHy/7ogdPzlBApyUjr0kss15tK/bjX8=,iv:b36IABmh5w92UV3k1s0+/t4T9ZDUlHGfKHlA74Crhew=,tag:EFwIO+LhxH24/NAE3IC6Bw==,type:str]
+    lastmodified: "2026-03-27T18:39:46Z"
+    mac: ENC[AES256_GCM,data:yZJFKBugY7MK85M2cgP9OGVHL2ysNsApVoDhsxOMas3PZABoBrbc0UJcgoYSHib37/h+WlWgKS1FedaCQl7JJ5qOLPyvzYCOUzYP1GKB5wvvJs6jjzGzSQoGZ+/MWt6a9fLWplTT0LGaszmVbnigygahnS2cWxNpAjXYkolzO3s=,iv:8KNE+ll5fgIvlfP4gKyVNSciftr/DsiTbXVBHOUFPww=,tag:z9OzCBKUnDNCnHJgppZ0sw==,type:str]
     unencrypted_suffix: _unencrypted
-    version: 3.11.0
+    version: 3.12.1
