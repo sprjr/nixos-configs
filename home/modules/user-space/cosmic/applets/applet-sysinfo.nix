@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  applet = pkgs.rusPlatform.buildRustPackage {
+  applet = pkgs.rustPlatform.buildRustPackage {
     pname = "cosmic-applet-sysinfo";
     version = "0.1.0";
     src = ../pkgs/cosmic-applets;
