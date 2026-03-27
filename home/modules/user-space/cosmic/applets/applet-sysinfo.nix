@@ -1,26 +1,28 @@
 { pkgs, lib, ... }:
 
 let
-  applet = pkgs.rustPlatform.buildRustPackage {
+  cosmicPkgs = pkgs.extend nixos-cosmic.overlays.default;
+
+  applet = cosmicPkgs.rustPlatform.buildRustPackage {
     pname = "cosmic-applet-sysinfo";
     version = "0.1.0";
     src = ../pkgs/cosmic-applets;
     cargoLock.lockFile = ../pkgs/cosmic-applets/Cargo.lock;
     cargoBuildFlags = [ "-p"  "applet-sysinfo" ];
 
-    nativeBuildInputs = with pkgs; [
+    nativeBuildInputs = with cosmicPkgs; [
       pkg-config
       just
     ];
 
-    buildInputs = with pkgs; [
+    buildInputs = with cosmicPkgs; [
       libcosmic
       wayland
       libxkbcommon
       mesa
     ];
 
-    LD_LIBRARY_PATH = lib.makeLibraryPath (with pkgs; [ wayland libxkbcommon mesa ]);
+    LD_LIBRARY_PATH = lib.makeLibraryPath (with cosmicPkgs; [ wayland libxkbcommon mesa ]);
   };
 
   desktopEntry = ''

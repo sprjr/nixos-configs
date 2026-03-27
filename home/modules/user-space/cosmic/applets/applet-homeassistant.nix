@@ -1,15 +1,17 @@
 { pkgs, lib, config, ... }:
 
 let
-  applet = pkgs.rustPlatform.buildRustPackage {
+  cosmicPkgs = pkgs.extend nixos-cosmic.overlays.default;
+
+  applet = cosmicPkgs.rustPlatform.buildRustPackage {
     pname = "cosmic-applet-homeassistant";
     version = "0.1.0";
     src = ../pkgs/cosmic-applets;
     cargoLock.lockFile = ../pkgs/cosmic-applets/Cargo.lock;
     cargoBuildFlags = [ "-p" "applet-homeassistant" ];
 
-    nativeBuildInputs = with pkgs; [ pkg-config ];
-    buildInputs = (with pkgs; [ libcosmic wayland libxkbcommon mesa openssl ]);
+    nativeBuildInputs = with cosmicPkgs; [ pkg-config ];
+    buildInputs = (with cosmicPkgs; [ libcosmic wayland libxkbcommon mesa openssl ]);
   };
 in
 {
