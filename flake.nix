@@ -147,7 +147,7 @@
       };
       seanix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = inputs;
         modules = [
           comin.nixosModules.comin
           sops-nix.nixosModules.sops
