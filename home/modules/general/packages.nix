@@ -31,7 +31,8 @@
     mtr
     nebula
     nps
-    opencode
+   opencode
+   opencode-desktop
     openssl
     pv
     rig
