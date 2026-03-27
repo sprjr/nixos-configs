@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, dark-wallpaper-laptop, ... }:
+{ config, pkgs, lib, home-manager, nixos-cosmic, dark-wallpaper-laptop, ... }:
 
 {
   users.users.patrick = {
@@ -22,6 +22,7 @@
   home-manager = {
     extraSpecialArgs = {
       inherit dark-wallpaper-laptop;
+      inherit nixos-cosmic;
     };
     useGlobalPkgs = true;
     users.patrick = {
