@@ -198,7 +198,7 @@
           comin.nixosModules.comin
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          ./nixos/modules/system/fprintd.nix
+          ./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
 	  ./nixos/modules/user/patrick.nix
 	  ./nixos/hardware-configuration/voyager.nix
           ./nixos/voyager.nix

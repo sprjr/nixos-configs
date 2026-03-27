@@ -6,7 +6,6 @@ let
 in {
   imports = [
     home-manager.nixosModules.home-manager
-   #./modules/desktop-environment/gnome.nix
   ];
 
   # Select Desktop Environment.
