@@ -35,9 +35,13 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # nixpkgs overlays for Cosmic Applets
+  nixpkgs.overlays = [
+    inputs.nixos-cosmic.overlays.default
+  ];
+
   # General Networking Options
   networking.hostName = "voyager"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
