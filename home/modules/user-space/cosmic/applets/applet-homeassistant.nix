@@ -14,10 +14,6 @@ let
 in
 {
   home.packages = [ applet ];
-  sops.secrets.ha_token = {
-    sopsFile = /home/patrick/.nixos/nixos-configs/sops-nix/sops.yaml;
-    path = "${config.xdg.configHome}/sops-secrets/ha_token";
-  };
 
   xdg.dataFile."applications/cosmic-applet-homeassistant.desktop".text = ''
     [Desktop Entry]
