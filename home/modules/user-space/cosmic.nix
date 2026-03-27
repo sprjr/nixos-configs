@@ -151,7 +151,7 @@ let
           radius_xl: (8.0, 8.0, 8.0, 8.0),
       )'';
     "com.system76.CosmicTheme.Dark/v1/is_dark" = "true";
-    "com.system76.CosmicTheme.Dark/v1/is_frosted" = "false";
+    "com.system76.CosmicTheme.Dark/v1/is_frosted" = "true";
     "com.system76.CosmicTheme.Dark/v1/name" = ''"cosmic-dark"'';
     "com.system76.CosmicTheme.Dark/v1/shade" = ''
       (
