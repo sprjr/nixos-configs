@@ -10,11 +10,7 @@ let
     cargoLock.lockFile = ../pkgs/cosmic-applets/Cargo.lock;
     cargoBuildFlags = [ "-p"  "applet-sysinfo" ];
 
-    nativeBuildInputs = with cosmicPkgs; [
-      pkg-config
-      just
-      libcosmicAppHook
-    ];
+    nativeBuildInputs = with cosmicPkgs; [ pkg-config ];
 
     buildInputs = with cosmicPkgs; [
       wayland

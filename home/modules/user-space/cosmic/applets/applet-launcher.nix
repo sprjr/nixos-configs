@@ -10,7 +10,7 @@ let
     cargoLock.lockFile = ../pkgs/cosmic-applets/Cargo.lock;
     cargoBuildFlags = [ "-p" "applet-launcher" ];
 
-    nativeBuildInputs = with cosmicPkgs; [ pkg-config just libcosmicAppHook ];
+    nativeBuildInputs = with cosmicPkgs; [ pkg-config ];
     buildInputs = with cosmicPkgs; [ wayland libxkbcommon mesa ];
     LD_LIBRARY_PATH = lib.makeLibraryPath (with cosmicPkgs; [ wayland libxkbcommon mesa ]);
   };
