@@ -1,7 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, cosmicOverlay, ... }:
 
 let
-  cosmicPkgs = pkgs.extend nixos-cosmic.overlays.default;
+  cosmicPkgs = pkgs.extend cosmicOverlay;
 
   applet = cosmicPkgs.rustPlatform.buildRustPackage {
     pname = "cosmic-applet-homeassistant";

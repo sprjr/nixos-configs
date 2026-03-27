@@ -1,7 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, cosmicOverlay, ... }:
 
 let
-  cosmicPkgs = pkgs.extend nixos-cosmic.overlays.default;
+  cosmicPkgs = pkgs.extend cosmicOverlay;
 
   applet = cosmicPkgs.rustPlatform.buildRustPackage {
     pname = "cosmic-applet-sysinfo";
