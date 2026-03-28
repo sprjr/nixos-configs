@@ -12,10 +12,6 @@
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    cosmic-applets = {
-      url = "path:./flakes/cosmic-applets/pkgs/cosmic-applets";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,7 +70,6 @@
 
   outputs = inputs@{  self,
                       comin,
-                      cosmic-applets,
 		      darwin,
                       fish-flake,
                       flake-utils,
