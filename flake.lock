@@ -9234,6 +9234,7 @@
       },
       "original": {
         "owner": "lilyinstarlight",
+        "ref": "refs/heads/main",
         "repo": "nixos-cosmic",
         "type": "github"
       }

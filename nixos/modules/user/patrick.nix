@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, nixos-cosmic, dark-wallpaper-laptop, ... }:
+{ config, pkgs, lib, home-manager, cosmic-applets, nixos-cosmic, dark-wallpaper-laptop, ... }:
 
 {
   users.users.patrick = {
@@ -21,8 +21,10 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
+      inherit cosmic-applets;
       inherit dark-wallpaper-laptop;
       cosmicOverlay = nixos-cosmic.overlays.default;
+      configRoot = "/home/patrick/.nixos/nixos-configs";
     };
     useGlobalPkgs = true;
     users.patrick = {
