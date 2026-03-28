@@ -21,9 +21,7 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit cosmic-applets;
       inherit dark-wallpaper-laptop;
-      cosmicOverlay = nixos-cosmic.overlays.default;
       configRoot = "/home/patrick/.nixos/nixos-configs";
     };
     useGlobalPkgs = true;

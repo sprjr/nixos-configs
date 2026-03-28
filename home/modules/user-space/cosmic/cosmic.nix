@@ -1,4 +1,4 @@
-{ config, pkgs, lib, dark-wallpaper-laptop, cosmic-applets, configRoot, ... }:
+{ config, pkgs, lib, cosmic-applets, nixos-cosmic, dark-wallpaper-laptop, ... }:
 
 with lib;
 
@@ -216,12 +216,6 @@ let
   ) wallpaperFile);
 in
 {
-  imports = [
-    "${configRoot}/flakes/cosmic-applets/applets/applet-sysinfo.nix"
-    "${configRoot}/flakes/cosmic-applets/applets/applet-launcher.nix"
-    "${configRoot}/flakes/cosmic-applets/applets/applet-homeassistant.nix"
-  ];
-
   options = {
     patrick.home.cosmic = mkOption {
       default = true;
