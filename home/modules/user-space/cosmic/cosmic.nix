@@ -1,4 +1,4 @@
-{ config, pkgs, lib, cosmic-applets, nixos-cosmic, dark-wallpaper-laptop, ... }:
+{ config, pkgs, lib, dark-wallpaper-laptop, ... }:
 
 with lib;
 
