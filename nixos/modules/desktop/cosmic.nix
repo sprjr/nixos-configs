@@ -6,8 +6,11 @@
   nixpkgs.overlays = [
     nixos-cosmic.overlays.default
     (final: prev: {
-      cosmic-edit = prev.cosmic-edit.overrideAttrs (old: {
-        src = old.src.override {
+      cosmic-edit = prev.cosmic-edit.overrideAttrs (_: {
+        src = final.fetchFromGitHub {
+          owner = "pop-os";
+          repo = "cosmic-edit";
+          rev = prev.cosmic-edit.src.rev;
           hash = "sha256-GN1Zts+v3ARcrkN+ZkMUSGNOAlIhXSYWRtWAyqUfUrY=";
         };
       });
