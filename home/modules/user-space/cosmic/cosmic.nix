@@ -1,4 +1,4 @@
-{ config, pkgs, lib, dark-wallpaper-laptop, cosmicOverlay, cosmic-applets, configRoot, ... }:
+{ config, pkgs, lib, dark-wallpaper-laptop, cosmic-applets, configRoot, ... }:
 
 with lib;
 
@@ -216,24 +216,24 @@ let
   ) wallpaperFile);
 in
 {
-  imports = [ nixos-cosmic.nixosModules.default ];
-
-  nixpkgs.overlays = [
-    nixos-cosmic.overlays.default
-    (final: prev: {
-      cosmic-edit = prev.cosmic-edit.overrideAttrs (_: {
-        src = prev.fetchFromGitHub {
-          owner = "pop-os";
-          repo = "cosmic-edit";
-          rev = prev.cosmic-edit.src.rev;
-          hash = "sha256-GN1Zts+v3ARcrkN+ZkMUSGNOAlIhXSYWRtWAyqUfUrY=";
-        };
-      });
-    })
+  imports = [
+    "${configRoot}/flakes/cosmic-applets/applets/applet-sysinfo.nix"
+    "${configRoot}/flakes/cosmic-applets/applets/applet-launcher.nix"
+    "${configRoot}/flakes/cosmic-applets/applets/applet-homeassistant.nix"
   ];
 
-  nix.settings = {
-    substituters = [ "https://cosmic.cachix.org" ];
-    trusted-public-keys = [ "cosmic.cachix.org-1:Dya6IxT5r5k6SJOsGKFGMEMQDcWlBoAN1JgaoL/hMKE=" ];
+  options = {
+    patrick.home.cosmic = mkOption {
+      default = true;
+      description = "Load Patrick's custom Cosmic tweaks and configuration";
+      type = types.bool;
+    };
+  };
+
+  config = mkIf cfg {
+    home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${writeStaticFiles}
+      ${writeWallpaperFiles}
+    '';
   };
 }
