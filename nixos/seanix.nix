@@ -223,9 +223,7 @@ in {
     gh-dash
     ghostty
     gimp
-    helix
     iotop
-    jq
     kitty
     ladybird
     legcord # alt discord client
