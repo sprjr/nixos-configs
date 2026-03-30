@@ -19,7 +19,9 @@
     glow
     gocheat
     harper
+    helix
     htop
+    jq
     kubernetes-helm
     kubectx # supplementary kubernetes tools
     lazydocker
@@ -31,8 +33,8 @@
     mtr
     nebula
     nps
-   opencode
-   opencode-desktop
+    opencode
+    opencode-desktop
     openssl
     pv
     rig
