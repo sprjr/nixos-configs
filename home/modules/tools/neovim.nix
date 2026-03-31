@@ -1,4 +1,9 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 {
   # Neovim configuration
@@ -42,7 +47,7 @@
       " External dependencies
       " REMINDER TO SELF: don't use cspell (has some annoying defaults)
       " ALE nix syntax highlighting
-      let $PATH = "${pkgs.nixfmt-rfc-style}/bin:" . $PATH
+      let $PATH = "${pkgs.nixfmt}/bin:" . $PATH
       " shellcheck syntax highlighting
       let $PATH = "${pkgs.shellcheck}/bin:" . $PATH
       " Vim syntax highlighting

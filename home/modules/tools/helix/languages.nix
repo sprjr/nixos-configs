@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     bash-language-server
-    nixfmt-rfc-style
+    nixfmt
     shellcheck
     nil # nix
     pyright # python type checking
