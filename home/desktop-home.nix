@@ -1,4 +1,9 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 {
   # Modules
@@ -18,6 +23,7 @@
 
   # Git configuration
   programs.git = {
+    signing.format = null;
     enable = true;
     settings = {
       user = {
@@ -33,7 +39,10 @@
   };
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   home.stateVersion = "24.05";

@@ -1,15 +1,20 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 {
   # Modules
   imports = [
-#   ./linux/desktop_environments/gnome.nix
+    #   ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
-#   ./modules/user-space/btop.nix
+    #   ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
     ./modules/user-space/cosmic/cosmic.nix
     ./modules/tools/helix/config.nix
@@ -25,6 +30,7 @@
 
   # Git configuration
   programs.git = {
+    signing.format = null;
     enable = true;
     settings = {
       user = {
@@ -40,7 +46,10 @@
   };
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   home.stateVersion = "24.05";
