@@ -24,7 +24,7 @@
 
       [editor.lsp]
       auto-signature-help = true
-      display-inlay-hints = true
+      display-inlay-hints = false
 
       [keys.normal]
       # x/X: delete char (Vim) vs select line (Helix default)
