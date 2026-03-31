@@ -12,7 +12,9 @@
 
       [editor]
       line-number = "absolute"
-      render-whitespace = "trailing"
+
+      [editor.whitespace]
+      render = "trailing"
 
       [editor.whitespace.characters]
       space    = " "
