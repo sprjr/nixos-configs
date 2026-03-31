@@ -153,7 +153,7 @@
           sops-nix.nixosModules.sops
           ./nixos/hardware-configuration/seanix.nix
           ./nixos/seanix.nix
-          ./nixos/modules/desktop/cosmic.nix
+         #./nixos/modules/desktop/cosmic.nix
           ./nixos/modules/virtualisation/containers/syncthing.nix
           ./nixos/modules/gaming/sunshine.nix
           ./nixos/modules/disks/seanix-mount.nix
@@ -199,7 +199,7 @@
           comin.nixosModules.comin
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          ./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
+         #./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
 	  ./nixos/modules/user/patrick.nix
 	  ./nixos/hardware-configuration/voyager.nix
           ./nixos/voyager.nix
