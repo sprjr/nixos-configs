@@ -14,7 +14,7 @@
       line-number = "absolute"
 
       [editor.whitespace]
-      render = "trailing"
+      render = { space = "none", tab = "all", newline = "none" }
 
       [editor.whitespace.characters]
       space    = " "
