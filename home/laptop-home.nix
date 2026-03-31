@@ -12,6 +12,9 @@
 #   ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
     ./modules/user-space/cosmic/cosmic.nix
+    ./modules/tools/helix/config.nix
+    ./modules/tools/helix/languages.nix
+    ./modules/tools/helix/theme-nord.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout.nix
     ./modules/user-space/zellij/zellij-config.nix
