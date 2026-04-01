@@ -15,5 +15,11 @@
       driver = pkgs.libfprint-2-tod1-goodix;
     };
   };
-# security.pam.services.login.fprintAuth = false;
+
+  security.pam.services = {
+    login.fprintAuth = true;
+    sudo.fprintAuth = true;
+    polkit-1.fprintAuth = true;
+    swaylock.fprintAuth = true; # remove if not using swaylock
+  };
 }
