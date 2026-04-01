@@ -1,13 +1,5 @@
-{ configs, pkgs, ... }:
-
+{ pkgs, ... }:
 {
-  environment.systemPackages = [
-    pkgs.open-fprintd
-    pkgs.fprintd-tod
-    pkgs.haskellPackages.libfuse3
-    pkgs.imagemagick
-  ];
-
   services.fprintd = {
     enable = true;
     tod = {
@@ -20,6 +12,6 @@
     login.fprintAuth = true;
     sudo.fprintAuth = true;
     polkit-1.fprintAuth = true;
-    swaylock.fprintAuth = true; # remove if not using swaylock
+    swaylock.fprintAuth = true;
   };
 }
