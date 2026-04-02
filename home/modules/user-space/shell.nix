@@ -1,6 +1,19 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 {
+  environment = {
+    shells = [ pkgs.zsh ];
+    variables = {
+      EDITOR = "helix";
+      SYSTEMD_EDITOR = "helix";
+      VISUAL = "helix";
+    };
+  };
   # .bashrc configuration
   programs = {
     # Enable Starship
