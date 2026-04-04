@@ -1,6 +1,15 @@
-{ config, pkgs, home-manager, ... }:
-
 {
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
+{
+  programs.helix.enable = true;
+  home.sessionVariables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+  };
   # .bashrc configuration
   programs = {
     # Enable Starship
