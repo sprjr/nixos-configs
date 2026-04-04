@@ -108,7 +108,12 @@ let
           "com.system76.CosmicAppletTime"
       ])'';
     "com.system76.CosmicPanel.Panel/v1/plugins_wings" = ''
-      Some(([], [
+      Some(([
+          "io.github.cosmic_utils.sysinfo-applet",
+          "io.github.cosmic_utils.weather-applet",
+          "dev.DBrox.CosmicPrivacyIndicator",
+          "net.tropicbliss.CosmicExtAppletCaffeine",
+      ], [
           "com.system76.CosmicAppletInputSources",
           "com.system76.CosmicAppletStatusArea",
           "com.system76.CosmicAppletTiling",
@@ -118,7 +123,7 @@ let
           "com.system76.CosmicAppletBattery",
           "com.system76.CosmicAppletNotifications",
           "com.system76.CosmicAppletPower",
-      ]))'';
+      ]));
     "com.system76.CosmicPanel.Panel/v1/size" = "XS";
     "com.system76.CosmicPanel.Panel/v1/size_center" = "None";
     "com.system76.CosmicPanel.Panel/v1/size_wings" = "None";
