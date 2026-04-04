@@ -235,7 +235,7 @@ in
 
   config = mkIf cfg {
     home.packages = with pkgs; [
-      cosmic.applets
+      cosmic-applets
       cosmic-ext-applet-caffeine
       cosmic-ext-applet-minimon
       cosmic-ext-applet-privacy-indicator
