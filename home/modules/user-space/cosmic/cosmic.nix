@@ -234,18 +234,17 @@ in
   };
 
   config = mkIf cfg {
+    home.packages = with pkgs; [
+      cosmic.applets
+      cosmic-ext-applet-caffeine
+      cosmic-ext-applet-minimon
+      cosmic-ext-applet-privacy-indicator
+      cosmic-ext-applet-sysinfo
+      cosmic-ext-applet-weather
+    ];
     home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       ${writeStaticFiles}
       ${writeWallpaperFiles}
     '';
   };
-
-  home.packages = with pkgs; [
-    cosmic.applets
-    cosmic-ext-applet-caffeine
-    cosmic-ext-applet-minimon
-    cosmic-ext-applet-privacy-indicator
-    cosmic-ext-applet-sysinfo
-    cosmic-ext-applet-weather
-  ];
 }
