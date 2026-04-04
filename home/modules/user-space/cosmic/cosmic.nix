@@ -123,7 +123,7 @@ let
           "com.system76.CosmicAppletBattery",
           "com.system76.CosmicAppletNotifications",
           "com.system76.CosmicAppletPower",
-      ]));
+      ]))'';
     "com.system76.CosmicPanel.Panel/v1/size" = "XS";
     "com.system76.CosmicPanel.Panel/v1/size_center" = "None";
     "com.system76.CosmicPanel.Panel/v1/size_wings" = "None";
