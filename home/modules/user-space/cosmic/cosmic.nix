@@ -203,6 +203,9 @@ let
           stretch: Normal,
           style: Normal,
       )'';
+    "io.github.cosmic-utils.cosmic-ext-applet-sysinfo/v1/template" =
+      ''"\u{f4bc} {cpu_usage} | \u{efc5} {ram_usage} | \u{f2cb}{cpu_temp} | \u{f01da}{dl_speed}M/s \u{f0552}{ul_speed}M/s | \u{ef09} {pub_ipv4}"'';
+    "io.github.cosmic-utils.cosmic-ext-applet-sysinfo/v1/include_swap_in_ram" = "false";
   };
 
   wallpaperFile = {
