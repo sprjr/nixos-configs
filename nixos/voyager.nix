@@ -202,7 +202,6 @@ in {
     cursor-cli
 
     # User environment
-    cosmic-utils
     duplicati
     file
     fzf
