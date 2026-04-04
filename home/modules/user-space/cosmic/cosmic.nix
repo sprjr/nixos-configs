@@ -111,8 +111,8 @@ let
       Some(([
           "io.github.cosmic_utils.sysinfo-applet",
           "io.github.cosmic_utils.weather-applet",
-          "dev.DBrox.CosmicPrivacyIndicator",
           "net.tropicbliss.CosmicExtAppletCaffeine",
+          "dev.DBrox.CosmicPrivacyIndicator",
       ], [
           "com.system76.CosmicAppletInputSources",
           "com.system76.CosmicAppletStatusArea",
