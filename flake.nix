@@ -63,7 +63,7 @@
     };
     # Custom stuff
     dark-wallpaper-laptop = {
-      url = "https://raw.githubusercontent.com/dharmx/walls/main/anime/a_train_crossing_with_a_train_track_and_a_body_of_water.png";
+      url = "https://raw.githubusercontent.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg;
       flake = false;
     };
   };
