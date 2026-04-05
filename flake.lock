@@ -492,13 +492,13 @@
     "dark-wallpaper-laptop": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-jQWVgQhfPNtby9WDEYxmxiXmhlGzPFfy2s+QsCcmHNw=",
+        "narHash": "sha256-BmVH127dUrIhl7Nh5A1FVBv9dq0vr517cxmtcLySMfo=",
         "type": "file",
-        "url": "https://raw.githubusercontent.com/dharmx/walls/main/anime/a_train_crossing_with_a_train_track_and_a_body_of_water.png"
+        "url": "https://github.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg?raw=true"
       },
       "original": {
         "type": "file",
-        "url": "https://raw.githubusercontent.com/dharmx/walls/main/anime/a_train_crossing_with_a_train_track_and_a_body_of_water.png"
+        "url": "https://github.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg?raw=true"
       }
     },
     "dark-wallpaper_2": {
