@@ -63,190 +63,197 @@
     };
     # Custom stuff
     dark-wallpaper-laptop = {
-      url = "https://raw.githubusercontent.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg;
+      url = "https://raw.githubusercontent.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg";
       flake = false;
     };
   };
 
-  outputs = inputs@{  self,
-                      comin,
-		      darwin,
-                      fish-flake,
-                      flake-utils,
-                      ghostty,
-                      heywoodlh-configs,
-                      home-manager,
-       	              hyprsession,
-                      nixos-cosmic,
-		      nixos-hardware,
-                      omarchy-nix,
-                      sops-nix,
-                      nixpkgs,
-                      nixpkgs-stable,
-                      spicetify-nix,
-                      weathr,
-                      dark-wallpaper-laptop,
-                      ... }:
-  flake-utils.lib.eachDefaultSystem (system: let
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-  in {
-    # nixos targets
-    packages.nixosConfigurations = {
-      trixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          /etc/nixos/hardware-configuration.nix
-          ./nixos/trixos.nix
-          ./nixos/modules/nvidia.nix
-          ./nixos/modules/monitoring/node-exporter.nix
-          {
-            networking.hostName = "trixos";
-            hardware.nvidia.prime = {
-              # Verify BUS ID
-              intelBusId = "PCI:0:2:0";
-              nvidiaBusId = "PCI:1:0:0";
-            };
-            environment.systemPackages = with pkgs; [
-              cockpit
-              ### Lutris ###
-              (lutris.override {
-                 extraPkgs = pkgs: [
-                   # List package dependencies here
-                 ];
-              })
-              ### Wine ###
-              (wineWow64Packages.full.override {
-                wineRelease = "staging";
-                mingwSupport = true;
-              })
-              winetricks
-              spicetify-nix.packages.x86_64-linux.nord
+  outputs =
+    inputs@{
+      self,
+      comin,
+      darwin,
+      fish-flake,
+      flake-utils,
+      ghostty,
+      heywoodlh-configs,
+      home-manager,
+      hyprsession,
+      nixos-cosmic,
+      nixos-hardware,
+      omarchy-nix,
+      sops-nix,
+      nixpkgs,
+      nixpkgs-stable,
+      spicetify-nix,
+      weathr,
+      dark-wallpaper-laptop,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      in
+      {
+        # nixos targets
+        packages.nixosConfigurations = {
+          trixos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              /etc/nixos/hardware-configuration.nix
+              ./nixos/trixos.nix
+              ./nixos/modules/nvidia.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              {
+                networking.hostName = "trixos";
+                hardware.nvidia.prime = {
+                  # Verify BUS ID
+                  intelBusId = "PCI:0:2:0";
+                  nvidiaBusId = "PCI:1:0:0";
+                };
+                environment.systemPackages = with pkgs; [
+                  cockpit
+                  ### Lutris ###
+                  (lutris.override {
+                    extraPkgs = pkgs: [
+                      # List package dependencies here
+                    ];
+                  })
+                  ### Wine ###
+                  (wineWow64Packages.full.override {
+                    wineRelease = "staging";
+                    mingwSupport = true;
+                  })
+                  winetricks
+                  spicetify-nix.packages.x86_64-linux.nord
+                ];
+                services.openssh.enable = true;
+              }
             ];
-            services.openssh.enable = true;
-          }
-        ];
-      };
-      prometheus = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          comin.nixosModules.comin
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-          ./nixos/hardware-configuration/prometheus.nix
-          ./nixos/prometheus.nix
-          ./nixos/modules/system/comin.nix
-          ./nixos/modules/user/patrick.nix
-          {
-          }
-        ];
-      };
-      seanix = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          comin.nixosModules.comin
-          sops-nix.nixosModules.sops
-          ./nixos/hardware-configuration/seanix.nix
-          ./nixos/seanix.nix
-         #./nixos/modules/desktop/cosmic.nix
-          ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/modules/gaming/sunshine.nix
-          ./nixos/modules/disks/seanix-mount.nix
-          ./nixos/modules/system/comin.nix
-          ./nixos/modules/system/nvidia-seanix.nix
-	  ./nixos/modules/system/udev-scrcpy.nix
-          ./nixos/modules/user/patrick.nix
-          {
-          # Additional configuration goes here
-          }
-        ];
-      };
-      shikisha = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          comin.nixosModules.comin
-          sops-nix.nixosModules.sops
-          ./nixos/hardware-configuration/shikisha.nix
-          ./nixos/shikisha.nix
-          ./nixos/modules/disks/unraid-docker.nix
-          ./nixos/modules/disks/unraid-gitea.nix
-          ./nixos/modules/disks/unraid-other.nix
-          ./nixos/modules/disks/unraid-kubernetes.nix
-          ./nixos/modules/disks/unraid-nextcloud.nix
-          ./nixos/modules/homelab/attic.nix
-	  ./nixos/modules/homelab/nextcloud.nix
-          ./nixos/modules/homelab/storage/garage-systemd-service.nix
-          ./nixos/modules/network/certbot-mumble.nix
-	  ./nixos/modules/network/mosquitto.nix
-	  ./nixos/modules/system/comin.nix
-          ./nixos/modules/system/sops.nix
-          ./nixos/modules/virtualisation/containers/syncthing.nix
-          ./nixos/modules/virtualisation/k3s-server.nix
-          ./nixos/modules/virtualisation/longhorn-configuration.nix
-          ./nixos/modules/user/patrick.nix
-        ];
-      };
-      voyager = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          comin.nixosModules.comin
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-         #./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
-	  ./nixos/modules/user/patrick.nix
-	  ./nixos/hardware-configuration/voyager.nix
-          ./nixos/voyager.nix
-          ./nixos/modules/system/comin.nix
-          ./nixos/modules/system/fprintd.nix
-          ./nixos/modules/user/patrick.nix
-          {
-          # Extra config here
-          }
-        ];
-      };
-    };
+          };
+          prometheus = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/hardware-configuration/prometheus.nix
+              ./nixos/prometheus.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/user/patrick.nix
+              {
+              }
+            ];
+          };
+          seanix = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              sops-nix.nixosModules.sops
+              ./nixos/hardware-configuration/seanix.nix
+              ./nixos/seanix.nix
+              #./nixos/modules/desktop/cosmic.nix
+              ./nixos/modules/virtualisation/containers/syncthing.nix
+              ./nixos/modules/gaming/sunshine.nix
+              ./nixos/modules/disks/seanix-mount.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/nvidia-seanix.nix
+              ./nixos/modules/system/udev-scrcpy.nix
+              ./nixos/modules/user/patrick.nix
+              {
+                # Additional configuration goes here
+              }
+            ];
+          };
+          shikisha = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              sops-nix.nixosModules.sops
+              ./nixos/hardware-configuration/shikisha.nix
+              ./nixos/shikisha.nix
+              ./nixos/modules/disks/unraid-docker.nix
+              ./nixos/modules/disks/unraid-gitea.nix
+              ./nixos/modules/disks/unraid-other.nix
+              ./nixos/modules/disks/unraid-kubernetes.nix
+              ./nixos/modules/disks/unraid-nextcloud.nix
+              ./nixos/modules/homelab/attic.nix
+              ./nixos/modules/homelab/nextcloud.nix
+              ./nixos/modules/homelab/storage/garage-systemd-service.nix
+              ./nixos/modules/network/certbot-mumble.nix
+              ./nixos/modules/network/mosquitto.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/sops.nix
+              ./nixos/modules/virtualisation/containers/syncthing.nix
+              ./nixos/modules/virtualisation/k3s-server.nix
+              ./nixos/modules/virtualisation/longhorn-configuration.nix
+              ./nixos/modules/user/patrick.nix
+            ];
+          };
+          voyager = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              #./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/hardware-configuration/voyager.nix
+              ./nixos/voyager.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/fprintd.nix
+              ./nixos/modules/user/patrick.nix
+              {
+                # Extra config here
+              }
+            ];
+          };
+        };
 
-    # Darwin
-    packages.darwinConfigurations = {
-      # m2-macbook-air
-      "seair" = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = inputs;
-        modules = [
-          ./darwin/base.nix
-          {
-            # Set hostname
-            networking.hostName = "seair";
-          }
-        ];
-      };
-    };
+        # Darwin
+        packages.darwinConfigurations = {
+          # m2-macbook-air
+          "seair" = darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = inputs;
+            modules = [
+              ./darwin/base.nix
+              {
+                # Set hostname
+                networking.hostName = "seair";
+              }
+            ];
+          };
+        };
 
-    # home-manager targets (non NixOS/MacOS)
-    packages.homeConfigurations = {
-      patrick = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = inputs;
-        modules = [
-	  ./home/home.nix
-          {
-            home = {
-              username = "patrick";
-              homeDirectory = "/home/patrick";
-            };
-            fonts.fontconfig.enable = true;
-            programs.home-manager.enable = true;
-            targets.genericLinux.enable = true;
-          }
-        ];
-      };
-    };
-  });
+        # home-manager targets (non NixOS/MacOS)
+        packages.homeConfigurations = {
+          patrick = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            extraSpecialArgs = inputs;
+            modules = [
+              ./home/home.nix
+              {
+                home = {
+                  username = "patrick";
+                  homeDirectory = "/home/patrick";
+                };
+                fonts.fontconfig.enable = true;
+                programs.home-manager.enable = true;
+                targets.genericLinux.enable = true;
+              }
+            ];
+          };
+        };
+      }
+    );
 }
