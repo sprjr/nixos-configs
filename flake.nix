@@ -63,7 +63,7 @@
     };
     # Custom stuff
     dark-wallpaper-laptop = {
-      url = "https://github.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg?raw=true";
+      url = "https://github.com/dharmx/walls/blob/main/nord/a_cartoon_of_a_spider_man.jpg?raw=true";
       flake = false;
     };
   };
