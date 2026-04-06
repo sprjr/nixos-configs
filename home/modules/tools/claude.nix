@@ -14,7 +14,7 @@
     text = builtins.toJSON {
       permissions = {
         defaultMode = "plan";
-        disableBypassPermissionsMode = true;
+        disableBypassPermissionsMode = "disable";
         allow = [ ];
         ask = [
           "Read(./**)"
