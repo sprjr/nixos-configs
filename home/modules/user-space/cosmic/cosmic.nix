@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dark-wallpaper-laptop, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dark-wallpaper-laptop,
+  ...
+}:
 
 with lib;
 
@@ -207,13 +213,16 @@ let
       )'';
   };
 
-  writeStaticFiles = concatStringsSep "\n" (mapAttrsToList (path: content:
-    "install -Dm644 ${pkgs.writeText "cosmic-${baseNameOf path}" content} ${cosmicDir}/${path}"
-  ) cosmicFiles);
+  writeStaticFiles = concatStringsSep "\n" (
+    mapAttrsToList (
+      path: content:
+      "install -Dm644 ${pkgs.writeText "cosmic-${baseNameOf path}" content} ${cosmicDir}/${path}"
+    ) cosmicFiles
+  );
 
-  writeWallpaperFiles = concatStringsSep "\n" (mapAttrsToList (path: storePath:
-    "install -Dm644 ${storePath} ${cosmicDir}/${path}"
-  ) wallpaperFile);
+  writeWallpaperFiles = concatStringsSep "\n" (
+    mapAttrsToList (path: storePath: "install -Dm644 ${storePath} ${cosmicDir}/${path}") wallpaperFile
+  );
 in
 {
   options = {
@@ -225,6 +234,14 @@ in
   };
 
   config = mkIf cfg {
+    home.packages = with pkgs; [
+      cosmic-applets
+      cosmic-ext-applet-caffeine
+      cosmic-ext-applet-minimon
+      cosmic-ext-applet-privacy-indicator
+      cosmic-ext-applet-sysinfo
+      cosmic-ext-applet-weather
+    ];
     home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       ${writeStaticFiles}
       ${writeWallpaperFiles}
