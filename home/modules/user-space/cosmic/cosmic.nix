@@ -111,11 +111,11 @@ let
       Some(([
           "io.github.cosmic_utils.sysinfo-applet",
           "io.github.cosmic_utils.weather-applet",
-          "net.tropicbliss.CosmicExtAppletCaffeine",
           "dev.DBrox.CosmicPrivacyIndicator",
       ], [
           "com.system76.CosmicAppletInputSources",
           "com.system76.CosmicAppletStatusArea",
+          "net.tropicbliss.CosmicExtAppletCaffeine",
           "com.system76.CosmicAppletTiling",
           "com.system76.CosmicAppletAudio",
           "com.system76.CosmicAppletBluetooth",
