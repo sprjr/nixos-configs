@@ -13,6 +13,9 @@
       [editor]
       line-number = "absolute"
 
+      [editor.softwrap]
+      enable = true
+
       [editor.whitespace]
       render = { space = "none", tab = "all", newline = "none" }
 
