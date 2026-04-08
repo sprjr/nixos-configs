@@ -1,8 +1,18 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 {
   # Modules
   imports = [
+    ./modules/user-space/colors.nix
+    ./modules/tools/claude.nix
+    ./modules/tools/helix/config.nix
+    ./modules/tools/helix/languages.nix
+    ./modules/tools/helix/theme-nord.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
@@ -24,7 +34,10 @@
   };
 
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nixpkgs.config.allowUnfree = true;
 
   home.stateVersion = "24.05";
