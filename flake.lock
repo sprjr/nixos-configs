@@ -492,13 +492,13 @@
     "dark-wallpaper-laptop": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-BmVH127dUrIhl7Nh5A1FVBv9dq0vr517cxmtcLySMfo=",
+        "narHash": "sha256-duyL3XqfO3v4Iompt0m2MBhOVFTTT/1MC1nCy57x+FA=",
         "type": "file",
-        "url": "https://github.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg?raw=true"
+        "url": "https://github.com/dharmx/walls/blob/main/nord/a_cartoon_of_a_spider_man.jpg?raw=true"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/dharmx/walls/blob/main/nord/a_large_mountain_with_a_body_of_water.jpg?raw=true"
+        "url": "https://github.com/dharmx/walls/blob/main/nord/a_cartoon_of_a_spider_man.jpg?raw=true"
       }
     },
     "dark-wallpaper_2": {
