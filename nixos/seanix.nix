@@ -55,7 +55,6 @@ in
   #boot.initrd.kernelModules = [ "8852au" ];
   boot.initrd.kernelModules = [ "88x2bu" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8852au ];
-  nixpkgs.config.allowBroken = true;
 
   # Bluetooth
   hardware.bluetooth.enable = true;
