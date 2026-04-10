@@ -44,9 +44,6 @@ in
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # TEMPORARY Allow Broken
-  nixpkgs.config.allowBroken = true;
-
   # Enable flakes
   nix.settings.experimental-features = [
     "nix-command"
