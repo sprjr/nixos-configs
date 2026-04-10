@@ -41,6 +41,9 @@ in
     "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
   networking.hostName = "seanix"; # Define your hostname.
 
+  # USB Realtek WiFi adapter dongle
+  boot.kernelModules = [ "r8188eu" ];
+
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
