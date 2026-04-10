@@ -155,6 +155,7 @@
             system = "x86_64-linux";
             specialArgs = inputs;
             modules = [
+              { nixpkgs.config.allowBroken = true; }
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
