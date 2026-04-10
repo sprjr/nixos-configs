@@ -55,8 +55,12 @@ in
 
   # For USB WiFi adapter dongles
   hardware.usb-modeswitch.enable = true; # Turn off USB CD drivers and expose real devices.
-  boot.initrd.kernelModules = [ "8852au" ];
+  #boot.initrd.kernelModules = [ "8852au" ];
+  boot.initrd.kernelModules = [ "88x2bu" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8852au ];
+  nixpkgs.config.problems.handlers = {
+    rtl8852au.broken = "warn";
+  };
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -199,11 +203,6 @@ in
     })
   ];
 
-  ### REMOVE THIS WHEN YOU CAN ###
-  #nixpkgs.config.permittedInsecurePackages = [
-  #  "libsoup-2.74.3"
-  #];
-
   # System packages
   environment.systemPackages = with pkgs; [
     ansible
@@ -301,9 +300,6 @@ in
     kdePackages.kiten
     kdePackages.konsole
     kdePackages.krdp
-
-    # USB WiFi adapter dongle
-    linuxKernel.packages.linux_5_15.rtw89
 
     # scrcpy packages
     android-tools
