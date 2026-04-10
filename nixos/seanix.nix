@@ -55,6 +55,16 @@ in
   #boot.initrd.kernelModules = [ "8852au" ];
   boot.initrd.kernelModules = [ "88x2bu" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8852au ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      linuxPackagesFor = kernel: (prev.linuxPackagesFor kernel).extend (lpFinal: lpPrev: {
+        rtl8852au = lpPrev.rtl8852au.overrideAttrs (_: {
+          meta = { broken = false; };
+        });
+      });
+    })
+  ];
+
 
   # Bluetooth
   hardware.bluetooth.enable = true;
