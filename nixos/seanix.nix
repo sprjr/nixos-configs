@@ -50,13 +50,6 @@ in
     "flakes"
   ];
 
-  # For USB WiFi adapter dongles
-  hardware.usb-modeswitch.enable = true; # Turn off USB CD drivers and expose real devices.
-  #boot.initrd.kernelModules = [ "8852au" ];
-  boot.initrd.kernelModules = [ "88x2bu" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.rtl8852au ];
-  # Also see nixpkgs.overlays ...
-
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -195,19 +188,6 @@ in
           });
         }
       );
-    })
-    (final: prev: {
-      linuxPackagesFor =
-        kernel:
-        (prev.linuxPackagesFor kernel).extend (
-          lpFinal: lpPrev: {
-            rtl8852au = lpPrev.rtl8852au.overrideAttrs (_: {
-              meta = {
-                broken = false;
-              };
-            });
-          }
-        );
     })
   ];
 
