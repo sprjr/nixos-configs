@@ -44,6 +44,9 @@ in
   # USB Realtek WiFi adapter dongle
   boot.kernelModules = [ "r8188eu" ];
   hardware.usb-modeswitch.enable = true;
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="1a2b", RUN+="${pkgs.usb-modeswitch}/bin/usb_modeswitch -KW -v 0bda -p 1a2b"
+  '';
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
