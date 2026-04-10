@@ -294,9 +294,6 @@ in
     terraform
     terraformer
 
-    # For USB WiFi adapter dongles
-    linuxKernel.packages.linux_5_15_hardened.rtw89
-
     # KDE Packages
     kdePackages.dolphin
     kdePackages.kate
@@ -304,6 +301,9 @@ in
     kdePackages.kiten
     kdePackages.konsole
     kdePackages.krdp
+
+    # USB WiFi adapter dongle
+    linuxKernel.packages.linux_5_15.rtw89
 
     # scrcpy packages
     android-tools
