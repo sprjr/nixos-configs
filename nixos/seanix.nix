@@ -43,6 +43,7 @@ in
 
   # USB Realtek WiFi adapter dongle
   boot.kernelModules = [ "r8188eu" ];
+  hardware.usb-modeswitch.enable = true;
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -205,6 +206,7 @@ in
     python314
     python313Packages.pip
     thermald
+    usb-modeswitch
     wget
 
     # AV utilities
