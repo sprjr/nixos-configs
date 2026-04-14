@@ -1,9 +1,18 @@
-{ config, pkgs, lib, home-manager, dark-wallpaper-laptop, nixpkgs-stable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  dark-wallpaper-laptop,
+  nixpkgs-stable,
+  ...
+}:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-in {
+in
+{
   imports = [
     ./modules/system/sops.nix
   ];
@@ -21,8 +30,8 @@ in {
 
   services = {
     # Gnome
-   #displayManager.gdm.enable = true;
-   #desktopManager.gnome.enable = true;
+    #displayManager.gdm.enable = true;
+    #desktopManager.gnome.enable = true;
     # Cosmic
     displayManager.cosmic-greeter.enable = true;
     desktopManager.cosmic.enable = true;
@@ -45,7 +54,10 @@ in {
   services.orca.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -55,29 +67,41 @@ in {
   networking.networkmanager.enable = true;
 
   # Enable resolved to handle DNS issue after sleeping
-  networking.nameservers = [" 1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+  networking.nameservers = [
+    " 1.1.1.1#one.one.one.one"
+    "1.0.0.1#one.one.one.one"
+  ];
   services.resolved = {
     enable = true;
     dnssec = "true";
     domains = [ "~." ];
-    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+    fallbackDns = [
+      "1.1.1.1#one.one.one.one"
+      "1.0.0.1#one.one.one.one"
+    ];
     dnsovertls = "true";
   };
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
     # KDE Connect
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
   networking.firewall.allowedUDPPortRanges = [
     # KDE Connect
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
 
   # Enable Docker and Podman
   virtualisation = {
-      docker.enable = true;
-      podman.enable = true;
+    docker.enable = true;
+    podman.enable = true;
   };
 
   # Set your time zone.
@@ -99,8 +123,8 @@ in {
   };
 
   # Enable the KDE Plasma Desktop Environment.
-# services.displayManager.sddm.enable = true;
-# services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -126,7 +150,10 @@ in {
     {
       users = [ "patrick" ];
       commands = [
-        { command = "${pkgs.nethogs}/bin/nethogs"; options = [ "NOPASSWD" ]; }
+        {
+          command = "${pkgs.nethogs}/bin/nethogs";
+          options = [ "NOPASSWD" ];
+        }
       ];
     }
   ];
@@ -173,7 +200,9 @@ in {
   networking.wireguard.enable = true;
 
   # 1Password
-  programs._1password = { enable = true; };
+  programs._1password = {
+    enable = true;
+  };
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "patrick" ];
@@ -187,83 +216,82 @@ in {
   ];
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    attic-client
-    gcompris # educational stuff for kids
-    git
-    pciutils
-    pipewire
-    thermald
-    wget
+  environment.systemPackages =
+    with pkgs;
+    [
+      attic-client
+      gcompris # educational stuff for kids
+      git
+      pciutils
+      pipewire
+      thermald
+      wget
 
-    # Development tools
-    code-cursor
-    cursor-cli
+      # User environment
+      duplicati
+      file
+      fzf
+      gh-dash
+      ghostty
+      home-manager
+      kitty
+      legcord
+      librewolf
+      mdp # fullscreen markdown reader
+      moonlight-qt
+      mumble
+      nrfconnect
+      nrfutil
+      obsidian
+      prismlauncher
+      scrcpy
+      signal-desktop
+      sops
+      thunderbird
+      ulauncher
+      usbutils
+      vim
+      vimPlugins.nvchad
+      vlc
+      zsh
 
-    # User environment
-    duplicati
-    file
-    fzf
-    gh-dash
-    ghostty
-    home-manager
-    kitty
-    legcord
-    librewolf
-    mdp # fullscreen markdown reader
-    moonlight-qt
-    mumble
-    nrfconnect
-    nrfutil
-    obsidian
-    prismlauncher
-    scrcpy
-    signal-desktop
-    sops
-    thunderbird
-    ulauncher
-    usbutils
-    vim
-    vimPlugins.nvchad
-    vlc
-    zsh
+      # ESP32 stuff
+      esptool
+      python313
+      python313Packages.cryptography
+      python313Packages.pip
 
-    # ESP32 stuff
-    esptool
-    python313
-    python313Packages.cryptography
-    python313Packages.pip
+      ### Net tools ###
+      pkgs-stable.tailscale
+      bandwhich
+      inetutils
+      iproute2
+      mullvad-vpn
+      nethogs
+      nextcloud-client
+      lshw
+      netop
+      nmap
+      #openvas-scanner
+      wireguard-tools
+      wireguard-ui
+      wireshark
+      xpipe
 
-    ### Net tools ###
-    pkgs-stable.tailscale
-    bandwhich
-    inetutils
-    iproute2
-    mullvad-vpn
-    nethogs
-    nextcloud-client
-    lshw
-    netop
-    nmap
-   #openvas-scanner
-    wireguard-tools
-    wireguard-ui
-    wireshark
-    xpipe
+      # Work Tools
+      opentofu
+      remmina
+      terraformer
 
-    # Work Tools
-    opentofu
-    remmina
-    terraformer
-
-    # scrcpy packages
-    android-tools
-    libusb1
-    meson
-    pkg-config
-  ] ++ [
-    # Pinned to stable
-  ];
+      # scrcpy packages
+      android-tools
+      libusb1
+      meson
+      pkg-config
+    ]
+    ++ [
+      # Pinned to stable
+    ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
