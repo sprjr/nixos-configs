@@ -33,10 +33,7 @@
     };
   };
 
-  environment.systemPackages = [
-    pkgs.oterm
-    (pkgs.ollama.override {
-      acceleration = "cuda";
-    })
+  environment.systemPackages = with pkgs; [
+    oterm
   ];
 }
