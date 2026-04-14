@@ -9,7 +9,6 @@
   services.ollama = {
     package = pkgs.ollama;
     enable = true;
-    acceleration = "cuda";
     loadModels = [
       "qwen3.5:35b"
       "qwen3.5:9b"
@@ -33,7 +32,10 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    oterm
+  environment.systemPackages = [
+    pkgs.oterm
+    (pkgs.ollama.override {
+      acceleration = "cuda";
+    })
   ];
 }
