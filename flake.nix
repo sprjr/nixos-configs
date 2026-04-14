@@ -159,10 +159,10 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
-              #./nixos/modules/desktop/cosmic.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/disks/seanix-mount.nix
+              ./nixos/modules/homelab/ollama-nvidia.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
