@@ -36,7 +36,7 @@
   environment.systemPackages = [
     pkgs.oterm
     (pkgs.ollama.override {
-      acceleration = "cude";
+      acceleration = "cuda";
     })
   ];
 }
