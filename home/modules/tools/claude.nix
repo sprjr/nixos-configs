@@ -34,7 +34,7 @@ let
       ];
     };
     disableHooks = true;
-    cleanupPeriodDays = 0;
+    cleanupPeriodDays = 50;
     autoUpdatesChannel = "stable";
   };
 in
