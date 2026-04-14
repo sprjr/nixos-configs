@@ -1,0 +1,42 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+{
+  services.ollama = {
+    package = pkgs.ollama;
+    enable = true;
+    acceleration = "cuda";
+    loadModels = [
+      "qwen3.5:35b"
+      "qwen3.5:9b"
+    ];
+  };
+
+  systemd.services.ollama.serviceConfig = {
+    Environment = [ "OLLAMA_HOST=0.0.0.0:11434" ];
+  };
+
+  services.open-webui = {
+    enable = true;
+    port = 31131;
+    host = "0.0.0.0";
+    environment = {
+      ANONYMIZED_TELEMETRY = "False";
+      DO_NOT_TRACK = "True";
+      SCARF_NO_ANALYTICS = "True";
+      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434/api";
+      OLLAMA_BASE_URL = "http://127.0.0.1:11434";
+    };
+  };
+
+  environment.systemPackages = [
+    pkgs.oterm
+    (pkgs.ollama.override {
+      acceleration = "cude";
+    })
+  ];
+}
