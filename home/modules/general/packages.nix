@@ -40,6 +40,7 @@
     rig
     russ
     rustlings
+    solaar
     syncthing
     tldr
     todoist
