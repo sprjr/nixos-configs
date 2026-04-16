@@ -250,6 +250,7 @@ in
     ollama-rocm
     opencv
     scrcpy
+    signal-desktop
     sops
     thunderbird
     typst
