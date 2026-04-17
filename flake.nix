@@ -7,10 +7,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
     # Other
-    heywoodlh-configs = {
-      url = "github:heywoodlh/nixos-configs/699bb88";
-      inputs.fish-flake.url = "github:heywoodlh/nixos-configs/699bb88?dir=flakes/fish";
-    };
+    heywoodlh-configs.url = "github:heywoodlh/nixos-configs/699bb88";
     comin = {
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
