@@ -10,6 +10,7 @@
 
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+    sandbox = false
   '';
 
   system.stateVersion = "24.05";
