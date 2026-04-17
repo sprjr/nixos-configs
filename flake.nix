@@ -24,6 +24,11 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -79,6 +84,7 @@
       heywoodlh-configs,
       home-manager,
       hyprsession,
+      nix-on-droid,
       nixos-cosmic,
       nixos-hardware,
       omarchy-nix,
@@ -90,7 +96,7 @@
       dark-wallpaper-laptop,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
+    (flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
@@ -255,5 +261,13 @@
           };
         };
       }
-    );
+    ))
+    // {
+      nixOnDroidConfigurations.droid = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
+        modules = [ ./nixos/droid.nix ];
+        extraSpecialArgs = inputs;
+        home-manager-path = home-manager.outPath;
+      };
+    };
 }
