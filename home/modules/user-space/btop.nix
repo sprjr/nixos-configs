@@ -65,7 +65,7 @@
       net_upload = 100
       net_auto = True
       net_sync = True
-      net_iface = ""
+      net_iface = "enp34s0"
       base_10_bitrate = "Auto"
       show_battery = True
       selected_battery = "Auto"
