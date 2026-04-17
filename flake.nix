@@ -16,10 +16,6 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    fish-flake = {
-      url = "./flakes/fish";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     ghostty = {
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -78,7 +74,6 @@
       self,
       comin,
       darwin,
-      fish-flake,
       flake-utils,
       ghostty,
       heywoodlh-configs,
