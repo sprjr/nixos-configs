@@ -19,6 +19,8 @@ mumble-server-password: ENC[AES256_GCM,data:+4TEAWSpJcbjze/7f+4BHylulxg=,iv:jdYa
 mumble-superuser-password: ENC[AES256_GCM,data:owW02b2JoHnnvdSpKoRoZKRGzEWi4XKXXHpFGNi7Yw4rklPf4CC9Zly5FKABz9Lv2H+fvIY/k/NmsiL1dy6BxQ==,iv:m8jGXYdschHvjSShEApYWP/NovbAiWlf98egqoFXMas=,tag:QMo0whgU7wOyp/en1bTMUw==,type:str]
 #ENC[AES256_GCM,data:iWlh9aCL+gCczxFRSftuNUZaS3DSRpsaWN4hukr9NeRH6YiLuYsWcMNlZWVAf5JxLyY2Uw9BS4VM3A==,iv:k83BhBoxl+kOzSIr+on0/nLQZlmGTIy8g/HiC8I+jbM=,tag:kovaii4Zynw71US8sgBWhQ==,type:comment]
 ha_token: ENC[AES256_GCM,data:zMhQ3KroXK/57UgJIAZYMcWe2Hmb31ky2X/pcm0HOaEQ7gH0xd7DoWoQZeg=,iv:yT+ahcBUUsNKDNFeZ0UgwfDqGsljNfyY4fn3islbkIY=,tag:p+gXF98ouuQhxhqDgDx5mg==,type:str]
+knot:
+    server_secret: ENC[AES256_GCM,data:W5c/10KP2G8mktWy3eHOGoEFPy85trsq4yhDAFRB4TPWIlLLlVr+QE5DOkkCRO3I73fJA/ikP7VdscSeA01nRA==,iv:9T1n03KVon0fhnB0a3Bn79+cu38NmY5SFPj9/zr2p4A=,tag:EYqNf2dwLQ6qmX1jFtCKEg==,type:str]
 sops:
     age:
         - recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
@@ -30,7 +32,7 @@ sops:
             YXlCM2J2a0wyWDV0c283RDNjekc2VXMKPWley8IXCEpYzLo1LA1z5RMI+/a/VN34
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-03-27T18:39:46Z"
-    mac: ENC[AES256_GCM,data:yZJFKBugY7MK85M2cgP9OGVHL2ysNsApVoDhsxOMas3PZABoBrbc0UJcgoYSHib37/h+WlWgKS1FedaCQl7JJ5qOLPyvzYCOUzYP1GKB5wvvJs6jjzGzSQoGZ+/MWt6a9fLWplTT0LGaszmVbnigygahnS2cWxNpAjXYkolzO3s=,iv:8KNE+ll5fgIvlfP4gKyVNSciftr/DsiTbXVBHOUFPww=,tag:z9OzCBKUnDNCnHJgppZ0sw==,type:str]
+    lastmodified: "2026-04-30T20:16:02Z"
+    mac: ENC[AES256_GCM,data:eumX8uhtUGwcXd/fgc/WpfROt/gsJ4kLb895XVBMMhQlNXPNBMdiJ9DDsIQ1Pkwc6KQBym88b7zzvuloNj7kGUJO952u4vVCcCIzrq/dtg9OlmNCi/j0WHPpAN2d7V3ieh/yRYNlYs7yX4N0IuarKScni4ENDFMresFtCEKj0h8=,iv:ohleJ90UHABbPe2XG7CIr3zD5TlubnX0DneRqhfsGh0=,tag:3QqmqiDIzswYqTXBV+fwGg==,type:str]
     unencrypted_suffix: _unencrypted
-    version: 3.12.1
+    version: 3.12.2
