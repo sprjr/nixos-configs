@@ -254,6 +254,7 @@ in
     sops
     thunderbird
     typst
+    umu-launcher # Lutris alternative
     vim
     vimPlugins.nvchad
     vlc
