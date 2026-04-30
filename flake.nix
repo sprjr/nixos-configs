@@ -58,10 +58,6 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    tangled = {
-      url = "git+https://tangled.org/@tangled.org/core?ref=refs/tags/v1.13.0-alpha";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     weathr = {
       url = "github:Veirt/weathr";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -91,7 +87,6 @@
       nixpkgs,
       nixpkgs-stable,
       spicetify-nix,
-      tangled,
       weathr,
       dark-wallpaper-laptop,
       ...
@@ -192,9 +187,7 @@
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
               ./nixos/modules/homelab/attic.nix
-              ./nixos/modules/homelab/knot.nix
               ./nixos/modules/homelab/nextcloud.nix
-              tangled.nixosModules.knot
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
               ./nixos/modules/network/certbot-mumble.nix
               ./nixos/modules/network/mosquitto.nix
