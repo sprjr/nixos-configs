@@ -16,6 +16,7 @@
     docker-compose
     dua # file size checker
     duf
+    gh
     glow
     gocheat
     harper
