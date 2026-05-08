@@ -17,17 +17,6 @@ in
     ./modules/system/sops.nix
   ];
 
-  # ESP32 Serial Converter
-  boot.kernelModules = [
-    "cp210x"
-    "cp341"
-  ];
-  services.udev.extraRules = ''
-    # Allow dialout group access to USB serial devices
-    KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
-  '';
-  users.users.patrick.extraGroups = [ "dialout" ];
-
   services = {
     # Cosmic
     displayManager.cosmic-greeter.enable = true;
@@ -42,12 +31,12 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   # General Networking Options
-  networking.hostName = "voyager"; # Define your hostname.
+  networking.hostName = "nx-01"; # Define your hostname.
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Disable Orca screen reader
+  # Disable Orca screen reader that can mistakenly start enabled by default on Cosmic
   services.orca.enable = false;
 
   # Enable flakes
@@ -164,7 +153,7 @@ in
   programs.steam.enable = true;
   services.flatpak.enable = true;
 
-  # VPN/Mesh Network
+  # VPN/Mesh Networks
   services.tailscale.enable = true;
   # to fix broken internet when using an exit node
   networking.firewall.checkReversePath = "loose";
