@@ -16,13 +16,14 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    fish-flake = {
-      url = "./flakes/fish";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     ghostty = {
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -73,12 +74,12 @@
       self,
       comin,
       darwin,
-      fish-flake,
       flake-utils,
       ghostty,
       heywoodlh-configs,
       home-manager,
       hyprsession,
+      nix-on-droid,
       nixos-cosmic,
       nixos-hardware,
       omarchy-nix,
@@ -90,7 +91,7 @@
       dark-wallpaper-laptop,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
+    (flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
@@ -178,6 +179,7 @@
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/disks/seanix-mount.nix
+              ./nixos/modules/homelab/ollama-nvidia.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
@@ -267,5 +269,13 @@
           };
         };
       }
-    );
+    ))
+    // {
+      nixOnDroidConfigurations.droid = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
+        modules = [ ./nixos/droid.nix ];
+        extraSpecialArgs = inputs;
+        home-manager-path = home-manager.outPath;
+      };
+    };
 }

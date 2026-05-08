@@ -29,6 +29,12 @@ in
   users.users.patrick.extraGroups = [ "dialout" ];
 
   services = {
+<<<<<<< HEAD
+=======
+    # Gnome
+    #displayManager.gdm.enable = true;
+    #desktopManager.gnome.enable = true;
+>>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
     # Cosmic
     displayManager.cosmic-greeter.enable = true;
     desktopManager.cosmic.enable = true;
@@ -119,6 +125,13 @@ in
     LC_TIME = "en_US.UTF-8";
   };
 
+<<<<<<< HEAD
+=======
+  # Enable the KDE Plasma Desktop Environment.
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+
+>>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -138,6 +151,22 @@ in
     pulse.enable = true;
   };
 
+<<<<<<< HEAD
+=======
+  # Nethogs rules (probably want to re-do this)
+  security.sudo.extraRules = [
+    {
+      users = [ "patrick" ];
+      commands = [
+        {
+          command = "${pkgs.nethogs}/bin/nethogs";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+>>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
@@ -203,9 +232,18 @@ in
       home-manager
       kitty
       legcord
+<<<<<<< HEAD
       mdp # fullscreen markdown reader
       moonlight-qt
       mumble
+=======
+      librewolf
+      mdp # fullscreen markdown reader
+      moonlight-qt
+      mumble
+      nrfconnect
+      nrfutil
+>>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
       obsidian
       prismlauncher
       scrcpy
@@ -219,6 +257,7 @@ in
       vlc
       zsh
 
+<<<<<<< HEAD
       ### Net tools ###
       pkgs-stable.tailscale
       bandwhich
@@ -238,6 +277,36 @@ in
       remmina
       terraformer
 
+=======
+      # ESP32 stuff
+      esptool
+      python313
+      python313Packages.cryptography
+      python313Packages.pip
+
+      ### Net tools ###
+      pkgs-stable.tailscale
+      bandwhich
+      inetutils
+      iproute2
+      mullvad-vpn
+      nethogs
+      nextcloud-client
+      lshw
+      netop
+      nmap
+      #openvas-scanner
+      wireguard-tools
+      wireguard-ui
+      wireshark
+      xpipe
+
+      # Work Tools
+      opentofu
+      remmina
+      terraformer
+
+>>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
       # scrcpy packages
       android-tools
       libusb1

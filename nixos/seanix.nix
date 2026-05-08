@@ -1,9 +1,17 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  nixpkgs-stable,
+  ...
+}:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-in {
+in
+{
   imports = [
     home-manager.nixosModules.home-manager
   ];
@@ -11,35 +19,43 @@ in {
   # Select Desktop Environment.
   services = {
     # Gnome
-   #displayManager.gdm.enable = true;
-   #desktopManager.gnome.enable = true;
+    #displayManager.gdm.enable = true;
+    #desktopManager.gnome.enable = true;
     # Plasma
     displayManager.sddm.enable = true;
     desktopManager.plasma6.enable = true;
     # Cosmic
-   #displayManager.cosmic-greeter.enable = true;
-   #desktopManager.cosmic.enable = true;
-   #system76-scheduler.enable = true;
+    #displayManager.cosmic-greeter.enable = true;
+    #desktopManager.cosmic.enable = true;
+    #system76-scheduler.enable = true;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
- #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
+  #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
+  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device =
+    "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
   networking.hostName = "seanix"; # Define your hostname.
+
+  # USB Realtek WiFi adapter dongle
+  boot.kernelModules = [ "r8188eu" ];
+  hardware.usb-modeswitch.enable = true;
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="1a2b", RUN+="${pkgs.usb-modeswitch}/bin/usb_modeswitch -KW -v 0bda -p 1a2b"
+  '';
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # TEMPORARY Allow Broken
-  nixpkgs.config.allowBroken = true;
-
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -53,11 +69,17 @@ in {
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
     # KDE Connect
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
   networking.firewall.allowedUDPPortRanges = [
     # KDE Connect
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
 
   # TEMPORARY for nginx testing
@@ -155,29 +177,26 @@ in {
   networking.wireguard.enable = true;
 
   # 1Password
-# programs._1password = { enable = true; };
-# programs._1password-gui = {
-#   enable = true;
-#   polkitPolicyOwners = [ "patrick" ];
-# };
+  # programs._1password = { enable = true; };
+  # programs._1password-gui = {
+  #   enable = true;
+  #   polkitPolicyOwners = [ "patrick" ];
+  # };
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
   nixpkgs.overlays = [
     (final: prev: {
-      python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
-        textual = pyPrev.textual.overridePythonAttrs (old: {
-          doCheck = false; # skip failed tests
-        });
-      });
+      python3Packages = prev.python3Packages.overrideScope (
+        pyFinal: pyPrev: {
+          textual = pyPrev.textual.overridePythonAttrs (old: {
+            doCheck = false; # skip failed tests
+          });
+        }
+      );
     })
   ];
-
-  ### REMOVE THIS WHEN YOU CAN ###
- #nixpkgs.config.permittedInsecurePackages = [
- #  "libsoup-2.74.3"
- #];
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -190,6 +209,7 @@ in {
     python314
     python313Packages.pip
     thermald
+    usb-modeswitch
     wget
 
     # AV utilities
@@ -199,12 +219,6 @@ in {
     pavucontrol
     pulseaudio
     qjackctl
-
-    # Development Tools
-    code-cursor
-    cursor-cli
-    lens
-
 
     # User environment
     alacritty
@@ -240,6 +254,7 @@ in {
     sops
     thunderbird
     typst
+    umu-launcher # Lutris alternative
     vim
     vimPlugins.nvchad
     vlc
@@ -255,7 +270,7 @@ in {
     nethogs # shows bandwidth usage by application
     netop
     nmap
-   #openvas-scanner
+    #openvas-scanner
     usbutils
     wireguard-tools
     wireguard-ui
@@ -293,7 +308,7 @@ in {
   # OpenRazer Temporary
   hardware.openrazer = {
     enable = true;
-    users = ["patrick"];
+    users = [ "patrick" ];
   };
   users.users.patrick = {
     extraGroups = [ "openrazer" ];

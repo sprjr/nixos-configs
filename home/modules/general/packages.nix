@@ -16,6 +16,7 @@
     docker-compose
     dua # file size checker
     duf
+    gh
     glow
     gocheat
     harper
@@ -40,6 +41,7 @@
     rig
     russ
     rustlings
+    solaar
     syncthing
     tldr
     todoist

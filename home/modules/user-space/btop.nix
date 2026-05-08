@@ -2,7 +2,7 @@
   home.file.".config/btop/btop.conf" = {
     text = ''
       color_theme = "/nix/store/pjlnz14czfmq4k0pmqlkmd5bcgqcxyky-btop-1.4.0/share/btop/themes/nord.theme"
-      theme_background = True
+      theme_background = False
       truecolor = True
       force_tty = False
       presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty"
@@ -65,7 +65,7 @@
       net_upload = 100
       net_auto = True
       net_sync = True
-      net_iface = ""
+      net_iface = "enp34s0"
       base_10_bitrate = "Auto"
       show_battery = True
       selected_battery = "Auto"
