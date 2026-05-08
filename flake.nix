@@ -101,6 +101,22 @@
       {
         # nixos targets
         packages.nixosConfigurations = {
+          nx-01 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/hardware-configuration/nx-01.nix
+              ./nixos/nx-01.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/user/patrick.nix
+              {
+                # Extra config here
+              }
+            ];
+          };
           trixos = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = inputs;
@@ -159,7 +175,6 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
-              #./nixos/modules/desktop/cosmic.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/disks/seanix-mount.nix
@@ -194,7 +209,6 @@
               ./nixos/modules/system/sops.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/virtualisation/k3s-server.nix
-              ./nixos/modules/virtualisation/longhorn-configuration.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
@@ -205,8 +219,6 @@
               comin.nixosModules.comin
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
-              #./nixos/modules/desktop/cosmic.nix # Binary cache w/ Cachix
-              ./nixos/modules/user/patrick.nix
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
               ./nixos/modules/system/comin.nix
