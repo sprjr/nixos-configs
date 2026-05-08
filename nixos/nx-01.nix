@@ -176,6 +176,7 @@ in
     with pkgs;
     [
       attic-client
+      displaylink # hopefully the driver for Anker DL-7400 dock
       gcompris # educational stuff for kids
       git
       pciutils
