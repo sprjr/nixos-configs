@@ -1,10 +1,23 @@
-{ config, pkgs, lib, home-manager, cosmic-applets, nixos-cosmic, dark-wallpaper-laptop, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  cosmic-applets,
+  nixos-cosmic,
+  dark-wallpaper-laptop,
+  ...
+}:
 
 {
   users.users.patrick = {
     isNormalUser = true;
     description = "Patrick";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+    ];
     packages = with pkgs; [
       kdePackages.kate
       (wineWow64Packages.full.override {
@@ -14,6 +27,9 @@
       winetricks
     ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+ patrick@macnnix"
+    ];
   };
 
   programs.zsh.enable = true;

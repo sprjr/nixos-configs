@@ -205,8 +205,8 @@
               ./nixos/modules/homelab/attic.nix
               ./nixos/modules/homelab/nextcloud.nix
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
-              ./nixos/modules/network/certbot-mumble.nix
-              ./nixos/modules/network/mosquitto.nix
+              ./nixos/modules/homelab/certbot-mumble.nix
+              ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
@@ -272,7 +272,10 @@
     ))
     // {
       nixOnDroidConfigurations.droid = nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
         modules = [ ./nixos/droid.nix ];
         extraSpecialArgs = inputs;
         home-manager-path = home-manager.outPath;
