@@ -1,8 +1,15 @@
-{ config, pkgs, home-manager, heywoodlh-configs, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  heywoodlh-configs,
+  ...
+}:
 
 let
   heywoodlh-darwin-modules = (heywoodlh-configs + "/darwin/modules/default.nix");
-in {
+in
+{
   imports = [
     home-manager.darwinModules.home-manager
     heywoodlh-darwin-modules
@@ -25,7 +32,7 @@ in {
           "/Applications/Ghostty.app"
           "/Applications/1Password.app"
           "/Applications/Signal.app"
-	];
+        ];
       };
     };
   };
@@ -58,7 +65,7 @@ in {
       "btop"
       "docker-compose"
       "duf"
-     #"firefox" # re-add later
+      #"firefox" # re-add later
       "fish"
       "glow" # markdown reader
       "htop"
@@ -79,7 +86,7 @@ in {
     '';
     # Casks
     casks = [
-     #"1password"
+      "1password"
       "battle-net"
       "bitwarden"
       "discord"
@@ -101,7 +108,7 @@ in {
       "vlc"
     ];
     taps = [
-     #"homebrew/cask-drivers"
+      #"homebrew/cask-drivers"
     ];
   };
 
@@ -115,10 +122,9 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   # Sketchybar and Yabai
- #heywoodlh.darwin.sketchybar.enable = true;
+  #heywoodlh.darwin.sketchybar.enable = true;
   patrick.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
 }
-
