@@ -9,6 +9,7 @@
   services.ollama = {
     package = pkgs.ollama-cuda;
     enable = true;
+    host = "0.0.0.0";
     loadModels = [
       "qwen3.5:35b"
       "qwen3.5:9b"
@@ -20,13 +21,4 @@
       CUDA_VISIBLE_DEVICES = "0";
     };
   };
-  systemd.services.ollama.serviceConfig = {
-    Environment = [ "OLLAMA_HOST=0.0.0.0:11434" ];
-  };
-
-  environment.systemPackages = [
-    (pkgs.ollama.override {
-      acceleration = "cuda";
-    })
-  ];
 }
