@@ -18,6 +18,7 @@
       OLLAMA_FLASH_ATTENTION = "1";
       OLLAMA_NUM_GPU = "999";
       OLLAMA_GPU_OVERHEAD = "0";
+      OLLAMA_NEW_ENGINE = "1";
       CUDA_VISIBLE_DEVICES = "0";
     };
   };
