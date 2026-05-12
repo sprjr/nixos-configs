@@ -7,11 +7,11 @@
 
 let
   agentPermissions = {
-    read = "ask";
+    read = "allow";
     edit = "ask";
-    glob = "ask";
-    grep = "ask";
-    list = "ask";
+    glob = "allow";
+    grep = "allow";
+    list = "allow";
     bash = "deny";
     webfetch = "deny";
     websearch = "deny";
@@ -22,7 +22,7 @@ let
 
   opencodeSettings = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";
-    default_agent = "plan";
+    default_agent = "general";
     autoupdate = false;
     share = "disabled";
     model = "ollama/qwen3.5:9b";
