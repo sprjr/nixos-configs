@@ -16,6 +16,10 @@ let
         "Edit(./**)"
         "Write(./**)"
         "MultiEdit(./**)"
+        "WebFetch"
+        "WebSearch"
+        "TodoWrite"
+        "Task"
       ];
       deny = [
         "Read(/**)"
@@ -27,10 +31,6 @@ let
         "MultiEdit(/**)"
         "MultiEdit(~/**)"
         "Bash(*)"
-        "WebFetch"
-        "WebSearch"
-        "TodoWrite"
-        "Task"
       ];
     };
     disableHooks = true;
