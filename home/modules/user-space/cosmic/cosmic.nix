@@ -24,7 +24,7 @@ let
               speed: 0.03853627492575307,
           )),
           click_method: Some(Clickfinger),
-          disable_while_typing: Some(false),
+          disable_while_typing: Some(true),
           scroll_config: Some((
               method: Some(TwoFinger),
               natural_scroll: Some(true),
