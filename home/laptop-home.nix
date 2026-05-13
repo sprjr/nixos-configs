@@ -12,6 +12,7 @@
     ./modules/general/packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/claude.nix
+    ./modules/tools/opencode.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix

@@ -10,6 +10,7 @@
   imports = [
     ./modules/user-space/colors.nix
     ./modules/tools/claude.nix
+    ./modules/tools/opencode.nix
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
     ./modules/tools/helix/theme-nord.nix
