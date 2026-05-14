@@ -207,6 +207,7 @@ in
       vim
       vimPlugins.nvchad
       vlc
+      weasis
       zsh
 
       ### Net tools ###
