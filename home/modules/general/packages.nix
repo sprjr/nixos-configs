@@ -75,7 +75,6 @@
       firefox
       impala
       libvirt
-      polonium
       solaar
       swayosd
       ulauncher
