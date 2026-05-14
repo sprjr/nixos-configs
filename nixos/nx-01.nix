@@ -176,6 +176,7 @@ in
     with pkgs;
     [
       attic-client
+      btop
       gcompris # educational stuff for kids
       git
       pciutils
