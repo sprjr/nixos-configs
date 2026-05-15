@@ -13,6 +13,9 @@
   users.users.patrick = {
     isNormalUser = true;
     description = "Patrick";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+ patrick@macnnix"
+    ]
     extraGroups = [
       "networkmanager"
       "wheel"
