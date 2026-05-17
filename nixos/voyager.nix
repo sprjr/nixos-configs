@@ -29,12 +29,6 @@ in
   users.users.patrick.extraGroups = [ "dialout" ];
 
   services = {
-<<<<<<< HEAD
-=======
-    # Gnome
-    #displayManager.gdm.enable = true;
-    #desktopManager.gnome.enable = true;
->>>>>>> c6a429b0a52ed4d2b1943247d0f97ff2a781ef46
     # Cosmic
     displayManager.cosmic-greeter.enable = true;
     desktopManager.cosmic.enable = true;
