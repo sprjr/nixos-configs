@@ -209,8 +209,6 @@ in
       mdp # fullscreen markdown reader
       moonlight-qt
       mumble
-      nrfconnect
-      nrfutil
       obsidian
       prismlauncher
       scrcpy
