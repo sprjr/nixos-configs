@@ -234,6 +234,9 @@ in
       libusb1
       meson
       pkg-config
+
+      # Temporary
+      google-chrome
     ]
     ++ [
       # Pinned to stable
