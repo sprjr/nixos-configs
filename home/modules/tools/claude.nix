@@ -10,9 +10,7 @@ let
     permissions = {
       defaultMode = "plan";
       disableBypassPermissionsMode = "disable";
-      allow = [
-        "Read(/home/patrick/Projects/python/personal/**)"
-      ];
+      allow = [ ];
       ask = [
         "Read(./**)"
         "Edit(./**)"
