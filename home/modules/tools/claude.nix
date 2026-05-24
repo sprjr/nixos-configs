@@ -11,7 +11,7 @@ let
       defaultMode = "plan";
       disableBypassPermissionsMode = "disable";
       allow = [
-        "Read(/home/patrick/Projects/python/personal)"
+        "Read(/home/patrick/Projects/python/personal/**)"
       ];
       ask = [
         "Read(./**)"
