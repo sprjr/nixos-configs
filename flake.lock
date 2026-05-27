@@ -7507,7 +7507,7 @@
         "flake-utils": "flake-utils_35",
         "git-flake": "git-flake_3",
         "nixpkgs": "nixpkgs_19",
-        "nushell-flake": "nushell-flake_2",
+        "nushell-flake": "nushell-flake_10",
         "st-flake": "st-flake_2",
         "tmux-flake": "tmux-flake_2",
         "vim-flake": "vim-flake_2",
