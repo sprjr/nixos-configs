@@ -64,7 +64,7 @@
     };
     # Custom stuff
     dark-wallpaper-laptop = {
-      url = "https://github.com/dharmx/walls/blob/main/nord/a_cartoon_of_a_spider_man.jpg";
+      url = "https://raw.githubusercontent.com/dharmx/walls/blob/main/nord/a_cartoon_of_a_spider_man.jpg";
       flake = false;
     };
   };
