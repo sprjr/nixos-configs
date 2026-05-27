@@ -115,8 +115,20 @@ in
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
 
-  # Hide the top bar
-  #system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+  # Preferences
+  system = {
+    defaults = {
+      NSGlobalDomain = {
+        _HIHideMenuBar = false;
+      };
+      controlCenter = {
+        BatteryShowPercentage = true;
+        Bluetooth = true;
+        NowPlaying = true;
+      };
+      dock.autohide = true;
+    };
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
