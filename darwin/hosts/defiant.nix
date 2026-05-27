@@ -113,6 +113,10 @@ in
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    displaylink
+  ];
+
   # Home-Manager configuration
   home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
 
