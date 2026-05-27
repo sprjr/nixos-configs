@@ -113,7 +113,7 @@ in
   };
 
   # Home-Manager configuration
-  home-manager.users.patrick.imports = [ ../home/darwin-home.nix ];
+  home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
 
   # Hide the top bar
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
