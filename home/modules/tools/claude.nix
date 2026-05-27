@@ -14,6 +14,8 @@ let
       ask = [
         "Read(./**)"
         "Edit(./**)"
+        "Read(~/**)"
+        "Edit(~/**)"
         "Write(./**)"
         "MultiEdit(./**)"
         "WebFetch"
@@ -23,9 +25,7 @@ let
       ];
       deny = [
         "Read(/**)"
-        "Read(~/**)"
         "Edit(/**)"
-        "Edit(~/**)"
         "Write(/**)"
         "Write(~/**)"
         "MultiEdit(/**)"
