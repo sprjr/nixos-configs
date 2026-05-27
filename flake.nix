@@ -240,7 +240,7 @@
             system = "aarch64-darwin";
             specialArgs = inputs;
             modules = [
-              ./darwin/base.nix
+              ./darwin/hosts/seair.nix
               {
                 networking.hostName = "seair";
               }
@@ -251,7 +251,7 @@
             system = "aarch64-darwin";
             specialArgs = inputs;
             modules = [
-              ./darwin/base.nix
+              ./darwin/hosts/defiant.nix
               {
                 networking.hostName = "defiant";
                 ids.gids.nixbld = 350;
