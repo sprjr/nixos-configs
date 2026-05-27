@@ -11,7 +11,6 @@
     with pkgs;
     [
       # Global packages
-      _1password-gui
       andcli
       atuin
       awscli2
