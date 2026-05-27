@@ -123,7 +123,7 @@ in
 
   # Sketchybar and Yabai
   #heywoodlh.darwin.sketchybar.enable = true;
-  patrick.darwin.sketchybar.enable = false;
+  #patrick.darwin.sketchybar.enable = false;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
