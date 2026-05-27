@@ -247,6 +247,18 @@
               }
             ];
           };
+          # m4-macbook-air
+          "galaxy" = darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = inputs;
+            modules = [
+              ./darwin/base.nix
+              {
+                # Set hostname
+                networking.hostName = "galaxy";
+              }
+            ];
+          };
         };
 
         # home-manager targets (non NixOS/MacOS)
