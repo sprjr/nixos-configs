@@ -13,7 +13,7 @@ in
   imports = [
     home-manager.darwinModules.home-manager
     heywoodlh-darwin-modules
-    ./modules/sketchybar.nix
+    ../modules/sketchybar.nix
   ];
 
   system = {
