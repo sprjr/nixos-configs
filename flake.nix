@@ -242,20 +242,19 @@
             modules = [
               ./darwin/base.nix
               {
-                # Set hostname
                 networking.hostName = "seair";
               }
             ];
           };
           # m4-macbook-air
-          "galaxy" = darwin.lib.darwinSystem {
+          "defiant" = darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             specialArgs = inputs;
             modules = [
               ./darwin/base.nix
               {
-                # Set hostname
-                networking.hostName = "galaxy";
+                networking.hostName = "defiant";
+                ids.gids.nixbld = 350;
               }
             ];
           };
