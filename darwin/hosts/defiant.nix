@@ -91,6 +91,7 @@ in
       "bitwarden"
       "discord"
       "docker-desktop"
+      "firefox"
       "font-jetbrains-mono-nerd-font"
       "ghostty"
       "iterm2"
