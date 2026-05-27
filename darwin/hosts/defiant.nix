@@ -121,7 +121,7 @@ in
       NSGlobalDomain = {
         _HIHideMenuBar = false;
       };
-      controlCenter = {
+      controlcenter = {
         BatteryShowPercentage = true;
         Bluetooth = true;
         NowPlaying = true;
