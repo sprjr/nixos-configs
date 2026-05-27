@@ -90,7 +90,7 @@ in
       "battle-net"
       "bitwarden"
       "discord"
-      "docker"
+      "docker-desktop"
       "font-jetbrains-mono-nerd-font"
       "ghostty"
       "iterm2"
