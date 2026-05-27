@@ -116,14 +116,14 @@ in
   home-manager.users.patrick.imports = [ ../home/darwin-home.nix ];
 
   # Hide the top bar
-  system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+  #system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # Sketchybar and Yabai
   #heywoodlh.darwin.sketchybar.enable = true;
-  patrick.darwin.sketchybar.enable = true;
+  patrick.darwin.sketchybar.enable = false;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
