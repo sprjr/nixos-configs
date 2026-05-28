@@ -79,6 +79,7 @@ in
       "sops"
       "tldr"
       "watch"
+      "wireguard-go"
       "zsh"
     ];
     extraConfig = ''
