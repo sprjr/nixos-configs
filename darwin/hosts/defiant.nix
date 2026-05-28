@@ -80,6 +80,7 @@ in
       "tldr"
       "watch"
       "wireguard-go"
+      "wireguard-tools"
       "zsh"
     ];
     extraConfig = ''
