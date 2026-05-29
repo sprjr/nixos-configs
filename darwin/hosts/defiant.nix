@@ -102,6 +102,7 @@ in
       "minecraft"
       "moonlight"
       "obsidian"
+      "onedrive"
       "signal"
       "steam"
       "tailscale-app"
