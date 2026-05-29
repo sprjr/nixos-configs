@@ -98,6 +98,7 @@ in
       "font-jetbrains-mono-nerd-font"
       "ghostty"
       "iterm2"
+      "libreoffice"
       "localsend"
       "microsoft-remote-desktop"
       "minecraft"
