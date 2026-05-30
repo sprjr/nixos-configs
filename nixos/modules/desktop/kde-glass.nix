@@ -53,7 +53,7 @@ let
       kcolorscheme
       kcmutils
       kdecoration
-      kframeworkintegration
+      frameworkintegration
       qtdeclarative
     ];
   };
