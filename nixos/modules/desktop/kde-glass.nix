@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, home-manager, ... }:
 
 let
   cfg = config.services.desktopManager.plasma6;
@@ -66,7 +66,7 @@ lib.mkIf cfg.enable {
   ];
 
   home-manager.users.patrick.home.activation.kdeGlassConfig =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run ${lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6"} \
         --file kwinrc --group Effect-blurplus --key Brightness 0.9
       run ${lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6"} \
