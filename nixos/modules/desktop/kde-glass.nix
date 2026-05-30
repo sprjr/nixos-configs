@@ -35,7 +35,7 @@ let
       owner = "4v3ngR";
       repo = "Glass";
       rev = "2ec67bf2d28094d629bf3fe9bc55c7a8a393cfb1";
-      hash = "sha256-k7pb+ahL8g4WlAustxzkDdewOBRP3HNg9FK4WZ/Of2c=";
+      hash = "sha256-9w3h3GKnBE89gD1mrWaS/88GqgXnW29+9lYbgO1w+xc=";
     };
     nativeBuildInputs = with pkgs; [
       cmake
