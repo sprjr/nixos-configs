@@ -239,7 +239,6 @@ in
     gimp
     iotop
     kitty
-    ladybird
     legcord # alt discord client
     lyrebird
     mdp # fullscreen markdown reader
