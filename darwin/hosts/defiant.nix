@@ -97,6 +97,7 @@ in
       "ghostty"
       "libreoffice"
       "localsend"
+      "microsoft-office"
       "microsoft-remote-desktop"
       "minecraft"
       "moonlight"

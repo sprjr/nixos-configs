@@ -15,6 +15,7 @@ in
 {
   imports = [
     ./modules/system/sops.nix
+    ./modules/system/btrfs-config.nix
   ];
 
   # ESP32 Serial Converter
@@ -26,7 +27,17 @@ in
     # Allow dialout group access to USB serial devices
     KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
   '';
-  users.users.patrick.extraGroups = [ "dialout" ];
+  users.mutableUsers = false;
+  users.users.patrick = {
+    extraGroups = [ "dialout" ];
+    hashedPasswordFile = "/var/lib/secrets/default-user.hash";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+ patrick@macnnix"
+    ];
+  };
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+ patrick@macnnix"
+  ];
 
   services = {
     # Cosmic
@@ -40,6 +51,15 @@ in
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  console.keyMap = "us";
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+    priority = 100;
+  };
 
   # General Networking Options
   networking.hostName = "voyager"; # Define your hostname.
@@ -273,8 +293,14 @@ in
       # Pinned to stable
     ];
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+      KbdInteractiveAuthentication = false;
+    };
+  };
 
   # Garbage collection
   nix.gc = {
@@ -283,7 +309,7 @@ in
     options = "delete-older-than 14d";
   };
 
-  # nix-store optimise
+  nix.settings.auto-optimise-store = true;
   nix.optimise.automatic = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?
