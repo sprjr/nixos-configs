@@ -305,15 +305,6 @@ in
     # Temporary
   ];
 
-  # OpenRazer Temporary
-  hardware.openrazer = {
-    enable = true;
-    users = [ "patrick" ];
-  };
-  users.users.patrick = {
-    extraGroups = [ "openrazer" ];
-  };
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
