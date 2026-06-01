@@ -206,10 +206,9 @@ in
     git
     pciutils
     pipewire
-    python314
-    python313Packages.pip
-    thermald
-    usb-modeswitch
+    #python314
+    #python313Packages.pip
+    usb-modeswitch # idk what this is for anymore. Maybe bluetooth?
     wget
 
     # AV utilities
@@ -283,6 +282,9 @@ in
     remmina
     terraform
     terraformer
+    # DICOM stuff
+    orthanc
+    weasis
 
     # KDE Packages
     kdePackages.dolphin

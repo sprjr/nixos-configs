@@ -228,6 +228,9 @@ in
       opentofu
       remmina
       terraformer
+      # DICOM stuff
+      orthanc
+      weasis
 
       # scrcpy packages
       android-tools
