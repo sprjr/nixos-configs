@@ -222,7 +222,7 @@ in
 
     # User environment
     alacritty
-    btop
+    #btop
     distrobox
     distrobox-tui
     duplicati
