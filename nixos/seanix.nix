@@ -222,7 +222,7 @@ in
 
     # User environment
     alacritty
-    btop-rocm
+    btop
     distrobox
     distrobox-tui
     duplicati
