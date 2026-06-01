@@ -41,8 +41,14 @@ in
 
   services = {
     # Cosmic
-    displayManager.cosmic-greeter.enable = true;
-    desktopManager.cosmic.enable = true;
+    #displayManager.cosmic-greeter.enable = true;
+    #desktopManager.cosmic.enable = true;
+    # KDE
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
@@ -67,7 +73,7 @@ in
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Disable Orca screen reader
+  # Disable Orca screen reader (CosmicDE)
   services.orca.enable = false;
 
   # Enable flakes
