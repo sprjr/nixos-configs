@@ -6,6 +6,7 @@ let
   kwin-effects-glass = pkgs.stdenv.mkDerivation {
     pname = "kwin-effects-glass";
     version = "1.6.4";
+    dontWrapQtApps = true;
     src = pkgs.fetchFromGitHub {
       owner = "4v3ngR";
       repo = "kwin-effects-glass";
@@ -31,6 +32,7 @@ let
   glass-theme = pkgs.stdenv.mkDerivation {
     pname = "glass-kde-theme";
     version = "unstable-2025-05-29";
+    dontWrapQtApps = true;
     src = pkgs.fetchFromGitHub {
       owner = "4v3ngR";
       repo = "Glass";
