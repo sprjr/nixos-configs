@@ -33,6 +33,7 @@ let
     pname = "glass-kde-theme";
     version = "unstable-2025-05-29";
     dontWrapQtApps = true;
+    cmakeFlags = [ "-DBUILD_QT5=OFF" ];
     src = pkgs.fetchFromGitHub {
       owner = "4v3ngR";
       repo = "Glass";
