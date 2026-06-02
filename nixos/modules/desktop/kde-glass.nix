@@ -11,7 +11,7 @@ let
       owner = "4v3ngR";
       repo = "kwin-effects-glass";
       rev = "20260531-01";
-      hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      hash = "sha256-DF5qYLAkYxdwGDTUoWkHoJ0GwgQiv1rtQtR81lhQtc4=";
     };
     nativeBuildInputs = with pkgs; [
       cmake
