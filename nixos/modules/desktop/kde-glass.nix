@@ -5,12 +5,13 @@ let
 
   kwin-effects-glass = pkgs.stdenv.mkDerivation {
     pname = "kwin-effects-glass";
-    version = "1.6.4";
+    version = "2026-05-31";
+    dontWrapQtApps = true;
     src = pkgs.fetchFromGitHub {
       owner = "4v3ngR";
       repo = "kwin-effects-glass";
-      rev = "v1.6.4";
-      hash = "sha256-ex8Ar+8iGZpFGRKbkvISuyCjKbLIKBa+j5H5p1DMjGY=";
+      rev = "20260531-01";
+      hash = "sha256-DF5qYLAkYxdwGDTUoWkHoJ0GwgQiv1rtQtR81lhQtc4=";
     };
     nativeBuildInputs = with pkgs; [
       cmake
@@ -25,12 +26,15 @@ let
       kguiaddons
       qtbase
       qtmultimedia
+      qttools
     ];
   };
 
   glass-theme = pkgs.stdenv.mkDerivation {
     pname = "glass-kde-theme";
     version = "unstable-2025-05-29";
+    dontWrapQtApps = true;
+    cmakeFlags = [ "-DBUILD_QT5=OFF" ];
     src = pkgs.fetchFromGitHub {
       owner = "4v3ngR";
       repo = "Glass";
