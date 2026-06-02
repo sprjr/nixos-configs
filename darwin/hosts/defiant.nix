@@ -75,6 +75,7 @@ in
       "mtr"
       "nmap"
       "opentofu"
+      "podman"
       "sops"
       "tldr"
       "wireguard-go"
