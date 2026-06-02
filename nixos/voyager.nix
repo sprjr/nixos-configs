@@ -212,11 +212,14 @@ in
   environment.systemPackages =
     with pkgs;
     [
+      # Misc and System
       attic-client
       gcompris # educational stuff for kids
       git
       pciutils
       pipewire
+      python314 # need this for cht() function at least
+      python314Packages.pip
       thermald
       wget
 
