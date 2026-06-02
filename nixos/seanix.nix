@@ -206,8 +206,8 @@ in
     git
     pciutils
     pipewire
-    #python314
-    #python313Packages.pip
+    python314 # need this for cht() function at least
+    python313Packages.pip
     usb-modeswitch # idk what this is for anymore. Maybe bluetooth?
     wget
 
