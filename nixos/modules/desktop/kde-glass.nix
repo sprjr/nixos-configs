@@ -26,6 +26,7 @@ let
       kguiaddons
       qtbase
       qtmultimedia
+      qttools
     ];
   };
 
