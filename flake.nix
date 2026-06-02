@@ -224,6 +224,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
+              ./nixos/modules/desktop/kde-glass.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/user/patrick.nix
