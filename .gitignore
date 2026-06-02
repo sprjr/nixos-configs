@@ -7,6 +7,9 @@
 # Ignore cert stuff
 #*cert*
 
+# Tests
+tests/
+
 # Ignore all environment files
 *.env
 .direnv
