@@ -177,11 +177,13 @@ in
   networking.wireguard.enable = true;
 
   # 1Password
-  # programs._1password = { enable = true; };
-  # programs._1password-gui = {
-  #   enable = true;
-  #   polkitPolicyOwners = [ "patrick" ];
-  # };
+  programs._1password = {
+    enable = true;
+  };
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "patrick" ];
+  };
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
