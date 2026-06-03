@@ -20,6 +20,7 @@
       "networkmanager"
       "wheel"
       "audio"
+      "dialout"
     ];
     packages = with pkgs; [
       kdePackages.kate
