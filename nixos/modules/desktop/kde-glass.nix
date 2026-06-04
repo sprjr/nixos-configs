@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   home-manager,
@@ -7,8 +6,6 @@
 }:
 
 let
-  cfg = config.services.desktopManager.plasma6;
-
   glassOS-src = pkgs.fetchFromGitHub {
     owner = "4v3ngR";
     repo = "glassOS";
@@ -76,7 +73,15 @@ let
   };
 in
 
-lib.mkIf cfg.enable {
+{
+  services = {
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
+  };
+
   environment.systemPackages = [
     kwin-effects-glass
     glass-theme
