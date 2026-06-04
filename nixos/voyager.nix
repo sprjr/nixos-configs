@@ -39,18 +39,6 @@ in
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
   ];
 
-  services = {
-    # Cosmic
-    #displayManager.cosmic-greeter.enable = true;
-    #desktopManager.cosmic.enable = true;
-    # KDE
-    desktopManager.plasma6.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-  };
-
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
