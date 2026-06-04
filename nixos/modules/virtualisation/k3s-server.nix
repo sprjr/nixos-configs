@@ -7,7 +7,8 @@
     # 2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
   ];
   networking.firewall.allowedUDPPorts = [
-    # 8472 # k3s, flannel: required if using multi-node for inter-node networking
+    4789 # VXLAN
+    8472 # k3s, flannel: required if using multi-node for inter-node networking
   ];
 
   # Enable k3s and set node details
