@@ -6,7 +6,7 @@
       enable = true;
       datadir = "/mnt/unraid/Nextcloud/nextcloud";
       hostName = "0.0.0.0";
-      package = pkgs.nextcloud31;
+      package = pkgs.nextcloud32;
       database.createLocally = true;
       configureRedis = true;
       maxUploadSize = "16G";
