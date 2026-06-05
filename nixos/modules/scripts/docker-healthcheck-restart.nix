@@ -16,7 +16,7 @@ let
     ${pkgs.curl}/bin/curl -s -X POST \
       -H "Title: [Docker] Unhealthy: $container" \
       -H "Priority: high" \
-      -H "Tags: rotating_light, whale" \
+      -H "Tags: volcano, whale" \
       --data-binary "Container '$container' entered unhealthy state. Restarting.
 
 === Last Logs ===
