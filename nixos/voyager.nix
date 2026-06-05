@@ -285,6 +285,9 @@ in
       libusb1
       meson
       pkg-config
+
+      # Temporary: remove later
+      google-chrome # esp32 stuff
     ]
     ++ [
       # Pinned to stable

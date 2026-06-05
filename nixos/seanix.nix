@@ -306,7 +306,6 @@ in
     prismlauncher
 
     # Temporary
-    google-chrome # remove later, just doing this for esp32 stuff
   ];
 
   # Enable the OpenSSH daemon.
