@@ -16,8 +16,9 @@ let
     ${pkgs.curl}/bin/curl -s -X POST \
       -H "Title: [Docker] Unhealthy: $container" \
       -H "Priority: high" \
-      -H "Tags: rotating_light, whale"
+      -H "Tags: rotating_light, whale" \
       --data-binary "Container '$container' entered unhealthy state. Restarting.
 
 === Last Logs ===
-$logs" 
+$logs" \
+      http://100.119.239.121:55455/rawliyosh-administration-notification-network-hso
