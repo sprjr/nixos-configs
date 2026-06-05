@@ -112,6 +112,7 @@
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/nx-01.nix
               ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/user/patrick.nix
               {
                 # Extra config here
@@ -163,6 +164,7 @@
               ./nixos/hardware-configuration/prometheus.nix
               ./nixos/prometheus.nix
               ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/user/patrick.nix
               {
               }
@@ -176,11 +178,13 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
+              #./nixos/modules/desktop/kde-glass.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/disks/seanix-mount.nix
               ./nixos/modules/homelab/ollama-nvidia.nix
               ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
               ./nixos/modules/user/patrick.nix
@@ -202,12 +206,14 @@
               ./nixos/modules/disks/unraid-other.nix
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
+              ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/modules/homelab/attic.nix
               ./nixos/modules/homelab/nextcloud.nix
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
              #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/virtualisation/k3s-server.nix
@@ -223,7 +229,9 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
+              ./nixos/modules/desktop/kde-glass.nix
               ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/user/patrick.nix
               {

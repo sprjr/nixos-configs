@@ -177,11 +177,13 @@ in
   networking.wireguard.enable = true;
 
   # 1Password
-  # programs._1password = { enable = true; };
-  # programs._1password-gui = {
-  #   enable = true;
-  #   polkitPolicyOwners = [ "patrick" ];
-  # };
+  programs._1password = {
+    enable = true;
+  };
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "patrick" ];
+  };
 
   # Needed this to run bash scripts
   services.envfs.enable = true;
@@ -206,10 +208,9 @@ in
     git
     pciutils
     pipewire
-    python314
+    python314 # need this for cht() function at least
     python313Packages.pip
-    thermald
-    usb-modeswitch
+    usb-modeswitch # idk what this is for anymore. Maybe bluetooth?
     wget
 
     # AV utilities
@@ -222,7 +223,7 @@ in
 
     # User environment
     alacritty
-    btop-rocm
+    btop
     distrobox
     distrobox-tui
     duplicati
@@ -239,7 +240,6 @@ in
     gimp
     iotop
     kitty
-    ladybird
     legcord # alt discord client
     lyrebird
     mdp # fullscreen markdown reader
@@ -284,6 +284,9 @@ in
     remmina
     terraform
     terraformer
+    # DICOM stuff
+    orthanc
+    weasis
 
     # KDE Packages
     kdePackages.dolphin
@@ -303,16 +306,8 @@ in
     prismlauncher
 
     # Temporary
+    google-chrome # remove later, just doing this for esp32 stuff
   ];
-
-  # OpenRazer Temporary
-  hardware.openrazer = {
-    enable = true;
-    users = [ "patrick" ];
-  };
-  users.users.patrick = {
-    extraGroups = [ "openrazer" ];
-  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

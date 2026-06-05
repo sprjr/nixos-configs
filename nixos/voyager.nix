@@ -15,6 +15,7 @@ in
 {
   imports = [
     ./modules/system/sops.nix
+    ./modules/system/btrfs-config.nix
   ];
 
   # ESP32 Serial Converter
@@ -26,13 +27,17 @@ in
     # Allow dialout group access to USB serial devices
     KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
   '';
-  users.users.patrick.extraGroups = [ "dialout" ];
-
-  services = {
-    # Cosmic
-    displayManager.cosmic-greeter.enable = true;
-    desktopManager.cosmic.enable = true;
+  users.mutableUsers = false;
+  users.users.patrick = {
+    extraGroups = [ "dialout" ];
+    hashedPasswordFile = "/var/lib/secrets/default-user.hash";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
+    ];
   };
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
+  ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -41,13 +46,22 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  console.keyMap = "us";
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+    priority = 100;
+  };
+
   # General Networking Options
   networking.hostName = "voyager"; # Define your hostname.
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Disable Orca screen reader
+  # Disable Orca screen reader (CosmicDE)
   services.orca.enable = false;
 
   # Enable flakes
@@ -186,11 +200,14 @@ in
   environment.systemPackages =
     with pkgs;
     [
+      # Misc and System
       attic-client
       gcompris # educational stuff for kids
       git
       pciutils
       pipewire
+      python314 # need this for cht() function at least
+      python314Packages.pip
       thermald
       wget
 
@@ -273,8 +290,14 @@ in
       # Pinned to stable
     ];
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+      KbdInteractiveAuthentication = false;
+    };
+  };
 
   # Garbage collection
   nix.gc = {
@@ -283,7 +306,7 @@ in
     options = "delete-older-than 14d";
   };
 
-  # nix-store optimise
+  nix.settings.auto-optimise-store = true;
   nix.optimise.automatic = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?
