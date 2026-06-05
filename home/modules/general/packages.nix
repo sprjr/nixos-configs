@@ -40,7 +40,6 @@
       mtr
       nebula
       nps
-      ntfy
       openssl
       pv
       rig
