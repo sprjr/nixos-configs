@@ -213,6 +213,8 @@ in
 
       # User environment
       duplicati
+      espflash
+      esptool
       file
       fzf
       gh-dash
