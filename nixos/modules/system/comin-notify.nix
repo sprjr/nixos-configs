@@ -25,7 +25,9 @@ let
         if tags:
             args += ["--tags", tags]
         args += [ntfy_url, msg]
-        subprocess.run(args)
+        r = subprocess.run(args, capture_output=True, text=True)
+        if r.returncode != 0:
+            print(f"ntfy publish failed: {r.stderr}", file=sys.stderr)
 
     def load_state():
         if os.path.exists(state_file):
@@ -72,7 +74,7 @@ let
 in {
   systemd.services.comin-notify = {
     description = "Check comin deployment status and send ntfy alerts";
-    path = [ config.services.comin.package ];
+    path = [ config.services.comin.package pkgs.ntfy-sh ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${cominNotify}";
