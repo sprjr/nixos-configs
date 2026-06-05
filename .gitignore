@@ -20,3 +20,6 @@ scripts/
 
 # Ignore home-manager results
 result
+
+# Agent reference
+CLAUDE.md
