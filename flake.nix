@@ -206,6 +206,7 @@
               ./nixos/modules/disks/unraid-other.nix
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
+              ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/modules/homelab/attic.nix
               ./nixos/modules/homelab/nextcloud.nix
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
