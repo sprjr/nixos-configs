@@ -4,7 +4,6 @@
   lib,
   home-manager,
   cosmic-applets,
-  nixos-cosmic,
   dark-wallpaper-laptop,
   ...
 }:
