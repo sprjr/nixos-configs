@@ -8,6 +8,7 @@ in {
     home-manager.nixosModules.home-manager
     # Systemd Timers
     ./hosts/shikisha/cron/docker-findmy-restart.nix
+    ./modules/system/esp-tooling.nix
   ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
@@ -16,12 +17,6 @@ in {
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # ESP32 serial converter
-  boot.kernelModules = [
-    "cp210x"
-   #"cp341" # Not needed at this time; current model is a cp2102
-  ];
 
   # General Networking Options
   networking.hostName = "shikisha"; # Define your hostname.
@@ -150,7 +145,6 @@ in {
     # User environment
     btop
     duplicati
-    esptool
     file
     fzf
     gnumake # makefile ^ alternative
@@ -161,12 +155,6 @@ in {
     vim
     vimPlugins.nvchad
     zsh
-
-    # ESP32 stuff
-    esptool
-   #python313
-   #python313Packages.cryptography
-   #python313Packages.pip
 
     ### Net tools ###
     inetutils

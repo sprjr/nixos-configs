@@ -14,6 +14,7 @@ in
 {
   imports = [
     home-manager.nixosModules.home-manager
+    ./modules/system/esp-tooling.nix
   ];
 
   # Select Desktop Environment.
@@ -228,8 +229,6 @@ in
     distrobox-tui
     duplicati
     easyeffects
-    espflash
-    esptool
     file
     floorp-bin # Privacy-focused Firefox alternative
     freetube
