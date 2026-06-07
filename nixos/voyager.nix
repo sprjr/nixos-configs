@@ -16,20 +16,11 @@ in
   imports = [
     ./modules/system/sops.nix
     ./modules/system/btrfs-config.nix
+    ./modules/system/esp-tooling.nix
   ];
 
-  # ESP32 Serial Converter
-  boot.kernelModules = [
-    "cp210x"
-    "cp341"
-  ];
-  services.udev.extraRules = ''
-    # Allow dialout group access to USB serial devices
-    KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
-  '';
   users.mutableUsers = false;
   users.users.patrick = {
-    extraGroups = [ "dialout" ];
     hashedPasswordFile = "/var/lib/secrets/default-user.hash";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
@@ -213,8 +204,7 @@ in
 
       # User environment
       duplicati
-      espflash
-      esptool
+
       file
       fzf
       gh-dash

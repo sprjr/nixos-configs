@@ -6,6 +6,7 @@ let
 in {
   imports = [
     ./modules/system/sops.nix
+    ./modules/system/esp-tooling.nix
   ];
 
   services = {
@@ -16,17 +17,6 @@ in {
     displayManager.cosmic-greeter.enable = true;
     desktopManager.cosmic.enable = true;
   };
-
-  # ESP32 Serial Converter
-  boot.kernelModules = [
-    "cp210x"
-    "cp341"
-  ];
-  services.udev.extraRules = ''
-    # Allow dialout group access to USB serial devices
-    KERNEL=="ttyUSB[0-9]*", MODE="0660", GROUP="dialout"
-  '';
-  users.users.patrick.extraGroups = [ "dialout" ];
 
   services = {
     displayManager.gdm.enable = true;
@@ -243,7 +233,6 @@ in {
     zsh
 
     # ESP32 stuff
-    esptool
     python313
     python313Packages.cryptography
     python313Packages.pip
