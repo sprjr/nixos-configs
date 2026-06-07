@@ -210,7 +210,7 @@
               ./nixos/modules/homelab/attic.nix
               ./nixos/modules/homelab/nextcloud.nix
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
-             #./nixos/modules/homelab/certbot-mumble.nix
+              #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -229,7 +229,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
-              ./nixos/modules/desktop/kde-glass.nix
+              ./nixos/modules/desktop/cosmic.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
