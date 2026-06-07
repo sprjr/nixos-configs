@@ -232,7 +232,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
-              ./nixos/modules/desktop/kde-glass.nix
+              ./nixos/modules/desktop/cosmic.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
