@@ -1,4 +1,4 @@
-{ pkgs, config, nvidia-patch, nixpkgs, ... }:
+{ pkgs, config, lib, nvidia-patch, nixpkgs, ... }:
 
 let
   system = pkgs.stdenv.hostPlatform.system;
@@ -20,7 +20,7 @@ in {
     enable = true;
   };
   services.xserver.videoDrivers = ["nvidia"];
-  boot.kernelPackages = pkgs-nvidia.linuxKernel.packages.linux_zen;
+  boot.kernelPackages = lib.mkDefault pkgs-nvidia.linuxKernel.packages.linux_zen;
   hardware.nvidia = {
     modesetting.enable = true;
     package = finalPkg;

@@ -54,6 +54,10 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     weathr = {
       url = "github:Veirt/weathr";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -75,6 +79,7 @@
       heywoodlh-configs,
       home-manager,
       hyprsession,
+      nix-cachyos-kernel,
       nix-on-droid,
       nixos-hardware,
       omarchy-nix,
@@ -177,6 +182,7 @@
               ./nixos/seanix.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
+              ./nixos/modules/gaming/cachyos-gaming.nix
               ./nixos/modules/disks/seanix-mount.nix
               ./nixos/modules/homelab/ollama-nvidia.nix
               #./nixos/modules/system/attic-cache.nix
