@@ -217,6 +217,7 @@ in
     # AV utilities
     alsa-plugins
     alsa-utils
+    audacity # sound record with GUI
     obs-studio
     pavucontrol
     pulseaudio
