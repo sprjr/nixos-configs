@@ -47,6 +47,7 @@
       rustlings
       syncthing
       tldr
+      tmux
       todoist
       tree
       xclip
