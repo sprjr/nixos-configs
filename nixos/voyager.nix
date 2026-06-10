@@ -207,6 +207,7 @@ in
 
       file
       fzf
+      ffmpeg
       gh-dash
       ghostty
       home-manager
