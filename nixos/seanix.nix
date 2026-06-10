@@ -232,6 +232,7 @@ in
     easyeffects
     file
     floorp-bin # Privacy-focused Firefox alternative
+    ffmpeg
     freetube
     fzf
     gamescope
