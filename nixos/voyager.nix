@@ -237,7 +237,6 @@ in
       bandwhich
       inetutils
       iproute2
-      nextcloud-client
       lshw
       netop
       nmap
