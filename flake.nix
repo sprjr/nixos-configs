@@ -114,6 +114,7 @@
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               {
                 # Extra config here
@@ -167,6 +168,7 @@
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               {
               }
@@ -180,6 +182,8 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
+              ./nixos/modules/system/sops.nix
+              ./nixos/modules/network/wifi.nix
               ./nixos/modules/virtualisation/containers/syncthing.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
@@ -238,6 +242,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
+              ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               {
                 # Extra config here
