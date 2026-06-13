@@ -259,7 +259,6 @@ in
     vim
     vimPlugins.nvchad
     vlc
-    xpipe
     zsh
 
     ### Net tools ###
@@ -276,7 +275,6 @@ in
     wireguard-tools
     wireguard-ui
     wireshark
-    xpipe
 
     # Work/Infra
     kubectl

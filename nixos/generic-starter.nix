@@ -1,9 +1,17 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  nixpkgs-stable,
+  ...
+}:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-in {
+in
+{
   imports = [
     home-manager.nixosModules.home-manager
   ];
@@ -14,13 +22,16 @@ in {
 
   # General Networking Options
   networking.hostName = "starter"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -74,7 +85,9 @@ in {
   networking.wireguard.enable = true;
 
   # 1Password
-  programs._1password = { enable = true; };
+  programs._1password = {
+    enable = true;
+  };
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "patrick" ];
@@ -108,7 +121,6 @@ in {
     wireguard-tools
     wireguard-ui
     wireshark
-    xpipe
 
     # Operations tools
     opentofu

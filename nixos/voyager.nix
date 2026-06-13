@@ -243,7 +243,6 @@ in
       wireguard-tools
       wireguard-ui
       wireshark
-      xpipe
 
       # Work Tools
       opentofu
@@ -265,7 +264,6 @@ in
       wireguard-tools
       wireguard-ui
       wireshark
-      xpipe
 
       # Work Tools
       opentofu

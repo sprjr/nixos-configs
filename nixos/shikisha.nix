@@ -1,9 +1,17 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  nixpkgs-stable,
+  ...
+}:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-in {
+in
+{
   imports = [
     home-manager.nixosModules.home-manager
     # Systemd Timers
@@ -20,7 +28,7 @@ in {
 
   # General Networking Options
   networking.hostName = "shikisha"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
   networking.firewall = {
     allowedUDPPorts = [ 8472 ];
@@ -30,7 +38,10 @@ in {
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Sops Secrets References:
   sops.secrets = {
@@ -53,8 +64,8 @@ in {
 
   # Enable Docker and Podman
   virtualisation = {
-      docker.enable = true;
-      podman.enable = true;
+    docker.enable = true;
+    podman.enable = true;
   };
 
   # Set your time zone.
@@ -102,7 +113,9 @@ in {
   networking.wireguard.enable = true;
 
   # 1Password
-  programs._1password = { enable = true; };
+  programs._1password = {
+    enable = true;
+  };
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "patrick" ];
@@ -116,11 +129,13 @@ in {
 
   nixpkgs.overlays = [
     (final: prev: {
-      python3Packages = prev.python3Packages.overrideScope (pyFinal: pyPrev: {
-        textual = pyPrev.textual.overridePythonAttrs (old: {
-      doCheck = false; # skip failed tests
-    });
-      });
+      python3Packages = prev.python3Packages.overrideScope (
+        pyFinal: pyPrev: {
+          textual = pyPrev.textual.overridePythonAttrs (old: {
+            doCheck = false; # skip failed tests
+          });
+        }
+      );
     })
   ];
 
@@ -131,52 +146,54 @@ in {
   ];
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    attic-client
-    cachix
-    certbot
-    git
-    usbutils
-    pciutils
-    pipewire
-    thermald
-    wget
+  environment.systemPackages =
+    with pkgs;
+    [
+      attic-client
+      cachix
+      certbot
+      git
+      usbutils
+      pciutils
+      pipewire
+      thermald
+      wget
 
-    # User environment
-    btop
-    duplicati
-    file
-    fzf
-    gnumake # makefile ^ alternative
-    kiwix
-    kiwix-tools
-    mdp # fullscreen markdown reader
-    sops
-    vim
-    vimPlugins.nvchad
-    zsh
+      # User environment
+      btop
+      duplicati
+      file
+      fzf
+      gnumake # makefile ^ alternative
+      kiwix
+      kiwix-tools
+      mdp # fullscreen markdown reader
+      sops
+      vim
+      vimPlugins.nvchad
+      zsh
 
-    ### Net tools ###
-    inetutils
-    mosquitto
-    mullvad-vpn
-    lshw
-    lsof
-    netop
-    nmap
-    xpipe
+      ### Net tools ###
+      inetutils
+      mosquitto
+      mullvad-vpn
+      lshw
+      lsof
+      netop
+      nmap
 
-    # Infra/Operations tools
-    argocd
-    garage
-    kind
-    kubeseal
-    openiscsi
-    opentofu
-    terraformer
-  ] ++ [
-    # Pinned to Stable
-  ];
+      # Infra/Operations tools
+      argocd
+      garage
+      kind
+      kubeseal
+      openiscsi
+      opentofu
+      terraformer
+    ]
+    ++ [
+      # Pinned to Stable
+    ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
