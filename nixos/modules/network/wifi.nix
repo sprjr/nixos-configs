@@ -3,9 +3,19 @@
 let
   networks = [
     {
-      name = "home";
+      name = "kirakira";
       ssidKey = "wifi/home_ssid";
       pskKey = "wifi/home_psk";
+    }
+    {
+      name = "the_pilgrim_moon";
+      ssidKey = "wifi/tpm_ssid";
+      pskKey = "wifi/tpm_psk";
+    }
+    {
+      name = "ronin";
+      ssidKey = "wifi/ronin_ssid";
+      pskKey = "wifi/ronin_psk";
     }
   ];
 
