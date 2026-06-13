@@ -52,6 +52,7 @@
       todoist
       tree
       xclip
+      xpipe
       yazi
       zellij
       zoxide
