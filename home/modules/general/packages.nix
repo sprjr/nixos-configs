@@ -11,6 +11,7 @@
     with pkgs;
     [
       # Global packages
+      alacritty
       andcli
       atuin
       awscli2
