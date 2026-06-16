@@ -18,7 +18,6 @@ let
         "Edit(~/**)"
         "Write(./**)"
         "Write(~/**)"
-        "MultiEdit(./**)"
         "WebFetch"
         "WebSearch"
         "TodoWrite"
@@ -28,8 +27,6 @@ let
         "Read(/**)"
         "Edit(/**)"
         "Write(/**)"
-        "MultiEdit(/**)"
-        "MultiEdit(~/**)"
         "Bash(*)"
       ];
     };
