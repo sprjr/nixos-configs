@@ -21,6 +21,7 @@
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.channel.enable = false;
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
@@ -132,7 +133,6 @@
     thunderbird
     wget
     vim
-    vimPlugins.nvchad
     ollama
     pciutils
     file

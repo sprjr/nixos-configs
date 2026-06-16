@@ -8,7 +8,7 @@
 }:
 
 let
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in
 {
@@ -42,6 +42,7 @@ in
     "nix-command"
     "flakes"
   ];
+  nix.channel.enable = false;
 
   # Sops Secrets References:
   sops.secrets = {
@@ -170,7 +171,6 @@ in
       mdp # fullscreen markdown reader
       sops
       vim
-      vimPlugins.nvchad
       zsh
 
       ### Net tools ###

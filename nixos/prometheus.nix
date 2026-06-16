@@ -8,7 +8,7 @@
 }:
 
 let
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in
 {
@@ -61,6 +61,7 @@ in
     "nix-command"
     "flakes"
   ];
+  nix.channel.enable = false;
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -258,7 +259,6 @@ in
       ulauncher
       usbutils
       vim
-      vimPlugins.nvchad
       vlc
       zsh
 

@@ -9,7 +9,7 @@
 }:
 
 let
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in
 {
@@ -60,6 +60,7 @@ in
     "nix-command"
     "flakes"
   ];
+  nix.channel.enable = false;
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -75,13 +76,12 @@ in
   ];
   services.resolved = {
     enable = true;
-    dnssec = "true";
-    domains = [ "~." ];
-    fallbackDns = [
-      "1.1.1.1#one.one.one.one"
-      "1.0.0.1#one.one.one.one"
-    ];
-    dnsovertls = "true";
+    settings.Resolve = {
+      DNSSEC = "true";
+      Domains = "~.";
+      FallbackDNS = "1.1.1.1#one.one.one.one 1.0.0.1#one.one.one.one";
+      DNSOverTLS = "true";
+    };
   };
 
   # Firewall Port allowances
@@ -228,7 +228,6 @@ in
       ulauncher
       usbutils
       vim
-      vimPlugins.nvchad
       vlc
       zsh
 
