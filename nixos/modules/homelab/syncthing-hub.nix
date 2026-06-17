@@ -33,9 +33,11 @@ in {
       };
     };
 
+    networking.firewall.allowedTCPPorts = [ 22000 ];
+    networking.firewall.allowedUDPPorts = [ 21027 ];
+
     services.syncthing = {
       enable = true;
-      openFirewall = true;
       user = "syncthing";
       group = "syncthing";
       dataDir = "/var/lib/syncthing";

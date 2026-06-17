@@ -15,9 +15,11 @@ in {
   config = lib.mkIf cfg.enable {
     sops.secrets."syncthing/hub/device-id" = {};
 
+    networking.firewall.allowedTCPPorts = [ 22000 ];
+    networking.firewall.allowedUDPPorts = [ 21027 ];
+
     services.syncthing = {
       enable = true;
-      openFirewall = true;
       user = "patrick";
       group = "users";
       dataDir = "/home/patrick";
