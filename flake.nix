@@ -116,19 +116,20 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
-              {
-                # Extra config here
-              }
+              ./nixos/modules/homelab/syncthing-client-preset.nix
             ];
           };
           trixos = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = inputs;
             modules = [
+              sops-nix.nixosModules.sops
               /etc/nixos/hardware-configuration.nix
               ./nixos/trixos.nix
               ./nixos/modules/nvidia.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/system/sops.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
               {
                 networking.hostName = "trixos";
                 hardware.nvidia.prime = {
@@ -170,8 +171,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
-              {
-              }
+              ./nixos/modules/homelab/syncthing-client-preset.nix
             ];
           };
           seanix = nixpkgs.lib.nixosSystem {
@@ -184,7 +184,7 @@
               ./nixos/seanix.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
-              ./nixos/modules/virtualisation/containers/syncthing.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
               ./nixos/modules/disks/seanix-mount.nix
@@ -195,9 +195,6 @@
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
               ./nixos/modules/user/patrick.nix
-              {
-                # Additional configuration goes here
-              }
             ];
           };
           shikisha = nixpkgs.lib.nixosSystem {
@@ -223,9 +220,15 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
-              ./nixos/modules/virtualisation/containers/syncthing.nix
+              ./nixos/modules/homelab/syncthing-hub.nix
               ./nixos/modules/virtualisation/k3s-server.nix
               ./nixos/modules/user/patrick.nix
+              {
+                services.syncthing-hub = {
+                  enable = true;
+                  clientDevices = [ "nx-01" "prometheus" "voyager" "seanix" "trixos" "seair" "defiant" ];
+                };
+              }
             ];
           };
           voyager = nixpkgs.lib.nixosSystem {
@@ -244,9 +247,7 @@
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
-              {
-                # Extra config here
-              }
+              ./nixos/modules/homelab/syncthing-client-preset.nix
             ];
           };
         };
