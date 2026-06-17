@@ -168,6 +168,7 @@ in
       gnumake # makefile ^ alternative
       kiwix
       kiwix-tools
+      jq
       mdp # fullscreen markdown reader
       sops
       vim
