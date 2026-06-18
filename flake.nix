@@ -194,7 +194,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
-              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/user/patrick-desktop.nix
             ];
           };
           shikisha = nixpkgs.lib.nixosSystem {
