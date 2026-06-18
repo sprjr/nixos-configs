@@ -52,7 +52,6 @@
       todoist
       tree
       xclip
-      xpipe
       yazi
       zellij
       zoxide
@@ -81,6 +80,7 @@
       swayosd
       ulauncher
       waybar
+      xpipe
     ]
     ++ lib.optionals stdenv.isDarwin [
       # MacOS-specific packages
