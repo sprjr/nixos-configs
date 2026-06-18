@@ -50,6 +50,7 @@ in
       pkgs.gcc
       pkgs.git
       pkgs.gnupg
+      pkgs.sops
     ];
   };
 
@@ -76,7 +77,6 @@ in
       "mtr"
       "nmap"
       "opentofu"
-      "sops"
       "tldr"
       "watch"
       "zsh"
