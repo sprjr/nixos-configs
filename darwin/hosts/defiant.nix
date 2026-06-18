@@ -105,6 +105,7 @@ in
       "obsidian"
       "signal"
       "steam"
+      "syncthing"
       "tailscale-app"
       "thunderbird"
       "vlc"
