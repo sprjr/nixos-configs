@@ -3,6 +3,7 @@
   pkgs,
   lib,
   home-manager,
+  sops-nix,
   cosmic-applets,
   dark-wallpaper-laptop,
   ...
@@ -43,6 +44,7 @@
     useGlobalPkgs = true;
     users.patrick = {
       imports = [
+        sops-nix.homeManagerModules.sops-nix
         ../../../home/laptop-home.nix
       ];
     };
