@@ -253,6 +253,8 @@
             system = "aarch64-darwin";
             specialArgs = inputs;
             modules = [
+              sops-nix.darwinModules.sops
+              ./darwin/modules/sops.nix
               ./darwin/hosts/seair.nix
               {
                 networking.hostName = "seair";
@@ -264,6 +266,8 @@
             system = "aarch64-darwin";
             specialArgs = inputs;
             modules = [
+              sops-nix.darwinModules.sops
+              ./darwin/modules/sops.nix
               ./darwin/hosts/defiant.nix
               {
                 networking.hostName = "defiant";
