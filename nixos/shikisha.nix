@@ -14,10 +14,16 @@ in
 {
   imports = [
     home-manager.nixosModules.home-manager
+    ./modules/homelab/syncthing-hub.nix
     # Systemd Timers
     ./hosts/shikisha/cron/docker-findmy-restart.nix
     ./modules/system/esp-tooling.nix
   ];
+
+  services.syncthing-hub = {
+    enable = true;
+    clientDevices = [ "voyager" "seanix" ];
+  };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;

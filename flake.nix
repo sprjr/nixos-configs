@@ -220,15 +220,8 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
-              ./nixos/modules/homelab/syncthing-hub.nix
               ./nixos/modules/virtualisation/k3s-server.nix
               ./nixos/modules/user/patrick.nix
-              {
-                services.syncthing-hub = {
-                  enable = true;
-                  clientDevices = [ "nx-01" "prometheus" "voyager" "seanix" "trixos" "seair" "defiant" ];
-                };
-              }
             ];
           };
           voyager = nixpkgs.lib.nixosSystem {
