@@ -136,15 +136,6 @@ in
     wireplumber.enable = true;
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    users.patrick = {
-      imports = [
-        ../home/desktop-home.nix
-      ];
-    };
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
