@@ -36,12 +36,15 @@ syncthing:
     device-id:
         nx-01: null
         prometheus: null
-        voyager: null
+        voyager: ENC[AES256_GCM,data:I7FaOE3kbm3KJpAr5hsSU2/53Uf8w3D3OkVB/IrigvOarDtj82InFqqfoBWjg+VOvAKcaRMCtb0Rh5Kof68=,iv:Psi7b3zndaYLJQAiFcMCvZ3k+o3VAbr69zQ6FnZm6NE=,tag:l1ZbsmEUzZp3uiDhacOVzA==,type:str]
         seanix: ENC[AES256_GCM,data:hPpluftvbGDV2/7vkdrBoLrAAx9i1zQlfUQAdyS1NURqsgi/gbhts1JIiwHonBFoosaRTJckXfos6FmkrQE7,iv:LyVx574SqsQ1hB7eMmKvrDpykCS/HTB0WM2me/pUv2k=,tag:zqnpQtrZ1+2rsPxmfQuw4A==,type:str]
         trixos: null
         seair: null
         defiant: null
         shikisha: ENC[AES256_GCM,data:o6Jz5nTkb7xLAdl5w/z5pYNn4YWwG/H9S0QDA3lnKTcWGwOIY+Fk/Zkz2JmjjhckLvZa15kGAn3R9Us9bexV,iv:uu3vZ9RQyElxhcqvZOLatMz2hmn0ay1A+AJygBkrOqk=,tag:Sa0uBAESRuw8TSetc1DKbQ==,type:str]
+cosmic:
+    latitude: ENC[AES256_GCM,data:nxu6PBFVLcz+,iv:RdovuUoWM1d2uR9nOezXOeAWdrd9vDiAoecweKu/Ygo=,tag:FV1VZ2oQJAmBVFTqqOJAtA==,type:float]
+    longitude: ENC[AES256_GCM,data:+aldvXfO6DtF9Ys=,iv:oWylvohaF6AWLvmeIudwTyYmKJElEDc+1aBQT+oGuuI=,tag:5s8gtnl4CWg2xL5LTSkFxg==,type:float]
 sops:
     age:
         - enc: |
@@ -53,7 +56,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-06-17T23:01:03Z"
-    mac: ENC[AES256_GCM,data:tC6OZGPw9aF1b4QYM1hcPr/x9ygzy7UK/gH32jkDyJHfGu7DjC3Qgmh9GUOb6tk2AxNAsaExihQOGJ84xlfdexJBRkg02ljf3Tw1+49f8XSyWACgoSFI/5ECBYsX+mJPRwRt9oyXsmv8PbJSG8GUN/HEz/MqOJuUhey24LMrUis=,iv:aS10h0Gp337O5KVbPhep0kkdDgO5P9KRqRIpKs3hYNU=,tag:Rhqgzb/xL0kmFz+hFlvw3w==,type:str]
+    lastmodified: "2026-06-18T03:57:39Z"
+    mac: ENC[AES256_GCM,data:h18duXCrDtMm30gq1oL95tnV1VSGdgMcm/BwznzvIGK7iyE+whcRkiZwzulTJZPYFLNt1oNsScr8eSWyykisN8azU2NquP9Ds7DQUr3DLaPkbfdlLfdecb2XeI3w9MOknfMkNBQq+93qnogCyNTDmvdlkiH/EAdXCbe0eSt8e10=,iv:l76lZbktkogp7bBOf+TnfzWplQSgODd1v6DhmVVaEQ0=,tag:NZvYyVrFf5hgzbhuOi+lFw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
