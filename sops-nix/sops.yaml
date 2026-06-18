@@ -44,6 +44,8 @@ syncthing:
 cosmic:
     latitude: ENC[AES256_GCM,data:nxu6PBFVLcz+,iv:RdovuUoWM1d2uR9nOezXOeAWdrd9vDiAoecweKu/Ygo=,tag:FV1VZ2oQJAmBVFTqqOJAtA==,type:float]
     longitude: ENC[AES256_GCM,data:+aldvXfO6DtF9Ys=,iv:oWylvohaF6AWLvmeIudwTyYmKJElEDc+1aBQT+oGuuI=,tag:5s8gtnl4CWg2xL5LTSkFxg==,type:float]
+podcast:
+    feed-url: ENC[AES256_GCM,data:MYi4OwpmsyGJ0CEHaJx/WWMpEQxdPQu2zgOJ1DdTZRJCsVuRar49RmkpE1Z3X1S2gSsPszgGlZK5E8cPR26mfzp5J8QOE2oECsTB+gNXoNKY,iv:jb8peGhY1AjJjc0DKB/91q3upj4cC+iicYdCbiUUXaA=,tag:0KWJCIx9yNfStqkq5OcK4g==,type:str]
 sops:
     age:
         - enc: |
@@ -55,7 +57,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-06-18T05:58:45Z"
-    mac: ENC[AES256_GCM,data:nsxySwMZCefsog1OrpQOIwkA2r/X3DzW91zMi9TRJfCW4rWnrKUV40r+szK3akahvambnBApmOopi/VK88WsIqfsFTh3egmMwrTqwJBezNrfHRkY5NGl5mF6Mmh7cNbaUhJyhwWXHUHIq+V0GgEPbqqv2edFVThGhBpEZoixW+g=,iv:lxUTZjRkuy/Q28WI0SW7wce2m5NOxY9X8X4mlH+WXlY=,tag:nGsxalglWKPD9J8fHqf/2Q==,type:str]
+    lastmodified: "2026-06-18T19:18:21Z"
+    mac: ENC[AES256_GCM,data:9EewBNozfajweyiBjG5hMzfKnVQ0JEep9LhZuIb+hdgXjOYoceYIVUSba1ZBchuRaruzjtPI2GYQk2LzVlYNNKrInPmE7cTkdqa44rkhogiPK6jjMHrqaNh8FVggtd9so7tXnBWA3FxKbnUKplgA5Gn9JjeaDfZF3UUaZxCih/s=,iv:tJwSCL6qGCrL/zQ/QYW9UydSx95ajsgn8cSHqw2BqI8=,tag:gIYt1AzEh81/4+P0km2hEQ==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
