@@ -37,10 +37,11 @@ syncthing:
         nx-01: null
         prometheus: null
         voyager: null
-        seanix: null
+        seanix: ENC[AES256_GCM,data:hPpluftvbGDV2/7vkdrBoLrAAx9i1zQlfUQAdyS1NURqsgi/gbhts1JIiwHonBFoosaRTJckXfos6FmkrQE7,iv:LyVx574SqsQ1hB7eMmKvrDpykCS/HTB0WM2me/pUv2k=,tag:zqnpQtrZ1+2rsPxmfQuw4A==,type:str]
         trixos: null
         seair: null
         defiant: null
+        shikisha: ENC[AES256_GCM,data:o6Jz5nTkb7xLAdl5w/z5pYNn4YWwG/H9S0QDA3lnKTcWGwOIY+Fk/Zkz2JmjjhckLvZa15kGAn3R9Us9bexV,iv:uu3vZ9RQyElxhcqvZOLatMz2hmn0ay1A+AJygBkrOqk=,tag:Sa0uBAESRuw8TSetc1DKbQ==,type:str]
 sops:
     age:
         - enc: |
@@ -52,7 +53,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-06-17T19:27:04Z"
-    mac: ENC[AES256_GCM,data:GmGg4NQYQcvnK8F+uHOKtxwn4E9DQ62IhesLWamPmOhiNKNedCMuet278m+dh5dEWS9NLVkw6BrAN698N3saFU0lECnI8yGdC1aHUzfXF5KFOWmDYMBEBiGMBJlgi2HOXrNBBiNFbPUZBBPbQ5dTv8iobKoW+LLWj2Z/deFCXX8=,iv:nnzThxN5nxhZqmY7UQlcyaWCy8YtCX0SBi5uYBQQJGA=,tag:eDDc9GMTviWd5+Lq8n29Cw==,type:str]
+    lastmodified: "2026-06-17T23:01:03Z"
+    mac: ENC[AES256_GCM,data:tC6OZGPw9aF1b4QYM1hcPr/x9ygzy7UK/gH32jkDyJHfGu7DjC3Qgmh9GUOb6tk2AxNAsaExihQOGJ84xlfdexJBRkg02ljf3Tw1+49f8XSyWACgoSFI/5ECBYsX+mJPRwRt9oyXsmv8PbJSG8GUN/HEz/MqOJuUhey24LMrUis=,iv:aS10h0Gp337O5KVbPhep0kkdDgO5P9KRqRIpKs3hYNU=,tag:Rhqgzb/xL0kmFz+hFlvw3w==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
