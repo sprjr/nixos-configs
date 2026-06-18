@@ -221,6 +221,15 @@ let
       )'';
   };
 
+  # Sensitive COSMIC config files — content stored in sops-nix/sops.yaml under `cosmic/`.
+  # Maps ~/.config/cosmic/<path> → sops secret name ("cosmic/<name>").
+  # To add a new entry: add the content to sops-nix/sops.yaml under `cosmic:`, then add an
+  # entry here and a matching `sops.secrets."cosmic/<name>" = { mode = "0600"; };` below.
+  sensitiveCosmicFiles = {
+    "io.github.cosmic_utils.weather-applet/v1/latitude" = "cosmic/latitude";
+    "io.github.cosmic_utils.weather-applet/v1/longitude" = "cosmic/longitude";
+  };
+
   writeStaticFiles = concatStringsSep "\n" (
     mapAttrsToList (
       path: content:
@@ -230,6 +239,13 @@ let
 
   writeWallpaperFiles = concatStringsSep "\n" (
     mapAttrsToList (path: storePath: "install -Dm644 ${storePath} ${cosmicDir}/${path}") wallpaperFile
+  );
+
+  writeSensitiveFiles = concatStringsSep "\n" (
+    mapAttrsToList (
+      path: secretName:
+      "install -Dm600 ${config.sops.secrets.${secretName}.path} ${cosmicDir}/${path}"
+    ) sensitiveCosmicFiles
   );
 in
 {
@@ -242,6 +258,14 @@ in
   };
 
   config = mkIf cfg {
+    sops = {
+      defaultSopsFile = lib.mkDefault ../../../../sops-nix/sops.yaml;
+      defaultSopsFormat = lib.mkDefault "yaml";
+      age.keyFile = lib.mkDefault "/home/patrick/.config/sops/age/keys.txt";
+      secrets."cosmic/latitude" = { mode = "0600"; };
+      secrets."cosmic/longitude" = { mode = "0600"; };
+    };
+
     home.packages = with pkgs; [
       cosmic-applets
       cosmic-ext-applet-caffeine
@@ -250,9 +274,11 @@ in
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
     ];
-    home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    # "setupSecrets" is the DAG entry added by sops-nix homeManagerModules.
+    home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" "setupSecrets" ] ''
       ${writeStaticFiles}
       ${writeWallpaperFiles}
+      ${writeSensitiveFiles}
     '';
   };
 }
