@@ -13,7 +13,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    sops.secrets."syncthing/hub/device-id" = {};
+    sops.secrets."syncthing/hub/device-id" = { owner = "patrick"; };
 
     networking.firewall.allowedTCPPorts = [ 22000 ];
     networking.firewall.allowedUDPPorts = [ 21027 ];
