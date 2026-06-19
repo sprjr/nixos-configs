@@ -12,6 +12,9 @@
     yaml-language-server # yaml + cloudformation
     vscode-langservers-extracted # json, html, css
     marksman # markdown
+    terraform-ls # hcl / terraform / opentofu
+    shfmt # bash/shell formatter
+    prettier # markdown formatter
     # PowerShell Editor Services has no clean nixpkgs derivation.
     # Run `pwsh -Command "Install-Module PowerShellEditorServices"` manually
     # if PowerShell LSP is needed, then add the server config below.
@@ -57,6 +60,8 @@
       [[language]]
       name             = "bash"
       language-servers = ["bash-language-server"]
+      formatter        = { command = "shfmt", args = ["-i", "2", "-"] }
+      auto-format      = true
       file-types       = [
         "sh", "bash", "zsh", "ash", "ebuild", "eclass",
         "env", "install", "profile", "PKGBUILD",
@@ -134,6 +139,19 @@
       [[language]]
       name             = "markdown"
       language-servers = ["marksman"]
+      formatter        = { command = "prettier", args = ["--parser", "markdown"] }
+      auto-format      = true
+
+      # TERRAFORM / HCL (OpenTofu compatible)
+      [language-server.terraform-ls]
+      command = "terraform-ls"
+      args    = ["serve"]
+
+      [[language]]
+      name             = "hcl"
+      language-servers = ["terraform-ls"]
+      formatter        = { command = "tofu", args = ["fmt", "-"] }
+      auto-format      = true
     '';
   };
 }
