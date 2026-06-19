@@ -4,7 +4,6 @@
   imports = [
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
-    ./modules/tools/helix/theme-nord.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/btop.nix
     ./modules/user-space/zellij/zellij-config.nix
