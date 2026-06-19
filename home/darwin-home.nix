@@ -12,7 +12,6 @@
     ./modules/tools/claude.nix
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
-    ./modules/tools/helix/theme-nord.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
