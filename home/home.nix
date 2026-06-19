@@ -20,6 +20,7 @@
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
     ./modules/tools/helix/theme-nord.nix
+    ./modules/tools/helix/theme-catppuccin-mocha.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout.nix
     ./modules/user-space/zellij/zellij-config.nix
