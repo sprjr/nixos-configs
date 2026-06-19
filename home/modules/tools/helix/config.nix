@@ -8,7 +8,7 @@
 {
   home.file.".config/helix/config.toml" = {
     text = ''
-      theme = "catppuccin_latte"
+      theme = "catppuccin_mocha"
 
       [editor]
       line-number = "absolute"
