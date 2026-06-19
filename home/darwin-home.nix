@@ -40,5 +40,9 @@
   ];
   nixpkgs.config.allowUnfree = true;
 
+  programs.zsh.profileExtra = ''
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  '';
+
   home.stateVersion = "24.05";
 }
