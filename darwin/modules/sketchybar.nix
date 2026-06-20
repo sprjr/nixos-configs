@@ -320,13 +320,13 @@ in {
         ############## PRIMARY DISPLAY SPACES ##############
           # APPLE ICON
           sketchybar -m --add item apple left \
-            --set apple icon= \
+            --set apple icon=$'\xef\x85\xb9' \
             --set apple icon.font="JetBrainsMono Nerd Font Mono:Regular:20.0" \
             --set apple label.padding_right=0 \
 
-          # SPACE 1: CODE ICON (launches Ghostty terminal, active on space 2)
+          # SPACE 1: CODE ICON (launches Ghostty terminal, active on space 1)
           sketchybar -m --add space code left \
-            --set code icon= \
+            --set code icon=$'\xef\x84\xa1' \
             --set code associated_space=1 \
             --set code icon.padding_left=5 \
             --set code icon.padding_right=5 \
@@ -355,7 +355,7 @@ in {
 
           # SPACE 3: MUSIC ICON (opens Spotify in browser)
           sketchybar -m --add space music left \
-            --set music icon= \
+            --set music icon=$'\xef\x80\x81' \
             --set music icon.highlight_color=0xff8CABC8 \
             --set music associated_display=1 \
             --set music associated_space=5 \
@@ -426,7 +426,7 @@ in {
           # MOTION SENSOR (binary_sensor.lumi_lumi_motion_ac02_occupancy)
           # Icon: bright = active or recent (<5m), white = 5-60m ago, dim = >1h ago
           sketchybar -m --add item ha_motion left \
-            --set ha_motion icon=󰀛 \
+            --set ha_motion icon=$'\xef\x80\x87' \
             --set ha_motion icon.color=0xff57627A \
             --set ha_motion icon.padding_left=5 \
             --set ha_motion icon.padding_right=5 \
@@ -484,6 +484,14 @@ in {
             --set timer popup.background.border_width=2 \
             --set timer popup.background.border_color=0xff57627A \
             --set timer click_script="sketchybar --set timer popup.drawing=toggle" \
+
+          sketchybar -m --add item timer.2m popup.timer \
+            --set timer.2m icon=󱎫 \
+            --set timer.2m label="2 min" \
+            --set timer.2m icon.padding_left=8 \
+            --set timer.2m icon.padding_right=5 \
+            --set timer.2m label.padding_right=10 \
+            --set timer.2m click_script="${timer-start-sh}/bin/timer-start.sh 120" \
 
           sketchybar -m --add item timer.5m popup.timer \
             --set timer.5m icon=󱎫 \
