@@ -209,7 +209,10 @@ let
 from datetime import datetime, timezone
 delta = datetime.now(timezone.utc) - datetime.fromisoformat('$LAST_CHANGED')
 secs = int(delta.total_seconds())
-label = (str(secs) + 's ago') if secs < 60 else ((str(secs // 60) + 'm ago') if secs < 3600 else (str(secs // 3600) + 'h ago'))
+if secs < 60: label = str(secs) + 's ago'
+elif secs < 3600: label = str(secs // 60) + 'm ago'
+elif secs < 18000: label = str(secs // 3600) + 'h ago'
+else: label = '5h+ ago'
 color = '0xff81a1c1' if secs < 300 else ('0xffeceff4' if secs < 3600 else '0xff57627A')
 print(label)
 print(color)
