@@ -243,7 +243,8 @@ print(color)
     done
     rm -f "$PIDFILE"
     sketchybar --set timer label="done" icon.color=0xff81a1c1
-    osascript -e 'display notification "Timer complete!" with title "Timer"'
+    afplay /System/Library/Sounds/Glass.aiff
+    osascript -e 'display notification "Timer complete!" with title "Timer" sound name "Glass"'
     sleep 3
     sketchybar --set timer label="" icon.color=0xffeceff4
   '';
