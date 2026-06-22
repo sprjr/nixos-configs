@@ -26,7 +26,7 @@ in
       "voyager"
       "seanix"
       "defiant"
-      "seair"
+     #"seair"
     ];
   };
 
