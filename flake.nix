@@ -54,6 +54,10 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    thyx = {
+      url = "github:rccyx/thyx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-cachyos-kernel = {
       url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -84,6 +88,7 @@
       nixos-hardware,
       omarchy-nix,
       sops-nix,
+      thyx,
       nixpkgs,
       nixpkgs-stable,
       spicetify-nix,
@@ -110,6 +115,7 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/nx-01.nix
+              ./nixos/modules/desktop/cosmic.nix
               ./nixos/nx-01.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
@@ -180,6 +186,7 @@
             modules = [
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
+              thyx.nixosModules.default
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
               ./nixos/modules/system/sops.nix
@@ -213,7 +220,7 @@
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
               ./nixos/modules/network/scripts/net_watchdog.nix
-             #./nixos/modules/homelab/attic.nix
+              #./nixos/modules/homelab/attic.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/homelab/nextcloud.nix
               ./nixos/modules/homelab/storage/garage-systemd-service.nix

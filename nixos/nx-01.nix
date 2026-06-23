@@ -17,12 +17,6 @@ in
     ./modules/system/sops.nix
   ];
 
-  services = {
-    # Cosmic
-    displayManager.cosmic-greeter.enable = true;
-    desktopManager.cosmic.enable = true;
-  };
-
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
