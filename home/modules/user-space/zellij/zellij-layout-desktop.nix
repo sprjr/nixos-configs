@@ -1,4 +1,9 @@
-{ config, pkgs, home-manager, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
 
 let
   zellijLayoutsContentDesktop = ''
@@ -11,12 +16,7 @@ let
       }
       tab name="work" {
         pane split_direction="Vertical" {
-          pane split_direction="Horizontal" {
-            pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {
-              pane command="yazi" {}
-              pane command="" {}
-            }
-          }
+          pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {}
           pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {}
         }
       }
