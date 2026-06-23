@@ -18,6 +18,7 @@
     ./modules/user-space/zellij/zellij-config.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
+    ./modules/tools/obsidian-daily-carry.nix
     ./modules/general/packages.nix
   ];
 
