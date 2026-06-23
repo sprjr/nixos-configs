@@ -209,7 +209,10 @@ let
 from datetime import datetime, timezone
 delta = datetime.now(timezone.utc) - datetime.fromisoformat('$LAST_CHANGED')
 secs = int(delta.total_seconds())
-label = (str(secs) + 's ago') if secs < 60 else ((str(secs // 60) + 'm ago') if secs < 3600 else (str(secs // 3600) + 'h ago'))
+if secs < 60: label = str(secs) + 's ago'
+elif secs < 3600: label = str(secs // 60) + 'm ago'
+elif secs < 18000: label = str(secs // 3600) + 'h ago'
+else: label = '5h+ ago'
 color = '0xff81a1c1' if secs < 300 else ('0xffeceff4' if secs < 3600 else '0xff57627A')
 print(label)
 print(color)
@@ -234,6 +237,7 @@ print(color)
     END=$(($(date +%s) + DURATION))
     PIDFILE=/tmp/sketchybar-timer.pid
     echo $$ > "$PIDFILE"
+    sketchybar --set timer label.drawing=on
     while [ "$(date +%s)" -lt "$END" ]; do
       REMAINING=$((END - $(date +%s)))
       MINS=$((REMAINING / 60))
@@ -243,9 +247,10 @@ print(color)
     done
     rm -f "$PIDFILE"
     sketchybar --set timer label="done" icon.color=0xff81a1c1
-    osascript -e 'display notification "Timer complete!" with title "Timer"'
+    afplay /System/Library/Sounds/Glass.aiff
+    osascript -e 'display notification "Timer complete!" with title "Timer" sound name "Glass"'
     sleep 3
-    sketchybar --set timer label="" icon.color=0xffeceff4
+    sketchybar --set timer label="" label.drawing=off icon.color=0xffeceff4
   '';
   # Timer: kill any running countdown, then start a new one in background
   timer-start-sh = pkgs.writeShellScriptBin "timer-start.sh" ''
@@ -336,6 +341,8 @@ in {
             --set code background.color=0xff57627A  \
             --set code background.height=21 \
             --set code background.padding_left=7 \
+            --set code icon.highlight_color=0xff8CABC8 \
+            --set code script="${space-sh}/bin/space.sh" \
             --set code click_script="$HOME/.nix-profile/bin/ghostty" \
 
           # SPACE 2: WEB ICON (disabled)
@@ -353,12 +360,9 @@ in {
           #   --set web background.padding_left=12 \
           #   --set web click_script="open -a Firefox.app" \
 
-          # SPACE 3: MUSIC ICON (opens Spotify in browser)
-          sketchybar -m --add space music left \
+          # MUSIC ICON (opens Spotify in browser, no space tracking)
+          sketchybar -m --add item music left \
             --set music icon=$'\xef\x80\x81' \
-            --set music icon.highlight_color=0xff8CABC8 \
-            --set music associated_display=1 \
-            --set music associated_space=5 \
             --set music icon.padding_left=5 \
             --set music icon.padding_right=5 \
             --set music label.padding_right=0 \
@@ -427,7 +431,7 @@ in {
           # Icon: bright = active or recent (<5m), white = 5-60m ago, dim = >1h ago
           sketchybar -m --add item ha_motion left \
             --set ha_motion icon=$'\xef\x80\x87' \
-            --set ha_motion icon.color=0xff57627A \
+            --set ha_motion icon.color=0xffeceff4 \
             --set ha_motion icon.padding_left=5 \
             --set ha_motion icon.padding_right=5 \
             --set ha_motion label.padding_right=5 \
@@ -473,6 +477,7 @@ in {
           sketchybar -m --add item timer left \
             --set timer icon=󱎫 \
             --set timer label="" \
+            --set timer label.drawing=off \
             --set timer icon.padding_left=5 \
             --set timer icon.padding_right=5 \
             --set timer label.padding_right=5 \
