@@ -64,13 +64,22 @@ let
 
     print(f"Carried {len(carried)} item(s): {yesterday} Tomorrow -> {today} Today")
   '';
-in {
+in
+{
   launchd.agents.obsidian-daily-carry = {
     enable = true;
     config = {
       Label = "com.patrick.obsidian-daily-carry";
-      ProgramArguments = [ "${carryScript}" "${vaultDir}" ];
-      StartCalendarInterval = [ { Hour = 9; Minute = 0; } ];
+      ProgramArguments = [
+        "${carryScript}"
+        "${vaultDir}"
+      ];
+      StartCalendarInterval = [
+        {
+          Hour = 8;
+          Minute = 15;
+        }
+      ];
       StandardOutPath = "/tmp/obsidian-daily-carry.log";
       StandardErrorPath = "/tmp/obsidian-daily-carry.log";
     };
