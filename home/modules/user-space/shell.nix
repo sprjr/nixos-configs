@@ -9,6 +9,7 @@
   home.sessionVariables = {
     EDITOR = "hx";
     VISUAL = "hx";
+    SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
   };
   # .bashrc configuration
   programs = {
