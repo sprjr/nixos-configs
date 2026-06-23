@@ -15,6 +15,8 @@
     ./modules/tools/opencode.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
+    ./modules/tools/helix/config.nix
+    ./modules/tools/helix/languages.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
