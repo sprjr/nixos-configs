@@ -23,7 +23,11 @@ in
     #displayManager.gdm.enable = true;
     #desktopManager.gnome.enable = true;
     # Plasma
-    displayManager.sddm.enable = true;
+    #displayManager.sddm.enable = true;
+    displayManager.sddm = {
+      thyx.enable = true;
+      wayland.enable = true;
+    };
     desktopManager.plasma6.enable = true;
     # Cosmic
     #displayManager.cosmic-greeter.enable = true;
