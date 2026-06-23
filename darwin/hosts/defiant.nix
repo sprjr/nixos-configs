@@ -13,7 +13,7 @@ in
   imports = [
     home-manager.darwinModules.home-manager
     heywoodlh-darwin-modules
-    #../modules/sketchybar.nix
+    ../modules/sketchybar.nix
   ];
 
   system = {
@@ -122,7 +122,7 @@ in
   system = {
     defaults = {
       NSGlobalDomain = {
-        _HIHideMenuBar = false;
+        _HIHideMenuBar = true;
       };
       controlcenter = {
         BatteryShowPercentage = true;
@@ -138,7 +138,7 @@ in
 
   # Sketchybar and Yabai
   #heywoodlh.darwin.sketchybar.enable = true;
-  #patrick.darwin.sketchybar.enable = false;
+  patrick.darwin.sketchybar.enable = true;
   heywoodlh.darwin.yabai.enable = true;
 
   system.stateVersion = 4;
