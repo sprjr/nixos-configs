@@ -11,7 +11,12 @@ let
       }
       tab name="work" {
         pane split_direction="Vertical" {
-          pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {}
+          pane split_direction="Horizontal" {
+            pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {
+              pane command="yazi" {}
+              pane command="" {}
+            }
+          }
           pane cwd="${config.home.homeDirectory}/.nixos/nixos-configs" {}
         }
       }

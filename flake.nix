@@ -212,6 +212,7 @@
               ./nixos/modules/disks/unraid-nextcloud.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
+              ./nixos/modules/network/scripts/net_watchdog.nix
              #./nixos/modules/homelab/attic.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/homelab/nextcloud.nix

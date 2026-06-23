@@ -22,7 +22,12 @@ in
 
   services.syncthing-hub = {
     enable = true;
-    clientDevices = [ "voyager" "seanix" "defiant" ];
+    clientDevices = [
+      "voyager"
+      "seanix"
+      "defiant"
+     #"seair"
+    ];
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
