@@ -1,7 +1,55 @@
+{ config, ... }:
+
 {
+  home.file.".config/btop/themes/catppuccin_mocha.theme".text = ''
+    # Catppuccin Mocha theme for btop++
+    theme[main_bg]="#1e1e2e"
+    theme[main_fg]="#cdd6f4"
+    theme[title]="#cdd6f4"
+    theme[hi_fg]="#89b4fa"
+    theme[selected_bg]="#313244"
+    theme[selected_fg]="#cdd6f4"
+    theme[inactive_fg]="#6c7086"
+    theme[graph_text]="#f5e0dc"
+    theme[meter_bg]="#313244"
+    theme[proc_misc]="#cdd6f4"
+    theme[cpu_box]="#89b4fa"
+    theme[mem_box]="#a6e3a1"
+    theme[net_box]="#fab387"
+    theme[proc_box]="#cba6f7"
+    theme[div_line]="#6c7086"
+    theme[temp_start]="#a6e3a1"
+    theme[temp_mid]="#f9e2af"
+    theme[temp_end]="#f38ba8"
+    theme[cpu_start]="#89b4fa"
+    theme[cpu_mid]="#cba6f7"
+    theme[cpu_end]="#f38ba8"
+    theme[free_start]="#f38ba8"
+    theme[free_mid]="#fab387"
+    theme[free_end]="#a6e3a1"
+    theme[cached_start]="#f38ba8"
+    theme[cached_mid]="#fab387"
+    theme[cached_end]="#a6e3a1"
+    theme[available_start]="#f38ba8"
+    theme[available_mid]="#fab387"
+    theme[available_end]="#a6e3a1"
+    theme[used_start]="#f38ba8"
+    theme[used_mid]="#fab387"
+    theme[used_end]="#a6e3a1"
+    theme[download_start]="#a6e3a1"
+    theme[download_mid]="#89b4fa"
+    theme[download_end]="#cba6f7"
+    theme[upload_start]="#f38ba8"
+    theme[upload_mid]="#fab387"
+    theme[upload_end]="#f9e2af"
+    theme[process_start]="#89b4fa"
+    theme[process_mid]="#cba6f7"
+    theme[process_end]="#f38ba8"
+  '';
+
   home.file.".config/btop/btop.conf" = {
     text = ''
-      color_theme = "/nix/store/pjlnz14czfmq4k0pmqlkmd5bcgqcxyky-btop-1.4.0/share/btop/themes/nord.theme"
+      color_theme = "${config.home.homeDirectory}/.config/btop/themes/catppuccin_mocha.theme"
       theme_background = False
       truecolor = True
       force_tty = False

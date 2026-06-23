@@ -4,121 +4,121 @@ let
   zellijConfigContent = ''
     show_startup_tips false
 
-    theme "nord"
+    theme "catppuccin-mocha"
     themes {
-        nord {
+        catppuccin-mocha {
           text_unselected {
-            base 229 233 240
-            background 59 66 82
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 49 50 68
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           text_selected {
-            base 229 233 240
-            background 59 66 82
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 49 50 68
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           ribbon_selected {
-            base 59 66 82
-            background 163 190 140
-            emphasis_0 191 97 106
-            emphasis_1 208 135 112
-            emphasis_2 180 142 173
-            emphasis_3 129 161 193
+            base 30 30 46
+            background 166 227 161
+            emphasis_0 243 139 168
+            emphasis_1 250 179 135
+            emphasis_2 203 166 247
+            emphasis_3 137 180 250
           }
           ribbon_unselected {
-            base 59 66 82
-            background 216 222 233
-            emphasis_0 191 97 106
-            emphasis_1 229 233 240
-            emphasis_2 129 161 193
-            emphasis_3 180 142 173
+            base 30 30 46
+            background 186 194 222
+            emphasis_0 243 139 168
+            emphasis_1 205 214 244
+            emphasis_2 137 180 250
+            emphasis_3 203 166 247
           }
           table_title {
-            base 163 190 140
+            base 166 227 161
             background 0
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           table_cell_selected {
-            base 229 233 240
-            background 46 52 64
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 24 24 37
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           table_cell_unselected {
-            base 229 233 240
-            background 59 66 82
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 49 50 68
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           list_selected {
-            base 229 233 240
-            background 46 52 64
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 24 24 37
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           list_unselected {
-            base 229 233 240
-            background 59 66 82
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 163 190 140
-            emphasis_3 180 142 173
+            base 205 214 244
+            background 49 50 68
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 166 227 161
+            emphasis_3 203 166 247
           }
           frame_selected {
-            base 163 190 140
+            base 166 227 161
             background 0
-            emphasis_0 208 135 112
-            emphasis_1 136 192 208
-            emphasis_2 180 142 173
+            emphasis_0 250 179 135
+            emphasis_1 137 180 250
+            emphasis_2 203 166 247
             emphasis_3 0
           }
           frame_highlight {
-            base 208 135 112
+            base 250 179 135
             background 0
-            emphasis_0 208 135 112
-            emphasis_1 208 135 112
-            emphasis_2 208 135 112
-            emphasis_3 208 135 112
+            emphasis_0 250 179 135
+            emphasis_1 250 179 135
+            emphasis_2 250 179 135
+            emphasis_3 250 179 135
           }
           exit_code_success {
-            base 163 190 140
+            base 166 227 161
             background 0
-            emphasis_0 136 192 208
-            emphasis_1 59 66 82
-            emphasis_2 180 142 173
-            emphasis_3 129 161 193
+            emphasis_0 137 220 235
+            emphasis_1 49 50 68
+            emphasis_2 203 166 247
+            emphasis_3 137 180 250
           }
           exit_code_error {
-            base 191 97 106
+            base 243 139 168
             background 0
-            emphasis_0 235 203 139
+            emphasis_0 249 226 175
             emphasis_1 0
             emphasis_2 0
             emphasis_3 0
           }
           multiplayer_user_colors {
-            player_1 180 142 173
-            player_2 129 161 193
+            player_1 203 166 247
+            player_2 137 180 250
             player_3 0
-            player_4 235 203 139
-            player_5 136 192 208
+            player_4 249 226 175
+            player_5 137 220 235
             player_6 0
-            player_7 191 97 106
+            player_7 243 139 168
             player_8 0
             player_9 0
             player_10 0
