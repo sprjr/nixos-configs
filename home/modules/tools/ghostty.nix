@@ -12,7 +12,7 @@
        font-family = "JetBrains Mono"
        theme = Catppuccin Mocha
        bold-is-bright = true
-       background-opacity = 0.4
+       background-opacity = 0.5
        background-blur = 20
        term = screen-256color
        cursor-style = bar
