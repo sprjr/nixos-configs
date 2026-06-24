@@ -74,12 +74,7 @@ in
         "${carryScript}"
         "${vaultDir}"
       ];
-      StartCalendarInterval = [
-        {
-          Hour = 8;
-          Minute = 15;
-        }
-      ];
+      RunAtLoad = true;
       StandardOutPath = "/tmp/obsidian-daily-carry.log";
       StandardErrorPath = "/tmp/obsidian-daily-carry.log";
     };
