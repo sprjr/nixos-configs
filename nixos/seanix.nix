@@ -221,7 +221,6 @@ in
 
     # User environment
     alacritty
-    btop-cuda
     distrobox
     distrobox-tui
     duplicati
