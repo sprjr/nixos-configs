@@ -98,6 +98,7 @@ in
       "ghostty"
       "libreoffice"
       "localsend"
+      "lookaway"
       "microsoft-office"
       "microsoft-remote-desktop"
       "minecraft"
