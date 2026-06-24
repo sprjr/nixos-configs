@@ -4,7 +4,7 @@
   home.file.".config/bat/config" = {
     text = ''
       # Run `bat --list-themes` for a list of all available themes
-       --theme="Nord"
+       --theme="Catppuccin Mocha"
 
        # Show line numbers, git modifications, and file header (no grid)
        --style="numbers,changes,header"
