@@ -1,6 +1,8 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
+  home.packages = [ pkgs.btop ];
+
   home.file.".config/btop/themes/catppuccin_mocha.theme".text = ''
     # Catppuccin Mocha theme for btop++
     theme[main_bg]="#1e1e2e"
