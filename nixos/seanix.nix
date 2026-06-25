@@ -187,11 +187,6 @@ in
 
   nixpkgs.overlays = [
     (final: prev: {
-      btop = prev.btop.overrideAttrs (old: {
-        patches = (old.patches or [ ]) ++ [
-          ./hosts/seanix/patches/btop-forced-unwind.patch
-        ];
-      });
       python3Packages = prev.python3Packages.overrideScope (
         pyFinal: pyPrev: {
           textual = pyPrev.textual.overridePythonAttrs (old: {
