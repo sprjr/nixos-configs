@@ -36,6 +36,28 @@ let
     def unchecked(lines):
         return [l for l in lines if re.search(r'-\s\[ \]', l)]
 
+    def ensure_section_checkbox(text, header):
+        lines = text.splitlines(keepends=True)
+        result = []
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            if line.rstrip() == header:
+                result.append(line)
+                i += 1
+                section_lines = []
+                while i < len(lines) and not lines[i].startswith("## "):
+                    section_lines.append(lines[i])
+                    i += 1
+                has_checkbox = any(l.strip() == "- [ ]" for l in section_lines)
+                result.extend(section_lines)
+                if not has_checkbox:
+                    result.append("- [ ]\n")
+            else:
+                result.append(lines[i])
+                i += 1
+        return "".join(result)
+
     if not yesterday_file.exists():
         print(f"No yesterday note: {yesterday_file}", file=sys.stderr)
         raise SystemExit(0)
@@ -69,12 +91,16 @@ let
             result.append("\n## Today\n")
             for item in new_items:
                 result.append(item + "\n")
-        today_file.write_text("".join(result))
+        final_text = "".join(result)
+        for hdr in ("## Today", "## Tomorrow", "## Later (Include Date)"):
+            final_text = ensure_section_checkbox(final_text, hdr)
+        today_file.write_text(final_text)
         carried = new_items
     else:
-        today_file.write_text(
-            "## Today\n" + "\n".join(carried) + "\n\n## Tomorrow\n\n## Later (Include Date)\n"
-        )
+        new_text = "## Today\n" + "\n".join(carried) + "\n\n## Tomorrow\n\n## Later (Include Date)\n"
+        for hdr in ("## Today", "## Tomorrow", "## Later (Include Date)"):
+            new_text = ensure_section_checkbox(new_text, hdr)
+        today_file.write_text(new_text)
 
     print(f"Carried {len(carried)} item(s): {len(overdue)} overdue + {len(tomorrow)} tomorrow -> {today} Today")
   '';

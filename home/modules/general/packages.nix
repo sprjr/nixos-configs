@@ -43,6 +43,7 @@
       nps
       openssl
       pv
+      stirling-pdf-desktop
       rig
       russ
       rustlings
