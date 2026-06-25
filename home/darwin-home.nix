@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   home-manager,
   ...
 }:
@@ -42,6 +43,10 @@
 
   programs.zsh.profileExtra = ''
     eval "$(/opt/homebrew/bin/brew shellenv)"
+  '';
+
+  home.activation.createObsidianVault = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p "$HOME/Documents/Obsidian/Vaults"
   '';
 
   home.stateVersion = "24.05";
