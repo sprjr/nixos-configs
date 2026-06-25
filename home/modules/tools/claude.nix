@@ -10,8 +10,12 @@ let
     permissions = {
       defaultMode = "plan";
       disableBypassPermissionsMode = "disable";
-      allow = [ ];
+      allow = [
+        "Read(~/.claude/**)"
+      ];
       ask = [
+        "Edit(~/.claude/**)"
+        "Write(~/.claude/**)"
         "Read(./**)"
         "Edit(./**)"
         "Read(~/**)"
