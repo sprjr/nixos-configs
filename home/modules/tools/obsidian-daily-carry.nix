@@ -52,7 +52,7 @@ let
                 has_checkbox = any(l.strip() == "- [ ]" for l in section_lines)
                 result.extend(section_lines)
                 if not has_checkbox:
-                    result.append("- [ ]\n")
+                    result.append("- [ ] \n")
             else:
                 result.append(lines[i])
                 i += 1
