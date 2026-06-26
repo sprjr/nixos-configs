@@ -49,5 +49,7 @@
     mkdir -p "$HOME/Documents/Obsidian/Vaults"
   '';
 
+  services.syncthing.enable = true;
+
   home.stateVersion = "24.05";
 }

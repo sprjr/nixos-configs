@@ -102,7 +102,6 @@ in
       "shortcat"
       "signal"
       "steam"
-      "syncthing-app"
       "tailscale-app"
       "thunderbird"
       "vlc"
