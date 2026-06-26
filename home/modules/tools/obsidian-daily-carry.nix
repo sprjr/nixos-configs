@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  vaultDir = "/Users/patrick/Documents/Obsidian/SXR/Daily Notes";
+  vaultDir = "/Users/patrick/Documents/Obsidian/Vaults/SXR/Daily Notes";
 
   carryScript = pkgs.writeScript "obsidian-daily-carry.py" ''
     #!${pkgs.python3}/bin/python3
@@ -115,7 +115,12 @@ in
         "${vaultDir}"
       ];
       RunAtLoad = true;
-      StartCalendarInterval = [ { Hour = 8; Minute = 15; } ];
+      StartCalendarInterval = [
+        {
+          Hour = 8;
+          Minute = 15;
+        }
+      ];
       StandardOutPath = "/tmp/obsidian-daily-carry.log";
       StandardErrorPath = "/tmp/obsidian-daily-carry.log";
     };
