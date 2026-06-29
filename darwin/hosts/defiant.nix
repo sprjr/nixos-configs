@@ -97,6 +97,7 @@ in
       "firefox"
       "font-jetbrains-mono-nerd-font"
       "ghostty"
+      "google-chrome"
       "libreoffice"
       "localsend"
       "microsoft-office"
