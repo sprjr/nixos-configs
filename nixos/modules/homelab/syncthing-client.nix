@@ -30,6 +30,7 @@ in {
     systemd.services.syncthing-configure = {
       description = "Configure Syncthing hub device and obsidian-vaults folder";
       after = [ "syncthing.service" ];
+      requires = [ "syncthing.service" ];
       wants = [ "syncthing.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
@@ -76,6 +77,19 @@ in {
               \"devices\": [{\"deviceID\": \"$HUB_ID\"}],
               \"ignorePerms\": true
             }" > /dev/null
+        else
+          hub_in_folder=$(echo "$existing_folder" | \
+            jq -r --arg id "$HUB_ID" '.devices[]? | select(.deviceID == $id) | .deviceID')
+
+          if [ -z "$hub_in_folder" ]; then
+            curl -sf -X PUT \
+              -H "X-API-Key: $APIKEY" \
+              -H "Content-Type: application/json" \
+              http://127.0.0.1:8384/rest/config/folders/obsidian-vaults \
+              --data "$(echo "$existing_folder" | jq --arg id "$HUB_ID" \
+                '.devices += [{"deviceID": $id}]')" \
+              > /dev/null
+          fi
         fi
       '';
     };
