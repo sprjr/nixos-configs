@@ -234,7 +234,6 @@ in
     gh-dash
     ghostty
     gimp
-    google-chrome # remove anytime
     iotop
     kitty
     legcord # alt discord client
