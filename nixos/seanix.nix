@@ -298,6 +298,9 @@ in
     # Gaming
     prismlauncher
 
+    # Python
+    python313
+
     # Temporary
   ];
 
