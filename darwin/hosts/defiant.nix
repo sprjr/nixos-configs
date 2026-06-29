@@ -64,6 +64,7 @@ in
       "bash"
       "bat"
       "btop"
+      "dcmtk"
       "docker-compose"
       "duf"
       #"firefox" # re-add later
