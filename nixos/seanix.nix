@@ -296,6 +296,9 @@ in
     pkg-config
 
     # Gaming
+    lutris
+    wineWowPackages.stable
+    winetricks
     prismlauncher
 
     # Python
