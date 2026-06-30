@@ -253,6 +253,7 @@ in
     umu-launcher # Lutris alternative
     vim
     vlc
+    vulkan-tools
     zsh
 
     ### Net tools ###
