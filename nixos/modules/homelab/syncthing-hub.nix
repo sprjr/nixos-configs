@@ -143,6 +143,7 @@ in {
     };
 
     systemd.tmpfiles.rules = [
+      "d /var/lib/syncthing/.config/syncthing 0700 syncthing syncthing -"
       "d ${cfg.vaultPath} 0700 syncthing syncthing -"
     ];
   };
