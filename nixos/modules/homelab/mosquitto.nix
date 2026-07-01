@@ -1,7 +1,12 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  sops.secrets."mosquitto/mosquitto_password" = {
+  sops.secrets."mosquitto/homeassistant-password" = {
     owner = "mosquitto";
     mode = "0400";
   };
@@ -15,7 +20,7 @@
         port = 1883;
         users.homeassistant = {
           acl = [ "readwrite #" ];
-          passwordFile = config.sops.secrets."mosquitto/mosquitto_password".path;
+          passwordFile = config.sops.secrets."mosquitto/homeassistant-password".path;
         };
         settings.allow_anonymous = false;
       }
