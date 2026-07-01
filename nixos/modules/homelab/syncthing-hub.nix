@@ -62,8 +62,8 @@ in {
 
     systemd.services.syncthing-configure = {
       description = "Configure Syncthing devices and folders";
-      after = [ "syncthing.service" ];
-      wants = [ "syncthing.service" ];
+      after = [ "syncthing-setup.service" "syncthing.service" "syncthing-init.service" ];
+      requires = [ "syncthing.service" "syncthing-init.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
@@ -140,6 +140,17 @@ in {
             > /dev/null
         fi
       '';
+    };
+
+    systemd.services.syncthing-setup = {
+      description = "Ensure Syncthing config directory ownership";
+      before = [ "syncthing.service" ];
+      wantedBy = [ "syncthing.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.coreutils}/bin/install -d -m 0700 -o syncthing -g syncthing /var/lib/syncthing/.config/syncthing";
+      };
     };
 
     systemd.tmpfiles.rules = [
