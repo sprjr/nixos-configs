@@ -11,6 +11,7 @@ garage:
 mosquitto:
     mosquitto_user: ENC[AES256_GCM,data:hO8mFi4LR/N5XSRdwcAmWsNQbQ==,iv:1N1IVP6hql5COpoKnEw0yd5HuFtvch/fb8nQSzKKr9k=,tag:Qv2ij8F4hQonaBT6vajnHw==,type:str]
     mosquitto_password: ENC[AES256_GCM,data:LRPrTXZtu//m8W3GNMj8WKxgTF0=,iv:8pLB6mYrb3jCTt2gSwK1CohNHv26AtdNo71DO+MLc1s=,tag:Vy3pS/pKcqPnZ3T7tQH8zQ==,type:str]
+    homeassistant-password: ENC[AES256_GCM,data:oNBSXPBYTsuH7F+qZBHs8O1PFf0lRCJgeJTxrveer9/9pZACfyX5zFG3hkE=,iv:Ynrz/7JiYCmrK/cwe/zw0+stlICmCa90w/iAK/MIue8=,tag:Ui0T13t04dWAnwKBXJhPGw==,type:str]
 #ENC[AES256_GCM,data:hR2/qIAdF6Q9wW2geWhxvbaBC6WCylu8ew303zIEpOAvFHpw4Q==,iv:I8dsL8qOZ3TiLwbqzwK3S4o83sF97QuIunBd3lfxJ3U=,tag:P9Z03r05W/jj85Yu1SguDw==,type:comment]
 acme-email: ENC[AES256_GCM,data:w/e5L7MEmV7f9+/qDDHi/if7,iv:F13kdsmSuEioYDW7IOErQvEX7mi0oqMqjBmQaIz1iZw=,tag:AbSxYaw93eG5wBkHQARisQ==,type:str]
 cloudflare-api-token: ENC[AES256_GCM,data:oQMX0DJQyEHnjZ5awzXGhKOAcxCmkC24fOl+oEO+zToMyEguoK5ZDTofAafY2ibXiptwcUjagkuX62PxoL7g16qY,iv:UUptROKWoExTIZoE/xenLE/x+KuUKPy0A90I55+xbAc=,tag:e3+QdttpVZMImT9pidyaIQ==,type:str]
@@ -56,7 +57,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-06-20T05:37:31Z"
-    mac: ENC[AES256_GCM,data:oOcMCCCWp6PMH0ETvtl1fUuj0jGu//pXGDmTMIjIqBFbIddZMrmkAcgq5mGgPqTyinQyAbF8+C4IGF0APjTayJF+kvXhWbeV4qCLzRZ/sadYBdUz18w5MJFZ6mwnbL6EKYAvEUfgKQ/u9COu/f38A10NhfUzwhSn5AdD5BmcKLI=,iv:qE073IG4onbENV7sk8t4aRqrytWmdBhGghjg32g2qsc=,tag:k5r1UXVM9YlawlJybfcdyQ==,type:str]
+    lastmodified: "2026-06-29T18:48:37Z"
+    mac: ENC[AES256_GCM,data:MEuQCoJON8r9B4ZTDu5zZSD2D1RvsHsND8ugv/msZ3v54tL6Dp+rzUWuxKc1JS3pwcDKkx6sLCJkZsqcRhMf+jzy5LNuo/Dhk99+Z/6JWT+ZgQO4Ho/WkPaH2WJ2pr8BowFsgyEKmLsG+UF7EuZnPhZPVca1Q7VKqXFCv234wuk=,iv:5+DmzLS34d2EmRmDul5MVrWL9bQ8C8Ys7nWENVGObzk=,tag:s0M7wdMH4iU5bkZ/KD7bsA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1

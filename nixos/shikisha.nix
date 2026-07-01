@@ -30,6 +30,12 @@ in
     ];
   };
 
+  home-manager.users.patrick = {
+    # laptop-home.nix imports cosmic.nix unconditionally; disable it here since
+    # shikisha has no COSMIC DE and the cosmic sops secrets won't be present.
+    patrick.home.cosmic = lib.mkForce false;
+  };
+
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   boot.kernelPackages = pkgs.linuxPackages_zen;
 

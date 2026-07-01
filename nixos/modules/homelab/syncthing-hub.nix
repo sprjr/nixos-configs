@@ -21,7 +21,7 @@ in {
   config = lib.mkIf cfg.enable {
     sops.secrets = lib.listToAttrs (map (name: {
       name = "syncthing/device-id/${name}";
-      value = {};
+      value = { owner = "syncthing"; };
     }) cfg.clientDevices) // {
       "syncthing/hub/cert" = {
         owner = "syncthing";
@@ -62,8 +62,8 @@ in {
 
     systemd.services.syncthing-configure = {
       description = "Configure Syncthing devices and folders";
-      after = [ "syncthing.service" ];
-      wants = [ "syncthing.service" ];
+      after = [ "syncthing-setup.service" "syncthing.service" "syncthing-init.service" ];
+      requires = [ "syncthing.service" "syncthing-init.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
@@ -142,7 +142,19 @@ in {
       '';
     };
 
+    systemd.services.syncthing-setup = {
+      description = "Ensure Syncthing config directory ownership";
+      before = [ "syncthing.service" ];
+      wantedBy = [ "syncthing.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.coreutils}/bin/install -d -m 0700 -o syncthing -g syncthing /var/lib/syncthing/.config/syncthing";
+      };
+    };
+
     systemd.tmpfiles.rules = [
+      "d /var/lib/syncthing/.config/syncthing 0700 syncthing syncthing -"
       "d ${cfg.vaultPath} 0700 syncthing syncthing -"
     ];
   };

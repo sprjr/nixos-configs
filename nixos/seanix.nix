@@ -253,6 +253,7 @@ in
     umu-launcher # Lutris alternative
     vim
     vlc
+    vulkan-tools
     zsh
 
     ### Net tools ###
@@ -296,7 +297,13 @@ in
     pkg-config
 
     # Gaming
+    lutris
+    wineWowPackages.stable
+    winetricks
     prismlauncher
+
+    # Python
+    python313
 
     # Temporary
   ];

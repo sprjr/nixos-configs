@@ -18,6 +18,7 @@ let
 in {
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
   };
   services.xserver.videoDrivers = ["nvidia"];
   boot.kernelPackages = lib.mkDefault pkgs-nvidia.linuxKernel.packages.linux_zen;
