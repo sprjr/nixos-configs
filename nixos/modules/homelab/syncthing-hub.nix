@@ -21,7 +21,7 @@ in {
   config = lib.mkIf cfg.enable {
     sops.secrets = lib.listToAttrs (map (name: {
       name = "syncthing/device-id/${name}";
-      value = {};
+      value = { owner = "syncthing"; };
     }) cfg.clientDevices) // {
       "syncthing/hub/cert" = {
         owner = "syncthing";
