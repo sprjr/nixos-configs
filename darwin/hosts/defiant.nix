@@ -76,6 +76,7 @@ in
       "lsusb"
       "mtr"
       "nmap"
+      "ollama"
       "opentofu"
       "podman"
       "tldr"
