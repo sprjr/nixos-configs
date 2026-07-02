@@ -106,13 +106,20 @@ in {
           add_device ${lib.escapeShellArg name} ${lib.escapeShellArg config.sops.secrets."syncthing/device-id/${name}".path}
         '') cfg.clientDevices}
 
-        DEVICE_IDS=$(
-          {
-            ${lib.concatMapStrings (name: ''
-              echo "{\"deviceID\": \"$(cat ${lib.escapeShellArg config.sops.secrets."syncthing/device-id/${name}".path})\"}"
-            '') cfg.clientDevices}
-          } | jq -s '.'
-        )
+        # Build DEVICE_IDS from IDs that are actually registered in Syncthing.
+        # This guards against invalid IDs in secrets (wrong length, empty, etc.)
+        # that would cause Syncthing to reject the entire folder PUT with 400.
+        REGISTERED=$(curl -sf -H "X-API-Key: $APIKEY" http://127.0.0.1:8384/rest/config/devices)
+
+        TARGET_IDS='[]'
+        ${lib.concatMapStrings (name: ''
+          _id=$(cat ${lib.escapeShellArg config.sops.secrets."syncthing/device-id/${name}".path} 2>/dev/null || true)
+          [ -n "$_id" ] && TARGET_IDS=$(printf '%s' "$TARGET_IDS" | jq --arg id "$_id" '. + [$id]')
+        '') cfg.clientDevices}
+
+        DEVICE_IDS=$(printf '%s' "$REGISTERED" | \
+          jq --argjson targets "$TARGET_IDS" \
+          '[.[] | select(.deviceID as $id | $targets | index($id) != null) | {deviceID: .deviceID}]')
 
         existing=$(curl -sf -H "X-API-Key: $APIKEY" \
           http://127.0.0.1:8384/rest/config/folders/obsidian-vaults 2>/dev/null || echo "")
