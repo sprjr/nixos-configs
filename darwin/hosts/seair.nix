@@ -125,6 +125,9 @@ in
         Bluetooth = true;
         NowPlaying = true;
       };
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
