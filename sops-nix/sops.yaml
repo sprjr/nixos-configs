@@ -36,7 +36,7 @@ syncthing:
     device-id:
         nx-01: null
         prometheus: null
-        voyager: ENC[AES256_GCM,data:I7FaOE3kbm3KJpAr5hsSU2/53Uf8w3D3OkVB/IrigvOarDtj82InFqqfoBWjg+VOvAKcaRMCtb0Rh5Kof68=,iv:Psi7b3zndaYLJQAiFcMCvZ3k+o3VAbr69zQ6FnZm6NE=,tag:l1ZbsmEUzZp3uiDhacOVzA==,type:str]
+        #ENC[AES256_GCM,data:TXgtojwApr2LojVpNWSSV4OwHAxNWzi+Tn4BD+cS2852+cFHwfBSK/C78OkzO7d+IPLd5F/wV/hKJ547pz0bSl2QmNwYg5Q=,iv:h0vx30JofemWcdvIpSNlqIS5j+7ahrnDe4x16pEOO7U=,tag:zETtNIZwNURrpafajl/QzQ==,type:comment]
         seanix: ENC[AES256_GCM,data:hPpluftvbGDV2/7vkdrBoLrAAx9i1zQlfUQAdyS1NURqsgi/gbhts1JIiwHonBFoosaRTJckXfos6FmkrQE7,iv:LyVx574SqsQ1hB7eMmKvrDpykCS/HTB0WM2me/pUv2k=,tag:zqnpQtrZ1+2rsPxmfQuw4A==,type:str]
         trixos: null
         seair: ENC[AES256_GCM,data:/u9/XZnLhZBa3tljtMTT59z8A5HXLgQqVhCJDoJrJgeG2SxpbyPzx+1THVSQqHGEYKqYIAb3JLXL2O5bOXqH,iv:p7AJkkCvqpd6CztUKVroZ6da/BzHd+dFVm9T4czbLaY=,tag:f7ypD4og3bUhWnDGV5N2dw==,type:str]
@@ -57,7 +57,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-02T01:27:09Z"
-    mac: ENC[AES256_GCM,data:ecl3ajk0iBeNTku2LH7W1Qot630gGK3uPkO+DxTZcBAd1BvFHDFZPNCVJzxE2YauqRQ6vX+pstlhCHxpF7dwYn4EwU+40QoVgoxYUTugJkVUdjaAKNBJL5CZUmOme1jnvr8UVmPdT2ulY4maSFYqnNurUdWPENH87I7H+BwkIeA=,iv:vSn8w1YfeScJIbRkMt8IQc5JzgpUNyNk7wJ5a6APN58=,tag:fK8sx+sBKYR74N1Yyp2kWg==,type:str]
+    lastmodified: "2026-07-02T21:11:22Z"
+    mac: ENC[AES256_GCM,data:gcDww/OSldA/p8pzK0PfEtPQchg8dRUCzEOE0DMjY/gWoPXtv0Jqr9b8Bc45mZQtiPbTt1RnrON3RjwrrrF5Fiyp3+vkqHKxQjLWCxJq40neLPE3hSGfXurS/CdooatuLUXSxCPCbTNvoc0A20U4QNFLG5PnxB6L8T+CdkrXfag=,iv:ss2wH2PXk6IXpSoqP/SrY7BqV3m/eoWtfOfa1UMGS1o=,tag:b79Vtz6l9VhWNQrlcZeUpg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
