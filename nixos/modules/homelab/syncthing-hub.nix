@@ -69,10 +69,12 @@ in {
         Type = "oneshot";
         RemainAfterExit = true;
         User = "syncthing";
+        Restart = "on-failure";
+        RestartSec = "30s";
       };
       path = with pkgs; [ curl libxml2 jq ];
       script = ''
-        for i in $(seq 1 30); do
+        for i in $(seq 1 60); do
           curl -sf http://127.0.0.1:8384/rest/system/ping > /dev/null && break
           sleep 2
         done
