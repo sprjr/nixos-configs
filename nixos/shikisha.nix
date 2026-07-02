@@ -23,7 +23,7 @@ in
   services.syncthing-hub = {
     enable = true;
     clientDevices = [
-      "voyager"
+      # "voyager"  # device ID removed from sops.yaml; re-add after getting correct 63-char ID
       "seanix"
       "defiant"
      #"seair"
