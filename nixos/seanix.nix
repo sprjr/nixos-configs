@@ -250,7 +250,7 @@ in
     sops
     thunderbird
     typst
-    umu-launcher # Lutris alternative
+    umu-launcher # Lutris supplement
     vim
     vlc
     vulkan-tools
@@ -297,9 +297,9 @@ in
     pkg-config
 
     # Gaming
-    #lutris
-    #wineWowPackages.stable
-    #winetricks
+    lutris
+    wineWowPackages.stable
+    winetricks
     prismlauncher
 
     # Python
