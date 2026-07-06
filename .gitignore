@@ -18,6 +18,9 @@ scripts/
 # Ignore backup files
 *bak*
 
+# Personal docs
+docs/
+
 # Ignore home-manager results
 result
 
