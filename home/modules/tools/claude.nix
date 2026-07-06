@@ -16,6 +16,8 @@ let
       ask = [
         "Edit(~/.claude/**)"
         "Write(~/.claude/**)"
+        "Write(~/.claude/plans/**)"
+        "Edit(~/.claude/plans/**)"
         "Read(./**)"
         "Edit(./**)"
         "Read(~/**)"
@@ -28,9 +30,24 @@ let
         "Task"
       ];
       deny = [
-        "Read(/**)"
-        "Edit(/**)"
-        "Write(/**)"
+        "Read(/etc/**)"
+        "Edit(/etc/**)"
+        "Write(/etc/**)"
+        "Read(/nix/**)"
+        "Edit(/nix/**)"
+        "Write(/nix/**)"
+        "Read(/usr/**)"
+        "Edit(/usr/**)"
+        "Write(/usr/**)"
+        "Read(/var/**)"
+        "Edit(/var/**)"
+        "Write(/var/**)"
+        "Read(/boot/**)"
+        "Edit(/boot/**)"
+        "Write(/boot/**)"
+        "Read(/sys/**)"
+        "Edit(/sys/**)"
+        "Write(/sys/**)"
         "Bash(*)"
       ];
     };
