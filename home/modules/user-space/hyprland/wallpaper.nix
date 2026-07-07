@@ -24,5 +24,8 @@ in
         wallpaper = [ ",${wallpaper}" ];
       };
     };
+
+    # Started from Hyprland exec-once, not graphical-session.target (foreign-DE safe).
+    systemd.user.services.hyprpaper.Install.WantedBy = mkForce [ ];
   };
 }

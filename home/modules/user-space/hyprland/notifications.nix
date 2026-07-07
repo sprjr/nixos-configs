@@ -56,5 +56,9 @@ in
         }
       '';
     };
+
+    # Started from Hyprland exec-once, not graphical-session.target, so it never runs under
+    # a foreign DE (COSMIC/KDE).
+    systemd.user.services.swaync.Install.WantedBy = mkForce [ ];
   };
 }

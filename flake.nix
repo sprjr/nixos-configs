@@ -117,6 +117,7 @@
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/desktop/cosmic.nix
               ./nixos/nx-01.nix
+              ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -172,6 +173,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/prometheus.nix
               ./nixos/prometheus.nix
+              ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -189,6 +191,7 @@
               thyx.nixosModules.default
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
+              ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
@@ -243,6 +246,7 @@
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/voyager.nix
               ./nixos/modules/desktop/cosmic.nix
+              ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix

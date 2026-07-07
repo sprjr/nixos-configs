@@ -38,9 +38,9 @@ in
     ./hypridle.nix
     ./wallpaper.nix
     ./notifications.nix
-    ./scripts/weather.nix
-    ./scripts/ip.nix
-    ./scripts/stats.nix
+    ./widgets/weather.nix
+    ./widgets/ip.nix
+    ./widgets/stats.nix
   ];
 
   options.patrick.home.hyprland = {
@@ -103,7 +103,6 @@ in
       playerctl
       polkit_gnome
       cosmic-files
-      hyprpolkitagent
     ];
 
     wayland.windowManager.hyprland = {
@@ -124,11 +123,16 @@ in
           no_hardware_cursors = true;
         };
 
+        # Session daemons are launched here (only inside a Hyprland session) rather than via
+        # their home-manager systemd units, whose WantedBy=graphical-session.target would
+        # otherwise start them under COSMIC/KDE too. The units are neutralized (WantedBy=[])
+        # in their respective modules.
         exec-once = [
-          "systemctl --user start hyprpolkitagent"
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "waybar"
           "swaync"
           "hyprpaper"
+          "hypridle"
         ];
 
         general = {

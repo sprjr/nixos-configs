@@ -8,7 +8,7 @@ with lib;
 
 # Top waybar. Built-in modules for workspaces/window/clock/cpu/memory/temperature/network/
 # pulseaudio/tray; custom modules (weather, public/private IP, gpu, swaync toggle) are
-# provided as PATH binaries by scripts/*.nix and notifications.nix. Temperature uses no
+# provided as PATH binaries by widgets/*.nix and notifications.nix. Temperature uses no
 # hardcoded hwmon path (waybar auto-detects). battery is shown only when the `battery`
 # option is set, gpu only when `gpu` is set. `waybarExtra` appends module names.
 # Catppuccin Mocha styling. Launched via exec-once in default.nix (no systemd unit).

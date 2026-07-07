@@ -9,7 +9,15 @@
 
 let
   system = pkgs.stdenv.hostPlatform.system;
-  pkgs-stable = nixpkgs-stable.legacyPackages.${system};
+  # Instantiated with config (not legacyPackages) so bitwarden-desktop's flagged Electron
+  # is permitted; legacyPackages ignores the system-level nixpkgs.config.
+  pkgs-stable = import nixpkgs-stable {
+    inherit system;
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [ "electron-39.8.10" ];
+    };
+  };
 in
 {
   imports = [
@@ -234,7 +242,7 @@ in
 
       # User environment
       btop
-      pkgs-stable.bitwarden
+      pkgs-stable.bitwarden-desktop
       pkgs-stable.bitwarden-cli
       discord
       duplicati

@@ -36,5 +36,9 @@ in
         ];
       };
     };
+
+    # Started from Hyprland exec-once, not graphical-session.target, so it never locks the
+    # screen or manages idle while the user is in COSMIC/KDE.
+    systemd.user.services.hypridle.Install.WantedBy = mkForce [ ];
   };
 }

@@ -18,6 +18,7 @@
     ./modules/user-space/bat.nix
     ./modules/user-space/colors.nix
     ./modules/user-space/cosmic/cosmic.nix
+    ./modules/user-space/hyprland
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
     ./modules/user-space/shell.nix
@@ -27,6 +28,14 @@
 
   # Enable Cosmic
   patrick.home.cosmic = true;
+
+  # Independent, login-selectable Hyprland session (additive to COSMIC). Session daemons
+  # only run inside Hyprland, so this stays dormant under COSMIC. Selectable only on hosts
+  # whose flake entry also imports nixos/modules/desktop/hyprland.nix.
+  patrick.home.hyprland = {
+    enable = true;
+    battery = true;
+  };
 
   # Git configuration
   programs.git = {
