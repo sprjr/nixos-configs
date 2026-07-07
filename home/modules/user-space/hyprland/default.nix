@@ -1,0 +1,213 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+with lib;
+
+# Fresh, system-agnostic Hyprland session mirroring the patrick.home.cosmic gating pattern
+# (home/modules/user-space/cosmic/cosmic.nix). Gated behind patrick.home.hyprland.enable
+# (default false) so importing the module is inert until a host opts in. Runs unchanged on
+# single-monitor laptops, docked laptops, and seanix's three-monitor Nvidia desktop.
+let
+  cfg = config.patrick.home.hyprland;
+
+  # Catppuccin Mocha border colors (rest of the palette lives per-app).
+  activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
+  inactiveBorder = "rgba(313244aa)";
+
+  # Nvidia Wayland session env (seanix). Driver/DRM/modeset stay in nvidia-seanix.nix —
+  # this only sets the compositor-side environment.
+  nvidiaEnv = optionals (cfg.gpu == "nvidia") [
+    "LIBVA_DRIVER_NAME,nvidia"
+    "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+    "GBM_BACKEND,nvidia-drm"
+    "NVD_BACKEND,direct"
+    "WLR_NO_HARDWARE_CURSORS,1"
+  ];
+in
+{
+  imports = [
+    ./keybinds.nix
+    ./monitors.nix
+    ./fuzzel.nix
+    ./waybar.nix
+    ./hyprlock.nix
+    ./hypridle.nix
+    ./wallpaper.nix
+    ./notifications.nix
+    ./scripts/weather.nix
+    ./scripts/ip.nix
+    ./scripts/stats.nix
+  ];
+
+  options.patrick.home.hyprland = {
+    enable = mkEnableOption "Patrick's independent Hyprland session";
+
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [ ",preferred,auto,auto" ];
+      description = ''
+        Hyprland monitor descriptors. Default is a single auto-fallback line that adapts to
+        any laptop/hotplugged output. Multi-monitor hosts (seanix) pass explicit descriptors
+        and should keep ",preferred,auto,auto" last for hotplug.
+      '';
+      example = [
+        "DP-2,3840x2160@60,1920x1080,1.7"
+        ",preferred,auto,auto"
+      ];
+    };
+
+    battery = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Show the waybar battery module (laptops only).";
+    };
+
+    gpu = mkOption {
+      type = types.nullOr (types.enum [ "nvidia" "amd" ]);
+      default = null;
+      description = ''
+        GPU vendor for the waybar GPU widget and Nvidia session env. null omits the widget
+        and adds no GPU env.
+      '';
+    };
+
+    waybarExtra = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Extra waybar module names appended to modules-right.";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    # sops: weather lat/lon reused from the COSMIC secrets. defaults use mkDefault so they
+    # coexist with cosmic.nix on laptops; the secrets are declared without `mode` so they
+    # merge with cosmic.nix's `mode="0600"` instead of conflicting. On seanix (no COSMIC)
+    # this block stands alone.
+    sops = {
+      defaultSopsFile = lib.mkDefault ../../../../sops-nix/sops.yaml;
+      defaultSopsFormat = lib.mkDefault "yaml";
+      age.keyFile = lib.mkDefault "/home/patrick/.config/sops/age/keys.txt";
+      secrets."cosmic/latitude" = { };
+      secrets."cosmic/longitude" = { };
+    };
+
+    home.packages = with pkgs; [
+      grim
+      slurp
+      wl-clipboard
+      brightnessctl
+      playerctl
+      polkit_gnome
+      cosmic-files
+      hyprpolkitagent
+    ];
+
+    wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      systemd.enable = true;
+      # Pin the config format so it doesn't silently switch to "lua" at stateVersion 26.05.
+      configType = "hyprlang";
+
+      settings = {
+        "$terminal" = "ghostty";
+        "$fileManager" = "cosmic-files";
+        "$mainMod" = "SUPER";
+
+        env = nvidiaEnv;
+
+        cursor = mkIf (cfg.gpu == "nvidia") {
+          no_hardware_cursors = true;
+        };
+
+        exec-once = [
+          "systemctl --user start hyprpolkitagent"
+          "waybar"
+          "swaync"
+          "hyprpaper"
+        ];
+
+        general = {
+          gaps_in = 5;
+          gaps_out = 20;
+          border_size = 2;
+          "col.active_border" = activeBorder;
+          "col.inactive_border" = inactiveBorder;
+          layout = "dwindle";
+          allow_tearing = false;
+          resize_on_border = true;
+        };
+
+        decoration = {
+          rounding = 10;
+          active_opacity = 1.0;
+          inactive_opacity = 1.0;
+          blur = {
+            enabled = true;
+            size = 3;
+            passes = 1;
+            vibrancy = 0.1696;
+          };
+        };
+
+        animations = {
+          enabled = true;
+          bezier = [
+            "easeOutQuint,0.23,1,0.32,1"
+            "almostLinear,0.5,0.5,0.75,1.0"
+            "quick,0.15,0,0.1,1"
+          ];
+          animation = [
+            "global,1,10,default"
+            "border,1,5.39,easeOutQuint"
+            "windows,1,4.79,easeOutQuint"
+            "windowsIn,1,4.1,easeOutQuint,popin 87%"
+            "windowsOut,1,1.49,linear,popin 87%"
+            "fadeIn,1,1.73,almostLinear"
+            "fadeOut,1,1.46,almostLinear"
+            "fade,1,3.03,quick"
+            "layers,1,3.81,easeOutQuint"
+            "layersIn,1,4,easeOutQuint,fade"
+            "layersOut,1,1.5,linear,fade"
+            "workspaces,1,1.94,almostLinear,fade"
+            "workspacesIn,1,1.21,almostLinear,fade"
+            "workspacesOut,1,1.94,almostLinear,fade"
+          ];
+        };
+
+        input = {
+          kb_layout = "us";
+          follow_mouse = 1;
+          sensitivity = 0;
+          touchpad = {
+            natural_scroll = true;
+            clickfinger_behavior = true;
+            disable_while_typing = true;
+          };
+        };
+
+        dwindle = {
+          pseudotile = true;
+          preserve_split = true;
+        };
+
+        gestures.workspace_swipe = true;
+
+        misc = {
+          vfr = true;
+          force_default_wallpaper = 0;
+          disable_hyprland_logo = true;
+        };
+
+        windowrulev2 = [
+          "suppressevent maximize, class:.*"
+          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        ];
+      };
+    };
+  };
+}

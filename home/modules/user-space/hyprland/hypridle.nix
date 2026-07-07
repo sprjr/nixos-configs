@@ -1,5 +1,15 @@
-{ config, pkgs, ... }:
+{ config, lib, ... }:
+
+with lib;
+
+# hypridle — idle timings carried over from the deprecated hypridle for parity:
+# 300s dim brightness, 330s lock, 350s DPMS off. Locking is routed through
+# loginctl lock-session -> lock_cmd so it composes with before_sleep_cmd.
+let
+  cfg = config.patrick.home.hyprland;
+in
 {
+  config = mkIf cfg.enable {
     services.hypridle = {
       enable = true;
       settings = {
@@ -26,4 +36,5 @@
         ];
       };
     };
+  };
 }
