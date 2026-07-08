@@ -20,6 +20,7 @@ scripts/
 
 # Personal docs
 docs/
+commands/
 
 # Ignore home-manager results
 result
