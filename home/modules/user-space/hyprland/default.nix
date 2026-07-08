@@ -131,7 +131,7 @@ in
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "waybar"
           "swaync"
-          "hyprpaper"
+          "swww-daemon"
           "hypridle"
         ];
 
@@ -187,6 +187,9 @@ in
           kb_layout = "us";
           follow_mouse = 1;
           sensitivity = 0;
+          # Flat profile disables libinput's adaptive acceleration curve for a 1:1 pointer.
+          # Lower `sensitivity` toward -1.0 to slow the pointer further.
+          accel_profile = "flat";
           touchpad = {
             natural_scroll = true;
             clickfinger_behavior = true;
@@ -195,19 +198,18 @@ in
         };
 
         dwindle = {
-          pseudotile = true;
           preserve_split = true;
         };
 
-        gestures.workspace_swipe = true;
+        # Hyprland 0.51+ gesture syntax (replaces the removed gestures:workspace_swipe).
+        gesture = [ "3, horizontal, workspace" ];
 
         misc = {
-          vfr = true;
           force_default_wallpaper = 0;
           disable_hyprland_logo = true;
         };
 
-        windowrulev2 = [
+        windowrule = [
           "suppressevent maximize, class:.*"
           "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
         ];

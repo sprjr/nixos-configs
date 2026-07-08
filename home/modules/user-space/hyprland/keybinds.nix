@@ -24,10 +24,13 @@ in
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive,"
         "$mainMod, F, togglefloating,"
-        "$mainMod, V, togglesplit,"
+        "$mainMod, V, layoutmsg, togglesplit"
         "$mainMod, semicolon, pin,"
         "$mainMod, L, exec, loginctl lock-session"
         "$mainMod SHIFT, M, exit,"
+
+        # Immediate wallpaper rotation (auto-rotates every 30m via systemd timer).
+        "$mainMod SHIFT, W, exec, hypr-wallpaper"
 
         # Vim focus movement.
         "$mainMod, h, movefocus, l"
