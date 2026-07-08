@@ -38,9 +38,12 @@ in
     ./hypridle.nix
     ./wallpaper.nix
     ./notifications.nix
+    ./keyring.nix
     ./widgets/weather.nix
     ./widgets/ip.nix
     ./widgets/stats.nix
+    ./widgets/homeassistant.nix
+    ./widgets/timer.nix
   ];
 
   options.patrick.home.hyprland = {
@@ -94,6 +97,23 @@ in
       type = types.listOf types.str;
       default = [ ];
       description = "Extra waybar module names appended to modules-right.";
+    };
+
+    homeAssistant = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Home Assistant waybar buttons (office fan/lamp toggles, office-fan-5m script, motion
+          sensor, camera feeds) mirroring the Darwin sketchybar. Requires the sops `ha_token`
+          secret to be decryptable on the host.
+        '';
+      };
+      url = mkOption {
+        type = types.str;
+        default = "http://shikisha:8123";
+        description = "Base URL of the Home Assistant instance.";
+      };
     };
   };
 
@@ -153,7 +173,10 @@ in
         general = {
           gaps_in = 5;
           gaps_out = 20;
-          border_size = 2;
+          # No active-window outline (border_size 0 removes the focus hint entirely). To keep a
+          # uniform border without the highlight instead, set border_size back to 2 and point
+          # col.active_border at inactiveBorder.
+          border_size = 0;
           "col.active_border" = activeBorder;
           "col.inactive_border" = inactiveBorder;
           layout = "dwindle";

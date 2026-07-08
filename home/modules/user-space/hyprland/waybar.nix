@@ -32,6 +32,27 @@ let
     '';
   };
 
+  ha = cfg.homeAssistant;
+
+  # Home Assistant control cluster + timer, placed left to mirror the Darwin sketchybar layout.
+  haModules = optionals ha.enable [
+    "custom/ha-fan"
+    "custom/ha-lamp"
+    "custom/ha-office-fan"
+    "custom/ha-motion"
+    "custom/ha-cameras"
+  ];
+
+  modulesLeft =
+    [
+      "hyprland/workspaces"
+    ]
+    ++ haModules
+    ++ [
+      "custom/timer"
+      "hyprland/window"
+    ];
+
   modulesRight =
     [
       "custom/weather"
@@ -68,10 +89,7 @@ in
         height = 32;
         spacing = 6;
 
-        modules-left = [
-          "hyprland/workspaces"
-          "hyprland/window"
-        ];
+        modules-left = modulesLeft;
         modules-center = [ "clock" ];
         modules-right = modulesRight;
 
@@ -170,6 +188,45 @@ in
           interval = 3;
         };
 
+        "custom/ha-fan" = {
+          exec = "waybar-ha-fan";
+          return-type = "json";
+          interval = 30;
+          on-click = "ha-toggle switch.s40lite_0_2";
+        };
+
+        "custom/ha-lamp" = {
+          exec = "waybar-ha-lamp";
+          return-type = "json";
+          interval = 30;
+          on-click = "ha-toggle switch.s40lite_0";
+        };
+
+        "custom/ha-office-fan" = {
+          format = "󰐊";
+          tooltip = false;
+          on-click = "ha-run-script script.turn_on_office_fan_for_5m";
+        };
+
+        "custom/ha-motion" = {
+          exec = "waybar-ha-motion";
+          return-type = "json";
+          interval = 30;
+        };
+
+        "custom/ha-cameras" = {
+          format = "󰄀";
+          tooltip = false;
+          on-click = "ha-cameras";
+        };
+
+        "custom/timer" = {
+          exec = "waybar-timer";
+          return-type = "json";
+          interval = 1;
+          on-click = "timer-start";
+        };
+
         "custom/notification" = {
           tooltip = false;
           format = "{icon}";
@@ -225,6 +282,12 @@ in
         #custom-public-ip,
         #custom-private-ip,
         #custom-gpu,
+        #custom-ha-fan,
+        #custom-ha-lamp,
+        #custom-ha-office-fan,
+        #custom-ha-motion,
+        #custom-ha-cameras,
+        #custom-timer,
         #custom-notification {
           padding: 0 8px;
         }
@@ -240,6 +303,21 @@ in
         #custom-gpu { color: #cba6f7; }
         #custom-weather { color: #74c7ec; }
         #clock { color: #cdd6f4; font-weight: bold; }
+        #custom-ha-office-fan,
+        #custom-ha-cameras { color: #89b4fa; }
+        #custom-ha-fan.on,
+        #custom-ha-lamp.on { color: #a6e3a1; }
+        #custom-ha-fan.off,
+        #custom-ha-lamp.off { color: #6c7086; }
+        #custom-ha-fan.unavailable,
+        #custom-ha-lamp.unavailable,
+        #custom-ha-motion.unavailable { color: #45475a; }
+        #custom-ha-motion.active,
+        #custom-ha-motion.recent { color: #a6e3a1; }
+        #custom-ha-motion.idle { color: #cdd6f4; }
+        #custom-ha-motion.stale { color: #6c7086; }
+        #custom-timer.running { color: #f9e2af; }
+        #custom-timer.idle { color: #cdd6f4; }
         #temperature.critical,
         #battery.critical { color: #f38ba8; }
       '';
