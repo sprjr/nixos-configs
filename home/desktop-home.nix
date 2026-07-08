@@ -34,6 +34,7 @@
     enable = true;
     gpu = "nvidia";
     signalGnomeKeyring = true;
+    gaming.enable = true;
     # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
     # DP-2 @1.7 isn't a clean scale — Hyprland can only use scales of the form 240/n (both axes
     # integer) and lands on 240/142 = 1.6901, giving DP-2 a real logical width of 2272 (the old

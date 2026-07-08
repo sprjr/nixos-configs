@@ -126,6 +126,27 @@ in
         Requires a one-time Signal re-link off the old kwallet6 key.
       '';
     };
+
+    gaming = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Gaming accommodations for a dedicated gaming host: fullscreen VRR (misc:vrr = 2), direct
+          scanout for fullscreen games (lower latency), and an idleinhibit-on-fullscreen window rule
+          so controller-only play never dims or locks the screen. Off elsewhere.
+        '';
+      };
+      tearing = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Allow tearing for lower latency on fixed-refresh/competitive play (adds allow_tearing, an
+          `immediate` window rule, and direct_scanout = 2). Redundant with VRR on a G-Sync/FreeSync
+          panel — leave off if you rely on VRR.
+        '';
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -194,7 +215,7 @@ in
           "col.active_border" = activeBorder;
           "col.inactive_border" = inactiveBorder;
           layout = "dwindle";
-          allow_tearing = false;
+          allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
           resize_on_border = true;
         };
 
@@ -263,12 +284,24 @@ in
         misc = {
           force_default_wallpaper = 0;
           disable_hyprland_logo = true;
-        };
+        } // optionalAttrs cfg.gaming.enable { vrr = 2; };
 
         # The stock suppressevent/nofocus windowrules were dropped: their hyprlang rule-field
         # names were reworked (0.51+ "rethonk") and are version-unstable. Re-add via the current
         # wiki syntax (or the Lua config) if the self-maximize / XWayland focus-steal fixes are
         # wanted.
+
+        # Gaming (gated on `gaming.enable`, seanix): fullscreen apps inhibit idle so controller-only
+        # play never dims/locks; `immediate` (tearing) is opt-in via `gaming.tearing`.
+        windowrule = optionals cfg.gaming.enable (
+          [ "idleinhibit fullscreen, class:.*" ]
+          ++ optional cfg.gaming.tearing "immediate, class:.*"
+        );
+
+        # Direct scanout lets a fullscreen game bypass compositing (lower latency); 2 permits tearing.
+        render = optionalAttrs cfg.gaming.enable {
+          direct_scanout = if cfg.gaming.tearing then 2 else 1;
+        };
       };
     };
   };
