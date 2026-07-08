@@ -25,4 +25,9 @@
 
   # Allow hyprlock to authenticate via PAM (password + fingerprint where fprintd is present).
   security.pam.services.hyprlock = { };
+
+  # Secret service for the Hyprland session (Electron/Signal use --password-store=gnome-libsecret).
+  # Installs the DBus-activated org.freedesktop.secrets provider so libsecret clients work when no
+  # KDE kwallet is present. Under KDE, kwallet already owns the name, so this stays dormant there.
+  services.gnome.gnome-keyring.enable = true;
 }
