@@ -35,6 +35,10 @@ in
     #system76-scheduler.enable = true;
   };
 
+  # Unlock gnome-keyring at SDDM login so the freedesktop Secret Service is available in the
+  # Hyprland session (Signal/Electron via gnome-libsecret).
+  security.pam.services.sddm.enableGnomeKeyring = true;
+
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
 
