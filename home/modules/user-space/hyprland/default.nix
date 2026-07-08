@@ -242,6 +242,9 @@ in
           # Flat profile disables libinput's adaptive acceleration curve for a 1:1 pointer.
           # Lower `sensitivity` toward -1.0 to slow the pointer further.
           accel_profile = "flat";
+          # Copied from KDE ~/.config/kcminputrc [Keyboard] (RepeatDelay/RepeatRate).
+          repeat_delay = 200;
+          repeat_rate = 50;
           touchpad = {
             natural_scroll = true;
             clickfinger_behavior = true;
