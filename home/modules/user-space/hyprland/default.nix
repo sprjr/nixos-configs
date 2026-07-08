@@ -238,9 +238,10 @@ in
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          sensitivity = -0.3;
-          # Flat profile disables libinput's adaptive acceleration curve for a 1:1 pointer.
-          # Lower `sensitivity` toward -1.0 to slow the pointer further.
+          # Matches KDE: flat accel profile + accel speed -0.6 (kcminputrc PointerAcceleration,
+          # G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the same libinput knob
+          # but global (one value for all pointers), so it's a single best-fit.
+          sensitivity = -0.6;
           accel_profile = "flat";
           # Copied from KDE ~/.config/kcminputrc [Keyboard] (RepeatDelay/RepeatRate).
           repeat_delay = 200;
