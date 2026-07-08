@@ -27,7 +27,15 @@ in
         "$mainMod, V, layoutmsg, togglesplit"
         "$mainMod, semicolon, pin,"
         "$mainMod, L, exec, loginctl lock-session"
-        "$mainMod SHIFT, M, exit,"
+        # Quit the Hyprland session back to the greeter (moved off Super+Shift+M).
+        "$mainMod SHIFT, Escape, exit,"
+
+        # Scratchpad — Hyprland's stand-in for minimize. Super+M shows/hides the special
+        # "magic" workspace; Super+Shift+M sends the focused window there (minimize). To restore
+        # one, show the scratchpad, focus the window, then Super+Shift+<n> to move it to a normal
+        # workspace.
+        "$mainMod, M, togglespecialworkspace, magic"
+        "$mainMod SHIFT, M, movetoworkspacesilent, special:magic"
 
         # Immediate wallpaper rotation (auto-rotates every 30m via systemd timer).
         "$mainMod SHIFT, W, exec, hypr-wallpaper"
