@@ -5,6 +5,10 @@
   home-manager,
   sops-nix,
   dark-wallpaper-laptop,
+  dark-wallpaper-2,
+  dark-wallpaper-3,
+  dark-wallpaper-4,
+  dark-wallpaper-5,
   ...
 }:
 
@@ -38,6 +42,13 @@
   home-manager = {
     extraSpecialArgs = {
       inherit dark-wallpaper-laptop;
+      hyprlandWallpapers = [
+        dark-wallpaper-laptop
+        dark-wallpaper-2
+        dark-wallpaper-3
+        dark-wallpaper-4
+        dark-wallpaper-5
+      ];
       configRoot = "/home/patrick/.nixos/nixos-configs";
     };
     useGlobalPkgs = true;
