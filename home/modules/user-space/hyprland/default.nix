@@ -209,10 +209,10 @@ in
           disable_hyprland_logo = true;
         };
 
-        windowrule = [
-          "suppressevent maximize, class:.*"
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-        ];
+        # The stock suppressevent/nofocus windowrules were dropped: their hyprlang rule-field
+        # names were reworked (0.51+ "rethonk") and are version-unstable. Re-add via the current
+        # wiki syntax (or the Lua config) if the self-maximize / XWayland focus-steal fixes are
+        # wanted.
       };
     };
   };
