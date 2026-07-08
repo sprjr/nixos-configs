@@ -71,6 +71,23 @@
       url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_cartoon_of_a_spider_man.jpg";
       flake = false;
     };
+    # Additional wallpapers for the Hyprland rotating set (patrick.home.hyprland).
+    dark-wallpaper-2 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png";
+      flake = false;
+    };
+    dark-wallpaper-3 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_graveyard_with_a_castle_and_trees.png";
+      flake = false;
+    };
+    dark-wallpaper-4 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_close_up_of_a_moon.png";
+      flake = false;
+    };
+    dark-wallpaper-5 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_moon_over_mountains_and_clouds.png";
+      flake = false;
+    };
   };
 
   outputs =

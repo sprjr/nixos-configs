@@ -521,6 +521,54 @@
         "url": "https://raw.githubusercontent.com/NixOS/nixos-artwork/e3a74d1c40086393f2b1b9f218497da2db0ff3ae/wallpapers/nix-wallpaper-dracula.png"
       }
     },
+    "dark-wallpaper-2": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-eEl5I+7PTVQF+Rfuw3QC9XRcuDIS+C8TK2LnJA/0rdM=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png"
+      }
+    },
+    "dark-wallpaper-3": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-XXiWn+Eo8LRQ3VbyIgh1uNP1dqQ45IKagdNbB7gpKaE=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_graveyard_with_a_castle_and_trees.png"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_graveyard_with_a_castle_and_trees.png"
+      }
+    },
+    "dark-wallpaper-4": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-W6as9lkHszYhf9ZxjqKGTTKKy/hfAKpv6tgCjDf/HIk=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_close_up_of_a_moon.png"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_close_up_of_a_moon.png"
+      }
+    },
+    "dark-wallpaper-5": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-LYAzh7jcgIF/pBGnjn6vDEjVjo+1yxfzNPPQInuVvgk=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_moon_over_mountains_and_clouds.png"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_moon_over_mountains_and_clouds.png"
+      }
+    },
     "dark-wallpaper-laptop": {
       "flake": false,
       "locked": {
@@ -12928,6 +12976,10 @@
     "root": {
       "inputs": {
         "comin": "comin",
+        "dark-wallpaper-2": "dark-wallpaper-2",
+        "dark-wallpaper-3": "dark-wallpaper-3",
+        "dark-wallpaper-4": "dark-wallpaper-4",
+        "dark-wallpaper-5": "dark-wallpaper-5",
         "dark-wallpaper-laptop": "dark-wallpaper-laptop",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
