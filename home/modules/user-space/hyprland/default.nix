@@ -115,6 +115,17 @@ in
         description = "Base URL of the Home Assistant instance.";
       };
     };
+
+    signalGnomeKeyring = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Wrap signal-desktop with --password-store=gnome-libsecret (all launch paths) and pin its
+        desktop entry so Signal uses the freedesktop Secret Service (gnome-keyring under Hyprland).
+        Enable only on hosts where Signal is installed — it pulls signal-desktop into the closure.
+        Requires a one-time Signal re-link off the old kwallet6 key.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -164,6 +175,9 @@ in
         # in their respective modules.
         exec-once = [
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          # Register the freedesktop Secret Service in the session (PAM already unlocked the login
+          # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
+          "gnome-keyring-daemon --start --components=secrets"
           "waybar"
           "swaync"
           "swww-daemon"

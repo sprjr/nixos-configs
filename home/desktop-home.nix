@@ -33,6 +33,7 @@
   patrick.home.hyprland = {
     enable = true;
     gpu = "nvidia";
+    signalGnomeKeyring = true;
     monitors = [
       "DP-2,3840x2160@60,1920x1080,1.7"
       "DP-1,2560x1440@165,4179x1080,1"
