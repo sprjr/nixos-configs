@@ -25,7 +25,7 @@ in
     # Plasma
     #displayManager.sddm.enable = true;
     displayManager.sddm = {
-      thyx.enable = true;
+      enable = true;
       wayland.enable = true;
     };
     desktopManager.plasma6.enable = true;

@@ -188,7 +188,6 @@
             modules = [
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
-              thyx.nixosModules.default
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/seanix.nix
               ./nixos/modules/desktop/hyprland.nix
