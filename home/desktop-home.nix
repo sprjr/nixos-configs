@@ -34,10 +34,14 @@
     enable = true;
     gpu = "nvidia";
     signalGnomeKeyring = true;
+    # Left-to-right chain via auto-right: each output's X derives from the previous output's
+    # actual (scale-rounded) logical width, so the fractional DP-2 scale can't cause overlap.
+    # DP-2 anchors at 0,0; tops align. (Old hardcoded offsets assumed DP-2 was exactly 2259
+    # wide, but 3840/1.7 = 2258.82 rounds elsewhere and overran DP-1.)
     monitors = [
-      "DP-2,3840x2160@60,1920x1080,1.7"
-      "DP-1,2560x1440@165,4179x1080,1"
-      "DP-3,3840x2160@60,6739x1080,1.6"
+      "DP-2,3840x2160@60,0x0,1.7"
+      "DP-1,2560x1440@165,auto-right,1"
+      "DP-3,3840x2160@60,auto-right,1.6"
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
