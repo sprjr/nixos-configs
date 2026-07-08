@@ -201,7 +201,7 @@ in
           "gnome-keyring-daemon --start --components=secrets"
           "waybar"
           "swaync"
-          "swww-daemon"
+          "awww-daemon"
           "hypridle"
         ];
 
@@ -291,13 +291,10 @@ in
         # wiki syntax (or the Lua config) if the self-maximize / XWayland focus-steal fixes are
         # wanted.
 
-        # Gaming (gated on `gaming.enable`, seanix): fullscreen apps inhibit idle so controller-only
-        # play never dims/locks; `immediate` (tearing) is opt-in via `gaming.tearing`.
-        windowrule = optionals cfg.gaming.enable (
-          [ "idleinhibit fullscreen, class:.*" ]
-          ++ optional cfg.gaming.tearing "immediate, class:.*"
-        );
-
+        # Gaming (gated on `gaming.enable`, seanix). No windowrule here: this Hyprland/hyprlang
+        # rejects rule keywords like idleinhibit/immediate ("invalid field type"), so idle-inhibit
+        # during games is left to the games' own SDL idle-inhibitors, and `immediate`-based tearing
+        # is unavailable until the windowrule syntax is resolved (likely a Lua-config migration).
         # Direct scanout lets a fullscreen game bypass compositing (lower latency); 2 permits tearing.
         render = optionalAttrs cfg.gaming.enable {
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
