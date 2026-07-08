@@ -18,6 +18,7 @@ let
     runtimeInputs = with pkgs; [
       coreutils
       libnotify
+      pulseaudio
     ];
     text = ''
       secs="$1"
@@ -33,6 +34,9 @@ let
       done
       printf 'done' > "$state"
       notify-send "Timer" "Timer complete" || true
+      # Audible chime on expiry (played twice so it's noticeable).
+      paplay ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/complete.oga || true
+      paplay ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/complete.oga || true
       sleep 3
       : > "$state"
       rm -f "$pidf"

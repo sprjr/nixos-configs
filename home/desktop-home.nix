@@ -34,14 +34,17 @@
     enable = true;
     gpu = "nvidia";
     signalGnomeKeyring = true;
-    # Left-to-right chain via auto-right: each output's X derives from the previous output's
-    # actual (scale-rounded) logical width, so the fractional DP-2 scale can't cause overlap.
-    # DP-2 anchors at 0,0; tops align. (Old hardcoded offsets assumed DP-2 was exactly 2259
-    # wide, but 3840/1.7 = 2258.82 rounds elsewhere and overran DP-1.)
+    # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
+    # DP-2 @1.7 isn't a clean scale — Hyprland can only use scales of the form 240/n (both axes
+    # integer) and lands on 240/142 = 1.6901, giving DP-2 a real logical width of 2272 (the old
+    # offset assumed 2259, so DP-2 overran DP-1 by ~13px — the cut-off edge). Neighbors sit at that
+    # real edge: DP-1 at 2272, DP-3 at 2272+2560=4832. No overlap, no gap.
+    # VERIFY with `hyprctl monitors all`: read DP-2's actual `size`/`scale`; if its width isn't 2272,
+    # set DP-1's X to that width and DP-3's X to (that width + 2560).
     monitors = [
       "DP-2,3840x2160@60,0x0,1.7"
-      "DP-1,2560x1440@165,auto-right,1"
-      "DP-3,3840x2160@60,auto-right,1.6"
+      "DP-1,2560x1440@165,2272x0,1"
+      "DP-3,3840x2160@60,4832x0,1.6"
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
