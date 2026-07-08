@@ -60,6 +60,21 @@ in
       ];
     };
 
+    remoteMonitors = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = ''
+        Monitor descriptors applied by the `mon-remote` command for a remote/streaming session
+        (e.g. a single streaming head with the desktop outputs disabled). Empty omits the command.
+        `mon-local` re-applies the `monitors` list. Both dispatch to hyprctl inside a Hyprland
+        session and fall back to the KDE ~/.local/bin/switch-*.sh scripts otherwise.
+      '';
+      example = [
+        "HDMI-A-1,1920x1080@60,0x0,1"
+        "DP-1,disable"
+      ];
+    };
+
     battery = mkOption {
       type = types.bool;
       default = false;
@@ -186,7 +201,7 @@ in
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          sensitivity = 0;
+          sensitivity = -0.3;
           # Flat profile disables libinput's adaptive acceleration curve for a 1:1 pointer.
           # Lower `sensitivity` toward -1.0 to slow the pointer further.
           accel_profile = "flat";

@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }:
@@ -15,6 +16,22 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
 
+  # User-space Bluetooth power toggle (no rfkill/root needed); blueman-manager handles pairing.
+  btToggle = pkgs.writeShellApplication {
+    name = "bt-toggle";
+    runtimeInputs = with pkgs; [
+      bluez
+      gnugrep
+    ];
+    text = ''
+      if bluetoothctl show | grep -q "Powered: yes"; then
+        bluetoothctl power off
+      else
+        bluetoothctl power on
+      fi
+    '';
+  };
+
   modulesRight =
     [
       "custom/weather"
@@ -22,6 +39,7 @@ let
       "custom/private-ip"
       "custom/public-ip"
       "pulseaudio"
+      "bluetooth"
       "cpu"
       "memory"
       "temperature"
@@ -37,6 +55,11 @@ let
 in
 {
   config = mkIf cfg.enable {
+    home.packages = [
+      pkgs.blueman
+      btToggle
+    ];
+
     programs.waybar = {
       enable = true;
       settings.mainBar = {
@@ -68,12 +91,12 @@ in
         };
 
         cpu = {
-          format = " {usage}%";
+          format = "󰻠 {usage}%";
           interval = 2;
         };
 
         memory = {
-          format = " {used:0.1f}G/{total:0.1f}G";
+          format = "󰍛 {used:0.1f}G/{total:0.1f}G";
           interval = 5;
         };
 
@@ -93,8 +116,20 @@ in
         pulseaudio = {
           format = "{icon} {volume}%";
           format-muted = "󰝟";
-          format-icons.default = [ "" "" "" ];
+          format-icons.default = [ "󰕿" "󰖀" "󰕾" ];
           on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        };
+
+        bluetooth = {
+          format = "󰂯";
+          format-connected = "󰂱 {num_connections}";
+          format-disabled = "󰂲";
+          format-off = "󰂲";
+          tooltip-format = "{controller_alias}\n{status}";
+          tooltip-format-connected = "{controller_alias}\n{device_enumerate}";
+          # Left-click toggles adapter power, right-click opens the manager.
+          on-click = "bt-toggle";
+          on-click-right = "blueman-manager";
         };
 
         battery = {
@@ -181,6 +216,7 @@ in
         #temperature,
         #network,
         #pulseaudio,
+        #bluetooth,
         #battery,
         #clock,
         #tray,
@@ -197,6 +233,9 @@ in
         #temperature { color: #fab387; }
         #network { color: #89b4fa; }
         #pulseaudio { color: #94e2d5; }
+        #bluetooth { color: #89dceb; }
+        #bluetooth.disabled,
+        #bluetooth.off { color: #6c7086; }
         #battery { color: #a6e3a1; }
         #custom-gpu { color: #cba6f7; }
         #custom-weather { color: #74c7ec; }
