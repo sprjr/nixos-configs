@@ -5,7 +5,7 @@
     nextcloud = {
       enable = true;
       datadir = "/mnt/unraid/Nextcloud/nextcloud";
-      hostName = "0.0.0.0";
+      hostName = "nextcloud.rawliyosh.com";
       package = pkgs.nextcloud32;
       database.createLocally = true;
       configureRedis = true;
@@ -21,7 +21,7 @@
       config = {
         dbtype = "pgsql";
         adminuser = "administrator";
-        adminpassFile = "/tmp/nextcloud_secrets";
+        adminpassFile = config.sops.secrets."nextcloud/adminpass".path;
       };
       settings = {
         overwriteprotocol = "https";
@@ -41,6 +41,5 @@
     };
   };
 
-  # Disable the Nextcloud Setup service, it only needs to be run to set it up
-  systemd.services.nextcloud-setup.enable = false;
+  sops.secrets."nextcloud/adminpass" = { };
 }

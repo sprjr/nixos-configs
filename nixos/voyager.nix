@@ -282,15 +282,6 @@ in
       # Pinned to stable
     ];
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "prohibit-password";
-      KbdInteractiveAuthentication = false;
-    };
-  };
-
   # Garbage collection
   nix.gc = {
     automatic = true;
