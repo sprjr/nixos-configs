@@ -208,7 +208,7 @@ in
 
         general = {
           gaps_in = 5;
-          gaps_out = 20;
+          gaps_out = 10;
           # No active-window outline (border_size 0 removes the focus hint entirely). To keep a
           # uniform border without the highlight instead, set border_size back to 2 and point
           # col.active_border at inactiveBorder.
