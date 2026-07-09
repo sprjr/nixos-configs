@@ -33,7 +33,7 @@ let
       pick="''${wallpapers[RANDOM % ''${#wallpapers[@]}]}"
       # Retry: awww-daemon may not be ready yet at session start.
       for _ in 1 2 3 4 5; do
-        if awww img "$pick" --transition-type any; then
+        if awww img "$pick" --transition-type none; then
           exit 0
         fi
         sleep 1
