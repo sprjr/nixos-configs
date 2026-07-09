@@ -201,7 +201,8 @@ in
           "gnome-keyring-daemon --start --components=secrets"
           "waybar"
           "swaync"
-          "awww-daemon"
+          # awww-daemon runs as a systemd user service (wallpaper.nix) instead of exec-once so an
+          # Nvidia startup race restarts it rather than leaving it dead (exec-once has no restart).
           "hypridle"
         ];
 
