@@ -37,15 +37,16 @@
     gaming.enable = true;
     # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
     # DP-2 @1.7 isn't a clean scale — Hyprland can only use scales of the form 240/n (both axes
-    # integer) and lands on 240/142 = 1.6901, giving DP-2 a real logical width of 2272 (the old
-    # offset assumed 2259, so DP-2 overran DP-1 by ~13px — the cut-off edge). Neighbors sit at that
-    # real edge: DP-1 at 2272, DP-3 at 2272+2560=4832. No overlap, no gap.
-    # VERIFY with `hyprctl monitors all`: read DP-2's actual `size`/`scale`; if its width isn't 2272,
+    # integer) and snaps 1.7 down to 240/144 = 1.6667 (reported as 1.67), giving DP-2 a real logical
+    # width of 3840/1.6667 = 2304. The scale is pinned to 1.6667 here so the geometry doesn't depend
+    # on that snap. Neighbors sit at DP-2's real edge: DP-1 at 2304, DP-3 at 2304+2560=4864. DP-3 @1.6
+    # is exact (240/150), width 2400. No overlap, no gap.
+    # VERIFY with `hyprctl monitors all`: read DP-2's actual `size`/`scale`; if its width isn't 2304,
     # set DP-1's X to that width and DP-3's X to (that width + 2560).
     monitors = [
-      "DP-2,3840x2160@60,0x0,1.7"
-      "DP-1,2560x1440@165,2272x0,1"
-      "DP-3,3840x2160@60,4832x0,1.6"
+      "DP-2,3840x2160@60,0x0,1.6667"
+      "DP-1,2560x1440@165,2304x0,1"
+      "DP-3,3840x2160@60,4864x0,1.6"
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
