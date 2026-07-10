@@ -50,7 +50,6 @@ let
     ++ haModules
     ++ [
       "custom/timer"
-      "hyprland/window"
     ];
 
   modulesRight =
@@ -96,11 +95,6 @@ in
         "hyprland/workspaces" = {
           on-click = "activate";
           format = "{id}";
-        };
-
-        "hyprland/window" = {
-          max-length = 60;
-          separate-outputs = true;
         };
 
         clock = {
@@ -277,7 +271,6 @@ in
         #battery,
         #clock,
         #tray,
-        #window,
         #custom-weather,
         #custom-public-ip,
         #custom-private-ip,
