@@ -278,6 +278,20 @@ in
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
     ];
+    # The upstream sops-nix activation entry is an unordered plain string, so it runs
+    # before writeBoundary — before the sops-nix.service unit is symlinked. Override it
+    # to run after writeBoundary, reload the daemon first, and tolerate first-run
+    # when the unit doesn't exist yet.
+    home.activation.sops-nix = lib.mkForce (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      systemdStatus=$(${config.systemd.user.systemctlPath} --user is-system-running 2>&1 || true)
+      if [[ "$systemdStatus" == 'running' || "$systemdStatus" == 'degraded' ]]; then
+        ${config.systemd.user.systemctlPath} --user daemon-reload
+        ${config.systemd.user.systemctlPath} --user restart sops-nix.service || true
+      else
+        echo "User systemd daemon not running. sops-nix will start on next login."
+      fi
+    '');
+
     # "sops-nix" is the activation entry added by sops-nix homeManagerModules on Linux.
     home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
       ${writeStaticFiles}
