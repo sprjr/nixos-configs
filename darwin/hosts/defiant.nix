@@ -108,6 +108,7 @@ in
       "obsidian"
       "signal"
       "steam"
+      "stirling-pdf"
       "tailscale-app"
       "thunderbird"
       "vlc"
