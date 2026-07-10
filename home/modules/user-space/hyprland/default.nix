@@ -14,6 +14,8 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
 
+  isLaptop = cfg.formFactor == "laptop";
+
   # Catppuccin Mocha border colors (rest of the palette lives per-app).
   activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
   inactiveBorder = "rgba(313244aa)";
@@ -82,6 +84,16 @@ in
       type = types.bool;
       default = false;
       description = "Show the waybar battery module (laptops only).";
+    };
+
+    formFactor = mkOption {
+      type = types.enum [ "laptop" "desktop" ];
+      default = "desktop";
+      description = ''
+        Pointer-input tuning. "desktop" keeps the flat accel profile at sensitivity -0.6
+        (gaming-mouse / KDE parity, seanix). "laptop" uses the adaptive accel profile at
+        sensitivity 0 so the trackpad tracks at normal speed.
+      '';
     };
 
     gpu = mkOption {
@@ -260,11 +272,12 @@ in
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          # Matches KDE: flat accel profile + accel speed -0.6 (kcminputrc PointerAcceleration,
-          # G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the same libinput knob
-          # but global (one value for all pointers), so it's a single best-fit.
-          sensitivity = -0.6;
-          accel_profile = "flat";
+          # Desktop matches KDE: flat accel profile + accel speed -0.6 (kcminputrc
+          # PointerAcceleration, G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the
+          # same libinput knob but global (one value for all pointers), so it's a single best-fit.
+          # Laptops flip to the adaptive profile at sensitivity 0 — flat/-0.6 makes a trackpad crawl.
+          sensitivity = if isLaptop then 0 else -0.6;
+          accel_profile = if isLaptop then "adaptive" else "flat";
           # Copied from KDE ~/.config/kcminputrc [Keyboard] (RepeatDelay/RepeatRate).
           repeat_delay = 200;
           repeat_rate = 50;

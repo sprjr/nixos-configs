@@ -35,6 +35,13 @@
   patrick.home.hyprland = {
     enable = true;
     battery = true;
+    formFactor = "laptop";
+    # Internal panel at exact 1.2 scale (240/200 — no fractional-scale snapping). External
+    # outputs stay auto (~1.0) via the fallback line, so docking is unaffected.
+    monitors = [
+      "eDP-1,preferred,auto,1.2"
+      ",preferred,auto,auto"
+    ];
   };
 
   # Git configuration

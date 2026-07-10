@@ -32,6 +32,7 @@
   # hotplug) and the Nvidia session env/GPU widget.
   patrick.home.hyprland = {
     enable = true;
+    formFactor = "desktop";
     gpu = "nvidia";
     signalGnomeKeyring = true;
     gaming.enable = true;
