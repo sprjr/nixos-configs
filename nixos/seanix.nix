@@ -92,11 +92,6 @@ in
     }
   ];
 
-  # TEMPORARY for nginx testing
-  networking.firewall.allowedTCPPorts = [
-    8443
-  ];
-
   # Enable Docker and Podman
   virtualisation = {
     docker.enable = true;
@@ -311,9 +306,6 @@ in
 
     # Temporary
   ];
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Garbage collect
   nix.gc = {

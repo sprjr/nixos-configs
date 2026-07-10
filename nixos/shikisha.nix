@@ -213,9 +213,6 @@ in
       # Pinned to Stable
     ];
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
   # Garbage collection
   nix.gc = {
     automatic = true;

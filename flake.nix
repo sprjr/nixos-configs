@@ -132,6 +132,7 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/nx-01.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/modules/desktop/cosmic.nix
               ./nixos/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
@@ -149,6 +150,7 @@
             modules = [
               sops-nix.nixosModules.sops
               /etc/nixos/hardware-configuration.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/trixos.nix
               ./nixos/modules/nvidia.nix
               ./nixos/modules/monitoring/node-exporter.nix
@@ -177,7 +179,6 @@
                   winetricks
                   spicetify-nix.packages.x86_64-linux.nord
                 ];
-                services.openssh.enable = true;
               }
             ];
           };
@@ -189,6 +190,7 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/prometheus.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/prometheus.nix
               ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
@@ -206,6 +208,7 @@
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/seanix.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/system/sops.nix
@@ -230,6 +233,7 @@
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/shikisha.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/shikisha.nix
               ./nixos/modules/disks/unraid-docker.nix
               ./nixos/modules/disks/unraid-gitea.nix
@@ -260,6 +264,7 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
+              ./nixos/modules/system/ssh.nix
               ./nixos/voyager.nix
               ./nixos/modules/desktop/cosmic.nix
               ./nixos/modules/desktop/hyprland.nix
