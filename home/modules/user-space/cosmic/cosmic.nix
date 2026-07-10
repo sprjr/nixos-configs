@@ -244,7 +244,11 @@ let
   writeSensitiveFiles = concatStringsSep "\n" (
     mapAttrsToList (
       path: secretName:
-      "install -Dm600 ${config.sops.secrets.${secretName}.path} ${cosmicDir}/${path}"
+      let
+        secretPath = lib.escapeShellArg config.sops.secrets.${secretName}.path;
+        destPath = lib.escapeShellArg "${cosmicDir}/${path}";
+      in
+      "[[ -f ${secretPath} ]] && install -Dm600 ${secretPath} ${destPath} || true"
     ) sensitiveCosmicFiles
   );
 in
@@ -274,8 +278,8 @@ in
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
     ];
-    # "setupSecrets" is the DAG entry added by sops-nix homeManagerModules.
-    home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" "setupSecrets" ] ''
+    # "sops-nix" is the activation entry added by sops-nix homeManagerModules on Linux.
+    home.activation.cosmicConfig = lib.hm.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
       ${writeStaticFiles}
       ${writeWallpaperFiles}
       ${writeSensitiveFiles}
