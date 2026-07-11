@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
@@ -14,9 +14,62 @@ let
       "$mainMod, ${toString n}, workspace, ${ws}"
       "$mainMod SHIFT, ${toString n}, movetoworkspace, ${ws}"
     ]) [ 1 2 3 4 5 6 7 8 9 0 ];
+
+  # `hyprshort` — printed cheatsheet of the binds defined below. Static text: keep it in sync
+  # with the `bind`/`bindm` lists in this file when binds change.
+  hyprshort = pkgs.writeShellApplication {
+    name = "hyprshort";
+    text = ''
+      cat <<'EOF'
+      Hyprland keybindings (mainMod = SUPER)
+
+      Apps & window
+        Super Space            app launcher (fuzzel)
+        Super Return           terminal (ghostty)
+        Super E                file manager
+        Super Q                close window
+        Super F                toggle floating
+        Super V                toggle split
+        Super ;                pin window (all workspaces)
+        Super L                lock session
+        Super Shift Esc        exit Hyprland session
+
+      Scratchpad (minimize)
+        Super M                show/hide scratchpad
+        Super Shift M          send window to scratchpad
+
+      Focus (vim)
+        Super h/j/k/l          move focus left/down/up/right
+
+      Move window (vim)
+        Super Shift h/j/k/l    move window left/down/up/right
+
+      Workspaces
+        Super Ctrl h/l         previous/next workspace
+        Super 1..0             switch to workspace 1..10
+        Super Shift 1..0       move window to workspace 1..10
+
+      Screenshots (copied to clipboard)
+        Super Shift S          region select
+        Print                  full screen
+
+      Wallpaper
+        Super Shift W          rotate wallpaper now
+
+      Mouse
+        Super + left drag      move window
+        Super + right drag     resize window
+
+      Media / hardware keys
+        Volume, mute, brightness, and play/pause/next/prev keys are bound.
+      EOF
+    '';
+  };
 in
 {
   config = mkIf cfg.enable {
+    home.packages = [ hyprshort ];
+
     wayland.windowManager.hyprland.settings = {
       bind = [
         "$mainMod, Space, exec, fuzzel"
