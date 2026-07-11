@@ -36,17 +36,16 @@
     gpu = "nvidia";
     signalGnomeKeyring = true;
     gaming.enable = true;
-    # Left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
-    # DP-2 @1.6667 isn't guaranteed to snap to a specific logical width — Hyprland only accepts
-    # scales whose logical dimensions are integers and adjusts the value otherwise. Rather than
-    # hand-compute pixel offsets against DP-2's assumed 2304 width (which broke and pushed DP-1's
-    # rectangle inside DP-2's, overlapping them), anchor DP-2 at 0x0 and chain the neighbors with
-    # `auto-right`. Each output is placed at the real right edge of the furthest-right monitor, so
-    # the layout tiles edge-to-edge with no overlap and no gap whatever width DP-2 ends up with.
+    # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
+    # Offsets are the running sum of each output's real logical width (verified via
+    # `hyprctl monitors all`): DP-2 @1.6667 snaps to 240/144 → logical 2304, DP-1 @1 → 2560,
+    # DP-3 @1.6 → 2400. So DP-1 sits at DP-2's edge (2304) and DP-3 at 2304+2560 (4864).
+    # `auto-right` was tried and rejected: Hyprland resolves it in enumeration order (DP-3 before
+    # DP-1), which put the center panel on the far right. Explicit offsets keep the physical order.
     monitors = [
       "DP-2,3840x2160@60,0x0,1.6667"
-      "DP-1,2560x1440@165,auto-right,1"
-      "DP-3,3840x2160@60,auto-right,1.6"
+      "DP-1,2560x1440@165,2304x0,1"
+      "DP-3,3840x2160@60,4864x0,1.6"
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
