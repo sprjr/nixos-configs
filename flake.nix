@@ -250,6 +250,7 @@
               ./nixos/modules/homelab/storage/garage-systemd-service.nix
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
+              ./nixos/modules/homelab/jellyfin.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
