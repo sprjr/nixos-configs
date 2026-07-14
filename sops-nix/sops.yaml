@@ -48,6 +48,9 @@ podcast:
     feed-url: ENC[AES256_GCM,data:MYi4OwpmsyGJ0CEHaJx/WWMpEQxdPQu2zgOJ1DdTZRJCsVuRar49RmkpE1Z3X1S2gSsPszgGlZK5E8cPR26mfzp5J8QOE2oECsTB+gNXoNKY,iv:jb8peGhY1AjJjc0DKB/91q3upj4cC+iicYdCbiUUXaA=,tag:0KWJCIx9yNfStqkq5OcK4g==,type:str]
 nextcloud:
     adminpass: ENC[AES256_GCM,data:/5PEtPz8OM8ZE26U2uxQzb00LDBKJllJaEB2FVopyy4=,iv:KcOFTUlsLGULFOZF/QgyNu5Xyh6NOLlb4SKKLj/yH0E=,tag:UKXe8RTQBSY2WN4+BqRsMw==,type:str]
+jellyfin:
+    username: ENC[AES256_GCM,data:9isOSExvPA==,iv:n0g4bdbQW8hCXgqAQVewzdvhxf8B+NFxvZg73gXlRsY=,tag:H9wxMC12cZumpJ7UT/q+wA==,type:str]
+    password: ENC[AES256_GCM,data:fpniiiHIcImfCUpckkC4MJD0ZN/ZqXvhauj1vxUHivfYuxn+vwiuO5TFLVQ=,iv:tspl6B9FTyLTToXZEFoJZ9XxLwxQuhxTC7R8kKzwtKg=,tag:pxHmOVjO2PbU54m9R5cptw==,type:str]
 sops:
     age:
         - enc: |
@@ -59,7 +62,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-09T23:10:20Z"
-    mac: ENC[AES256_GCM,data:LHhoWTL4UrDF+oW0LzlGsx9TrS72wMLEsm9Isiy/MzY4eEwGAGrdtvHxQcmzDhT1yGLL2UW74xWre0ek1CR5lUjfzDc12ioyWvXKCkoNDJ+bIVLJVfcYt+t2/XB3ch/3KdyZ7cafX5XfXM65MRe3xyPGt7IgUqihlKYP2/xUKio=,iv:6RaKZnEOxQLFyT6K8ztMAOdfGWOp8pTemSiONVe535k=,tag:IDl3R5Vi5aszoAnLPt8MRQ==,type:str]
+    lastmodified: "2026-07-14T21:45:23Z"
+    mac: ENC[AES256_GCM,data:EKAh3LgcF4Nd4vjh/ZGWSq7i3GO7nM7LlPYnIf+im4jCDtI65KSK27Eif3d+TZxLcgRjo05aGgssAUTyqynSrdgXN6/gkkTixhfzUE29T0mf+2BByL0zo007R+1pynVR3Rb8NQofNHH2mVgxJPd9RhZcty7KCDfTpPcZtldhpg4=,iv:5gRc4wm3HvCRGN1askSB7NSHyCmlX2avu61neV77s7g=,tag:NK8zET/i3X3pmtskNiHGWA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
