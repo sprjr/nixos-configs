@@ -237,6 +237,7 @@
               ./nixos/shikisha.nix
               ./nixos/modules/disks/unraid-docker.nix
               ./nixos/modules/disks/unraid-gitea.nix
+              ./nixos/modules/disks/unraid-media.nix
               ./nixos/modules/disks/unraid-other.nix
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
