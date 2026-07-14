@@ -4,7 +4,6 @@
   services = {
     nextcloud = {
       enable = true;
-      datadir = "/mnt/unraid/Nextcloud/nextcloud";
       hostName = "nextcloud.rawliyosh.com";
       package = pkgs.nextcloud32;
       database.createLocally = true;
