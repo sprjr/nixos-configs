@@ -4,9 +4,6 @@
   services.jellyfin = {
     enable = true;
     openFirewall = true;
-    # dataDir/configDir/cacheDir stay on local disk (default /var/lib/jellyfin).
-    # /mnt/unraid/Media is added as a library folder in the web UI, not as dataDir —
-    # SQLite over NFS corrupts.
     hardwareAcceleration = {
       enable = true;
       type = "vaapi";
