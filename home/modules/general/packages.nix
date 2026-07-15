@@ -85,6 +85,7 @@
     ]
     ++ lib.optionals stdenv.isDarwin [
       # MacOS-specific packages
+      github-desktop
       mas
       m-cli
       pinentry_mac
