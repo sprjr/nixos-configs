@@ -17,28 +17,6 @@ in
     ./modules/system/esp-tooling.nix
   ];
 
-  # Select Desktop Environment.
-  services = {
-    # Gnome
-    #displayManager.gdm.enable = true;
-    #desktopManager.gnome.enable = true;
-    # Plasma
-    #displayManager.sddm.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-    desktopManager.plasma6.enable = true;
-    # Cosmic
-    #displayManager.cosmic-greeter.enable = true;
-    #desktopManager.cosmic.enable = true;
-    #system76-scheduler.enable = true;
-  };
-
-  # Unlock gnome-keyring at SDDM login so the freedesktop Secret Service is available in the
-  # Hyprland session (Signal/Electron via gnome-libsecret).
-  security.pam.services.sddm.enableGnomeKeyring = true;
-
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
 
@@ -280,14 +258,6 @@ in
     # DICOM stuff
     orthanc
     weasis
-
-    # KDE Packages
-    kdePackages.dolphin
-    kdePackages.kate
-    kdePackages.kdeconnect-kde
-    kdePackages.kiten
-    kdePackages.konsole
-    kdePackages.krdp
 
     # scrcpy packages
     android-tools

@@ -69,7 +69,6 @@ let
     ++ [
       "tray"
       "custom/notification"
-      "clock"
     ]
     ++ cfg.waybarExtra;
 in

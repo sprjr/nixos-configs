@@ -25,20 +25,6 @@ in
     ./modules/system/esp-tooling.nix
   ];
 
-  services = {
-    # Hyprland
-    #sddm.wayland.enable = true;
-    #defaultSession = "hyprland";
-    # Cosmic
-    displayManager.cosmic-greeter.enable = true;
-    desktopManager.cosmic.enable = true;
-  };
-
-  services = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
-
   # XDG
   # xdg = {
   #   portal = {

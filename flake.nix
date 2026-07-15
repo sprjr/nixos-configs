@@ -133,7 +133,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/modules/desktop/cosmic.nix
+              ./nixos/modules/desktop/greetd.nix
               ./nixos/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
@@ -192,6 +192,7 @@
               ./nixos/hardware-configuration/prometheus.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/prometheus.nix
+              ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
@@ -210,6 +211,7 @@
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/seanix.nix
+              ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
@@ -268,7 +270,7 @@
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/voyager.nix
-              ./nixos/modules/desktop/cosmic.nix
+              ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
