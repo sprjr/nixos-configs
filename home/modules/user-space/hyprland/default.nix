@@ -182,6 +182,7 @@ in
       playerctl
       polkit_gnome
       cosmic-files
+      nordzy-cursor-theme
     ];
 
     wayland.windowManager.hyprland = {
@@ -196,7 +197,12 @@ in
         "$fileManager" = "cosmic-files";
         "$mainMod" = "SUPER";
 
-        env = nvidiaEnv;
+        env = [
+          "XCURSOR_SIZE,24"
+          "XCURSOR_THEME,Nordzy-catppuccin-frappe-dark"
+          "HYPRCURSOR_SIZE,24"
+          "HYPRCURSOR_THEME,Nordzy-hyprcursors"
+        ] ++ nvidiaEnv;
 
         cursor = mkIf (cfg.gpu == "nvidia") {
           no_hardware_cursors = true;
@@ -216,6 +222,7 @@ in
           # awww-daemon runs as a systemd user service (wallpaper.nix) instead of exec-once so an
           # Nvidia startup race restarts it rather than leaving it dead (exec-once has no restart).
           "hypridle"
+          "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
         ];
 
         general = {
