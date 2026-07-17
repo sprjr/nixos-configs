@@ -188,7 +188,7 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      systemd.enable = true;
+      systemd.enable = false;
       # Pin the config format so it doesn't silently switch to "lua" at stateVersion 26.05.
       configType = "hyprlang";
 
