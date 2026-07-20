@@ -208,20 +208,14 @@ in
           no_hardware_cursors = true;
         };
 
-        # Session daemons are launched here (only inside a Hyprland session) rather than via
-        # their home-manager systemd units, whose WantedBy=graphical-session.target would
-        # otherwise start them under COSMIC/KDE too. The units are neutralized (WantedBy=[])
-        # in their respective modules.
+        # Session daemons (waybar, swaync, hypridle, polkit agent, awww) are systemd user units
+        # WantedBy hyprland-session.target — started here, so they exist only inside a Hyprland
+        # session. graphical-session.target can't scope them: COSMIC/KDE activate it too.
         exec-once = [
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "systemctl --user start hyprland-session.target"
           # Register the freedesktop Secret Service in the session (PAM already unlocked the login
           # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
           "gnome-keyring-daemon --start --components=secrets"
-          "waybar"
-          "swaync"
-          # awww-daemon runs as a systemd user service (wallpaper.nix) instead of exec-once so an
-          # Nvidia startup race restarts it rather than leaving it dead (exec-once has no restart).
-          "hypridle"
           "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
         ];
 
@@ -321,6 +315,33 @@ in
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
         };
       };
+    };
+
+    # Hyprland-only rendezvous target. exec-once starts it; PartOf stops it (and everything
+    # WantedBy it) when UWSM tears down graphical-session.target at logout. Session daemons
+    # attach here instead of graphical-session.target, which COSMIC/KDE would also activate.
+    systemd.user.targets.hyprland-session = {
+      Unit = {
+        Description = "Hyprland session (user services scoped to Hyprland only)";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+    };
+
+    # As a unit (not exec-once) the agent survives crashes via Restart and lands in its own
+    # cgroup instead of the compositor's UWSM unit.
+    systemd.user.services.polkit-gnome-agent = {
+      Unit = {
+        Description = "polkit-gnome authentication agent";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
     };
   };
 }
