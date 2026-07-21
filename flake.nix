@@ -78,7 +78,7 @@
     };
     # Additional wallpapers for the Hyprland rotating set (patrick.home.hyprland).
     dark-wallpaper-2 = {
-      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png";
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/unsorted/a_grey_building_with_many_small_squares.png";
       flake = false;
     };
     dark-wallpaper-3 = {
