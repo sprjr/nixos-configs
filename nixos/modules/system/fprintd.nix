@@ -12,6 +12,7 @@
     login.fprintAuth = true;
     sudo.fprintAuth = true;
     polkit-1.fprintAuth = true;
-    swaylock.fprintAuth = true;
+    greetd.fprintAuth = true;
+    hyprlock.fprintAuth = true;
   };
 }
