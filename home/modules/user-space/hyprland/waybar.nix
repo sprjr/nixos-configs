@@ -164,6 +164,7 @@ in
           exec = "waybar-weather";
           return-type = "json";
           interval = 900;
+          on-click = "waybar-weather-toggle";
         };
 
         "custom/public-ip" = {
