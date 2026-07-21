@@ -12,6 +12,11 @@
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -100,6 +105,10 @@
       url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screen_shot_of_a_computer_01.jpg";
       flake = false;
     };
+    whale-wallpaper = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/unsorted/a_cartoon_of_a_whale_flying_over_a_road.jpg";
+      flake = false;
+    };
   };
 
   outputs =
@@ -107,6 +116,7 @@
       self,
       comin,
       darwin,
+      disko,
       flake-utils,
       ghostty,
       heywoodlh-configs,
@@ -114,6 +124,7 @@
       hyprsession,
       nix-cachyos-kernel,
       nix-on-droid,
+      nixos-facter-modules,
       nixos-hardware,
       omarchy-nix,
       sops-nix,
@@ -291,6 +302,29 @@
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
+            ];
+          };
+          whale = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // { diskDevice = "/dev/nvme0n1"; };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/modules/disks/disko-btrfs-luks.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/whale.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/user/whale.nix
+              ({ lib, ... }: lib.mkIf (builtins.pathExists ./nixos/hosts/whale/facter.json) {
+                facter.reportPath = ./nixos/hosts/whale/facter.json;
+              })
             ];
           };
         };
