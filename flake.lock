@@ -569,6 +569,42 @@
         "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_moon_over_mountains_and_clouds.png"
       }
     },
+    "dark-wallpaper-6": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-w8ZVzX6rmlIvsAQTtgGK0Bv9NqiNgSJQIhRCNF5yC1E=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer_01.jpg"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer_01.jpg"
+      }
+    },
+    "dark-wallpaper-7": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-lA6EpM+DqlUWAm8kNF9BS+UsgkGrEUIiKBBqcUvRtuM=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer.jpg"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer.jpg"
+      }
+    },
+    "dark-wallpaper-8": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-pTcpFhVKw+dhZcZw7DvcZqUk4rAx838G0boRy4aOhbI=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screen_shot_of_a_computer_01.jpg"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screen_shot_of_a_computer_01.jpg"
+      }
+    },
     "dark-wallpaper-laptop": {
       "flake": false,
       "locked": {
@@ -12980,6 +13016,9 @@
         "dark-wallpaper-3": "dark-wallpaper-3",
         "dark-wallpaper-4": "dark-wallpaper-4",
         "dark-wallpaper-5": "dark-wallpaper-5",
+        "dark-wallpaper-6": "dark-wallpaper-6",
+        "dark-wallpaper-7": "dark-wallpaper-7",
+        "dark-wallpaper-8": "dark-wallpaper-8",
         "dark-wallpaper-laptop": "dark-wallpaper-laptop",
         "darwin": "darwin",
         "flake-utils": "flake-utils",

@@ -12,7 +12,8 @@ with lib;
 # provided as PATH binaries by widgets/*.nix and notifications.nix. Temperature uses no
 # hardcoded hwmon path (waybar auto-detects). battery is shown only when the `battery`
 # option is set, gpu only when `gpu` is set. `waybarExtra` appends module names.
-# Catppuccin Mocha styling. Launched via exec-once in default.nix (no systemd unit).
+# Catppuccin Mocha styling. Runs as a systemd unit on hyprland-session.target so crashes
+# restart it and config changes apply on switch (sd-switch) instead of waiting for re-login.
 let
   cfg = config.patrick.home.hyprland;
 
@@ -81,6 +82,10 @@ in
 
     programs.waybar = {
       enable = true;
+      systemd = {
+        enable = true;
+        target = "hyprland-session.target";
+      };
       settings.mainBar = {
         layer = "top";
         position = "top";

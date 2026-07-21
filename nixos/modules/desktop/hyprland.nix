@@ -9,7 +9,10 @@
 # those come from the host's primary desktop module (e.g. cosmic.nix) or host config. A
 # host that wires Hyprland as its ONLY desktop must provide a greeter + audio itself.
 {
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 
   xdg.portal = {
     enable = true;

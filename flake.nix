@@ -88,6 +88,18 @@
       url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_moon_over_mountains_and_clouds.png";
       flake = false;
     };
+    dark-wallpaper-6 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer_01.jpg";
+      flake = false;
+    };
+    dark-wallpaper-7 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screenshot_of_a_computer.jpg";
+      flake = false;
+    };
+    dark-wallpaper-8 = {
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/jackb/a_screen_shot_of_a_computer_01.jpg";
+      flake = false;
+    };
   };
 
   outputs =
