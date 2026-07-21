@@ -174,6 +174,8 @@ in
       secrets."cosmic/longitude" = { };
     };
 
+    services.kdeconnect.enable = true;
+
     home.packages = with pkgs; [
       grim
       slurp
