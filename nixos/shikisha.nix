@@ -163,55 +163,38 @@ in
     "qtwebengine-5.15.19"
   ];
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages =
     with pkgs;
     [
-      attic-client
       cachix
       certbot
-      git
-      usbutils
-      pciutils
-      pipewire
-      thermald
-      wget
-
-      # User environment
-      btop
-      duplicati
       file
-      fzf
-      gnumake # makefile ^ alternative
-      kiwix
-      kiwix-tools
-      jq
-      mdp # fullscreen markdown reader
-      sops
-      vim
-      zsh
-
-      ### Net tools ###
-      inetutils
-      mosquitto
-      mullvad-vpn
+      garage
+      git
       lshw
       lsof
-      netop
-      nmap
-
-      # Infra/Operations tools
-      argocd
-      garage
-      kind
-      kubeseal
+      mosquitto
       openiscsi
-      opentofu
-      terraformer
-    ]
-    ++ [
-      # Pinned to Stable
+      pciutils
+      pipewire
+      sops
+      thermald
+      usbutils
+      vim
+      wget
+      zsh
     ];
+
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    argocd
+    gnumake
+    kind
+    kiwix
+    kiwix-tools
+    kubeseal
+  ];
 
   # Garbage collection
   nix.gc = {

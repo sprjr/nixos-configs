@@ -166,77 +166,32 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages =
     with pkgs;
     [
-      attic-client
-      btop
-      gcompris # educational stuff for kids
+      file
+      gcompris
       git
+      home-manager
+      iproute2
+      lshw
       pciutils
       pipewire
-      thermald
-      wget
-
-      # User environment
-      duplicati
-      file
-      fzf
-      gh-dash
-      ghostty
-      home-manager
-      kitty
-      legcord
-      mdp # fullscreen markdown reader
-      moonlight-qt
-      mumble
-      obsidian
-      prismlauncher
-      scrcpy
-      signal-desktop
+      pkgs-stable.tailscale
       sops
-      thunderbird
-      ulauncher
+      thermald
       usbutils
       vim
-      vlc
-      weasis
+      wget
       zsh
-
-      ### Net tools ###
-      pkgs-stable.tailscale
-      bandwhich
-      inetutils
-      iproute2
-      nextcloud-client
-      lshw
-      netop
-      nmap
-      wireguard-tools
-      wireguard-ui
-      wireshark
-
-      # Work Tools
-      opentofu
-      remmina
-      terraformer
-      # DICOM stuff
-      orthanc
-      weasis
-
-      # scrcpy packages
-      android-tools
-      libusb1
-      meson
-      pkg-config
-
-      # Temporary
-      google-chrome
-    ]
-    ++ [
-      # Pinned to stable
     ];
+
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    orthanc
+    weasis
+  ];
 
   # Garbage collection
   nix.gc = {

@@ -15,6 +15,7 @@
       andcli
       attic-client
       atuin
+      btop
       awscli2
       bat
       caligula

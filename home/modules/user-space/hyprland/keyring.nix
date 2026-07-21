@@ -26,7 +26,7 @@ in
 {
   config = mkIf (cfg.enable && cfg.signalGnomeKeyring) {
     # Wrapper shadows the system signal-desktop on the user PATH.
-    home.packages = [ signal ];
+    home.packages = [ (lib.hiPrio signal) ];
 
     xdg.desktopEntries."signal-desktop" = {
       name = "Signal";

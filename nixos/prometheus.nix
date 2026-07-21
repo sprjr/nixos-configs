@@ -208,92 +208,48 @@ in
     "libsoup-2.74.3"
   ];
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages =
     with pkgs;
     [
-      attic-client
-      gcompris # educational stuff for kids
+      file
+      gcompris
       git
+      home-manager
+      iproute2
+      lshw
       pciutils
       pipewire
+      pkgs-stable.tailscale
+      sops
       thermald
+      usbutils
+      vim
       wget
+      zsh
+    ];
 
-      # User environment
-      btop
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages =
+    with pkgs;
+    [
       pkgs-stable.bitwarden-desktop
       pkgs-stable.bitwarden-cli
       discord
-      duplicati
-      file
-      floorp-bin # Privacy-focused Firefox fork
-      fzf
-      ghostty
-      home-manager
-      kitty
+      floorp-bin
       libreoffice
-      mdp # fullscreen markdown reader
-      moonlight-qt
       mullvad-browser
       nautilus
       nrfconnect
       nrfutil
-      obsidian
-      scrcpy
-      signal-desktop
-      sops
-      thunderbird
-      ulauncher
-      usbutils
-      vim
-      vlc
-      zsh
+      sysstat
+      weasis
+      xdg-utils
 
       # ESP32 stuff
       python313
       python313Packages.cryptography
       python313Packages.pip
-
-      # Hyprland
-      #   hyprsession.packages.${pkgs.system}.default
-      #   hyprland
-      #   hyprlock
-      #   hyprpaper
-      #   hyprlandPlugins.hyprspace
-      #   ulauncher
-      xdg-utils
-
-      ### Net tools ###
-      pkgs-stable.tailscale
-      bandwhich
-      inetutils
-      iproute2
-      mullvad-vpn
-      nethogs
-      nextcloud-client
-      lshw
-      netop
-      nmap
-      #openvas-scanner
-      sysstat
-      wireguard-tools
-      wireguard-ui
-      wireshark
-
-      # Work Tools
-      opentofu
-      remmina
-      weasis
-
-      # scrcpy packages
-      android-tools
-      libusb1
-      meson
-      pkg-config
-    ]
-    ++ [
-      # Pinned to stable
     ];
 
   # Garbage collection

@@ -174,107 +174,62 @@ in
     })
   ];
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages = with pkgs; [
-    ansible
-    attic-client
     fanctl
+    file
     git
+    lshw
+    nvtopPackages.nvidia
     pciutils
     pipewire
-    python314 # need this for cht() function at least
-    python313Packages.pip
-    usb-modeswitch # idk what this is for anymore. Maybe bluetooth?
+    sops
+    tailscale
+    usb-modeswitch
+    usbutils
+    vim
+    vulkan-tools
     wget
+    zsh
+  ];
 
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
     # AV utilities
     alsa-plugins
     alsa-utils
-    audacity # sound record with GUI
+    audacity
     obs-studio
     pavucontrol
     pulseaudio
     qjackctl
 
-    # User environment
-    alacritty
+    # Tools
+    ansible
     distrobox
     distrobox-tui
-    duplicati
     easyeffects
-    file
-    floorp-bin # Privacy-focused Firefox alternative
-    ffmpeg
+    floorp-bin
     freetube
-    fzf
     gamescope
-    gh-dash
-    ghostty
     gimp
     iotop
-    kitty
-    legcord # alt discord client
-    lyrebird
-    mdp # fullscreen markdown reader
-    moonlight-qt
-    mumble
-    nvtopPackages.nvidia
-    obsidian
-    ollama-rocm
-    opencv
-    scrcpy
-    signal-desktop
-    sops
-    thunderbird
-    typst
-    umu-launcher # Lutris supplement
-    vim
-    vlc
-    vulkan-tools
-    zsh
-
-    ### Net tools ###
-    tailscale
-    inetutils
-    nextcloud-client
-    looking-glass-client
-    lshw
-    nethogs # shows bandwidth usage by application
-    netop
-    nmap
-    #openvas-scanner
-    usbutils
-    wireguard-tools
-    wireguard-ui
-    wireshark
-
-    # Work/Infra
     kubectl
     kind
-    opentofu
-    remmina
-    terraform
-    terraformer
-    # DICOM stuff
+    looking-glass-client
+    lyrebird
+    ollama-rocm
+    opencv
     orthanc
+    python313
+    python313Packages.pip
+    terraform
+    typst
+    umu-launcher
     weasis
-
-    # scrcpy packages
-    android-tools
-    libusb1
-    meson
-    pkg-config
 
     # Gaming
     faugus-launcher
-    #wineWowPackages.stable
-    #winetricks
-    prismlauncher
-
-    # Python
-    python313
-
-    # Temporary
   ];
 
   # Garbage collect
