@@ -13,6 +13,7 @@
       # Global packages
       alacritty
       andcli
+      attic-client
       atuin
       awscli2
       bat
@@ -23,7 +24,10 @@
       docker-compose
       dua # file size checker
       duf
+      ffmpeg
+      fzf
       gh
+      gh-dash
       glow
       gocheat
       harper
@@ -37,17 +41,22 @@
       lima # VMs/Docker
       localsend
       lsd
+      mdp
       minikube # standalone local kubernetes deployments (for testing, primarily)
       mtr
       nebula
       nps
       openssl
+      opentofu
       pv
+      python314
+      python314Packages.pip
       stirling-pdf-desktop
       rig
       russ
       rustlings
       syncthing
+      terraformer
       tldr
       tmux
       todoist
@@ -74,13 +83,41 @@
     ]
     ++ lib.optionals stdenv.isLinux [
       # Linux-specific packages
+      android-tools
+      bandwhich
+      duplicati
       firefox
+      ghostty
+      google-chrome
       impala
+      inetutils
+      kitty
+      legcord
+      libusb1
       libvirt
+      meson
+      moonlight-qt
+      mullvad-vpn
+      mumble
+      nethogs
+      netop
+      nextcloud-client
+      nmap
+      obsidian
+      pkg-config
+      prismlauncher
+      remmina
+      scrcpy
+      signal-desktop
       solaar
       swayosd
+      thunderbird
       ulauncher
+      vlc
       waybar
+      wireguard-tools
+      wireguard-ui
+      wireshark
       xpipe
     ]
     ++ lib.optionals stdenv.isDarwin [

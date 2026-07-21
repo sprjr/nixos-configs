@@ -189,99 +189,24 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages =
     with pkgs;
     [
-      # Misc and System
-      attic-client
-      gcompris # educational stuff for kids
+      file
       git
+      home-manager
+      iproute2
+      lshw
       pciutils
       pipewire
-      python314 # need this for cht() function at least
-      python314Packages.pip
-      thermald
-      wget
-
-      # User environment
-      duplicati
-
-      file
-      fzf
-      ffmpeg
-      gh-dash
-      ghostty
-      home-manager
-      kitty
-      legcord
-      mdp # fullscreen markdown reader
-      moonlight-qt
-      mumble
-      mdp # fullscreen markdown reader
-      moonlight-qt
-      mumble
-      obsidian
-      prismlauncher
-      scrcpy
-      signal-desktop
+      pkgs-stable.tailscale
       sops
-      thunderbird
-      ulauncher
+      thermald
       usbutils
       vim
-      vlc
+      wget
       zsh
-
-      ### Net tools ###
-      pkgs-stable.tailscale
-      bandwhich
-      inetutils
-      iproute2
-      lshw
-      netop
-      nmap
-      wireguard-tools
-      wireguard-ui
-      wireshark
-
-      # Work Tools
-      opentofu
-      remmina
-      terraformer
-
-      ### Net tools ###
-      pkgs-stable.tailscale
-      bandwhich
-      inetutils
-      iproute2
-      mullvad-vpn
-      nethogs
-      nextcloud-client
-      lshw
-      netop
-      nmap
-      #openvas-scanner
-      wireguard-tools
-      wireguard-ui
-      wireshark
-
-      # Work Tools
-      opentofu
-      remmina
-      terraformer
-
-      # scrcpy packages
-      android-tools
-      libusb1
-      meson
-      pkg-config
-
-      # Temporary: remove later
-      google-chrome # esp32 stuff
-    ]
-    ++ [
-      # Pinned to stable
     ];
 
   # Garbage collection
