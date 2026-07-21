@@ -171,13 +171,13 @@ in
       toggle
     ];
 
-    wayland.windowManager.hyprland.settings.windowrule = [
-      {
-        class = "weather-forecast";
-        float = 1;
-        size = "500 450";
-        center = 1;
+    wayland.windowManager.hyprland.extraConfig = ''
+      windowrule[weather-forecast] {
+        match:class = ^(weather-forecast)$
+        float = true
+        size = 500 450
+        center = true
       }
-    ];
+    '';
   };
 }
