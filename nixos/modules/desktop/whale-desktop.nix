@@ -24,7 +24,6 @@
   users.groups.kiosk = {};
 
   environment.systemPackages = with pkgs; [
-    firefox
     gcompris
   ];
 }

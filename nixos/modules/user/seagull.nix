@@ -21,7 +21,7 @@
     };
     users.seagull = {
       imports = [
-        ../../../home/whale-home.nix
+        ../../../home/seagull-home.nix
       ];
     };
   };
