@@ -171,7 +171,7 @@ in
       toggle
     ];
 
-    wayland.windowManager.hyprland.settings.windowrulev2 = [
+    wayland.windowManager.hyprland.settings.windowrule = [
       "float,class:^(weather-forecast)$"
       "size 500 450,class:^(weather-forecast)$"
       "center,class:^(weather-forecast)$"
