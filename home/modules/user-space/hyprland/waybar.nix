@@ -33,6 +33,32 @@ let
     '';
   };
 
+  powerMenu = pkgs.writeShellApplication {
+    name = "waybar-power-menu";
+    runtimeInputs = with pkgs; [ fuzzel ];
+    text = ''
+      choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | fuzzel --dmenu --prompt "Power  ")
+      case "$choice" in
+        *Lock) hyprlock ;;
+        *Logout) hyprctl dispatch exit ;;
+        *Reboot) systemctl reboot ;;
+        *Shutdown) systemctl poweroff ;;
+      esac
+    '';
+  };
+
+  clipboardBrowse = pkgs.writeShellApplication {
+    name = "waybar-clipboard";
+    runtimeInputs = with pkgs; [
+      cliphist
+      fuzzel
+      wl-clipboard
+    ];
+    text = ''
+      cliphist list | fuzzel --dmenu --prompt "Clipboard  " | cliphist decode | wl-copy
+    '';
+  };
+
   ha = cfg.homeAssistant;
 
   # Home Assistant control cluster + timer, placed left to mirror the Darwin sketchybar layout.
@@ -56,19 +82,27 @@ let
   modulesRight =
     [
       "custom/weather"
-      "network"
-      "custom/private-ip"
+      "mpris"
       "custom/public-ip"
       "pulseaudio"
       "bluetooth"
       "cpu"
       "memory"
+      "disk"
       "temperature"
     ]
     ++ optional (cfg.gpu != null) "custom/gpu"
+    ++ [ "power-profiles-daemon" ]
     ++ optional cfg.battery "battery"
     ++ [
+      "hyprland/language"
+      "privacy"
+      "idle_inhibitor"
+      "systemd-failed-units"
+      "custom/clipboard"
+      "custom/color-picker"
       "tray"
+      "custom/power-menu"
       "custom/notification"
     ]
     ++ cfg.waybarExtra;
@@ -77,7 +111,11 @@ in
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.blueman
+      pkgs.cliphist
+      pkgs.hyprpicker
       btToggle
+      powerMenu
+      clipboardBrowse
     ];
 
     programs.waybar = {
@@ -122,13 +160,6 @@ in
           format-icons = [ "" "" "" "" "" ];
         };
 
-        network = {
-          format-wifi = " {essid}";
-          format-ethernet = "󰈀 {ifname}";
-          format-disconnected = "󰤭";
-          tooltip-format = "{ipaddr}/{cidr}";
-        };
-
         pulseaudio = {
           format = "{icon} {volume}%";
           format-muted = "󰝟";
@@ -160,6 +191,59 @@ in
 
         tray.spacing = 8;
 
+        mpris = {
+          format = "{player_icon} {dynamic}";
+          format-paused = "{status_icon} <i>{dynamic}</i>";
+          player-icons = {
+            default = "▶";
+            spotify = "";
+          };
+          status-icons = {
+            paused = "⏸";
+          };
+          dynamic-len = 35;
+        };
+
+        privacy = {
+          icon-size = 14;
+          icon-spacing = 4;
+        };
+
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = "󰅶";
+            deactivated = "󰾪";
+          };
+        };
+
+        "power-profiles-daemon" = {
+          format = "{icon}";
+          format-icons = {
+            default = "󰗑";
+            performance = "󱐋";
+            balanced = "󰗑";
+            power-saver = "󰌪";
+          };
+          tooltip-format = "Power profile: {profile}";
+        };
+
+        disk = {
+          format = "󰋊 {percentage_used}%";
+          path = "/";
+          interval = 30;
+        };
+
+        "systemd-failed-units" = {
+          format = "✗ {nr_failed}";
+          format-ok = "";
+          hide-on-ok = true;
+        };
+
+        "hyprland/language" = {
+          format = "󰌌 {short}";
+        };
+
         "custom/weather" = {
           exec = "waybar-weather";
           return-type = "json";
@@ -172,13 +256,6 @@ in
           return-type = "json";
           interval = 300;
           format = "󰩠 {}";
-        };
-
-        "custom/private-ip" = {
-          exec = "waybar-private-ip";
-          return-type = "json";
-          interval = 30;
-          format = "󰛳 {}";
         };
 
         "custom/gpu" = {
@@ -245,6 +322,24 @@ in
           on-click-right = "swaync-client -d -sw";
           escape = true;
         };
+
+        "custom/power-menu" = {
+          format = "⏻";
+          tooltip = false;
+          on-click = "waybar-power-menu";
+        };
+
+        "custom/color-picker" = {
+          format = "󰈊";
+          tooltip = false;
+          on-click = "hyprpicker -a";
+        };
+
+        "custom/clipboard" = {
+          format = "󰅍";
+          tooltip = false;
+          on-click = "waybar-clipboard";
+        };
       };
 
       style = ''
@@ -270,15 +365,20 @@ in
         #cpu,
         #memory,
         #temperature,
-        #network,
         #pulseaudio,
         #bluetooth,
         #battery,
         #clock,
         #tray,
+        #mpris,
+        #disk,
+        #privacy,
+        #idle_inhibitor,
+        #power-profiles-daemon,
+        #systemd-failed-units,
+        #language,
         #custom-weather,
         #custom-public-ip,
-        #custom-private-ip,
         #custom-gpu,
         #custom-ha-fan,
         #custom-ha-lamp,
@@ -286,13 +386,15 @@ in
         #custom-ha-motion,
         #custom-ha-cameras,
         #custom-timer,
-        #custom-notification {
+        #custom-notification,
+        #custom-power-menu,
+        #custom-color-picker,
+        #custom-clipboard {
           padding: 0 8px;
         }
         #cpu { color: #f38ba8; }
         #memory { color: #f9e2af; }
         #temperature { color: #fab387; }
-        #network { color: #89b4fa; }
         #pulseaudio { color: #94e2d5; }
         #bluetooth { color: #89dceb; }
         #bluetooth.disabled,
@@ -300,6 +402,17 @@ in
         #battery { color: #a6e3a1; }
         #custom-gpu { color: #cba6f7; }
         #custom-weather { color: #74c7ec; }
+        #mpris { color: #cba6f7; }
+        #disk { color: #f2cdcd; }
+        #privacy { color: #f38ba8; }
+        #idle_inhibitor.activated { color: #f9e2af; }
+        #idle_inhibitor.deactivated { color: #6c7086; }
+        #power-profiles-daemon { color: #a6e3a1; }
+        #systemd-failed-units { color: #f38ba8; }
+        #language { color: #b4befe; }
+        #custom-clipboard { color: #cdd6f4; }
+        #custom-color-picker { color: #f5c2e7; }
+        #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
         #custom-ha-office-fan,
         #custom-ha-cameras { color: #89b4fa; }

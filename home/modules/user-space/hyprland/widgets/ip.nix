@@ -26,22 +26,11 @@ let
     '';
   };
 
-  privateIp = pkgs.writeShellApplication {
-    name = "waybar-private-ip";
-    runtimeInputs = with pkgs; [ iproute2 gawk coreutils ];
-    text = ''
-      ip=$(ip route get 1.1.1.1 2>/dev/null \
-        | awk '{ for (i = 1; i <= NF; i++) if ($i == "src") { print $(i + 1); exit } }')
-      [ -z "$ip" ] && ip="n/a"
-      printf '{"text":"%s","tooltip":"private IP"}\n' "$ip"
-    '';
-  };
 in
 {
   config = mkIf cfg.enable {
     home.packages = [
       publicIp
-      privateIp
     ];
   };
 }

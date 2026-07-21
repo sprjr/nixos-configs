@@ -62,6 +62,9 @@ let
 
       Media / hardware keys
         Volume, mute, brightness, and play/pause/next/prev keys are bound.
+
+      Keyboard layout
+        Alt Shift              toggle US / JP layout
       EOF
     '';
   };

@@ -219,6 +219,7 @@ in
           # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
           "gnome-keyring-daemon --start --components=secrets"
           "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
+          "wl-paste --watch cliphist store"
         ];
 
         general = {
@@ -273,7 +274,8 @@ in
         };
 
         input = {
-          kb_layout = "us";
+          kb_layout = "us,jp";
+          kb_options = "grp:alt_shift_toggle";
           follow_mouse = 1;
           # Desktop matches KDE: flat accel profile + accel speed -0.6 (kcminputrc
           # PointerAcceleration, G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the
