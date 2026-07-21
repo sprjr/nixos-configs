@@ -1,26 +1,19 @@
-{ config, pkgs, lib, home-manager, nixpkgs-stable, ... }:
+{ config, pkgs, lib, nixpkgs-stable, ... }:
 
 let
   system = pkgs.system;
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
-    home-manager.nixosModules.home-manager
+    ./modules/system/sops.nix
   ];
 
-  # Home Manager
-  home-manager = {
-    useGlobalPkgs = true;
-    users.whale = {
-      imports = [
-        ../home/linux-home.nix
-      ];
-    };
-  };
+  # Bootloader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Desktop Environment
   services = {
-    # Gnome
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
@@ -28,7 +21,7 @@ in {
   # Kiosk Mode for GCompris
   services.cage = {
     enable = true;
-    program = "${gcompris}/bin/gcompris";
+    program = "${pkgs.gcompris}/bin/gcompris";
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
@@ -36,13 +29,15 @@ in {
     "systemd-resolved.service"
   ];
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Kiosk user for cage
+  users.users.kiosk = {
+    isNormalUser = true;
+    group = "kiosk";
+  };
+  users.groups.kiosk = {};
 
   # General Networking Options
-  networking.hostName = "whale"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
+  networking.hostName = "whale";
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -105,13 +100,12 @@ in {
     file
     fzf
     git
-    mdp # fullscreen markdown reader
+    mdp
     sops
     vim
     vimPlugins.nvchad
     wget
     zsh
-
   ];
 
   # Enable the OpenSSH daemon.
@@ -124,5 +118,5 @@ in {
     options = "delete-older-than 14d";
   };
 
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "24.11";
 }
