@@ -9,6 +9,9 @@
   dark-wallpaper-3,
   dark-wallpaper-4,
   dark-wallpaper-5,
+  dark-wallpaper-6,
+  dark-wallpaper-7,
+  dark-wallpaper-8,
   ...
 }:
 
@@ -48,6 +51,9 @@
         dark-wallpaper-3
         dark-wallpaper-4
         dark-wallpaper-5
+        dark-wallpaper-6
+        dark-wallpaper-7
+        dark-wallpaper-8
       ];
       configRoot = "/home/patrick/.nixos/nixos-configs";
     };
