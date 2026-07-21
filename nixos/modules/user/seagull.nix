@@ -4,22 +4,22 @@
   ...
 }:
 {
-  users.users.whale = {
+  users.users.seagull = {
     isNormalUser = true;
-    description = "Whale";
+    description = "Seagull";
     extraGroups = [
       "networkmanager"
       "audio"
     ];
     shell = pkgs.bash;
-    hashedPasswordFile = "/var/lib/secrets/whale-user.hash";
+    hashedPasswordFile = "/var/lib/secrets/seagull-user.hash";
   };
 
   home-manager = {
     extraSpecialArgs = {
       inherit whale-wallpaper;
     };
-    users.whale = {
+    users.seagull = {
       imports = [
         ../../../home/whale-home.nix
       ];

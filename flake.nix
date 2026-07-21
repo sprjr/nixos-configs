@@ -301,6 +301,9 @@
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
+              ./nixos/modules/user/whale.nix
+              ./nixos/modules/user/seagull.nix
+              ./nixos/modules/desktop/whale-desktop.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
             ];
           };
@@ -322,6 +325,7 @@
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/user/whale.nix
+              ./nixos/modules/user/seagull.nix
               ({ lib, ... }: lib.mkIf (builtins.pathExists ./nixos/hosts/whale/facter.json) {
                 facter.reportPath = ./nixos/hosts/whale/facter.json;
               })
