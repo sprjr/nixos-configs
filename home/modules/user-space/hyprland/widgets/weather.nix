@@ -172,9 +172,12 @@ in
     ];
 
     wayland.windowManager.hyprland.settings.windowrule = [
-      "float,class:^(weather-forecast)$"
-      "size 500 450,class:^(weather-forecast)$"
-      "center,class:^(weather-forecast)$"
+      {
+        class = "weather-forecast";
+        float = 1;
+        size = "500 450";
+        center = 1;
+      }
     ];
   };
 }
