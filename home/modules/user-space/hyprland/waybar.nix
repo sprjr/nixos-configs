@@ -82,7 +82,6 @@ let
   modulesRight =
     [
       "custom/weather"
-      "mpris"
       "custom/public-ip"
       "pulseaudio"
       "bluetooth"
@@ -131,7 +130,7 @@ in
         spacing = 6;
 
         modules-left = modulesLeft;
-        modules-center = [ "clock" ];
+        modules-center = [ "mpris" "clock" ];
         modules-right = modulesRight;
 
         "hyprland/workspaces" = {
