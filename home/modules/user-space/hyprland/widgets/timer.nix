@@ -56,7 +56,7 @@ let
       state="$rt/waybar-timer"
       pidf="$rt/waybar-timer.pid"
       choice=$(printf '2 min\n5 min\n15 min\n25 min\n60 min\nStop\n' \
-        | fuzzel --dmenu --prompt "Timer: " || true)
+        | fuzzel --dmenu --prompt "Timer (or type minutes): " || true)
       if [ -f "$pidf" ]; then
         kill "$(cat "$pidf")" 2>/dev/null || true
         rm -f "$pidf"
@@ -68,7 +68,13 @@ let
         "25 min") secs=1500 ;;
         "60 min") secs=3600 ;;
         "Stop")   : > "$state"; exit 0 ;;
-        *)        exit 0 ;;
+        *)
+          if [ -n "$choice" ] && [ "$choice" -eq "$choice" ] 2>/dev/null && [ "$choice" -gt 0 ]; then
+            secs=$(( choice * 60 ))
+          else
+            exit 0
+          fi
+          ;;
       esac
       setsid -f timer-countdown "$secs"
     '';
