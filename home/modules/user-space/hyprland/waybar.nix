@@ -77,12 +77,12 @@ let
     ++ haModules
     ++ [
       "custom/timer"
+      "custom/weather"
+      "custom/public-ip"
     ];
 
   modulesRight =
     [
-      "custom/weather"
-      "custom/public-ip"
       "pulseaudio"
       "bluetooth"
       "cpu"
