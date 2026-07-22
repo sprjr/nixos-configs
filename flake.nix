@@ -159,6 +159,7 @@
               ./nixos/modules/desktop/greetd.nix
               ./nixos/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -217,6 +218,7 @@
               ./nixos/prometheus.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -236,6 +238,7 @@
               ./nixos/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
@@ -295,6 +298,7 @@
               ./nixos/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
