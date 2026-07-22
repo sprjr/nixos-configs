@@ -524,13 +524,13 @@
     "dark-wallpaper-2": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-eEl5I+7PTVQF+Rfuw3QC9XRcuDIS+C8TK2LnJA/0rdM=",
+        "narHash": "sha256-soD4sIZGBH96HiC1Zx9wkbN1s2t6LZ60LnzFoB/CQWU=",
         "type": "file",
-        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png"
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/unsorted/a_grey_building_with_many_small_squares.png"
       },
       "original": {
         "type": "file",
-        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png"
+        "url": "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/unsorted/a_grey_building_with_many_small_squares.png"
       }
     },
     "dark-wallpaper-3": {
