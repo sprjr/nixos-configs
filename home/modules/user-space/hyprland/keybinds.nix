@@ -31,7 +31,7 @@ let
         Super F                toggle floating
         Super V                toggle split
         Super ;                pin window (all workspaces)
-        Super L                lock session
+        Super Esc              lock session
         Super Shift Esc        exit Hyprland session
 
       Scratchpad (minimize)
@@ -63,8 +63,8 @@ let
       Media / hardware keys
         Volume, mute, brightness, and play/pause/next/prev keys are bound.
 
-      Keyboard layout
-        Alt Shift              toggle US / JP layout
+      Japanese IME
+        Ctrl Space             toggle Japanese IME (Fcitx5)
       EOF
     '';
   };
@@ -82,7 +82,7 @@ in
         "$mainMod, F, togglefloating,"
         "$mainMod, V, layoutmsg, togglesplit"
         "$mainMod, semicolon, pin,"
-        "$mainMod, L, exec, loginctl lock-session"
+        "$mainMod, Escape, exec, loginctl lock-session"
         # Quit the Hyprland session back to the greeter (moved off Super+Shift+M).
         "$mainMod SHIFT, Escape, exit,"
 
