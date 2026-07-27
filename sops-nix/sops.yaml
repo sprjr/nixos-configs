@@ -52,7 +52,7 @@ jellyfin:
     username: ENC[AES256_GCM,data:9isOSExvPA==,iv:n0g4bdbQW8hCXgqAQVewzdvhxf8B+NFxvZg73gXlRsY=,tag:H9wxMC12cZumpJ7UT/q+wA==,type:str]
     password: ENC[AES256_GCM,data:fpniiiHIcImfCUpckkC4MJD0ZN/ZqXvhauj1vxUHivfYuxn+vwiuO5TFLVQ=,iv:tspl6B9FTyLTToXZEFoJZ9XxLwxQuhxTC7R8kKzwtKg=,tag:pxHmOVjO2PbU54m9R5cptw==,type:str]
 grafana:
-    admin-password: ENC[AES256_GCM,data:lilvue8gjkRZkvHGg9wLXkACC1sWieA/itsT4pdlRK56AOkKGiGt44UObJs=,iv:/7YT2sqtGF1fu0HFwCRw/GTrYEOmepu026yeNIQPjKU=,tag:4fFZdw6laPsiFDJvQPe8SQ==,type:str]
+    admin-password: ENC[AES256_GCM,data:KzkxMXShIjA36HJ9Iar7QHRNRPhcGLQJYkdQvnNeEBT33DQNcvw8ig==,iv:DgI1sdIi5gSrV0QOj6rEe+O2QfVq2/RSCBmtaECW9lU=,tag:c7mibZzRdDUsqEM1ka02OQ==,type:str]
     secret-key: ENC[AES256_GCM,data:OPzrNCoSHZIYmPxX9iV/X9bA09Cz9xa0p9dCyq+u4ZVnuB2IglEWYZHordI=,iv:0RAYKf7mQK7vGmgNQNTjEAZiSFoWHd4gkh0bfScEa7w=,tag:sSmUWkVzLMuGa7PmWkM/YQ==,type:str]
 sops:
     age:
@@ -65,7 +65,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-27T17:14:15Z"
-    mac: ENC[AES256_GCM,data:rhWQoUKumSlSiP8oAjYtoPho8lLLXQ9EnTFXMbCQPiS9h9XZDd9bJhoghCZb/7o2LKYn8Xk7zv2httfmQ6RNIJW88npxD0a9ujPumR4oq2p+IvXtsZEXmnOOoSUQNKeXe7bjuiLbX+HDJZgrzeA1iUq5oBm/iWeqM7427BhcpWQ=,iv:cgS5glCXNYJz0iBvLk7ypc6tSytq6ZUM2fmJalbcEJU=,tag:dLdWV81sU/ADlSaO2vaKwQ==,type:str]
+    lastmodified: "2026-07-27T17:16:20Z"
+    mac: ENC[AES256_GCM,data:gq5ya45ht4+Hs4sd1oDwazKRGVsolxULnh23+o4doNn93K4V5Md3Zf+Saw+LVG9BHjjDcaBHTGo/QRIBiIePz0up/5bNoJOUS8Myxbo/0e5XN+KXSaDQSYuWEwxORwfC5Yqf8yM4BCGDJ8rUWDmPslGc0g06MEfj4YnJzH9Pmhs=,iv:L1cYbEfVuaSdYAXc0QG5zHtTSg5Q0Kq3oQTUGX/iJJg=,tag:rTRmzK24nZKHOxoSkf26ww==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
