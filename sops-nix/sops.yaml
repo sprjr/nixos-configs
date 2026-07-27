@@ -54,6 +54,7 @@ jellyfin:
 grafana:
     admin-password: ENC[AES256_GCM,data:KzkxMXShIjA36HJ9Iar7QHRNRPhcGLQJYkdQvnNeEBT33DQNcvw8ig==,iv:DgI1sdIi5gSrV0QOj6rEe+O2QfVq2/RSCBmtaECW9lU=,tag:c7mibZzRdDUsqEM1ka02OQ==,type:str]
     secret-key: ENC[AES256_GCM,data:OPzrNCoSHZIYmPxX9iV/X9bA09Cz9xa0p9dCyq+u4ZVnuB2IglEWYZHordI=,iv:0RAYKf7mQK7vGmgNQNTjEAZiSFoWHd4gkh0bfScEa7w=,tag:sSmUWkVzLMuGa7PmWkM/YQ==,type:str]
+    oauth-client-secret: ENC[AES256_GCM,data:ODs1bUm6EQrvhm7xwCKZKVv5RQKuzaRZa45G/u2b0bNSIFHjO1P84lapJSYPioEi4e3HQOAlUfNQpCJE3ZNnGxCGGYcBbXbGxYRe7vv0birqrBvR8D5KLvSdw7xSERSSp34SoCcQOW0r5qLfzlDsNzucHKecZ8CRzFyZHIwaPcQ=,iv:uQ5AUTGxrrE2KB9VAczgGJJwm/xj1jSLrns7yDfMwyg=,tag:fRpLkobRsARUWKZP76inaw==,type:str]
 sops:
     age:
         - enc: |
@@ -65,7 +66,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-27T17:16:20Z"
-    mac: ENC[AES256_GCM,data:gq5ya45ht4+Hs4sd1oDwazKRGVsolxULnh23+o4doNn93K4V5Md3Zf+Saw+LVG9BHjjDcaBHTGo/QRIBiIePz0up/5bNoJOUS8Myxbo/0e5XN+KXSaDQSYuWEwxORwfC5Yqf8yM4BCGDJ8rUWDmPslGc0g06MEfj4YnJzH9Pmhs=,iv:L1cYbEfVuaSdYAXc0QG5zHtTSg5Q0Kq3oQTUGX/iJJg=,tag:rTRmzK24nZKHOxoSkf26ww==,type:str]
+    lastmodified: "2026-07-27T22:19:38Z"
+    mac: ENC[AES256_GCM,data:XMvKcSgud/mWJtbSasMEPs1qpXprUll+s32xalmnPufYCCAXdTOK0ukEl5B4ya9rYhj6vjPKawk9xK+vuaPiqU+lj950ccrtI56iA3dzA+FyACyDqHVkcJDOUXmFiBK4JjzTDASHYhBZ8EX8rla2NQkMb0TZAssnmYGQD6OOOR0=,iv:jWOSdqJ7glfEEhz/CAESseh48LTkkJGZ1QM3lE0bZk4=,tag:xomXewiUKkt0Pad4yny1fw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
