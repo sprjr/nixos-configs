@@ -214,7 +214,15 @@ in
         # WantedBy hyprland-session.target — started here, so they exist only inside a Hyprland
         # session. graphical-session.target can't scope them: COSMIC/KDE activate it too.
         exec-once = [
-          "systemctl --user start hyprland-session.target"
+          # UWSM runs the compositor as wayland-wm@hyprland.service, Type=notify. This sends
+          # READY=1 and exports WAYLAND_DISPLAY / HYPRLAND_INSTANCE_SIGNATURE into the systemd
+          # user manager. Without it the unit stays activating until TimeoutStartSec (~90s),
+          # holding back graphical-session.target and every unit ordered after it. Bare `uwsm`
+          # from PATH, not pkgs.uwsm: it must match the system uwsm that launched the session.
+          "uwsm finalize"
+          # --no-block: this target is After=graphical-session.target, so a blocking start would
+          # park a systemctl process in the compositor cgroup until that ordering dep resolves.
+          "systemctl --user --no-block start hyprland-session.target"
           # Register the freedesktop Secret Service in the session (PAM already unlocked the login
           # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
           "gnome-keyring-daemon --start --components=secrets"
