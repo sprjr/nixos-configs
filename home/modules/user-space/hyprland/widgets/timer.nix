@@ -34,9 +34,8 @@ let
       done
       printf 'done' > "$state"
       notify-send "Timer" "Timer complete" || true
-      # Audible chime on expiry (played twice so it's noticeable).
-      paplay ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/complete.oga || true
-      paplay ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/complete.oga || true
+      # Single soft chime on expiry at reduced volume.
+      paplay --volume=26214 ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/message.oga || true
       sleep 3
       : > "$state"
       rm -f "$pidf"
