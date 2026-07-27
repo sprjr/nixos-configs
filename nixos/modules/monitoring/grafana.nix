@@ -116,6 +116,12 @@
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
+    # Client secret of the Authentik OAuth2/OIDC provider named "grafana".
+    "grafana/oauth-client-secret" = {
+      owner = "grafana";
+      mode = "0400";
+      restartUnits = [ "grafana.service" ];
+    };
   };
 
   services.grafana = {
@@ -139,12 +145,49 @@
         admin_password = "$__file{${config.sops.secrets."grafana/admin-password".path}}";
         secret_key = "$__file{${config.sops.secrets."grafana/secret-key".path}}";
         cookie_secure = true; # the browser sees HTTPS even though the backend hop is plain
-        cookie_samesite = "strict";
+        # "strict" would withhold the oauth_state cookie on the cross-site redirect back
+        # from Authentik, failing every OAuth login with a state mismatch.
+        cookie_samesite = "lax";
       };
+      # Gates the local signup form only; OAuth signup is auth.generic_oauth.allow_sign_up.
       users.allow_sign_up = false;
       analytics = {
         reporting_enabled = false;
         check_for_updates = false;
+      };
+
+      # Authentik SSO. The local login form is deliberately left enabled so a broken or
+      # unreachable Authentik does not lock the admin account out.
+      "auth.generic_oauth" = {
+        enabled = true;
+        name = "Authentik";
+        icon = "signin";
+        # Creates a Grafana user on first successful OAuth login.
+        allow_sign_up = true;
+        # Must match the Client ID on the Authentik provider; Authentik generates a random
+        # one by default, so it has to be overridden there to this value.
+        client_id = "grafana";
+        client_secret = "$__file{${config.sops.secrets."grafana/oauth-client-secret".path}}";
+        # offline_access is what makes Authentik issue the refresh token used below.
+        scopes = "openid email profile offline_access";
+        auth_url = "https://auth.rawliyosh.com/application/o/authorize/";
+        token_url = "https://auth.rawliyosh.com/application/o/token/";
+        api_url = "https://auth.rawliyosh.com/application/o/userinfo/";
+        # Unlike the others, the end-session endpoint is keyed by application slug.
+        signout_redirect_url = "https://auth.rawliyosh.com/application/o/grafana/end-session/";
+        use_pkce = true;
+        use_refresh_token = true;
+        # JMESPath over the userinfo claims. Requires the provider to emit a groups claim,
+        # which the default "authentik default OAuth Mapping: OpenID 'profile'" scope does.
+        role_attribute_path =
+          "contains(groups, 'grafana-admins') && 'Admin' "
+          + "|| contains(groups, 'grafana-editors') && 'Editor' "
+          + "|| 'Viewer'";
+        # false means a user matching no branch above still logs in; the path already ends
+        # in a 'Viewer' fallback, so this only covers a missing groups claim.
+        role_attribute_strict = false;
+        # Lets the Admin branch grant server admin, not just org admin.
+        allow_assign_grafana_admin = true;
       };
     };
 
