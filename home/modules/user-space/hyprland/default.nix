@@ -182,7 +182,10 @@ in
       wl-clipboard
       brightnessctl
       playerctl
-      polkit_gnome
+      # polkit_gnome is deliberately absent: it ships
+      # etc/xdg/autostart/polkit-gnome-authentication-agent-1.desktop, which the systemd
+      # XDG-autostart generator turns into a second agent that races polkit-gnome-agent.service
+      # below. The unit references the store path directly, so the package need not be on PATH.
       cosmic-files
       nordzy-cursor-theme
     ];
@@ -214,15 +217,20 @@ in
         # WantedBy hyprland-session.target — started here, so they exist only inside a Hyprland
         # session. graphical-session.target can't scope them: COSMIC/KDE activate it too.
         exec-once = [
-          # UWSM runs the compositor as wayland-wm@hyprland.service, Type=notify. This sends
-          # READY=1 and exports WAYLAND_DISPLAY / HYPRLAND_INSTANCE_SIGNATURE into the systemd
-          # user manager. Without it the unit stays activating until TimeoutStartSec (~90s),
-          # holding back graphical-session.target and every unit ordered after it. Bare `uwsm`
-          # from PATH, not pkgs.uwsm: it must match the system uwsm that launched the session.
-          "uwsm finalize"
+          # UWSM runs the compositor as wayland-wm@hyprland.service, Type=notify. `uwsm finalize`
+          # sends READY=1 and exports WAYLAND_DISPLAY / HYPRLAND_INSTANCE_SIGNATURE into the
+          # systemd user manager. Without it the unit stays activating until TimeoutStartSec
+          # (~90s), holding back graphical-session.target and every unit ordered after it. Bare
+          # `uwsm` from PATH, not pkgs.uwsm: it must match the system uwsm that launched the
+          # session.
+          #
+          # One entry, sequenced with `;`: separate exec-once entries are spawned concurrently, so
+          # the target (and every GUI daemon wanted by it) could start before finalize exported
+          # WAYLAND_DISPLAY — After=hyprland-session.target carries no environment guarantee.
+          # `;` not `&&`, so a finalize that exits non-zero still leaves the session daemons up.
           # --no-block: this target is After=graphical-session.target, so a blocking start would
           # park a systemctl process in the compositor cgroup until that ordering dep resolves.
-          "systemctl --user --no-block start hyprland-session.target"
+          "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
           # Register the freedesktop Secret Service in the session (PAM already unlocked the login
           # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
           "gnome-keyring-daemon --start --components=secrets"
@@ -341,7 +349,8 @@ in
     };
 
     # As a unit (not exec-once) the agent survives crashes via Restart and lands in its own
-    # cgroup instead of the compositor's UWSM unit.
+    # cgroup instead of the compositor's UWSM unit. Only one agent may hold the polkit subject —
+    # see the home.packages note above for why polkit_gnome must stay off the profile.
     systemd.user.services.polkit-gnome-agent = {
       Unit = {
         Description = "polkit-gnome authentication agent";

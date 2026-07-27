@@ -46,11 +46,6 @@
       url = "github:icewind1991/nvidia-patch-nixos";
       inputs.nixpkgs.follows = "flake-utils";
     };
-    omarchy-nix = {
-      url = "github:henrysipp/omarchy-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -126,7 +121,6 @@
       nix-on-droid,
       nixos-facter-modules,
       nixos-hardware,
-      omarchy-nix,
       sops-nix,
       thyx,
       nixpkgs,
