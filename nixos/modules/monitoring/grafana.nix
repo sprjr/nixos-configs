@@ -103,6 +103,25 @@
         static_configs = [ { targets = [ "127.0.0.1:3000" ]; } ];
       }
     ];
+    # Blackbox targets live in a sops-rendered file so URLs stay out of the Nix store.
+    scrapeConfigFiles = [ config.sops.templates."prometheus-blackbox.yml".path ];
+  };
+
+  services.prometheus.exporters.blackbox = {
+    enable = true;
+    port = 9115;
+    configuration = {
+      modules.http_2xx = {
+        prober = "http";
+        timeout = "10s";
+        http = {
+          valid_http_versions = [ "HTTP/1.1" "HTTP/2.0" ];
+          follow_redirects = true;
+          preferred_ip_protocol = "ip4";
+          tls_config.insecure_skip_verify = false;
+        };
+      };
+    };
   };
 
   # Declared alongside services.grafana so the grafana user exists when sops-nix chowns these.
@@ -123,6 +142,32 @@
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
+    "monitoring/blackbox-targets/immich" = { };
+    "monitoring/blackbox-targets/authentik" = { };
+  };
+
+  # Rendered at runtime by sops-nix; Prometheus loads it via scrapeConfigFiles.
+  # Add a new service: add a sops secret and a new `- <placeholder>` line here.
+  sops.templates."prometheus-blackbox.yml" = {
+    owner = "prometheus";
+    mode = "0400";
+    content = ''
+      - job_name: blackbox
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+            - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
+            - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 127.0.0.1:9115
+    '';
   };
 
   services.grafana = {
