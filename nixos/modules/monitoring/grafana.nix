@@ -1,4 +1,73 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+
+let
+  # Stable series color per host. Without this Grafana assigns palette-classic colors by series
+  # index within each panel, so a sleeping host dropping out of one query shifts every colour
+  # after it on that panel only, and a host reads differently graph to graph.
+  hostColors = {
+    shikisha = "green";
+    "nx-01" = "blue";
+    prometheus = "purple";
+    voyager = "orange";
+    seanix = "red";
+    "wopr-0" = "yellow";
+  };
+
+  # Matches both legend shapes in use: the Prometheus panels are {{instance}} ("shikisha:9100"),
+  # the Loki panel is {{host}} ("shikisha"). Fully anchored, because Grafana's byRegexp matcher
+  # has used both .test() and full-match semantics across versions.
+  hostColorOverrides = lib.mapAttrsToList (host: color: {
+    matcher = {
+      id = "byRegexp";
+      options = "/^${host}(:[0-9]+)?$/";
+    };
+    properties = [
+      {
+        id = "color";
+        value = {
+          mode = "fixed";
+          fixedColor = color;
+        };
+      }
+    ];
+  }) hostColors;
+
+  # Timeseries panels only: the "Hosts up" stat panel colors by up/down threshold and the
+  # "Recent errors" logs panel has no field config.
+  colorByHost =
+    dashboard:
+    dashboard
+    // {
+      panels = map (
+        panel:
+        if panel.type == "timeseries" then
+          lib.recursiveUpdate panel {
+            fieldConfig = {
+              defaults.color.mode = "palette-classic"; # fallback for a host not in hostColors
+              overrides = hostColorOverrides;
+            };
+          }
+        else
+          panel
+      ) dashboard.panels;
+    };
+
+  homelabDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/homelab-overview.json)
+  );
+
+  # services-overview passes through untouched: its series are blackbox probe URLs, not hosts.
+  dashboardDir = pkgs.linkFarm "grafana-dashboards" [
+    {
+      name = "homelab-overview.json";
+      path = pkgs.writeText "homelab-overview.json" (builtins.toJSON homelabDashboard);
+    }
+    {
+      name = "services-overview.json";
+      path = ./dashboards/services-overview.json;
+    }
+  ];
+in
 
 {
   # Loki. Fully declared here rather than via services.loki.configFile so the config is
@@ -284,13 +353,15 @@
       };
       dashboards.settings = {
         apiVersion = 1;
-        # A store path, so provisioned dashboards cannot be saved from the UI. To add a
-        # community dashboard, fetch it with pkgs.fetchurl pinned by revision+hash, strip its
-        # __inputs block and rewrite ${DS_*} to a pinned uid, then combine with pkgs.linkFarm.
+        # A store path, so provisioned dashboards cannot be saved from the UI. dashboardDir is
+        # the linkFarm built above: homelab-overview.json has its per-host color overrides
+        # injected from hostColors, which is why the committed JSON carries "overrides": [].
+        # To add a community dashboard, fetch it with pkgs.fetchurl pinned by revision+hash,
+        # strip its __inputs block and rewrite ${DS_*} to a pinned uid, then add it to the farm.
         providers = [
           {
             name = "nixos";
-            options.path = ./dashboards;
+            options.path = dashboardDir;
           }
         ];
       };
