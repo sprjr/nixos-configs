@@ -60,6 +60,9 @@ monitoring:
         immich: ENC[AES256_GCM,data:bCYbM3MPgjVDYRmt8AkDdvudlrMg/vwOotLFVQ==,iv:2nIGdNIVpOj6yPyzSCUjGd0G/fHyqEvb1Uh2uuTROn8=,tag:T0Nr5id4+hGFS2VdDpGF+Q==,type:str]
         authentik: ENC[AES256_GCM,data:dwknQ9AbaecYI+ZUFLArvMAu3F3Be4/cemo=,iv:RBmFn1YLvgx5rT9FjIlyc9ZtxlXcC4KHAYORhtpaKaI=,tag:WSHDUt1QtMb6z1UDpCftxQ==,type:str]
         media: ENC[AES256_GCM,data:NtfdBzqTpg3VPGIP/pNc1KoV3gzeR1I1tEA=,iv:bEgPPsx0YdpXV8IiLnnQh2/iZACAfDu/rJGE+h0Ww1k=,tag:OHwlQDzJFPVQNK3A/OciHA==,type:str]
+    ntfy:
+        comin-url: ENC[AES256_GCM,data:+sh/rbQjRlMtXeecoVqPxh1uQjp6SXsuOLmOYwIPhjBd1Cwfict97U7Nb+BUI3NCwtQccunzg1EZ9pSwxs1kVcr3AB+eWelh,iv:RmLb0DyoYUtEuSN8b5TcTo8VEAQk6GpTCiA/ZydBZM4=,tag:LGvkPYi3a+zn63kswkB7rw==,type:str]
+        grafana-alerts-url: ENC[AES256_GCM,data:a4bPkrS4TiuilgmluNG6fMow8jqL1WTf/cvphnFH4pWN5KJw3JhFvyGfoQ==,iv:ZszaAVrF4PzCTQOsYPP8XRb5wmg9L5g3rvHSKJVU/Dk=,tag:M0DkRHcoK1NVY019YYSMcw==,type:str]
 sops:
     age:
         - enc: |
@@ -71,7 +74,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-28T16:40:08Z"
-    mac: ENC[AES256_GCM,data:UqDHpXjwVnAMWAJfeNnUtPkMFSRNEJkdC/Sbwg1Pi2AK6Z7W1w8HxcAat6vQZg8Wf5SpUE0pcMFWf5yoXfNWTS7C3v6dYgFcDlnSLIrS7bP6sHD2YRgNBI0iU7ZoAvUDwZzzTFpCjH5vNlEv0tOT0naCbd9OEYNvwIxU9RICHG8=,iv:HZaBhVzBVjfWy9qfLlpDAU2e3+8hsXRDiZvnGM+vA38=,tag:iy7BFOBArhs4+eTENk+sew==,type:str]
+    lastmodified: "2026-07-28T19:39:00Z"
+    mac: ENC[AES256_GCM,data:GJD+ziW6URiJS7m0JXXbrx1ZOmb0GXJA3/EVUinvRKb1qt/ztYa7vINk8X7fcDxVq1A0TrdFPEA0z8kj5zXyUVNaVmJuj7b/V0L9ZMenMr3BKJ9nTVMQYl8m0kOWAe/I+hks7OtITmvlFQZGGx0w5s6hLNaLdWjvdrs75N8HF0I=,iv:jbUM1uJo52yagBYge9PZuuonv2RoaCwhxPgi2V4WPxQ=,tag:Y+OIwHazf8PGEGE5QKRmoQ==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
