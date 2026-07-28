@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # Loki. Fully declared here rather than via services.loki.configFile so the config is
@@ -102,15 +102,47 @@
         job_name = "grafana";
         static_configs = [ { targets = [ "127.0.0.1:3000" ]; } ];
       }
+      # Blackbox targets live in a sops-rendered file so the URLs stay out of the Nix store.
+      # This is file_sd rather than prometheus' scrape_config_files: the NixOS module builds
+      # prometheus.yml from a closed set of keys (global, scrape_configs, remote_*, rule_files,
+      # alerting) and cannot emit scrape_config_files at all. file_sd gets the same property —
+      # targets read at runtime, so adding one needs no rebuild — via a supported option.
+      {
+        job_name = "blackbox";
+        metrics_path = "/probe";
+        params.module = [ "http_2xx" ];
+        file_sd_configs = [
+          { files = [ config.sops.templates."prometheus-blackbox.yml".path ]; }
+        ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
     ];
-    # Blackbox targets live in a sops-rendered file so URLs stay out of the Nix store.
-    scrapeConfigFiles = [ config.sops.templates."prometheus-blackbox.yml".path ];
+    # promtool runs inside the build sandbox and cannot see the sops-rendered file_sd file, so a
+    # full `promtool check config` fails on the missing path. Syntax-only skips referenced-file
+    # validation; the scrape config itself is still checked.
+    checkConfig = "syntax-only";
   };
 
+  # configFile takes a path (types.path), not an inline attrset — there is no `configuration`
+  # option on this exporter. Generating it into the store also gets it config-checked at build
+  # time by `blackbox_exporter --config.check` (enableConfigCheck, default true).
   services.prometheus.exporters.blackbox = {
     enable = true;
     port = 9115;
-    configuration = {
+    configFile = (pkgs.formats.yaml { }).generate "blackbox-exporter.yml" {
       modules.http_2xx = {
         prober = "http";
         timeout = "10s";
@@ -146,27 +178,17 @@
     "monitoring/blackbox-targets/authentik" = { };
   };
 
-  # Rendered at runtime by sops-nix; Prometheus loads it via scrapeConfigFiles.
+  # Rendered at runtime by sops-nix; the blackbox job above loads it via file_sd_configs. This is
+  # a file_sd target-group list, not a scrape config — job structure stays in scrapeConfigs so it
+  # remains versioned; only the URLs are secret. Prometheus re-reads this every 5m by default.
   # Add a new service: add a sops secret and a new `- <placeholder>` line here.
   sops.templates."prometheus-blackbox.yml" = {
     owner = "prometheus";
     mode = "0400";
     content = ''
-      - job_name: blackbox
-        metrics_path: /probe
-        params:
-          module: [http_2xx]
-        static_configs:
-          - targets:
-            - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
-            - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: 127.0.0.1:9115
+      - targets:
+          - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
+          - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
     '';
   };
 
