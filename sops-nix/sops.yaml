@@ -59,6 +59,7 @@ monitoring:
     blackbox-targets:
         immich: ENC[AES256_GCM,data:bCYbM3MPgjVDYRmt8AkDdvudlrMg/vwOotLFVQ==,iv:2nIGdNIVpOj6yPyzSCUjGd0G/fHyqEvb1Uh2uuTROn8=,tag:T0Nr5id4+hGFS2VdDpGF+Q==,type:str]
         authentik: ENC[AES256_GCM,data:dwknQ9AbaecYI+ZUFLArvMAu3F3Be4/cemo=,iv:RBmFn1YLvgx5rT9FjIlyc9ZtxlXcC4KHAYORhtpaKaI=,tag:WSHDUt1QtMb6z1UDpCftxQ==,type:str]
+        media: ENC[AES256_GCM,data:NtfdBzqTpg3VPGIP/pNc1KoV3gzeR1I1tEA=,iv:bEgPPsx0YdpXV8IiLnnQh2/iZACAfDu/rJGE+h0Ww1k=,tag:OHwlQDzJFPVQNK3A/OciHA==,type:str]
 sops:
     age:
         - enc: |
@@ -70,7 +71,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-28T05:17:49Z"
-    mac: ENC[AES256_GCM,data:cfSgwvFs85tryyUcjkxs9dO5Qp7VES6RYx+xZkvfAx8vCrmW8sbHsQfxZtJfqEwbxZQYNMLEgSc+wAXMaHWnodFaeC4YhBgAZihaJ5H0kGYtAjokTWQca3RTJ8PZGnaJOSBs3XG1GDqSZLP7huhLqxDwD2QhGPFvvJIL+bP9jO0=,iv:KYpXlqdAiNuvgVjQAmI2IJBSr2tCeFpdPK+rKftHM1o=,tag:st7oOC5c1B7lK7iyTPi+vA==,type:str]
+    lastmodified: "2026-07-28T16:40:08Z"
+    mac: ENC[AES256_GCM,data:UqDHpXjwVnAMWAJfeNnUtPkMFSRNEJkdC/Sbwg1Pi2AK6Z7W1w8HxcAat6vQZg8Wf5SpUE0pcMFWf5yoXfNWTS7C3v6dYgFcDlnSLIrS7bP6sHD2YRgNBI0iU7ZoAvUDwZzzTFpCjH5vNlEv0tOT0naCbd9OEYNvwIxU9RICHG8=,iv:HZaBhVzBVjfWy9qfLlpDAU2e3+8hsXRDiZvnGM+vA38=,tag:iy7BFOBArhs4+eTENk+sew==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.1
