@@ -85,6 +85,7 @@
               "prometheus:9100"
               "voyager:9100"
               "seanix:9100"
+              "wopr-0:9100"
             ];
           }
         ];
