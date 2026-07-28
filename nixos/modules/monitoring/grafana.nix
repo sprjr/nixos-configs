@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   # Stable series color per host. Without this Grafana assigns palette-classic colors by series
@@ -216,7 +221,10 @@ in
         prober = "http";
         timeout = "10s";
         http = {
-          valid_http_versions = [ "HTTP/1.1" "HTTP/2.0" ];
+          valid_http_versions = [
+            "HTTP/1.1"
+            "HTTP/2.0"
+          ];
           follow_redirects = true;
           preferred_ip_protocol = "ip4";
           tls_config.insecure_skip_verify = false;
@@ -245,6 +253,7 @@ in
     };
     "monitoring/blackbox-targets/immich" = { };
     "monitoring/blackbox-targets/authentik" = { };
+    "monitoring/blackbox-targets/media" = { };
   };
 
   # Rendered at runtime by sops-nix; the blackbox job above loads it via file_sd_configs. This is
@@ -258,6 +267,7 @@ in
       - targets:
           - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
+          - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
     '';
   };
 
