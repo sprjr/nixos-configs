@@ -29,6 +29,24 @@ let
     "NVD_BACKEND,direct"
     "WLR_NO_HARDWARE_CURSORS,1"
   ];
+
+  # Hyprland writes its log to $XDG_RUNTIME_DIR (tmpfs), so it dies with the session and is
+  # gone by the time a crash is investigated. This tails it into ~/.local/state/hyprland/ for
+  # the duration of the session. Only built when debugLogging is on.
+  logArchiver = pkgs.writeShellApplication {
+    name = "hyprland-log-archive";
+    runtimeInputs = with pkgs; [ coreutils findutils ];
+    text = ''
+      src="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/hyprland.log"
+      dest="''${XDG_STATE_HOME:-$HOME/.local/state}/hyprland"
+      mkdir -p "$dest"
+      # Prune before writing so a night of crash-looping can't accumulate indefinitely.
+      find "$dest" -maxdepth 1 -name 'session-*.log' -mtime +14 -delete
+      # head caps one session at 512M: the connector-rescan storm writes far faster than a
+      # normal session does, and 512M is already ~50x more history than the crash tail holds.
+      tail -n +1 -F "$src" | head -c 512M > "$dest/session-$(date +%Y%m%d-%H%M%S).log"
+    '';
+  };
 in
 {
   imports = [
@@ -158,6 +176,24 @@ in
           panel — leave off if you rely on VRR.
         '';
       };
+    };
+
+    debugLogging = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Temporary instrumentation for the aquamarine SEGV in CBackend::dispatchIdle (seanix,
+        Jul 21 / Jul 27 2026). Turns off debug:disable_logs and archives the session log off
+        tmpfs to ~/.local/state/hyprland/session-<timestamp>.log, which is what the crash
+        report's fixed-size tail cannot give — the tail is entirely saturated by the connector
+        rescan loop, so the triggering event is pushed out of it.
+
+        TEARDOWN: set back to false once the trigger is identified. That reverts disable_logs to
+        the upstream default and drops the archiver unit; the archives under
+        ~/.local/state/hyprland/ are not garbage-collected by Nix and must be deleted by hand.
+        journald persistence is NOT part of this — Storage=persistent is already the NixOS
+        default and stays on regardless.
+      '';
     };
   };
 
@@ -335,13 +371,12 @@ in
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
         };
 
-        # disable_logs defaults true, so the crash-report ring buffer holds only aquamarine DRM
-        # output. seanix took two SEGVs in CBackend::dispatchIdle (Jul 21, Jul 27) whose log tails
-        # were pure connector-rescan spam, with no Hyprland-level event showing what triggered the
-        # rescan. Full logs go to $XDG_RUNTIME_DIR/hypr/<signature>/hyprland.log (tmpfs, cleared at
-        # logout); the crash report embeds the tail. Turn back off once the trigger is identified.
+        # Gated on debugLogging. Raising verbosity alone made things worse: it does not enlarge
+        # the crash report's fixed-size tail, so more scan spam per second means less pre-crash
+        # history survives in it. Only useful paired with the log archiver below, which keeps the
+        # full log off tmpfs.
         debug = {
-          disable_logs = false;
+          disable_logs = !cfg.debugLogging;
         };
       };
     };
@@ -370,6 +405,25 @@ in
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    # Started by the same target as the other session daemons, so it runs only after `uwsm
+    # finalize` has exported HYPRLAND_INSTANCE_SIGNATURE into the systemd user manager — the
+    # script needs it to locate the runtime log.
+    systemd.user.services.hyprland-log-archive = mkIf cfg.debugLogging {
+      Unit = {
+        Description = "Archive the Hyprland session log off tmpfs (crash instrumentation)";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = getExe logArchiver;
+        # No Restart: each start opens a new archive file, so a restart loop would litter
+        # ~/.local/state/hyprland. A failed state after the 512M cap (or an unset signature) is
+        # the intended signal.
+        Restart = "no";
       };
       Install.WantedBy = [ "hyprland-session.target" ];
     };
