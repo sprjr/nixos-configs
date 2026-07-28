@@ -72,6 +72,15 @@ let
       path = ./dashboards/services-overview.json;
     }
   ];
+
+  # grafana.ini's $__file{} substitutes one file per value, so every URL kept out of the store
+  # needs its own rendered file. Grafana trims surrounding whitespace when reading them.
+  urlFile = content: {
+    owner = "grafana";
+    mode = "0400";
+    restartUnits = [ "grafana.service" ];
+    inherit content;
+  };
 in
 
 {
@@ -251,6 +260,15 @@ in
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
+    # Public hostname Caddy serves this instance on, e.g. grafana.example.com. Read directly by
+    # grafana.ini, hence the grafana ownership; the other URLs derive from templates below.
+    "grafana/domain" = {
+      owner = "grafana";
+      mode = "0400";
+      restartUnits = [ "grafana.service" ];
+    };
+    # Scheme and host of the Authentik instance, no trailing slash and no path.
+    "grafana/authentik-base-url" = { };
     "monitoring/blackbox-targets/immich" = { };
     "monitoring/blackbox-targets/authentik" = { };
     "monitoring/blackbox-targets/media" = { };
@@ -272,6 +290,20 @@ in
           - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
     '';
   };
+
+  # root_url and the four OIDC endpoints are derived from the two secrets above rather than
+  # stored individually, so rotating a domain touches one sops value. The Authentik paths are
+  # fixed by its OAuth2 provider; only the end-session endpoint is keyed by application slug.
+  sops.templates."grafana-root-url" =
+    urlFile "https://${config.sops.placeholder."grafana/domain"}/";
+  sops.templates."grafana-oauth-auth-url" =
+    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/authorize/";
+  sops.templates."grafana-oauth-token-url" =
+    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/token/";
+  sops.templates."grafana-oauth-api-url" =
+    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/userinfo/";
+  sops.templates."grafana-oauth-signout-url" =
+    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/grafana/end-session/";
 
   # Contact points are the only alerting resource holding a secret, so they are the only one
   # rendered at runtime; rules and the policy tree stay inline in Nix below. The NixOS module
@@ -308,8 +340,8 @@ in
         http_port = 3000;
         # Absolute URLs (share links, alert links, future OAuth redirects) are built from
         # these, so they describe what the browser sees through Caddy, not this host.
-        domain = "grafana.rawliyosh.com";
-        root_url = "https://grafana.rawliyosh.com/";
+        domain = "$__file{${config.sops.secrets."grafana/domain".path}}";
+        root_url = "$__file{${config.sops.templates."grafana-root-url".path}}";
         # enforce_domain would reject requests whose Host header differs from `domain`,
         # breaking direct access over Tailscale.
         enforce_domain = false;
@@ -345,11 +377,11 @@ in
         client_secret = "$__file{${config.sops.secrets."grafana/oauth-client-secret".path}}";
         # offline_access is what makes Authentik issue the refresh token used below.
         scopes = "openid email profile offline_access";
-        auth_url = "https://auth.rawliyosh.com/application/o/authorize/";
-        token_url = "https://auth.rawliyosh.com/application/o/token/";
-        api_url = "https://auth.rawliyosh.com/application/o/userinfo/";
+        auth_url = "$__file{${config.sops.templates."grafana-oauth-auth-url".path}}";
+        token_url = "$__file{${config.sops.templates."grafana-oauth-token-url".path}}";
+        api_url = "$__file{${config.sops.templates."grafana-oauth-api-url".path}}";
         # Unlike the others, the end-session endpoint is keyed by application slug.
-        signout_redirect_url = "https://auth.rawliyosh.com/application/o/grafana/end-session/";
+        signout_redirect_url = "$__file{${config.sops.templates."grafana-oauth-signout-url".path}}";
         use_pkce = true;
         use_refresh_token = true;
         # JMESPath over the userinfo claims. Requires the provider to emit a groups claim,
