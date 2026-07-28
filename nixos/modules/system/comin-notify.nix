@@ -1,14 +1,17 @@
 { config, pkgs, ... }:
 
 let
-  ntfyUrl = "http://100.119.239.121:55455/rawliyosh-administration-notification-comin";
+  # The topic path is the only thing gating publishes to ntfy, so the URL is read from the
+  # sops-rendered file at runtime instead of being interpolated into a world-readable script.
+  ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
 
   cominNotify = pkgs.writeScript "comin-notify.py" ''
     #!${pkgs.python3}/bin/python3
     import subprocess, json, os, sys
 
     hostname = "${config.networking.hostName}"
-    ntfy_url = "${ntfyUrl}"
+    with open("${ntfyUrlFile}") as f:
+        ntfy_url = f.read().strip()
     state_file = "/var/lib/comin-notify/state.json"
 
     def get_status():
@@ -72,6 +75,9 @@ let
     save_state(state)
   '';
 in {
+  # Root-owned 0400; the unit below runs as root.
+  sops.secrets."monitoring/ntfy/comin-url" = { };
+
   systemd.services.comin-notify = {
     description = "Check comin deployment status and send ntfy alerts";
     path = [ config.services.comin.package pkgs.ntfy-sh ];

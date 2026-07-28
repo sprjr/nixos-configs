@@ -254,6 +254,8 @@ in
     "monitoring/blackbox-targets/immich" = { };
     "monitoring/blackbox-targets/authentik" = { };
     "monitoring/blackbox-targets/media" = { };
+    # Full ntfy topic URL for alert notifications, without a query string.
+    "monitoring/ntfy/grafana-alerts-url" = { };
   };
 
   # Rendered at runtime by sops-nix; the blackbox job above loads it via file_sd_configs. This is
@@ -268,6 +270,32 @@ in
           - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
+    '';
+  };
+
+  # Contact points are the only alerting resource holding a secret, so they are the only one
+  # rendered at runtime; rules and the policy tree stay inline in Nix below. The NixOS module
+  # symlinks `provision.alerting.contactPoints.path` into the provisioning directory without
+  # copying, so a /run path stays out of the store — the symlink is dangling at build time and
+  # resolves once sops-nix has rendered the file.
+  # ?template=grafana makes ntfy render the webhook JSON into a readable notification server
+  # side (ntfy >= 2.12); drop it and the raw payload becomes the message body.
+  sops.templates."grafana-contact-points.yaml" = {
+    owner = "grafana";
+    mode = "0400";
+    restartUnits = [ "grafana.service" ];
+    content = ''
+      apiVersion: 1
+      contactPoints:
+        - orgId: 1
+          name: ntfy
+          receivers:
+            - uid: ntfy-alerts
+              type: webhook
+              disableResolveMessage: false
+              settings:
+                url: ${config.sops.placeholder."monitoring/ntfy/grafana-alerts-url"}?template=grafana
+                httpMethod: POST
     '';
   };
 
@@ -374,6 +402,155 @@ in
             options.path = dashboardDir;
           }
         ];
+      };
+
+      # Everything provisioned here is read-only in the UI. Removing a rule from this file does
+      # not delete it from Grafana's database — that needs a `deleteRules` entry with its uid.
+      alerting = {
+        contactPoints.path = config.sops.templates."grafana-contact-points.yaml".path;
+
+        # The policy tree is a single resource: this replaces it wholesale, including the
+        # default grafana-default-email route.
+        policies.settings = {
+          apiVersion = 1;
+          policies = [
+            {
+              orgId = 1;
+              receiver = "ntfy";
+              group_by = [
+                "alertname"
+                "instance"
+              ];
+              group_wait = "30s";
+              group_interval = "5m";
+              repeat_interval = "6h";
+            }
+          ];
+        };
+
+        rules.settings = {
+          apiVersion = 1;
+          groups = [
+            {
+              orgId = 1;
+              name = "availability";
+              folder = "Alerts";
+              interval = "1m";
+              rules = [
+                {
+                  uid = "probe-down";
+                  title = "Service probe failing";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''probe_success{job="blackbox"}'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "lt";
+                              params = [ 1 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "5m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "critical";
+                  # The instance label is the probed URL, i.e. one of the sops-held blackbox
+                  # targets. It reaches ntfy and Grafana's database, neither of which is public.
+                  annotations.summary = "{{ $labels.instance }} has failed its HTTP probe";
+                }
+                {
+                  uid = "host-down";
+                  title = "Host down";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Restricted to the always-on hosts: the workstations sleep, so up{}
+                        # flapping for them is expected and would alert every night.
+                        expr = ''up{job="node", instance=~"shikisha:9100|wopr-0:9100"}'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "lt";
+                              params = [ 1 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "10m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "critical";
+                  annotations.summary = "{{ $labels.instance }} has stopped reporting to Prometheus";
+                }
+              ];
+            }
+          ];
+        };
       };
     };
   };
