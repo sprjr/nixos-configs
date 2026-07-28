@@ -18,8 +18,11 @@ in
     programs.hyprlock = {
       enable = true;
       settings = {
+        # disable_loading_bar was dropped upstream; hyprlock 0.9.5 rejects it with
+        # "config option <general:disable_loading_bar> does not exist" on every lock, so it was
+        # already inert. Removed rather than renamed — re-add the current equivalent if the
+        # loading bar becomes visible and is unwanted.
         general = {
-          disable_loading_bar = true;
           hide_cursor = false;
         };
 

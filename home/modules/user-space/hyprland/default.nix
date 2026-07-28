@@ -334,6 +334,15 @@ in
         render = optionalAttrs cfg.gaming.enable {
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
         };
+
+        # disable_logs defaults true, so the crash-report ring buffer holds only aquamarine DRM
+        # output. seanix took two SEGVs in CBackend::dispatchIdle (Jul 21, Jul 27) whose log tails
+        # were pure connector-rescan spam, with no Hyprland-level event showing what triggered the
+        # rescan. Full logs go to $XDG_RUNTIME_DIR/hypr/<signature>/hyprland.log (tmpfs, cleared at
+        # logout); the crash report embeds the tail. Turn back off once the trigger is identified.
+        debug = {
+          disable_logs = false;
+        };
       };
     };
 
