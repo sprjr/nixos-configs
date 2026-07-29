@@ -161,6 +161,7 @@ in
         sops-nix.homeManagerModules.sops
         ../home/laptop-home.nix
       ];
+      patrick.home.hyprland.disableWhileExternal = true;
     };
   };
 
