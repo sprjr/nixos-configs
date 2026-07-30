@@ -114,12 +114,6 @@ in
       '';
     };
 
-    disableWhileExternal = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Disable touchpad when an external mouse is connected.";
-    };
-
     gpu = mkOption {
       type = types.nullOr (types.enum [ "nvidia" "amd" ]);
       default = null;
@@ -348,7 +342,6 @@ in
             natural_scroll = true;
             clickfinger_behavior = true;
             disable_while_typing = true;
-            disable_while_external = cfg.disableWhileExternal;
           };
         };
 

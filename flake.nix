@@ -314,6 +314,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/hardware/touchpad-inhibit.nix
             ];
           };
           whale = nixpkgs.lib.nixosSystem {
