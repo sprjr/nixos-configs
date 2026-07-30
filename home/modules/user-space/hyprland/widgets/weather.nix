@@ -69,7 +69,7 @@ let
         exit 0
       fi
 
-      printf '%s' "$data" | jq '
+      printf '%s' "$data" | jq -c '
         ${wmoJq}
         .current | {
           text: "\(.weather_code | wmo_icon) \(.temperature_2m | round)°F",
