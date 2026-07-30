@@ -162,6 +162,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
             ];
           };
           trixos = nixpkgs.lib.nixosSystem {
@@ -223,6 +224,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
             ];
           };
           seanix = nixpkgs.lib.nixosSystem {
@@ -251,6 +253,7 @@
               ./nixos/modules/system/udev-scrcpy.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/user/patrick-desktop.nix
             ];
           };
@@ -282,6 +285,7 @@
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
@@ -314,6 +318,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/hardware/touchpad-inhibit.nix
             ];
           };

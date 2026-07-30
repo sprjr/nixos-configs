@@ -61,6 +61,10 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/homelab-overview.json)
   );
 
+  nixStateDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/nix-state.json)
+  );
+
   # services-overview passes through untouched: its series are blackbox probe URLs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
@@ -70,6 +74,10 @@ let
     {
       name = "services-overview.json";
       path = ./dashboards/services-overview.json;
+    }
+    {
+      name = "nix-state.json";
+      path = pkgs.writeText "nix-state.json" (builtins.toJSON nixStateDashboard);
     }
   ];
 
