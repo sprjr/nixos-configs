@@ -149,8 +149,12 @@
       interactiveShellInit = ''
         set fish_greeting
         eval (${pkgs.direnv}/bin/direnv hook fish)
-        if status is-interactive
-          eval (zellij setup --generate-auto-start fish | string collect)
+        if status is-interactive; and not set -q ZELLIJ
+            if test -n "$SSH_CONNECTION"
+                zellij --layout remote
+            else
+                zellij
+            end
         end
         function cht
           if test (count $argv) -eq 0
