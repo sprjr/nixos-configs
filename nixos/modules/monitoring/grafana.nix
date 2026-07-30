@@ -272,6 +272,7 @@ in
     "monitoring/blackbox-targets/immich" = { };
     "monitoring/blackbox-targets/authentik" = { };
     "monitoring/blackbox-targets/media" = { };
+    "monitoring/blackbox-targets/ike" = { };
     # Full ntfy topic URL for alert notifications, without a query string.
     "monitoring/ntfy/grafana-alerts-url" = { };
   };
@@ -288,22 +289,26 @@ in
           - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
+          - ${config.sops.placeholder."monitoring/blackbox-targets/ike"}
     '';
   };
 
   # root_url and the four OIDC endpoints are derived from the two secrets above rather than
   # stored individually, so rotating a domain touches one sops value. The Authentik paths are
   # fixed by its OAuth2 provider; only the end-session endpoint is keyed by application slug.
-  sops.templates."grafana-root-url" =
-    urlFile "https://${config.sops.placeholder."grafana/domain"}/";
-  sops.templates."grafana-oauth-auth-url" =
-    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/authorize/";
-  sops.templates."grafana-oauth-token-url" =
-    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/token/";
-  sops.templates."grafana-oauth-api-url" =
-    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/userinfo/";
-  sops.templates."grafana-oauth-signout-url" =
-    urlFile "${config.sops.placeholder."grafana/authentik-base-url"}/application/o/grafana/end-session/";
+  sops.templates."grafana-root-url" = urlFile "https://${config.sops.placeholder."grafana/domain"}/";
+  sops.templates."grafana-oauth-auth-url" = urlFile "${
+    config.sops.placeholder."grafana/authentik-base-url"
+  }/application/o/authorize/";
+  sops.templates."grafana-oauth-token-url" = urlFile "${
+    config.sops.placeholder."grafana/authentik-base-url"
+  }/application/o/token/";
+  sops.templates."grafana-oauth-api-url" = urlFile "${
+    config.sops.placeholder."grafana/authentik-base-url"
+  }/application/o/userinfo/";
+  sops.templates."grafana-oauth-signout-url" = urlFile "${
+    config.sops.placeholder."grafana/authentik-base-url"
+  }/application/o/grafana/end-session/";
 
   # Contact points are the only alerting resource holding a secret, so they are the only one
   # rendered at runtime; rules and the policy tree stay inline in Nix below. The NixOS module
