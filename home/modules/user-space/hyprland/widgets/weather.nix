@@ -16,17 +16,17 @@ let
 
   wmoJq = ''
     def wmo_icon:
-      if . == 0 then "☀"
-      elif . == 1 then "🌤"
-      elif . == 2 then "⛅"
-      elif . == 3 then "☁"
-      elif (. == 45 or . == 48) then "🌫"
-      elif (. >= 51 and . <= 57) then "🌦"
-      elif (. >= 61 and . <= 67) then "🌧"
-      elif (. >= 71 and . <= 77) then "❄"
-      elif (. >= 80 and . <= 82) then "🌦"
-      elif (. == 85 or . == 86) then "❄"
-      elif . >= 95 then "⛈"
+      if . == 0 then "󰖙"
+      elif . == 1 then "󰖙"
+      elif . == 2 then "󰖐"
+      elif . == 3 then "󰖐"
+      elif (. == 45 or . == 48) then "󰖑"
+      elif (. >= 51 and . <= 57) then "󰖗"
+      elif (. >= 61 and . <= 67) then "󰖗"
+      elif (. >= 71 and . <= 77) then "󰖘"
+      elif (. >= 80 and . <= 82) then "󰖕"
+      elif (. == 85 or . == 86) then "󰖘"
+      elif . >= 95 then "󰖓"
       else "?" end;
     def wmo_desc:
       if . == 0 then "Clear"
