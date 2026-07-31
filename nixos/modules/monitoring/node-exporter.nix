@@ -21,6 +21,5 @@ in
     "d ${textfileDir} 0755 root root -"
   ];
 
-  # Scraped by the Prometheus server on shikisha over the tailnet.
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 9100 ];
 }

@@ -6,9 +6,7 @@
 }:
 
 let
-  # Stable series color per host. Without this Grafana assigns palette-classic colors by series
-  # index within each panel, so a sleeping host dropping out of one query shifts every colour
-  # after it on that panel only, and a host reads differently graph to graph.
+  # Stable per-host colors; without this, a sleeping host dropping out shifts all colors after it.
   hostColors = {
     shikisha = "green";
     "nx-01" = "blue";
@@ -18,9 +16,7 @@ let
     "wopr-0" = "yellow";
   };
 
-  # Matches both legend shapes in use: the Prometheus panels are {{instance}} ("shikisha:9100"),
-  # the Loki panel is {{host}} ("shikisha"). Fully anchored, because Grafana's byRegexp matcher
-  # has used both .test() and full-match semantics across versions.
+  # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
   hostColorOverrides = lib.mapAttrsToList (host: color: {
     matcher = {
       id = "byRegexp";
@@ -37,8 +33,6 @@ let
     ];
   }) hostColors;
 
-  # Timeseries panels only: the "Hosts up" stat panel colors by up/down threshold and the
-  # "Recent errors" logs panel has no field config.
   colorByHost =
     dashboard:
     dashboard
@@ -48,7 +42,7 @@ let
         if panel.type == "timeseries" then
           lib.recursiveUpdate panel {
             fieldConfig = {
-              defaults.color.mode = "palette-classic"; # fallback for a host not in hostColors
+              defaults.color.mode = "palette-classic";
               overrides = hostColorOverrides;
             };
           }
@@ -65,7 +59,7 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/nix-state.json)
   );
 
-  # services-overview passes through untouched: its series are blackbox probe URLs, not hosts.
+  # services-overview skips colorByHost: its series are probe URLs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
       name = "homelab-overview.json";
@@ -81,8 +75,7 @@ let
     }
   ];
 
-  # grafana.ini's $__file{} substitutes one file per value, so every URL kept out of the store
-  # needs its own rendered file. Grafana trims surrounding whitespace when reading them.
+  # One sops-rendered file per $__file{} substitution; Grafana trims whitespace on read.
   urlFile = content: {
     owner = "grafana";
     mode = "0400";
@@ -92,16 +85,12 @@ let
 in
 
 {
-  # Loki. Fully declared here rather than via services.loki.configFile so the config is
-  # versioned with the flake. dataDir defaults to /var/lib/loki; path_prefix points at it
-  # instead of the upstream example's /tmp/loki, which does not survive a reboot.
   services.loki = {
     enable = true;
     configuration = {
       auth_enabled = false;
 
       server = {
-        # Bind wide; the tailscale0-scoped firewall below is the boundary.
         http_listen_address = "0.0.0.0";
         http_listen_port = 3100;
         grpc_listen_address = "127.0.0.1";
@@ -115,7 +104,7 @@ in
           chunks_directory = "/var/lib/loki/chunks";
           rules_directory = "/var/lib/loki/rules";
         };
-        replication_factor = 1; # upstream default is 3; single binary needs 1
+        replication_factor = 1; # single-binary mode requires 1
         ring.kvstore.store = "inmemory";
       };
 
@@ -137,7 +126,6 @@ in
         }
       ];
 
-      # Retention is only enforced when the compactor runs with retention_enabled.
       compactor = {
         working_directory = "/var/lib/loki/compactor";
         retention_enabled = true;
@@ -147,7 +135,7 @@ in
       limits_config = {
         retention_period = "720h"; # 30d
         allow_structured_metadata = true;
-        volume_enabled = true; # log-volume histogram in Grafana Explore
+        volume_enabled = true;
         reject_old_samples = true;
         reject_old_samples_max_age = "168h";
       };
@@ -156,8 +144,6 @@ in
     };
   };
 
-  # Prometheus. The self-scrape job is "prometheus-server" because "prometheus" is also a
-  # hostname in this flake and would make {job="prometheus"} ambiguous.
   services.prometheus = {
     enable = true;
     port = 9090;
@@ -167,7 +153,6 @@ in
     scrapeConfigs = [
       {
         job_name = "node";
-        # Tailscale MagicDNS names. The workstations sleep, so up{} flaps for them by design.
         static_configs = [
           {
             targets = [
@@ -193,11 +178,7 @@ in
         job_name = "grafana";
         static_configs = [ { targets = [ "127.0.0.1:3000" ]; } ];
       }
-      # Blackbox targets live in a sops-rendered file so the URLs stay out of the Nix store.
-      # This is file_sd rather than prometheus' scrape_config_files: the NixOS module builds
-      # prometheus.yml from a closed set of keys (global, scrape_configs, remote_*, rule_files,
-      # alerting) and cannot emit scrape_config_files at all. file_sd gets the same property —
-      # targets read at runtime, so adding one needs no rebuild — via a supported option.
+      # file_sd because the NixOS module can't emit scrape_config_files; URLs are sops secrets.
       {
         job_name = "blackbox";
         metrics_path = "/probe";
@@ -221,15 +202,10 @@ in
         ];
       }
     ];
-    # promtool runs inside the build sandbox and cannot see the sops-rendered file_sd file, so a
-    # full `promtool check config` fails on the missing path. Syntax-only skips referenced-file
-    # validation; the scrape config itself is still checked.
+    # syntax-only: full check fails on sops-rendered file_sd paths missing in the sandbox.
     checkConfig = "syntax-only";
   };
 
-  # configFile takes a path (types.path), not an inline attrset — there is no `configuration`
-  # option on this exporter. Generating it into the store also gets it config-checked at build
-  # time by `blackbox_exporter --config.check` (enableConfigCheck, default true).
   services.prometheus.exporters.blackbox = {
     enable = true;
     port = 9115;
@@ -250,7 +226,6 @@ in
     };
   };
 
-  # Declared alongside services.grafana so the grafana user exists when sops-nix chowns these.
   sops.secrets = {
     "grafana/admin-password" = {
       owner = "grafana";
@@ -262,33 +237,24 @@ in
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
-    # Client secret of the Authentik OAuth2/OIDC provider named "grafana".
     "grafana/oauth-client-secret" = {
       owner = "grafana";
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
-    # Public hostname Caddy serves this instance on, e.g. grafana.example.com. Read directly by
-    # grafana.ini, hence the grafana ownership; the other URLs derive from templates below.
     "grafana/domain" = {
       owner = "grafana";
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
-    # Scheme and host of the Authentik instance, no trailing slash and no path.
     "grafana/authentik-base-url" = { };
     "monitoring/blackbox-targets/immich" = { };
     "monitoring/blackbox-targets/authentik" = { };
     "monitoring/blackbox-targets/media" = { };
     "monitoring/blackbox-targets/ike" = { };
-    # Full ntfy topic URL for alert notifications, without a query string.
     "monitoring/ntfy/grafana-alerts-url" = { };
   };
 
-  # Rendered at runtime by sops-nix; the blackbox job above loads it via file_sd_configs. This is
-  # a file_sd target-group list, not a scrape config — job structure stays in scrapeConfigs so it
-  # remains versioned; only the URLs are secret. Prometheus re-reads this every 5m by default.
-  # Add a new service: add a sops secret and a new `- <placeholder>` line here.
   sops.templates."prometheus-blackbox.yml" = {
     owner = "prometheus";
     mode = "0400";
@@ -301,9 +267,7 @@ in
     '';
   };
 
-  # root_url and the four OIDC endpoints are derived from the two secrets above rather than
-  # stored individually, so rotating a domain touches one sops value. The Authentik paths are
-  # fixed by its OAuth2 provider; only the end-session endpoint is keyed by application slug.
+  # OIDC URLs derived from two base secrets so rotating a domain touches one sops value.
   sops.templates."grafana-root-url" = urlFile "https://${config.sops.placeholder."grafana/domain"}/";
   sops.templates."grafana-oauth-auth-url" = urlFile "${
     config.sops.placeholder."grafana/authentik-base-url"
@@ -318,13 +282,7 @@ in
     config.sops.placeholder."grafana/authentik-base-url"
   }/application/o/grafana/end-session/";
 
-  # Contact points are the only alerting resource holding a secret, so they are the only one
-  # rendered at runtime; rules and the policy tree stay inline in Nix below. The NixOS module
-  # symlinks `provision.alerting.contactPoints.path` into the provisioning directory without
-  # copying, so a /run path stays out of the store — the symlink is dangling at build time and
-  # resolves once sops-nix has rendered the file.
-  # ?template=grafana makes ntfy render the webhook JSON into a readable notification server
-  # side (ntfy >= 2.12); drop it and the raw payload becomes the message body.
+  # ?template=grafana makes ntfy render the webhook JSON into a readable notification.
   sops.templates."grafana-contact-points.yaml" = {
     owner = "grafana";
     mode = "0400";
@@ -348,65 +306,49 @@ in
     enable = true;
     settings = {
       server = {
-        # Caddy runs on a separate host, so loopback-only will not work.
         http_addr = "0.0.0.0";
         http_port = 3000;
-        # Absolute URLs (share links, alert links, future OAuth redirects) are built from
-        # these, so they describe what the browser sees through Caddy, not this host.
         domain = "$__file{${config.sops.secrets."grafana/domain".path}}";
         root_url = "$__file{${config.sops.templates."grafana-root-url".path}}";
-        # enforce_domain would reject requests whose Host header differs from `domain`,
-        # breaking direct access over Tailscale.
+        # false: enforce_domain would break direct Tailscale access.
         enforce_domain = false;
       };
       security = {
         admin_user = "admin";
-        # $__file{} keeps the secrets out of the world-readable Nix store.
         admin_password = "$__file{${config.sops.secrets."grafana/admin-password".path}}";
         secret_key = "$__file{${config.sops.secrets."grafana/secret-key".path}}";
-        cookie_secure = true; # the browser sees HTTPS even though the backend hop is plain
-        # "strict" would withhold the oauth_state cookie on the cross-site redirect back
-        # from Authentik, failing every OAuth login with a state mismatch.
+        cookie_secure = true;
+        # "strict" breaks OAuth: state cookie withheld on Authentik redirect.
         cookie_samesite = "lax";
       };
-      # Gates the local signup form only; OAuth signup is auth.generic_oauth.allow_sign_up.
       users.allow_sign_up = false;
       analytics = {
         reporting_enabled = false;
         check_for_updates = false;
       };
 
-      # Authentik SSO. The local login form is deliberately left enabled so a broken or
-      # unreachable Authentik does not lock the admin account out.
+      # Authentik SSO; local login left enabled as fallback.
       "auth.generic_oauth" = {
         enabled = true;
         name = "Authentik";
         icon = "signin";
-        # Creates a Grafana user on first successful OAuth login.
         allow_sign_up = true;
-        # Must match the Client ID on the Authentik provider; Authentik generates a random
-        # one by default, so it has to be overridden there to this value.
+        # Must match the Client ID set on the Authentik provider.
         client_id = "grafana";
         client_secret = "$__file{${config.sops.secrets."grafana/oauth-client-secret".path}}";
-        # offline_access is what makes Authentik issue the refresh token used below.
         scopes = "openid email profile offline_access";
         auth_url = "$__file{${config.sops.templates."grafana-oauth-auth-url".path}}";
         token_url = "$__file{${config.sops.templates."grafana-oauth-token-url".path}}";
         api_url = "$__file{${config.sops.templates."grafana-oauth-api-url".path}}";
-        # Unlike the others, the end-session endpoint is keyed by application slug.
         signout_redirect_url = "$__file{${config.sops.templates."grafana-oauth-signout-url".path}}";
         use_pkce = true;
         use_refresh_token = true;
-        # JMESPath over the userinfo claims. Requires the provider to emit a groups claim,
-        # which the default "authentik default OAuth Mapping: OpenID 'profile'" scope does.
+        # JMESPath; requires Authentik provider to emit a groups claim.
         role_attribute_path =
           "contains(groups, 'grafana-admins') && 'Admin' "
           + "|| contains(groups, 'grafana-editors') && 'Editor' "
           + "|| 'Viewer'";
-        # false means a user matching no branch above still logs in; the path already ends
-        # in a 'Viewer' fallback, so this only covers a missing groups claim.
         role_attribute_strict = false;
-        # Lets the Admin branch grant server admin, not just org admin.
         allow_assign_grafana_admin = true;
       };
     };
@@ -415,7 +357,6 @@ in
       enable = true;
       datasources.settings = {
         apiVersion = 1;
-        # uids are pinned so committed dashboard JSON can reference them by uid.
         datasources = [
           {
             name = "Prometheus";
@@ -436,11 +377,6 @@ in
       };
       dashboards.settings = {
         apiVersion = 1;
-        # A store path, so provisioned dashboards cannot be saved from the UI. dashboardDir is
-        # the linkFarm built above: homelab-overview.json has its per-host color overrides
-        # injected from hostColors, which is why the committed JSON carries "overrides": [].
-        # To add a community dashboard, fetch it with pkgs.fetchurl pinned by revision+hash,
-        # strip its __inputs block and rewrite ${DS_*} to a pinned uid, then add it to the farm.
         providers = [
           {
             name = "nixos";
@@ -449,13 +385,9 @@ in
         ];
       };
 
-      # Everything provisioned here is read-only in the UI. Removing a rule from this file does
-      # not delete it from Grafana's database — that needs a `deleteRules` entry with its uid.
       alerting = {
         contactPoints.path = config.sops.templates."grafana-contact-points.yaml".path;
 
-        # The policy tree is a single resource: this replaces it wholesale, including the
-        # default grafana-default-email route.
         policies.settings = {
           apiVersion = 1;
           policies = [
@@ -533,8 +465,6 @@ in
                   noDataState = "NoData";
                   execErrState = "Error";
                   labels.severity = "critical";
-                  # The instance label is the probed URL, i.e. one of the sops-held blackbox
-                  # targets. It reaches ntfy and Grafana's database, neither of which is public.
                   annotations.summary = "{{ $labels.instance }} has failed its HTTP probe";
                 }
                 {
@@ -551,8 +481,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        # Restricted to the always-on hosts: the workstations sleep, so up{}
-                        # flapping for them is expected and would alert every night.
+                        # Only always-on hosts; workstations sleep and would false-alarm.
                         expr = ''up{job="node", instance=~"shikisha:9100|wopr-0:9100"}'';
                         instant = true;
                       };
@@ -600,8 +529,7 @@ in
     };
   };
 
-  # 3000 for the external Caddy host, 3100/9090 for API access. Nothing is opened to the LAN
-  # or the internet from this host.
+  # Tailscale-only: Grafana, Loki, Prometheus.
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
     3000
     3100

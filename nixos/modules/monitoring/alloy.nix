@@ -9,10 +9,7 @@ let
       "http://shikisha:3100/loki/api/v1/push";
 in
 {
-  # Alloy replaces promtail, which reached end-of-life in March 2026. Logs only; metrics stay
-  # pull-based via node-exporter so Prometheus does not need a remote-write receiver.
-  # The NixOS module runs alloy as a DynamicUser in the systemd-journal group, so journal
-  # reads need no extra permission wiring.
+  # Logs only; metrics stay pull-based via node-exporter.
   services.alloy.enable = true;
 
   environment.etc."alloy/config.alloy".text = ''
