@@ -237,6 +237,11 @@ in
       mode = "0400";
       restartUnits = [ "grafana.service" ];
     };
+    "grafana/oauth-client-id" = {
+      owner = "grafana";
+      mode = "0400";
+      restartUnits = [ "grafana.service" ];
+    };
     "grafana/oauth-client-secret" = {
       owner = "grafana";
       mode = "0400";
@@ -333,8 +338,7 @@ in
         name = "Authentik";
         icon = "signin";
         allow_sign_up = true;
-        # Must match the Client ID set on the Authentik provider.
-        client_id = "grafana";
+        client_id = "$__file{${config.sops.secrets."grafana/oauth-client-id".path}}";
         client_secret = "$__file{${config.sops.secrets."grafana/oauth-client-secret".path}}";
         scopes = "openid email profile offline_access";
         auth_url = "$__file{${config.sops.templates."grafana-oauth-auth-url".path}}";
