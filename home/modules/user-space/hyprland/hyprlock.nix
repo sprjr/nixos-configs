@@ -7,9 +7,7 @@
 
 with lib;
 
-# hyprlock — PAM + fingerprint auth (fingerprint is a no-op where fprintd is absent),
-# label/timing layout carried over from the deprecated hyprlock for parity, rethemed to
-# Catppuccin Mocha. System-side PAM is enabled by nixos/modules/desktop/hyprland.nix.
+# hyprlock: PAM + fingerprint, Catppuccin Mocha.
 let
   cfg = config.patrick.home.hyprland;
 in
@@ -18,10 +16,7 @@ in
     programs.hyprlock = {
       enable = true;
       settings = {
-        # disable_loading_bar was dropped upstream; hyprlock 0.9.5 rejects it with
-        # "config option <general:disable_loading_bar> does not exist" on every lock, so it was
-        # already inert. Removed rather than renamed — re-add the current equivalent if the
-        # loading bar becomes visible and is unwanted.
+        # disable_loading_bar dropped upstream (0.9.5).
         general = {
           hide_cursor = false;
         };

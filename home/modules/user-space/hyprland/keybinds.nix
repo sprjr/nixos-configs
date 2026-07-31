@@ -2,8 +2,6 @@
 
 with lib;
 
-# Vim-style navigation with COSMIC feature parity. Binds attach to the shared
-# wayland.windowManager.hyprland.settings from default.nix.
 let
   cfg = config.patrick.home.hyprland;
 
@@ -15,8 +13,7 @@ let
       "$mainMod SHIFT, ${toString n}, movetoworkspace, ${ws}"
     ]) [ 1 2 3 4 5 6 7 8 9 0 ];
 
-  # `hyprshort` — printed cheatsheet of the binds defined below. Static text: keep it in sync
-  # with the `bind`/`bindm` lists in this file when binds change.
+  # Cheatsheet; keep in sync with bind lists below.
   hyprshort = pkgs.writeShellApplication {
     name = "hyprshort";
     text = ''
@@ -83,17 +80,14 @@ in
         "$mainMod, V, layoutmsg, togglesplit"
         "$mainMod, semicolon, pin,"
         "$mainMod, Escape, exec, loginctl lock-session"
-        # Quit the Hyprland session back to the greeter (moved off Super+Shift+M).
+        # Quit session.
         "$mainMod SHIFT, Escape, exit,"
 
-        # Scratchpad — Hyprland's stand-in for minimize. Super+M shows/hides the special
-        # "magic" workspace; Super+Shift+M sends the focused window there (minimize). To restore
-        # one, show the scratchpad, focus the window, then Super+Shift+<n> to move it to a normal
-        # workspace.
+        # Scratchpad (minimize): M to show/hide, Shift+M to send window.
         "$mainMod, M, togglespecialworkspace, magic"
         "$mainMod SHIFT, M, movetoworkspacesilent, special:magic"
 
-        # Immediate wallpaper rotation (auto-rotates every 30m via systemd timer).
+        # Wallpaper rotation (auto-rotates via systemd timer).
         "$mainMod SHIFT, W, exec, hypr-wallpaper"
 
         # Vim focus movement.

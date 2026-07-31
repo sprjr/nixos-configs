@@ -7,9 +7,7 @@
 
 with lib;
 
-# Countdown timer waybar widget mirroring the Darwin sketchybar timer: a fuzzel menu picks a
-# preset duration, a detached countdown writes the remaining time to a runtime state file, and
-# the waybar module renders it live. Completion fires a desktop notification.
+# Countdown timer waybar widget.
 let
   cfg = config.patrick.home.hyprland;
 

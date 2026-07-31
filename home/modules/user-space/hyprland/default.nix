@@ -7,10 +7,6 @@
 
 with lib;
 
-# Fresh, system-agnostic Hyprland session mirroring the patrick.home.cosmic gating pattern
-# (home/modules/user-space/cosmic/cosmic.nix). Gated behind patrick.home.hyprland.enable
-# (default false) so importing the module is inert until a host opts in. Runs unchanged on
-# single-monitor laptops, docked laptops, and seanix's three-monitor Nvidia desktop.
 let
   cfg = config.patrick.home.hyprland;
 
@@ -20,8 +16,7 @@ let
   activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
   inactiveBorder = "rgba(313244aa)";
 
-  # Nvidia Wayland session env (seanix). Driver/DRM/modeset stay in nvidia-seanix.nix —
-  # this only sets the compositor-side environment.
+  # Nvidia compositor env (seanix).
   nvidiaEnv = optionals (cfg.gpu == "nvidia") [
     "LIBVA_DRIVER_NAME,nvidia"
     "__GLX_VENDOR_LIBRARY_NAME,nvidia"
@@ -30,9 +25,7 @@ let
     "WLR_NO_HARDWARE_CURSORS,1"
   ];
 
-  # Hyprland writes its log to $XDG_RUNTIME_DIR (tmpfs), so it dies with the session and is
-  # gone by the time a crash is investigated. This tails it into ~/.local/state/hyprland/ for
-  # the duration of the session. Only built when debugLogging is on.
+  # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
     name = "hyprland-log-archive";
     runtimeInputs = with pkgs; [ coreutils findutils ];
@@ -42,8 +35,7 @@ let
       mkdir -p "$dest"
       # Prune before writing so a night of crash-looping can't accumulate indefinitely.
       find "$dest" -maxdepth 1 -name 'session-*.log' -mtime +14 -delete
-      # head caps one session at 512M: the connector-rescan storm writes far faster than a
-      # normal session does, and 512M is already ~50x more history than the crash tail holds.
+      # Cap at 512M to bound runaway scan storms.
       tail -n +1 -F "$src" | head -c 512M > "$dest/session-$(date +%Y%m%d-%H%M%S).log"
     '';
   };
@@ -198,10 +190,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    # sops: weather lat/lon reused from the COSMIC secrets. defaults use mkDefault so they
-    # coexist with cosmic.nix on laptops; the secrets are declared without `mode` so they
-    # merge with cosmic.nix's `mode="0600"` instead of conflicting. On seanix (no COSMIC)
-    # this block stands alone.
+    # mkDefault: coexists with cosmic.nix sops declarations.
     sops = {
       defaultSopsFile = lib.mkDefault ../../../../sops-nix/sops.yaml;
       defaultSopsFormat = lib.mkDefault "yaml";
@@ -218,10 +207,7 @@ in
       wl-clipboard
       brightnessctl
       playerctl
-      # polkit_gnome is deliberately absent: it ships
-      # etc/xdg/autostart/polkit-gnome-authentication-agent-1.desktop, which the systemd
-      # XDG-autostart generator turns into a second agent that races polkit-gnome-agent.service
-      # below. The unit references the store path directly, so the package need not be on PATH.
+      # polkit_gnome omitted: its XDG autostart races polkit-gnome-agent.service below.
       cosmic-files
       nordzy-cursor-theme
     ];
@@ -249,26 +235,12 @@ in
           no_hardware_cursors = true;
         };
 
-        # Session daemons (waybar, swaync, hypridle, polkit agent, awww) are systemd user units
-        # WantedBy hyprland-session.target — started here, so they exist only inside a Hyprland
-        # session. graphical-session.target can't scope them: COSMIC/KDE activate it too.
+        # Session daemons: scoped to hyprland-session.target, not graphical-session.target.
         exec-once = [
-          # UWSM runs the compositor as wayland-wm@hyprland.service, Type=notify. `uwsm finalize`
-          # sends READY=1 and exports WAYLAND_DISPLAY / HYPRLAND_INSTANCE_SIGNATURE into the
-          # systemd user manager. Without it the unit stays activating until TimeoutStartSec
-          # (~90s), holding back graphical-session.target and every unit ordered after it. Bare
-          # `uwsm` from PATH, not pkgs.uwsm: it must match the system uwsm that launched the
-          # session.
-          #
-          # One entry, sequenced with `;`: separate exec-once entries are spawned concurrently, so
-          # the target (and every GUI daemon wanted by it) could start before finalize exported
-          # WAYLAND_DISPLAY — After=hyprland-session.target carries no environment guarantee.
-          # `;` not `&&`, so a finalize that exits non-zero still leaves the session daemons up.
-          # --no-block: this target is After=graphical-session.target, so a blocking start would
-          # park a systemctl process in the compositor cgroup until that ordering dep resolves.
+          # uwsm finalize exports env, then start target. `;` sequences (exec-once is concurrent);
+          # --no-block avoids deadlock. Bare uwsm from PATH to match system uwsm.
           "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
-          # Register the freedesktop Secret Service in the session (PAM already unlocked the login
-          # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
+          # Start Secret Service for Electron apps (no kwallet under Hyprland).
           "gnome-keyring-daemon --start --components=secrets"
           "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
           "wl-paste --watch cliphist store"
@@ -278,9 +250,6 @@ in
         general = {
           gaps_in = 5;
           gaps_out = 10;
-          # No active-window outline (border_size 0 removes the focus hint entirely). To keep a
-          # uniform border without the highlight instead, set border_size back to 2 and point
-          # col.active_border at inactiveBorder.
           border_size = 0;
           "col.active_border" = activeBorder;
           "col.inactive_border" = inactiveBorder;
@@ -329,13 +298,9 @@ in
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          # Desktop matches KDE: flat accel profile + accel speed -0.6 (kcminputrc
-          # PointerAcceleration, G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the
-          # same libinput knob but global (one value for all pointers), so it's a single best-fit.
-          # Laptops flip to the adaptive profile at sensitivity 0 — flat/-0.6 makes a trackpad crawl.
+          # Desktop: flat/-0.6 for gaming mice. Laptop: adaptive/0 for trackpad.
           sensitivity = if isLaptop then 0 else -0.6;
           accel_profile = if isLaptop then "adaptive" else "flat";
-          # Copied from KDE ~/.config/kcminputrc [Keyboard] (RepeatDelay/RepeatRate).
           repeat_delay = 200;
           repeat_rate = 50;
           touchpad = {
@@ -357,33 +322,19 @@ in
           disable_hyprland_logo = true;
         } // optionalAttrs cfg.gaming.enable { vrr = 2; };
 
-        # The stock suppressevent/nofocus windowrules were dropped: their hyprlang rule-field
-        # names were reworked (0.51+ "rethonk") and are version-unstable. Re-add via the current
-        # wiki syntax (or the Lua config) if the self-maximize / XWayland focus-steal fixes are
-        # wanted.
-
-        # Gaming (gated on `gaming.enable`, seanix). No windowrule here: this Hyprland/hyprlang
-        # rejects rule keywords like idleinhibit/immediate ("invalid field type"), so idle-inhibit
-        # during games is left to the games' own SDL idle-inhibitors, and `immediate`-based tearing
-        # is unavailable until the windowrule syntax is resolved (likely a Lua-config migration).
-        # Direct scanout lets a fullscreen game bypass compositing (lower latency); 2 permits tearing.
+        # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
         render = optionalAttrs cfg.gaming.enable {
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
         };
 
-        # Gated on debugLogging. Raising verbosity alone made things worse: it does not enlarge
-        # the crash report's fixed-size tail, so more scan spam per second means less pre-crash
-        # history survives in it. Only useful paired with the log archiver below, which keeps the
-        # full log off tmpfs.
+        # Full logging only useful with the log archiver; crash tail gets saturated by scan spam.
         debug = {
           disable_logs = !cfg.debugLogging;
         };
       };
     };
 
-    # Hyprland-only rendezvous target. exec-once starts it; PartOf stops it (and everything
-    # WantedBy it) when UWSM tears down graphical-session.target at logout. Session daemons
-    # attach here instead of graphical-session.target, which COSMIC/KDE would also activate.
+    # Hyprland-only target; PartOf stops daemons on logout.
     systemd.user.targets.hyprland-session = {
       Unit = {
         Description = "Hyprland session (user services scoped to Hyprland only)";
@@ -392,9 +343,7 @@ in
       };
     };
 
-    # As a unit (not exec-once) the agent survives crashes via Restart and lands in its own
-    # cgroup instead of the compositor's UWSM unit. Only one agent may hold the polkit subject —
-    # see the home.packages note above for why polkit_gnome must stay off the profile.
+    # Unit for cgroup isolation and crash restart; only one polkit agent may hold the subject.
     systemd.user.services.polkit-gnome-agent = {
       Unit = {
         Description = "polkit-gnome authentication agent";
@@ -409,9 +358,6 @@ in
       Install.WantedBy = [ "hyprland-session.target" ];
     };
 
-    # Started by the same target as the other session daemons, so it runs only after `uwsm
-    # finalize` has exported HYPRLAND_INSTANCE_SIGNATURE into the systemd user manager — the
-    # script needs it to locate the runtime log.
     systemd.user.services.hyprland-log-archive = mkIf cfg.debugLogging {
       Unit = {
         Description = "Archive the Hyprland session log off tmpfs (crash instrumentation)";
@@ -420,9 +366,7 @@ in
       };
       Service = {
         ExecStart = getExe logArchiver;
-        # No Restart: each start opens a new archive file, so a restart loop would litter
-        # ~/.local/state/hyprland. A failed state after the 512M cap (or an unset signature) is
-        # the intended signal.
+        # No restart: each start opens a new file; failure after 512M cap is expected.
         Restart = "no";
       };
       Install.WantedBy = [ "hyprland-session.target" ];

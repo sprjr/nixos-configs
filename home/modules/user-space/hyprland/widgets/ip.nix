@@ -7,9 +7,7 @@
 
 with lib;
 
-# waybar public/private IP modules. Exposed on PATH as `waybar-public-ip` and
-# `waybar-private-ip`, referenced by waybar.nix. Both emit waybar JSON and degrade
-# gracefully when offline.
+# Public IP waybar module.
 let
   cfg = config.patrick.home.hyprland;
 

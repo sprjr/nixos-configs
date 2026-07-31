@@ -7,13 +7,6 @@
 
 with lib;
 
-# Top waybar. Built-in modules for workspaces/window/clock/cpu/memory/temperature/network/
-# pulseaudio/tray; custom modules (weather, public/private IP, gpu, swaync toggle) are
-# provided as PATH binaries by widgets/*.nix and notifications.nix. Temperature uses no
-# hardcoded hwmon path (waybar auto-detects). battery is shown only when the `battery`
-# option is set, gpu only when `gpu` is set. `waybarExtra` appends module names.
-# Catppuccin Mocha styling. Runs as a systemd unit on hyprland-session.target so crashes
-# restart it and config changes apply on switch (sd-switch) instead of waiting for re-login.
 let
   cfg = config.patrick.home.hyprland;
 
