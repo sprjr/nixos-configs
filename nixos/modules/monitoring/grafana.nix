@@ -254,7 +254,7 @@ in
             "HTTP/1.1"
             "HTTP/2.0"
           ];
-          valid_status_codes = [ ];
+          valid_status_codes = [ 200 201 204 301 302 401 403 ];
           follow_redirects = false;
           preferred_ip_protocol = "ip4";
           tls_config.insecure_skip_verify = false;
