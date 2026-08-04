@@ -7,11 +7,7 @@
 
 with lib;
 
-# Home Assistant waybar widgets, mirroring the Darwin sketchybar HA items
-# (darwin/modules/sketchybar.nix). Toggles/scripts hit the HA REST API using the sops
-# `ha_token` secret; state pollers emit waybar JSON with a class so CSS can recolor by state.
-# Camera feeds use a fuzzel menu (waybar has no native popups). Enabled by default on every
-# Hyprland host via patrick.home.hyprland.homeAssistant.enable.
+# Home Assistant waybar widgets (mirrors darwin/modules/sketchybar.nix).
 let
   cfg = config.patrick.home.hyprland;
   ha = cfg.homeAssistant;

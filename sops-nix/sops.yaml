@@ -51,6 +51,22 @@ nextcloud:
 jellyfin:
     username: ENC[AES256_GCM,data:9isOSExvPA==,iv:n0g4bdbQW8hCXgqAQVewzdvhxf8B+NFxvZg73gXlRsY=,tag:H9wxMC12cZumpJ7UT/q+wA==,type:str]
     password: ENC[AES256_GCM,data:fpniiiHIcImfCUpckkC4MJD0ZN/ZqXvhauj1vxUHivfYuxn+vwiuO5TFLVQ=,iv:tspl6B9FTyLTToXZEFoJZ9XxLwxQuhxTC7R8kKzwtKg=,tag:pxHmOVjO2PbU54m9R5cptw==,type:str]
+grafana:
+    admin-password: ENC[AES256_GCM,data:KzkxMXShIjA36HJ9Iar7QHRNRPhcGLQJYkdQvnNeEBT33DQNcvw8ig==,iv:DgI1sdIi5gSrV0QOj6rEe+O2QfVq2/RSCBmtaECW9lU=,tag:c7mibZzRdDUsqEM1ka02OQ==,type:str]
+    secret-key: ENC[AES256_GCM,data:OPzrNCoSHZIYmPxX9iV/X9bA09Cz9xa0p9dCyq+u4ZVnuB2IglEWYZHordI=,iv:0RAYKf7mQK7vGmgNQNTjEAZiSFoWHd4gkh0bfScEa7w=,tag:sSmUWkVzLMuGa7PmWkM/YQ==,type:str]
+    oauth-client-secret: ENC[AES256_GCM,data:ODs1bUm6EQrvhm7xwCKZKVv5RQKuzaRZa45G/u2b0bNSIFHjO1P84lapJSYPioEi4e3HQOAlUfNQpCJE3ZNnGxCGGYcBbXbGxYRe7vv0birqrBvR8D5KLvSdw7xSERSSp34SoCcQOW0r5qLfzlDsNzucHKecZ8CRzFyZHIwaPcQ=,iv:uQ5AUTGxrrE2KB9VAczgGJJwm/xj1jSLrns7yDfMwyg=,tag:fRpLkobRsARUWKZP76inaw==,type:str]
+    oauth-client-id: ENC[AES256_GCM,data:cji+N5W8TcOrFdUBdRgzLb36mdNhfNqoUd7W1ukP+anUtZzfSBrpbg==,iv:LkE+oIByGdiCXLfPA4bq70aVNWzH2fPLhfVdopkQoV4=,tag:5lkZjzzPfXujc8DUPOnxeQ==,type:str]
+    domain: ENC[AES256_GCM,data:VsygYIdCPZM16WSJb4RWY6LTnEml,iv:Y0kghzs4oFzOjSIj8LWRBgIpvum3EGaiKkoatNElu/M=,tag:IWajc6PgctM6c+3snJtemQ==,type:str]
+    authentik-base-url: ENC[AES256_GCM,data:3C8exmNLAcexdhe55z3WiE7/ppYj4t9h9Ps=,iv:/OfKrsOpX36f+gHenQBJq9C8DMQCOWEEQe39rPTir38=,tag:zlmaC8ZZqSje7MLjXAXGmA==,type:str]
+monitoring:
+    blackbox-targets:
+        immich: ENC[AES256_GCM,data:bCYbM3MPgjVDYRmt8AkDdvudlrMg/vwOotLFVQ==,iv:2nIGdNIVpOj6yPyzSCUjGd0G/fHyqEvb1Uh2uuTROn8=,tag:T0Nr5id4+hGFS2VdDpGF+Q==,type:str]
+        authentik: ENC[AES256_GCM,data:dwknQ9AbaecYI+ZUFLArvMAu3F3Be4/cemo=,iv:RBmFn1YLvgx5rT9FjIlyc9ZtxlXcC4KHAYORhtpaKaI=,tag:WSHDUt1QtMb6z1UDpCftxQ==,type:str]
+        media: ENC[AES256_GCM,data:NtfdBzqTpg3VPGIP/pNc1KoV3gzeR1I1tEA=,iv:bEgPPsx0YdpXV8IiLnnQh2/iZACAfDu/rJGE+h0Ww1k=,tag:OHwlQDzJFPVQNK3A/OciHA==,type:str]
+        ike: ENC[AES256_GCM,data:QiNGTy/kjjdtg8vzvXDinUmPNizgWgwXhyM=,iv:O7qAQIR4dtbXa7X9kzyMl39MJ6/E8FiM9TtNWUfALwk=,tag:UvUAE2/6d6e5mWEhwRmkrQ==,type:str]
+    ntfy:
+        comin-url: ENC[AES256_GCM,data:+sh/rbQjRlMtXeecoVqPxh1uQjp6SXsuOLmOYwIPhjBd1Cwfict97U7Nb+BUI3NCwtQccunzg1EZ9pSwxs1kVcr3AB+eWelh,iv:RmLb0DyoYUtEuSN8b5TcTo8VEAQk6GpTCiA/ZydBZM4=,tag:LGvkPYi3a+zn63kswkB7rw==,type:str]
+        grafana-alerts-url: ENC[AES256_GCM,data:a4bPkrS4TiuilgmluNG6fMow8jqL1WTf/cvphnFH4pWN5KJw3JhFvyGfoQ==,iv:ZszaAVrF4PzCTQOsYPP8XRb5wmg9L5g3rvHSKJVU/Dk=,tag:M0DkRHcoK1NVY019YYSMcw==,type:str]
 sops:
     age:
         - enc: |
@@ -62,7 +78,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-14T21:45:23Z"
-    mac: ENC[AES256_GCM,data:EKAh3LgcF4Nd4vjh/ZGWSq7i3GO7nM7LlPYnIf+im4jCDtI65KSK27Eif3d+TZxLcgRjo05aGgssAUTyqynSrdgXN6/gkkTixhfzUE29T0mf+2BByL0zo007R+1pynVR3Rb8NQofNHH2mVgxJPd9RhZcty7KCDfTpPcZtldhpg4=,iv:5gRc4wm3HvCRGN1askSB7NSHyCmlX2avu61neV77s7g=,tag:NK8zET/i3X3pmtskNiHGWA==,type:str]
+    lastmodified: "2026-07-31T03:32:02Z"
+    mac: ENC[AES256_GCM,data:jmdan2tc6yNiA5MXGvNDziYUB+duY/HOFt7SAa3fTFhKnJTC2ui80hWH3hocFUMJ/2IZq5vIB1yJ2FMyYQmZmbA28tFDPjquR1CMfPNJuijHYrJaooq74i2/qPfuhYw/e/BuYpKk28DHzhLB8lrxIoWk0dTEynURbVCPpNK3/9Y=,iv:Zyu4NEctMNBupyrMCfb2sPujptRUhAhFrrCOvEgtIZ4=,tag:XKJwmIul5R1BV+DsLQlACQ==,type:str]
     unencrypted_suffix: _unencrypted
-    version: 3.13.1
+    version: 3.13.3

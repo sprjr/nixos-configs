@@ -36,6 +36,9 @@
     gpu = "nvidia";
     signalGnomeKeyring = true;
     gaming.enable = true;
+    # Temporary: instrumentation for the CBackend::dispatchIdle SEGV. Set back to false once the
+    # DP-1/DP-3 disconnect trigger is identified, then delete ~/.local/state/hyprland/.
+    debugLogging = true;
     # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
     # Offsets are the running sum of each output's real logical width (verified via
     # `hyprctl monitors all`): DP-2 @1.6667 snaps to 240/144 → logical 2304, DP-1 @1 → 2560,

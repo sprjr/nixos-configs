@@ -129,6 +129,8 @@ let
 in
 
 {
+  imports = [ ./zellij-layout-remote.nix ];
+
   programs.zellij.enable = true;
 
   # Write config.kdl directly to ~/.config/zellij/config.kdl

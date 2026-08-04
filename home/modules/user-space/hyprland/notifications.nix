@@ -57,8 +57,7 @@ in
       '';
     };
 
-    # Rebound from graphical-session.target to hyprland-session.target (default.nix) so it
-    # never runs under a foreign DE (COSMIC/KDE) but still gets systemd restart semantics.
+    # Scoped to hyprland-session.target.
     systemd.user.services.swaync.Install.WantedBy = mkForce [ "hyprland-session.target" ];
   };
 }

@@ -118,46 +118,31 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
-    discord
-    fzf
+    fanctl
+    file
     git
-    thermald
-    wireguard-tools
-    playerctl
-    bitwarden
-    signal-desktop
-    thunderbird
-    wget
-    vim
+    lshw
     ollama
     pciutils
-    file
-    alacritty
-    fanctl
-    tldr
-    teamviewer
-    gimp
-    vlc
-    pkgs.gnome-terminal
-
-    ### AI ###
-    ollama
-    open-webui
-
-    ### Net tools ###
-    inetutils
-    lshw
-    nmap
     tailscale
+    thermald
+    vim
+    wget
+  ];
+
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    adwaita-icon-theme
+    bitwarden
+    discord
+    gimp
+    gnome-terminal
+    open-webui
+    playerctl
+    teamviewer
     tinystatus
-
-    # GNOME Themes
-    pkgs.adwaita-icon-theme
-
   ];
 
   system.stateVersion = "23.11";

@@ -2,9 +2,7 @@
 
 with lib;
 
-# hypridle — idle timings carried over from the deprecated hypridle for parity:
-# 300s dim brightness, 330s lock, 350s DPMS off. Locking is routed through
-# loginctl lock-session -> lock_cmd so it composes with before_sleep_cmd.
+# hypridle: 300s dim, 330s lock, 350s DPMS off.
 let
   cfg = config.patrick.home.hyprland;
 in
@@ -37,8 +35,7 @@ in
       };
     };
 
-    # Rebound from graphical-session.target to hyprland-session.target (default.nix) so it
-    # never locks the screen or manages idle while the user is in COSMIC/KDE.
+    # Scoped to hyprland-session.target to avoid locking under COSMIC/KDE.
     systemd.user.services.hypridle.Install.WantedBy = mkForce [ "hyprland-session.target" ];
   };
 }

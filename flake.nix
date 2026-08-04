@@ -46,11 +46,6 @@
       url = "github:icewind1991/nvidia-patch-nixos";
       inputs.nixpkgs.follows = "flake-utils";
     };
-    omarchy-nix = {
-      url = "github:henrysipp/omarchy-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -78,7 +73,7 @@
     };
     # Additional wallpapers for the Hyprland rotating set (patrick.home.hyprland).
     dark-wallpaper-2 = {
-      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/nord/a_blue_swirly_spiral_on_a_dark_background.png";
+      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/unsorted/a_grey_building_with_many_small_squares.png";
       flake = false;
     };
     dark-wallpaper-3 = {
@@ -126,7 +121,6 @@
       nix-on-droid,
       nixos-facter-modules,
       nixos-hardware,
-      omarchy-nix,
       sops-nix,
       thyx,
       nixpkgs,
@@ -159,12 +153,16 @@
               ./nixos/modules/desktop/greetd.nix
               ./nixos/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
             ];
           };
           trixos = nixpkgs.lib.nixosSystem {
@@ -217,12 +215,16 @@
               ./nixos/prometheus.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
             ];
           };
           seanix = nixpkgs.lib.nixosSystem {
@@ -236,6 +238,7 @@
               ./nixos/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
@@ -248,6 +251,9 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/user/patrick-desktop.nix
             ];
           };
@@ -276,6 +282,10 @@
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix
+              ./nixos/modules/monitoring/grafana.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
@@ -295,6 +305,7 @@
               ./nixos/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -305,6 +316,10 @@
               ./nixos/modules/user/seagull.nix
               ./nixos/modules/desktop/whale-desktop.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/hardware/touchpad-inhibit.nix
             ];
           };
           whale = nixpkgs.lib.nixosSystem {

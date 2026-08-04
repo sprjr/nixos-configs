@@ -7,17 +7,7 @@
 
 with lib;
 
-# Per-host monitor descriptors via the `monitors` option. Default is a single
-# ",preferred,auto,auto" auto-fallback that adapts to any laptop panel or hotplugged
-# output. seanix passes its exact three-monitor layout (translated from
-# home/modules/user-space/monitor-switch.nix) and keeps the fallback line last.
-#
-# Workspaces are intentionally NOT bound to outputs — they follow the focused monitor,
-# so behavior is identical on a single-monitor laptop and on seanix.
-#
-# mon-local / mon-remote replace the KDE-only kscreen-doctor scripts (remon/lomon aliases):
-# inside a Hyprland session they apply the descriptors via hyprctl; outside one they fall
-# back to the existing ~/.local/bin/switch-*.sh (kscreen) so the same command works in KDE too.
+# Per-host monitor descriptors with mon-local/mon-remote switching.
 let
   cfg = config.patrick.home.hyprland;
 

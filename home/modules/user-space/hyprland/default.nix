@@ -7,10 +7,6 @@
 
 with lib;
 
-# Fresh, system-agnostic Hyprland session mirroring the patrick.home.cosmic gating pattern
-# (home/modules/user-space/cosmic/cosmic.nix). Gated behind patrick.home.hyprland.enable
-# (default false) so importing the module is inert until a host opts in. Runs unchanged on
-# single-monitor laptops, docked laptops, and seanix's three-monitor Nvidia desktop.
 let
   cfg = config.patrick.home.hyprland;
 
@@ -20,8 +16,7 @@ let
   activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
   inactiveBorder = "rgba(313244aa)";
 
-  # Nvidia Wayland session env (seanix). Driver/DRM/modeset stay in nvidia-seanix.nix —
-  # this only sets the compositor-side environment.
+  # Nvidia compositor env (seanix).
   nvidiaEnv = optionals (cfg.gpu == "nvidia") [
     "LIBVA_DRIVER_NAME,nvidia"
     "__GLX_VENDOR_LIBRARY_NAME,nvidia"
@@ -29,6 +24,21 @@ let
     "NVD_BACKEND,direct"
     "WLR_NO_HARDWARE_CURSORS,1"
   ];
+
+  # Archive Hyprland log off tmpfs for crash investigation.
+  logArchiver = pkgs.writeShellApplication {
+    name = "hyprland-log-archive";
+    runtimeInputs = with pkgs; [ coreutils findutils ];
+    text = ''
+      src="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/hyprland.log"
+      dest="''${XDG_STATE_HOME:-$HOME/.local/state}/hyprland"
+      mkdir -p "$dest"
+      # Prune before writing so a night of crash-looping can't accumulate indefinitely.
+      find "$dest" -maxdepth 1 -name 'session-*.log' -mtime +14 -delete
+      # Cap at 512M to bound runaway scan storms.
+      tail -n +1 -F "$src" | head -c 512M > "$dest/session-$(date +%Y%m%d-%H%M%S).log"
+    '';
+  };
 in
 {
   imports = [
@@ -159,13 +169,28 @@ in
         '';
       };
     };
+
+    debugLogging = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Temporary instrumentation for the aquamarine SEGV in CBackend::dispatchIdle (seanix,
+        Jul 21 / Jul 27 2026). Turns off debug:disable_logs and archives the session log off
+        tmpfs to ~/.local/state/hyprland/session-<timestamp>.log, which is what the crash
+        report's fixed-size tail cannot give — the tail is entirely saturated by the connector
+        rescan loop, so the triggering event is pushed out of it.
+
+        TEARDOWN: set back to false once the trigger is identified. That reverts disable_logs to
+        the upstream default and drops the archiver unit; the archives under
+        ~/.local/state/hyprland/ are not garbage-collected by Nix and must be deleted by hand.
+        journald persistence is NOT part of this — Storage=persistent is already the NixOS
+        default and stays on regardless.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
-    # sops: weather lat/lon reused from the COSMIC secrets. defaults use mkDefault so they
-    # coexist with cosmic.nix on laptops; the secrets are declared without `mode` so they
-    # merge with cosmic.nix's `mode="0600"` instead of conflicting. On seanix (no COSMIC)
-    # this block stands alone.
+    # mkDefault: coexists with cosmic.nix sops declarations.
     sops = {
       defaultSopsFile = lib.mkDefault ../../../../sops-nix/sops.yaml;
       defaultSopsFormat = lib.mkDefault "yaml";
@@ -174,13 +199,15 @@ in
       secrets."cosmic/longitude" = { };
     };
 
+    services.kdeconnect.enable = true;
+
     home.packages = with pkgs; [
       grim
       slurp
       wl-clipboard
       brightnessctl
       playerctl
-      polkit_gnome
+      # polkit_gnome omitted: its XDG autostart races polkit-gnome-agent.service below.
       cosmic-files
       nordzy-cursor-theme
     ];
@@ -208,23 +235,21 @@ in
           no_hardware_cursors = true;
         };
 
-        # Session daemons (waybar, swaync, hypridle, polkit agent, awww) are systemd user units
-        # WantedBy hyprland-session.target — started here, so they exist only inside a Hyprland
-        # session. graphical-session.target can't scope them: COSMIC/KDE activate it too.
+        # Session daemons: scoped to hyprland-session.target, not graphical-session.target.
         exec-once = [
-          "systemctl --user start hyprland-session.target"
-          # Register the freedesktop Secret Service in the session (PAM already unlocked the login
-          # keyring). Lets Electron/Signal use gnome-libsecret where there's no KDE kwallet.
+          # uwsm finalize exports env, then start target. `;` sequences (exec-once is concurrent);
+          # --no-block avoids deadlock. Bare uwsm from PATH to match system uwsm.
+          "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
+          # Start Secret Service for Electron apps (no kwallet under Hyprland).
           "gnome-keyring-daemon --start --components=secrets"
           "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
+          "wl-paste --watch cliphist store"
+          "fcitx5 -d --replace"
         ];
 
         general = {
           gaps_in = 5;
           gaps_out = 10;
-          # No active-window outline (border_size 0 removes the focus hint entirely). To keep a
-          # uniform border without the highlight instead, set border_size back to 2 and point
-          # col.active_border at inactiveBorder.
           border_size = 0;
           "col.active_border" = activeBorder;
           "col.inactive_border" = inactiveBorder;
@@ -273,13 +298,9 @@ in
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          # Desktop matches KDE: flat accel profile + accel speed -0.6 (kcminputrc
-          # PointerAcceleration, G305/Viper Mini sit at -0.65/-0.60). Hyprland `sensitivity` is the
-          # same libinput knob but global (one value for all pointers), so it's a single best-fit.
-          # Laptops flip to the adaptive profile at sensitivity 0 — flat/-0.6 makes a trackpad crawl.
+          # Desktop: flat/-0.6 for gaming mice. Laptop: adaptive/0 for trackpad.
           sensitivity = if isLaptop then 0 else -0.6;
           accel_profile = if isLaptop then "adaptive" else "flat";
-          # Copied from KDE ~/.config/kcminputrc [Keyboard] (RepeatDelay/RepeatRate).
           repeat_delay = 200;
           repeat_rate = 50;
           touchpad = {
@@ -301,25 +322,19 @@ in
           disable_hyprland_logo = true;
         } // optionalAttrs cfg.gaming.enable { vrr = 2; };
 
-        # The stock suppressevent/nofocus windowrules were dropped: their hyprlang rule-field
-        # names were reworked (0.51+ "rethonk") and are version-unstable. Re-add via the current
-        # wiki syntax (or the Lua config) if the self-maximize / XWayland focus-steal fixes are
-        # wanted.
-
-        # Gaming (gated on `gaming.enable`, seanix). No windowrule here: this Hyprland/hyprlang
-        # rejects rule keywords like idleinhibit/immediate ("invalid field type"), so idle-inhibit
-        # during games is left to the games' own SDL idle-inhibitors, and `immediate`-based tearing
-        # is unavailable until the windowrule syntax is resolved (likely a Lua-config migration).
-        # Direct scanout lets a fullscreen game bypass compositing (lower latency); 2 permits tearing.
+        # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
         render = optionalAttrs cfg.gaming.enable {
           direct_scanout = if cfg.gaming.tearing then 2 else 1;
+        };
+
+        # Full logging only useful with the log archiver; crash tail gets saturated by scan spam.
+        debug = {
+          disable_logs = !cfg.debugLogging;
         };
       };
     };
 
-    # Hyprland-only rendezvous target. exec-once starts it; PartOf stops it (and everything
-    # WantedBy it) when UWSM tears down graphical-session.target at logout. Session daemons
-    # attach here instead of graphical-session.target, which COSMIC/KDE would also activate.
+    # Hyprland-only target; PartOf stops daemons on logout.
     systemd.user.targets.hyprland-session = {
       Unit = {
         Description = "Hyprland session (user services scoped to Hyprland only)";
@@ -328,8 +343,7 @@ in
       };
     };
 
-    # As a unit (not exec-once) the agent survives crashes via Restart and lands in its own
-    # cgroup instead of the compositor's UWSM unit.
+    # Unit for cgroup isolation and crash restart; only one polkit agent may hold the subject.
     systemd.user.services.polkit-gnome-agent = {
       Unit = {
         Description = "polkit-gnome authentication agent";
@@ -340,6 +354,20 @@ in
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    systemd.user.services.hyprland-log-archive = mkIf cfg.debugLogging {
+      Unit = {
+        Description = "Archive the Hyprland session log off tmpfs (crash instrumentation)";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = getExe logArchiver;
+        # No restart: each start opens a new file; failure after 512M cap is expected.
+        Restart = "no";
       };
       Install.WantedBy = [ "hyprland-session.target" ];
     };

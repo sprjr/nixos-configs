@@ -29,7 +29,10 @@ in {
 
     systemd.services.syncthing-configure = {
       description = "Configure Syncthing hub device and obsidian-vaults folder";
-      after = [ "syncthing.service" ];
+      # Ordered after multi-user.target as well as pulled in by it: WantedBy alone makes the
+      # target wait for this unit, so a slow poke here delays multi-user.target ->
+      # graphical.target -> the uwsm login handoff. Ordering it after the target decouples them.
+      after = [ "syncthing.service" "multi-user.target" ];
       requires = [ "syncthing.service" ];
       wants = [ "syncthing.service" ];
       wantedBy = [ "multi-user.target" ];
@@ -42,13 +45,18 @@ in {
       };
       path = with pkgs; [ curl libxml2 jq ];
       script = ''
+        # Syncthing 2.x answers /rest/system/ping with 403 unless the API key is sent, so an
+        # unauthenticated probe never succeeds and the loop burns its full 120s timeout. The key
+        # is read inside the loop because syncthing writes config.xml on its own first start.
         for i in $(seq 1 60); do
-          curl -sf http://127.0.0.1:8384/rest/system/ping > /dev/null && break
+          if APIKEY=$(xmllint --xpath "string(//configuration/gui/apikey)" \
+               ${config.services.syncthing.configDir}/config.xml 2>/dev/null) &&
+             curl -sf -H "X-API-Key: $APIKEY" http://127.0.0.1:8384/rest/system/ping > /dev/null
+          then
+            break
+          fi
           sleep 2
         done
-
-        APIKEY=$(xmllint --xpath "string(//configuration/gui/apikey)" \
-          ${config.services.syncthing.configDir}/config.xml)
 
         HUB_ID=$(cat ${config.sops.secrets."syncthing/hub/device-id".path})
 

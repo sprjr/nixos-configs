@@ -80,6 +80,21 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # DNS resolver (matches nx-01/voyager/prometheus)
+  networking.nameservers = [
+    "1.1.1.1#one.one.one.one"
+    "1.0.0.1#one.one.one.one"
+  ];
+  services.resolved = {
+    enable = true;
+    settings.Resolve = {
+      DNSSEC = "true";
+      Domains = "~.";
+      FallbackDNS = "1.1.1.1#one.one.one.one 1.0.0.1#one.one.one.one";
+      DNSOverTLS = "true";
+    };
+  };
+
   # Enable Docker and Podman
   virtualisation = {
     docker.enable = true;
@@ -163,61 +178,44 @@ in
     "qtwebengine-5.15.19"
   ];
 
-  # System packages
+  # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages =
     with pkgs;
     [
-      attic-client
       cachix
       certbot
-      git
-      usbutils
-      pciutils
-      pipewire
-      thermald
-      wget
-
-      # User environment
-      btop
-      duplicati
       file
-      fzf
-      gnumake # makefile ^ alternative
-      kiwix
-      kiwix-tools
-      jq
-      mdp # fullscreen markdown reader
-      sops
-      vim
-      zsh
-
-      ### Net tools ###
-      inetutils
-      mosquitto
-      mullvad-vpn
+      garage
+      git
       lshw
       lsof
-      netop
-      nmap
-
-      # Infra/Operations tools
-      argocd
-      garage
-      kind
-      kubeseal
+      mosquitto
       openiscsi
-      opentofu
-      terraformer
-    ]
-    ++ [
-      # Pinned to Stable
+      pciutils
+      pipewire
+      sops
+      thermald
+      usbutils
+      vim
+      wget
+      zsh
     ];
+
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    argocd
+    gnumake
+    kind
+    kiwix
+    kiwix-tools
+    kubeseal
+  ];
 
   # Garbage collection
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "delete-older-than 14d";
+    options = "--delete-older-than 14d";
   };
 
   # nix-store optimization

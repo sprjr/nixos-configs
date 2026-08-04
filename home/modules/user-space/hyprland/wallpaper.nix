@@ -9,13 +9,7 @@
 
 with lib;
 
-# Declarative rotating wallpapers via awww. The image set is a list of flake=false store paths
-# plumbed through extraSpecialArgs (hyprlandWallpapers). awww-daemon runs as a systemd user service
-# bound to hyprland-session.target (default.nix) with Restart=on-failure, so an Nvidia startup race
-# self-heals instead of leaving the daemon dead (exec-once, its previous home, never restarts).
-# Rotation runs on a 30-minute systemd user timer on the same target, so it never fires under
-# COSMIC/KDE (which activate graphical-session.target but not hyprland-session.target).
-# Super+Shift+W (keybinds.nix) or the `hypr-wallpaper` command rotates immediately.
+# Rotating wallpapers via awww with systemd restart resilience.
 let
   cfg = config.patrick.home.hyprland;
   wallpapers = map (w: "${w}") hyprlandWallpapers;
@@ -50,11 +44,7 @@ in
       hypr-wallpaper
     ];
 
-    # The daemon itself: a resilient replacement for the old exec-once launch. Restarted on failure
-    # so a first-frame Nvidia race can't leave it permanently dead. Wants=hypr-wallpaper re-applies
-    # a wallpaper on every (re)start — a restart clears the displayed image, and sd-switch restarts
-    # this unit whenever a nixpkgs bump moves the awww store path (comin deploys), which otherwise
-    # left the desktop blank until the next 30-minute timer tick.
+    # Restart-resilient daemon; Wants=hypr-wallpaper reapplies on comin-triggered restarts.
     systemd.user.services.awww-daemon = {
       Unit = {
         Description = "awww wallpaper daemon";
@@ -74,7 +64,6 @@ in
       Unit = {
         Description = "Rotate the Hyprland wallpaper via awww";
         PartOf = [ "hyprland-session.target" ];
-        # Order after the daemon; the script also retries in case the socket isn't up yet.
         After = [ "hyprland-session.target" "awww-daemon.service" ];
         Wants = [ "awww-daemon.service" ];
       };

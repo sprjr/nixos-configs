@@ -7,10 +7,7 @@
 
 with lib;
 
-# waybar GPU widget. nvidia via nvidia-smi (nvidia-smi resolves from the system driver
-# on PATH), amd via sysfs gpu_busy_percent + hwmon (no hardcoded hwmon path). Only built
-# when patrick.home.hyprland.gpu is set; null omits the widget entirely. Exposed on PATH
-# as `waybar-gpu`, referenced by waybar.nix.
+# GPU waybar widget: nvidia via nvidia-smi, amd via sysfs.
 let
   cfg = config.patrick.home.hyprland;
 
