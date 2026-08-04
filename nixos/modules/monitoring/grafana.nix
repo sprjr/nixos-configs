@@ -201,6 +201,28 @@ in
           }
         ];
       }
+      {
+        job_name = "blackbox-responsive";
+        metrics_path = "/probe";
+        params.module = [ "http_responsive" ];
+        file_sd_configs = [
+          { files = [ config.sops.templates."prometheus-blackbox-responsive.yml".path ]; }
+        ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
     ];
     # syntax-only: full check fails on sops-rendered file_sd paths missing in the sandbox.
     checkConfig = "syntax-only";
@@ -219,6 +241,21 @@ in
             "HTTP/2.0"
           ];
           follow_redirects = true;
+          preferred_ip_protocol = "ip4";
+          tls_config.insecure_skip_verify = false;
+        };
+      };
+      # Services that require auth return 401 to unauthenticated probes; accept any status.
+      modules.http_responsive = {
+        prober = "http";
+        timeout = "10s";
+        http = {
+          valid_http_versions = [
+            "HTTP/1.1"
+            "HTTP/2.0"
+          ];
+          valid_status_codes = [ ];
+          follow_redirects = false;
           preferred_ip_protocol = "ip4";
           tls_config.insecure_skip_verify = false;
         };
@@ -267,8 +304,16 @@ in
       - targets:
           - ${config.sops.placeholder."monitoring/blackbox-targets/immich"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/authentik"}
-          - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
           - ${config.sops.placeholder."monitoring/blackbox-targets/ike"}
+    '';
+  };
+
+  sops.templates."prometheus-blackbox-responsive.yml" = {
+    owner = "prometheus";
+    mode = "0400";
+    content = ''
+      - targets:
+          - ${config.sops.placeholder."monitoring/blackbox-targets/media"}
     '';
   };
 
@@ -432,7 +477,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''probe_success{job="blackbox"}'';
+                        expr = ''probe_success{job=~"blackbox.*"}'';
                         instant = true;
                       };
                     }
