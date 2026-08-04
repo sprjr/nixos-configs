@@ -158,6 +158,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
@@ -220,6 +221,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
@@ -286,6 +288,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
@@ -311,6 +314,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/user/whale.nix
               ./nixos/modules/user/seagull.nix

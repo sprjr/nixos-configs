@@ -70,20 +70,6 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Enable resolved to handle DNS issue after sleeping
-  networking.nameservers = [
-    " 1.1.1.1#one.one.one.one"
-    "1.0.0.1#one.one.one.one"
-  ];
-  services.resolved = {
-    enable = true;
-    settings.Resolve = {
-      DNSSEC = "true";
-      Domains = "~.";
-      FallbackDNS = "1.1.1.1#one.one.one.one 1.0.0.1#one.one.one.one";
-      DNSOverTLS = "true";
-    };
-  };
 
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
