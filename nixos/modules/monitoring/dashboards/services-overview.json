@@ -66,11 +66,30 @@
       ]
     },
     {
+      "id": 4,
+      "type": "timeseries",
+      "title": "DNS lookup time",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "fieldConfig": {
+        "defaults": { "unit": "s", "min": 0 },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "probe_dns_lookup_time_seconds{job=\"blackbox\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ]
+    },
+    {
       "id": 3,
       "type": "stat",
       "title": "SSL cert expiry (days)",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
       "fieldConfig": {
         "defaults": {
           "unit": "d",
