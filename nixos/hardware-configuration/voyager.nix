@@ -16,7 +16,10 @@
       options = [ "subvol=@root" ];
     };
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/b141c923-be3a-4d71-a33c-93f548136a3e";
+  boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/disk/by-uuid/b141c923-be3a-4d71-a33c-93f548136a3e";
+    crypttabExtraOpts = [ "tpm2-device=auto" ];
+  };
 
   fileSystems."/var/log" =
     { device = "/dev/mapper/cryptroot";
