@@ -154,18 +154,17 @@ in
         type = types.bool;
         default = false;
         description = ''
-          Gaming accommodations for a dedicated gaming host: fullscreen VRR (misc:vrr = 2), direct
-          scanout for fullscreen games (lower latency), and an idleinhibit-on-fullscreen window rule
-          so controller-only play never dims or locks the screen. Off elsewhere.
+          Gaming accommodations for a dedicated gaming host: fullscreen VRR (misc:vrr = 2) and direct
+          scanout for fullscreen games (lower latency). Off elsewhere.
         '';
       };
       tearing = mkOption {
         type = types.bool;
         default = false;
         description = ''
-          Allow tearing for lower latency on fixed-refresh/competitive play (adds allow_tearing, an
-          `immediate` window rule, and direct_scanout = 2). Redundant with VRR on a G-Sync/FreeSync
-          panel — leave off if you rely on VRR.
+          Allow tearing for lower latency on fixed-refresh/competitive play (adds allow_tearing and
+          direct_scanout = 2). Redundant with VRR on a G-Sync/FreeSync panel — leave off if you
+          rely on VRR.
         '';
       };
     };
