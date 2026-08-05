@@ -58,6 +58,7 @@ grafana:
     oauth-client-id: ENC[AES256_GCM,data:cji+N5W8TcOrFdUBdRgzLb36mdNhfNqoUd7W1ukP+anUtZzfSBrpbg==,iv:LkE+oIByGdiCXLfPA4bq70aVNWzH2fPLhfVdopkQoV4=,tag:5lkZjzzPfXujc8DUPOnxeQ==,type:str]
     domain: ENC[AES256_GCM,data:VsygYIdCPZM16WSJb4RWY6LTnEml,iv:Y0kghzs4oFzOjSIj8LWRBgIpvum3EGaiKkoatNElu/M=,tag:IWajc6PgctM6c+3snJtemQ==,type:str]
     authentik-base-url: ENC[AES256_GCM,data:3C8exmNLAcexdhe55z3WiE7/ppYj4t9h9Ps=,iv:/OfKrsOpX36f+gHenQBJq9C8DMQCOWEEQe39rPTir38=,tag:zlmaC8ZZqSje7MLjXAXGmA==,type:str]
+    service-account-token: ENC[AES256_GCM,data:F3a7Jm5OwlMe2Ir24ytDYCWsL9d+qdw5LIUQWda3gonWwKCYTYDDHRc12GU14w==,iv:yCHv5HXvUI8lPGMlRrPuPL8xUlRwXIpNgFo1aPZaiUI=,tag:I44PJIYTASDToD3+xuSVLQ==,type:str]
 monitoring:
     blackbox-targets:
         immich: ENC[AES256_GCM,data:bCYbM3MPgjVDYRmt8AkDdvudlrMg/vwOotLFVQ==,iv:2nIGdNIVpOj6yPyzSCUjGd0G/fHyqEvb1Uh2uuTROn8=,tag:T0Nr5id4+hGFS2VdDpGF+Q==,type:str]
@@ -78,7 +79,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-07-31T03:32:02Z"
-    mac: ENC[AES256_GCM,data:jmdan2tc6yNiA5MXGvNDziYUB+duY/HOFt7SAa3fTFhKnJTC2ui80hWH3hocFUMJ/2IZq5vIB1yJ2FMyYQmZmbA28tFDPjquR1CMfPNJuijHYrJaooq74i2/qPfuhYw/e/BuYpKk28DHzhLB8lrxIoWk0dTEynURbVCPpNK3/9Y=,iv:Zyu4NEctMNBupyrMCfb2sPujptRUhAhFrrCOvEgtIZ4=,tag:XKJwmIul5R1BV+DsLQlACQ==,type:str]
+    lastmodified: "2026-08-05T22:38:01Z"
+    mac: ENC[AES256_GCM,data:VFlM7mofBy9wso4PQd3ep/2OEtg7+1UFKwCj+gVepU06BNhyEt8WkN0Zpzp/OtRQPzytQw+WMRB+L8dbBucB63jgUeZukukKhg8jtMjcMgsFyyVGbu6uTDBcL4tkL1+vcUNpQ3p/ZXOrF1YnYfMpVAs6VfBthvmqCuPXx9EYZ9Q=,iv:QozqMvSFftN0rhxNHnvKb8JiUQcCmqwBMiAaOILPwUY=,tag:gfBegjV/t704cJhhNwQm3A==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
