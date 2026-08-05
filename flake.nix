@@ -285,6 +285,7 @@
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix
               ./nixos/modules/monitoring/grafana.nix
+              ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
