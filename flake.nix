@@ -274,6 +274,7 @@
               ./nixos/modules/disks/unraid-other.nix
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
+              ./nixos/modules/gaming/palworld.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
               #./nixos/modules/network/scripts/net_watchdog.nix
@@ -329,7 +330,9 @@
           };
           whale = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            specialArgs = inputs // { diskDevice = "/dev/nvme0n1"; };
+            specialArgs = inputs // {
+              diskDevice = "/dev/nvme0n1";
+            };
             modules = [
               disko.nixosModules.disko
               nixos-facter-modules.nixosModules.facter
@@ -346,9 +349,12 @@
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/user/whale.nix
               ./nixos/modules/user/seagull.nix
-              ({ lib, ... }: lib.mkIf (builtins.pathExists ./nixos/hosts/whale/facter.json) {
-                facter.reportPath = ./nixos/hosts/whale/facter.json;
-              })
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/whale/facter.json) {
+                  facter.reportPath = ./nixos/hosts/whale/facter.json;
+                }
+              )
             ];
           };
         };
