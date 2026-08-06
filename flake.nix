@@ -164,6 +164,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
             ];
           };
           trixos = nixpkgs.lib.nixosSystem {
@@ -227,6 +228,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
             ];
           };
           seanix = nixpkgs.lib.nixosSystem {
@@ -256,6 +258,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/user/patrick-desktop.nix
             ];
           };
@@ -290,6 +293,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -325,6 +329,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/hardware/touchpad-inhibit.nix
             ];
           };

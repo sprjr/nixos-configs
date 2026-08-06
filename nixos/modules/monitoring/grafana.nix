@@ -59,6 +59,10 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/nix-state.json)
   );
 
+  syncthingDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/syncthing.json)
+  );
+
   # services-overview skips colorByHost: its series are probe URLs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
@@ -72,6 +76,10 @@ let
     {
       name = "nix-state.json";
       path = pkgs.writeText "nix-state.json" (builtins.toJSON nixStateDashboard);
+    }
+    {
+      name = "syncthing.json";
+      path = pkgs.writeText "syncthing.json" (builtins.toJSON syncthingDashboard);
     }
   ];
 
