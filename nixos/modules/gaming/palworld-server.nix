@@ -14,15 +14,15 @@ let
       libgcc
       zlib
       SDL2
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libXext
-      xorg.libXi
-      xorg.libXrandr
-      xorg.libXrender
-      xorg.libXfixes
-      xorg.libXScrnSaver
-      xorg.libXau
+      libx11
+      libxcursor
+      libxext
+      libxi
+      libxrandr
+      libxrender
+      libxfixes
+      libxscrnsaver
+      libxau
       steamcmd
     ];
     runScript = "";
