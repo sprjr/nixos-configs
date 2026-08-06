@@ -15,7 +15,7 @@ let
   playlistName = "Homelab";
 
   streamDeps = with pkgs; [
-    xorg.xorgserver
+    xorg-server
     chromium
     ffmpeg
     curl
@@ -84,7 +84,7 @@ let
       --disable-gpu \
       --disable-software-rasterizer \
       --kiosk \
-      --window-size=${builtins.replaceStrings ["x"] [","] resolution} \
+      --window-size=${builtins.replaceStrings [ "x" ] [ "," ] resolution} \
       --user-data-dir=/tmp/grafana-kiosk \
       --no-first-run \
       --disable-translate \
