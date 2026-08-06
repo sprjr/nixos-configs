@@ -28,7 +28,10 @@ let
   # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
     name = "hyprland-log-archive";
-    runtimeInputs = with pkgs; [ coreutils findutils ];
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+    ];
     text = ''
       src="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/hyprland.log"
       dest="''${XDG_STATE_HOME:-$HOME/.local/state}/hyprland"
@@ -52,7 +55,7 @@ in
     ./notifications.nix
     ./keyring.nix
     ./widgets/weather.nix
-    ./widgets/ip.nix
+    #./widgets/ip.nix
     ./widgets/stats.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
@@ -97,7 +100,10 @@ in
     };
 
     formFactor = mkOption {
-      type = types.enum [ "laptop" "desktop" ];
+      type = types.enum [
+        "laptop"
+        "desktop"
+      ];
       default = "desktop";
       description = ''
         Pointer-input tuning. "desktop" keeps the flat accel profile at sensitivity -0.6
@@ -107,7 +113,12 @@ in
     };
 
     gpu = mkOption {
-      type = types.nullOr (types.enum [ "nvidia" "amd" ]);
+      type = types.nullOr (
+        types.enum [
+          "nvidia"
+          "amd"
+        ]
+      );
       default = null;
       description = ''
         GPU vendor for the waybar GPU widget and Nvidia session env. null omits the widget
@@ -228,7 +239,8 @@ in
           "XCURSOR_THEME,Nordzy-catppuccin-frappe-dark"
           "HYPRCURSOR_SIZE,24"
           "HYPRCURSOR_THEME,Nordzy-hyprcursors"
-        ] ++ nvidiaEnv;
+        ]
+        ++ nvidiaEnv;
 
         cursor = mkIf (cfg.gpu == "nvidia") {
           no_hardware_cursors = true;
@@ -319,7 +331,8 @@ in
         misc = {
           force_default_wallpaper = 0;
           disable_hyprland_logo = true;
-        } // optionalAttrs cfg.gaming.enable { vrr = 2; };
+        }
+        // optionalAttrs cfg.gaming.enable { vrr = 2; };
 
         # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
         render = optionalAttrs cfg.gaming.enable {
