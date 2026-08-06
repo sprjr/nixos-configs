@@ -179,6 +179,7 @@ in
       sops
       thermald
       usbutils
+      urlwatch
       vim
       wget
       zsh
