@@ -144,5 +144,5 @@ in
     };
   };
 
-  networking.firewall.allowedUDPPorts = [ 8211 ];
+  networking.firewall.allowedUDPPorts = [ 8211 27015 ];
 }
