@@ -274,7 +274,7 @@
               ./nixos/modules/disks/unraid-other.nix
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
-              ./nixos/modules/gaming/palworld.nix
+              ./nixos/modules/gaming/palworld-server.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
               #./nixos/modules/network/scripts/net_watchdog.nix
