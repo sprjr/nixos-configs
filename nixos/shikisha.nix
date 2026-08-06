@@ -170,6 +170,7 @@ in
       file
       garage
       git
+      html2text
       lshw
       lsof
       mosquitto
