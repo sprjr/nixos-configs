@@ -78,7 +78,7 @@ let
         generation = 0
 
     try:
-        rebuild_ts = int(os.path.getmtime("/run/current-system"))
+        rebuild_ts = int(os.lstat("/run/current-system").st_mtime)
     except Exception:
         rebuild_ts = 0
 
