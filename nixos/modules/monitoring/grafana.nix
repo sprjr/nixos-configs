@@ -14,7 +14,7 @@ let
     voyager = "orange";
     seanix = "red";
     "wopr-0" = "yellow";
-    "opnsense-fairview" = "cyan";
+    "opnsense-fairview" = "white";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -56,9 +56,7 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/homelab-overview.json)
   );
 
-  nixStateDashboard = colorByHost (
-    builtins.fromJSON (builtins.readFile ./dashboards/nix-state.json)
-  );
+  nixStateDashboard = colorByHost (builtins.fromJSON (builtins.readFile ./dashboards/nix-state.json));
 
   syncthingDashboard = colorByHost (
     builtins.fromJSON (builtins.readFile ./dashboards/syncthing.json)
@@ -264,7 +262,15 @@ in
             "HTTP/1.1"
             "HTTP/2.0"
           ];
-          valid_status_codes = [ 200 201 204 301 302 401 403 ];
+          valid_status_codes = [
+            200
+            201
+            204
+            301
+            302
+            401
+            403
+          ];
           follow_redirects = false;
           preferred_ip_protocol = "ip4";
           tls_config.insecure_skip_verify = false;
