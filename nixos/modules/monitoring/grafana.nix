@@ -10,7 +10,6 @@ let
   hostColors = {
     shikisha = "green";
     "nx-01" = "blue";
-    prometheus = "purple";
     voyager = "orange";
     seanix = "red";
     "wopr-0" = "yellow";
@@ -165,7 +164,6 @@ in
             targets = [
               "shikisha:9100"
               "nx-01:9100"
-              "prometheus:9100"
               "voyager:9100"
               "seanix:9100"
               "wopr-0:9100"
