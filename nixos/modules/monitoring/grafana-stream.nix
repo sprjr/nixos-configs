@@ -166,14 +166,14 @@ in
     after = [ "grafana.service" ];
     requires = [ "grafana.service" ];
     wantedBy = [ "multi-user.target" ];
+    path = with pkgs; [
+      curl
+      jq
+    ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = provisionPlaylists;
-      path = with pkgs; [
-        curl
-        jq
-      ];
     };
   };
 
@@ -190,6 +190,7 @@ in
     ];
     wants = [ "grafana-playlists.service" ];
     wantedBy = [ "multi-user.target" ];
+    path = streamDeps;
     serviceConfig = {
       Type = "simple";
       ExecStart = streamCapture;
@@ -197,7 +198,6 @@ in
       Restart = "on-failure";
       RestartSec = 10;
       StateDirectory = "grafana-stream";
-      path = streamDeps;
     };
   };
 
