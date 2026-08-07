@@ -17,24 +17,32 @@ let
   batchOf = ms: concatStringsSep " ; " (map (m: "keyword monitor ${m}") (named ms));
 
   mkSwitcher =
-    name: descriptors: kdeFallback:
+    name: descriptors:
     pkgs.writeShellApplication {
       inherit name;
       runtimeInputs = [ config.wayland.windowManager.hyprland.package ];
       text = ''
+        if [ -z "''${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
+          for d in /run/user/"$(id -u)"/hypr/*/; do
+            [ -S "''${d}.socket.sock" ] && {
+              export HYPRLAND_INSTANCE_SIGNATURE
+              HYPRLAND_INSTANCE_SIGNATURE=$(basename "$(dirname "$d")")
+              break
+            }
+          done
+        fi
+
         if [ -n "''${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
           hyprctl --batch "${batchOf descriptors}"
-        elif [ -x "$HOME/.local/bin/${kdeFallback}" ]; then
-          "$HOME/.local/bin/${kdeFallback}"
         else
-          echo "${name}: not in a Hyprland session and no ~/.local/bin/${kdeFallback} fallback" >&2
+          echo "${name}: no running Hyprland instance found" >&2
           exit 1
         fi
       '';
     };
 
-  monLocal = mkSwitcher "mon-local" cfg.monitors "switch-local.sh";
-  monRemote = mkSwitcher "mon-remote" cfg.remoteMonitors "switch-remote.sh";
+  monLocal = mkSwitcher "mon-local" cfg.monitors;
+  monRemote = mkSwitcher "mon-remote" cfg.remoteMonitors;
 in
 {
   config = mkIf cfg.enable {

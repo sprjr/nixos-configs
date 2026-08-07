@@ -20,7 +20,6 @@
     ./modules/user-space/bat.nix
     ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
-    ./modules/user-space/monitor-switch.nix
     ./modules/user-space/hyprland
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-desktop.nix
@@ -28,8 +27,8 @@
   ];
 
   # Independent, login-selectable Hyprland session (additive to the KDE/GNOME session).
-  # seanix: three-monitor layout translated from monitor-switch.nix (fallback line last for
-  # hotplug) and the Nvidia session env/GPU widget.
+  # seanix: three-monitor layout (fallback line last for hotplug) and the Nvidia session
+  # env/GPU widget.
   patrick.home.hyprland = {
     enable = true;
     formFactor = "desktop";
