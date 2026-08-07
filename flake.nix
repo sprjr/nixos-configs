@@ -284,7 +284,7 @@
               #./nixos/modules/homelab/attic.nix
               #./nixos/modules/system/attic-cache.nix
               #./nixos/modules/homelab/nextcloud.nix
-              ./nixos/modules/homelab/storage/garage-systemd-service.nix
+              #./nixos/modules/homelab/storage/garage-systemd-service.nix
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix

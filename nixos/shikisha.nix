@@ -168,7 +168,7 @@ in
       cachix
       certbot
       file
-      garage
+
       git
       html2text
       lshw
