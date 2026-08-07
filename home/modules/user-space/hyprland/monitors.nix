@@ -26,7 +26,7 @@ let
           for d in /run/user/"$(id -u)"/hypr/*/; do
             [ -S "''${d}.socket.sock" ] && {
               export HYPRLAND_INSTANCE_SIGNATURE
-              HYPRLAND_INSTANCE_SIGNATURE=$(basename "$(dirname "$d")")
+              HYPRLAND_INSTANCE_SIGNATURE=$(basename "$d")
               break
             }
           done
