@@ -14,6 +14,7 @@ let
     voyager = "orange";
     seanix = "red";
     "wopr-0" = "yellow";
+    "opnsense-fairview" = "cyan";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -170,7 +171,7 @@ in
               "voyager:9100"
               "seanix:9100"
               "wopr-0:9100"
-              "100.94.91.73:9100"
+              "opnsense-fairview:9100"
             ];
           }
         ];
