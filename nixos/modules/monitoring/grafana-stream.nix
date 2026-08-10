@@ -14,10 +14,12 @@ let
   hlsPort = 8080;
   playlistName = "Homelab";
 
+  ffmpegX11 = pkgs.ffmpeg.override { withXcb = true; };
+
   streamDeps = with pkgs; [
     xorg.xorgserver
     chromium
-    ffmpeg
+    ffmpegX11
     curl
     jq
     coreutils
@@ -103,7 +105,7 @@ let
 
     mkdir -p ${hlsDir}
 
-    Xvfb ${display} -screen 0 ${resolution}x24 &
+    Xvfb ${display} -ac -screen 0 ${resolution}x24 &
     sleep 2
 
     export DISPLAY=${display}
@@ -111,6 +113,7 @@ let
       --no-sandbox \
       --disable-gpu \
       --disable-software-rasterizer \
+      --disable-dev-shm-usage \
       --kiosk \
       --window-size=${builtins.replaceStrings [ "x" ] [ "," ] resolution} \
       --user-data-dir=/tmp/grafana-kiosk \
@@ -122,7 +125,7 @@ let
       "$PROXY/playlists/play/$PLAYLIST_UID?kiosk" &
     sleep 10
 
-    exec ffmpeg -nostdin \
+    exec ffmpeg -nostdin -loglevel error \
       -f x11grab -framerate 5 -video_size ${resolution} -i ${display} \
       -c:v libx264 -preset ultrafast -tune zerolatency \
       -f hls -hls_time 2 -hls_list_size 5 -hls_flags delete_segments \
