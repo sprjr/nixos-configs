@@ -35,16 +35,31 @@ let
 
     provision_playlist() {
       local name="$1" tag="$2"
+
+      local uids
+      uids=$(curl -sf -H "$AUTH" "$GRAFANA/api/search?tag=$tag&type=dash-db" \
+        | jq -r '.[].uid')
+
+      if [ -z "$uids" ]; then
+        echo "No dashboards found with tag '$tag'" >&2
+        return 0
+      fi
+
+      local items="[]"
+      for uid in $uids; do
+        items=$(echo "$items" | jq --arg u "$uid" '. + [{type: "dashboard_by_uid", value: $u}]')
+      done
+
+      local payload
+      payload=$(jq -n --arg n "$name" --argjson items "$items" '{
+        name: $n,
+        interval: "30s",
+        items: $items
+      }')
+
       local existing
       existing=$(curl -sf -H "$AUTH" "$GRAFANA/api/playlists" \
         | jq -r ".[] | select(.name == \"$name\") | .uid")
-
-      local payload
-      payload=$(jq -n --arg n "$name" --arg t "$tag" '{
-        name: $n,
-        interval: "30s",
-        items: [{type: "dashboard_by_tag", value: $t}]
-      }')
 
       if [ -n "$existing" ]; then
         curl -sf -X PUT -H "$AUTH" -H "Content-Type: application/json" \
