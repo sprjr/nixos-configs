@@ -33,11 +33,24 @@ let
       sleep 2
     done
 
+    gf_curl() {
+      local response http_code
+      response=$(curl -s -w '\n%{http_code}' -H "$AUTH" "$@")
+      http_code=$(echo "$response" | tail -1)
+      response=$(echo "$response" | sed '$d')
+      if [ "$http_code" -ge 400 ]; then
+        echo "HTTP $http_code from: $*" >&2
+        echo "$response" >&2
+        return 22
+      fi
+      echo "$response"
+    }
+
     provision_playlist() {
       local name="$1" tag="$2"
 
       local uids
-      uids=$(curl -sf -H "$AUTH" "$GRAFANA/api/search?tag=$tag&type=dash-db" \
+      uids=$(gf_curl "$GRAFANA/api/search?tag=$tag&type=dash-db" \
         | jq -r '.[].uid')
 
       if [ -z "$uids" ]; then
@@ -58,14 +71,14 @@ let
       }')
 
       local existing
-      existing=$(curl -sf -H "$AUTH" "$GRAFANA/api/playlists" \
+      existing=$(gf_curl "$GRAFANA/api/playlists" \
         | jq -r ".[] | select(.name == \"$name\") | .uid")
 
       if [ -n "$existing" ]; then
-        curl -sf -X PUT -H "$AUTH" -H "Content-Type: application/json" \
+        gf_curl -X PUT -H "Content-Type: application/json" \
           -d "$payload" "$GRAFANA/api/playlists/$existing" > /dev/null
       else
-        curl -sf -X POST -H "$AUTH" -H "Content-Type: application/json" \
+        gf_curl -X POST -H "Content-Type: application/json" \
           -d "$payload" "$GRAFANA/api/playlists" > /dev/null
       fi
     }
