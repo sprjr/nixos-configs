@@ -3,18 +3,57 @@
   "title": "Nix State",
   "tags": ["nixos", "comin"],
   "schemaVersion": 39,
-  "version": 1,
+  "version": 2,
   "editable": false,
   "refresh": "1m",
   "time": { "from": "now-24h", "to": "now" },
   "timezone": "browser",
   "panels": [
     {
+      "id": 8,
+      "type": "stat",
+      "title": "Sync status",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "FAILED", "color": "red", "index": 0 } } },
+            { "type": "value", "options": { "1": { "text": "PENDING", "color": "yellow", "index": 1 } } },
+            { "type": "value", "options": { "2": { "text": "IN SYNC", "color": "green", "index": 2 } } }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "green", "value": 2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "comin_sync_state",
+          "legendFormat": "{{instance}}",
+          "instant": true
+        }
+      ]
+    },
+    {
       "id": 1,
       "type": "stat",
       "title": "Deploy status",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 0 },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 4 },
       "fieldConfig": {
         "defaults": {
           "mappings": [
@@ -51,7 +90,7 @@
       "type": "stat",
       "title": "Time since rebuild",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 4 },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 8 },
       "fieldConfig": {
         "defaults": {
           "unit": "s",
@@ -86,7 +125,7 @@
       "type": "table",
       "title": "Fleet commits",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 7, "w": 14, "x": 0, "y": 8 },
+      "gridPos": { "h": 7, "w": 14, "x": 0, "y": 12 },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -133,7 +172,7 @@
       "type": "table",
       "title": "System versions",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 7, "w": 10, "x": 14, "y": 8 },
+      "gridPos": { "h": 7, "w": 10, "x": 14, "y": 12 },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -180,7 +219,7 @@
       "type": "timeseries",
       "title": "Deploy history",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 19 },
       "fieldConfig": {
         "defaults": {
           "min": 0,
@@ -217,7 +256,7 @@
       "type": "timeseries",
       "title": "System generations",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 19 },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
@@ -247,7 +286,7 @@
       "type": "logs",
       "title": "Comin logs",
       "datasource": { "type": "loki", "uid": "loki" },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 23 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 27 },
       "options": {
         "showTime": true,
         "sortOrder": "Descending",

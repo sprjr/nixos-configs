@@ -33,12 +33,27 @@ let
             eval_status = gen.get("eval_status", "")
             build_status = gen.get("build_status", "")
             deploy_status = deploy.get("status", "")
-            commit = fetcher.get("selected_commit_id", "")[:8]
+            fetcher_commit_id = fetcher.get("selected_commit_id", "")
+            commit = fetcher_commit_id[:8]
             commit_msg = (gen.get("selected_commit_msg") or "").split("\n")[0][:72]
+
+            deploy_gen = (deploy.get("generation") or {})
+            deployed_commit_id = deploy_gen.get("selected_commit_id", "")
+            deployed_commit = deployed_commit_id[:8]
+            deployed_msg = (deploy_gen.get("selected_commit_msg") or "").split("\n")[0][:72]
 
             eval_val = 0 if eval_status == "failed" else 1
             build_val = 0 if build_status == "failed" else 1
             deploy_val = 0 if deploy_status == "failed" else 1
+
+            if eval_status == "failed" or build_status == "failed" or deploy_status == "failed":
+                sync_val = 0
+            elif not fetcher_commit_id or not deployed_commit_id:
+                sync_val = 1
+            elif fetcher_commit_id != deployed_commit_id:
+                sync_val = 1
+            else:
+                sync_val = 2
 
             lines.append("# HELP comin_eval_success Whether the last comin eval succeeded")
             lines.append("# TYPE comin_eval_success gauge")
@@ -55,6 +70,15 @@ let
                 f'comin_commit_info{{commit="{prom_escape(commit)}",'
                 f'message="{prom_escape(commit_msg)}"}} 1'
             )
+            lines.append("# HELP comin_deployed_commit_info Currently deployed comin commit")
+            lines.append("# TYPE comin_deployed_commit_info gauge")
+            lines.append(
+                f'comin_deployed_commit_info{{commit="{prom_escape(deployed_commit)}",'
+                f'message="{prom_escape(deployed_msg)}"}} 1'
+            )
+            lines.append("# HELP comin_sync_state Sync state (0=failed 1=pending 2=in-sync)")
+            lines.append("# TYPE comin_sync_state gauge")
+            lines.append(f"comin_sync_state {sync_val}")
     except Exception:
         pass
 
