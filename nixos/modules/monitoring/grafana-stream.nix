@@ -15,7 +15,7 @@ let
   playlistName = "Homelab";
 
   streamDeps = with pkgs; [
-    xorg-server
+    xorg.xorgserver
     chromium
     ffmpeg
     curl
