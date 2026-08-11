@@ -31,6 +31,10 @@ let
         Super Esc              lock session
         Super Shift Esc        exit Hyprland session
 
+      Screenshots (copied to clipboard)
+        Super Shift S          region select
+        Print                  full screen
+
       Scratchpad (minimize)
         Super M                show/hide scratchpad
         Super Shift M          send window to scratchpad
@@ -45,10 +49,6 @@ let
         Super Ctrl h/l         previous/next workspace
         Super 1..0             switch to workspace 1..10
         Super Shift 1..0       move window to workspace 1..10
-
-      Screenshots (copied to clipboard)
-        Super Shift S          region select
-        Print                  full screen
 
       Wallpaper
         Super Shift W          rotate wallpaper now
@@ -106,9 +106,9 @@ in
         "$mainMod CTRL, h, workspace, e-1"
         "$mainMod CTRL, l, workspace, e+1"
 
-        # Screenshots (grim + slurp).
-        "$mainMod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
-        ", Print, exec, grim - | wl-copy"
+        # Screenshots (grimblast: clipboard only).
+        "$mainMod SHIFT, S, exec, grimblast copy area"
+        ", Print, exec, grimblast copy screen"
       ] ++ workspaceBinds;
 
       # Repeating + lock-screen-active volume/brightness keys.

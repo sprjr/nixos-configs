@@ -93,6 +93,7 @@ let
       "systemd-failed-units"
       "custom/clipboard"
       "custom/color-picker"
+      "custom/screenshot"
       "tray"
       "custom/power-menu"
       "custom/notification"
@@ -332,6 +333,13 @@ in
           tooltip = false;
           on-click = "waybar-clipboard";
         };
+
+        "custom/screenshot" = {
+          format = "󰹑";
+          tooltip = false;
+          on-click = "grimblast copy area";
+          on-click-right = "grimblast copy screen";
+        };
       };
 
       style = ''
@@ -381,7 +389,8 @@ in
         #custom-notification,
         #custom-power-menu,
         #custom-color-picker,
-        #custom-clipboard {
+        #custom-clipboard,
+        #custom-screenshot {
           padding: 0 8px;
         }
         #cpu { color: #f38ba8; }
@@ -404,6 +413,7 @@ in
         #language { color: #b4befe; }
         #custom-clipboard { color: #cdd6f4; }
         #custom-color-picker { color: #f5c2e7; }
+        #custom-screenshot { color: #89dceb; }
         #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
         #custom-ha-office-fan,
