@@ -254,6 +254,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/nvidia-seanix.nix
+              ./nixos/modules/audio/boot-sound-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
