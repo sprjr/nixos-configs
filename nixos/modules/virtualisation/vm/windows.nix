@@ -3,8 +3,6 @@
 {
   programs.dconf.enable = true;
 
-  users.users.gcis.extraGroups = [ "libvirtd" ];
-
   environment.systemPackages = with pkgs; [
     virt-manager
     virt-viewer
@@ -13,7 +11,7 @@
     spice-protocol
     win-virtio
     win-spice
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
   ];
 
   virtualisation = {
