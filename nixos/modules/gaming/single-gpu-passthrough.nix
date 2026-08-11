@@ -1,3 +1,28 @@
+# Single GPU passthrough: dynamically swaps the RTX 5060 Ti between NixOS
+# (nvidia) and a Windows VM (vfio-pci) via libvirt hooks.
+#
+# Wiring steps:
+#   1. Import this module and ../virtualisation/vm/windows.nix in flake.nix
+#      for the seanix host.
+#   2. Add "libvirtd" and "kvm" to patrick's extraGroups in
+#      modules/user/patrick-desktop.nix (libvirtd group requires the libvirt
+#      module from step 1; kvm can be added independently).
+#   3. Remove looking-glass-client from users.users.patrick.packages in
+#      seanix.nix (unused without dual-GPU Looking Glass setup).
+#   4. Push to main, let comin apply, then reboot seanix.
+#   5. Create a VM named "win-gaming" in virt-manager:
+#      - UEFI firmware (OVMF), Q35 chipset
+#      - PCI host devices: 26:00.0 (GPU) and 26:00.1 (audio)
+#      - TPM 2.0 (CRB emulated) for Windows 11
+#      - VirtIO disk + network; install VirtIO drivers from win-virtio ISO
+#      - Install Nvidia drivers inside Windows
+#   6. Test: run `win-game` to start, shut down Windows to return.
+#
+# Risk: the RTX 5060 Ti (Blackwell/GB206) GPU reset behavior after VM
+# shutdown is untested. If the GPU fails to reinitialize, a host reboot
+# is needed. The vendor-reset kernel module or a PCIe FLR in the hook
+# script may help if this occurs.
+
 { config, pkgs, lib, ... }:
 
 let
