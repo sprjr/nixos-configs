@@ -72,7 +72,6 @@ in
 
     wayland.windowManager.hyprland.settings = {
       bind = [
-        "$mainMod, Space, exec, fuzzel"
         "$mainMod, Return, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive,"
@@ -86,9 +85,6 @@ in
         # Scratchpad (minimize): M to show/hide, Shift+M to send window.
         "$mainMod, M, togglespecialworkspace, magic"
         "$mainMod SHIFT, M, movetoworkspacesilent, special:magic"
-
-        # Wallpaper rotation (auto-rotates via systemd timer).
-        "$mainMod SHIFT, W, exec, hypr-wallpaper"
 
         # Vim focus movement.
         "$mainMod, h, movefocus, l"
@@ -109,6 +105,9 @@ in
         # Screenshots (grimblast: clipboard only).
         "$mainMod SHIFT, S, exec, grimblast copy area"
         ", Print, exec, grimblast copy screen"
+      ] ++ optionals (cfg.shell == "native") [
+        "$mainMod, Space, exec, fuzzel"
+        "$mainMod SHIFT, W, exec, hypr-wallpaper"
       ] ++ workspaceBinds;
 
       # Repeating + lock-screen-active volume/brightness keys.

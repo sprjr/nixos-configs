@@ -64,6 +64,19 @@ in
   options.patrick.home.hyprland = {
     enable = mkEnableOption "Patrick's independent Hyprland session";
 
+    shell = mkOption {
+      type = types.enum [
+        "native"
+        "caelestia"
+      ];
+      default = "native";
+      description = ''
+        Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
+        hypridle, swaync, and awww. "caelestia" uses caelestia-shell (Quickshell-based
+        unified shell).
+      '';
+    };
+
     monitors = mkOption {
       type = types.listOf types.str;
       default = [ ",preferred,auto,auto" ];

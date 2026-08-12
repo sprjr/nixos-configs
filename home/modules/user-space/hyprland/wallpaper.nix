@@ -38,7 +38,7 @@ let
   };
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && cfg.shell == "native") {
     home.packages = [
       pkgs.awww
       hypr-wallpaper

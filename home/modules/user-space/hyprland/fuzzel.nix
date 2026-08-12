@@ -7,7 +7,7 @@ let
   cfg = config.patrick.home.hyprland;
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && cfg.shell == "native") {
     programs.fuzzel = {
       enable = true;
       settings = {

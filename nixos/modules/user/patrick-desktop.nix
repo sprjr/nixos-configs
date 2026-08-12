@@ -3,6 +3,7 @@
   pkgs,
   lib,
   home-manager,
+  caelestia-shell,
   sops-nix,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
@@ -61,6 +62,7 @@
     users.patrick = {
       imports = [
         sops-nix.homeManagerModules.sops
+        caelestia-shell.homeManagerModules.default
         ../../../home/desktop-home.nix
       ];
     };

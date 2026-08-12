@@ -46,7 +46,7 @@ let
   };
 in
 {
-  config = mkIf (cfg.enable && cfg.gpu != null) {
+  config = mkIf (cfg.enable && cfg.shell == "native" && cfg.gpu != null) {
     home.packages = [ gpu ];
   };
 }

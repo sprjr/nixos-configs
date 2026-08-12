@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   home-manager,
   ...
 }:
@@ -31,6 +32,8 @@
   # env/GPU widget.
   patrick.home.hyprland = {
     enable = true;
+    #shell = "caelestia";
+    shell = "native";
     formFactor = "desktop";
     gpu = "nvidia";
     signalGnomeKeyring = true;
@@ -83,6 +86,11 @@
       "nix-command"
       "flakes"
     ];
+  };
+
+  programs.caelestia = lib.mkIf (config.patrick.home.hyprland.shell == "caelestia") {
+    enable = true;
+    systemd.target = "hyprland-session.target";
   };
 
   home.stateVersion = "24.05";

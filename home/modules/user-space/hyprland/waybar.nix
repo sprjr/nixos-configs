@@ -101,7 +101,7 @@ let
     ++ cfg.waybarExtra;
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && cfg.shell == "native") {
     home.packages = [
       pkgs.blueman
       pkgs.cliphist

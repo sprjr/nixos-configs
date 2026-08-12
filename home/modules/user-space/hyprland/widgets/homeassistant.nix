@@ -121,7 +121,7 @@ let
   };
 in
 {
-  config = mkIf (cfg.enable && ha.enable) {
+  config = mkIf (cfg.enable && cfg.shell == "native" && ha.enable) {
     sops.secrets."ha_token" = { };
 
     home.packages = [

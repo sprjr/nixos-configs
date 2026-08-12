@@ -91,7 +91,7 @@ let
   };
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && cfg.shell == "native") {
     home.packages = [
       timer-countdown
       timer-start
