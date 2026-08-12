@@ -87,7 +87,9 @@
       android-tools
       bandwhich
       duplicati
+      dust
       firefox
+      fwtop
       ghostty
       google-chrome
       impala
