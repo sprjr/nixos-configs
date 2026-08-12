@@ -121,7 +121,7 @@ in
         spacing = 6;
 
         modules-left = modulesLeft;
-        modules-center = [ "mpris" "clock" ];
+        modules-center = [ "mpris" "clock" "clock#tokyo" ];
         modules-right = modulesRight;
 
         "niri/workspaces" = {
@@ -132,6 +132,12 @@ in
         clock = {
           format = "{:%a %d %b  %H:%M}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
+        };
+
+        "clock#tokyo" = {
+          format = "TYO {:%H:%M}";
+          timezone = "Asia/Tokyo";
+          tooltip-format = "Tokyo: {:%A %d %B %H:%M}";
         };
 
         cpu = {
@@ -358,6 +364,7 @@ in
         #bluetooth,
         #battery,
         #clock,
+        #clock-tokyo,
         #tray,
         #mpris,
         #disk,
@@ -403,6 +410,7 @@ in
         #custom-color-picker { color: #f5c2e7; }
         #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
+        #clock-tokyo { color: #6c7086; font-size: 11px; }
         #custom-ha-office-fan,
         #custom-ha-cameras { color: #89b4fa; }
         #custom-ha-fan.on,
