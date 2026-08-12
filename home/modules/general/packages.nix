@@ -89,7 +89,6 @@
       duplicati
       dust
       firefox
-      fwtop
       ghostty
       google-chrome
       impala
