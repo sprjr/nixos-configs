@@ -349,28 +349,27 @@ in
         debug = {
           disable_logs = !cfg.debugLogging;
         };
-      };
 
-
-      "windowrule[steam]" = {
-        "match:class" = "^(steam)$";
-        workspace = "1 silent";
-      };
-      "windowrule[ghostty]" = {
-        "match:class" = "^(com\\.mitchellh\\.ghostty)$";
-        workspace = "2 silent";
-      };
-      "windowrule[signal]" = {
-        "match:class" = "^(signal)$";
-        workspace = "3 silent";
-      };
-      "windowrule[legcord]" = {
-        "match:class" = "^(legcord)$";
-        workspace = "3 silent";
-      };
-      "windowrule[firefox]" = {
-        "match:class" = "^(firefox)$";
-        workspace = "3 silent";
+        "windowrule[steam]" = {
+          "match:class" = "^(steam)$";
+          workspace = "1 silent";
+        };
+        "windowrule[ghostty]" = {
+          "match:class" = "^(com\\.mitchellh\\.ghostty)$";
+          workspace = "2 silent";
+        };
+        "windowrule[signal]" = {
+          "match:class" = "^(signal)$";
+          workspace = "3 silent";
+        };
+        "windowrule[legcord]" = {
+          "match:class" = "^(legcord)$";
+          workspace = "3 silent";
+        };
+        "windowrule[firefox]" = {
+          "match:class" = "^(firefox)$";
+          workspace = "3 silent";
+        };
       };
     };
 
