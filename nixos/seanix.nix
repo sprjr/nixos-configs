@@ -211,7 +211,6 @@ in
     distrobox
     distrobox-tui
     easyeffects
-    floorp-bin
     freetube
     gamescope
     gimp
