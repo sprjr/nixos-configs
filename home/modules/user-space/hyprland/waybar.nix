@@ -423,7 +423,7 @@ in
         #custom-screenshot { color: #89dceb; }
         #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
-        #clock-tokyo { color: #6c7086; font-size: 11px; }
+        #clock-tokyo { color: #89b4fa; font-size: 11px; }
         #custom-ha-office-fan,
         #custom-ha-cameras { color: #89b4fa; }
         #custom-ha-fan.on,
