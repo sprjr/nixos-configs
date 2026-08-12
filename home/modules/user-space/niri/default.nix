@@ -285,6 +285,11 @@ in
         { command = [ "wl-paste" "--watch" "cliphist" "store" ]; }
         { command = [ "fcitx5" "-d" "--replace" ]; }
         { command = [ "xwayland-satellite" ]; }
+        { command = [ "steam" ]; }
+        { command = [ "signal-desktop" ]; }
+        { command = [ "legcord" ]; }
+        { command = [ "firefox" ]; }
+        { command = [ "ghostty" ]; }
       ];
     };
 
