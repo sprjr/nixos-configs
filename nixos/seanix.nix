@@ -174,6 +174,8 @@ in
     })
   ];
 
+  services.portmaster.enable = true;
+
   # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages = with pkgs; [
     fanctl
