@@ -7,6 +7,12 @@
 
 let
   claudeSettings = builtins.toJSON {
+    mcpServers = {
+      nixos = {
+        command = "nix";
+        args = [ "run" "github:utensils/mcp-nixos" "--" ];
+      };
+    };
     permissions = {
       defaultMode = "plan";
       disableBypassPermissionsMode = "disable";
