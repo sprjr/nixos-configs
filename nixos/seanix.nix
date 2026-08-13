@@ -219,7 +219,7 @@ in
     kind
     looking-glass-client
     lyrebird
-    ollama-rocm
+    opencode
     opencv
     orthanc
     python313
