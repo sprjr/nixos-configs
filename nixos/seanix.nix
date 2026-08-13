@@ -45,6 +45,8 @@ in
   ];
   nix.channel.enable = false;
 
+  hardware.enableAllFirmware = true;
+
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
