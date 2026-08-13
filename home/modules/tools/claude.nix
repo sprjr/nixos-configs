@@ -9,8 +9,8 @@ let
   claudeSettings = builtins.toJSON {
     mcpServers = {
       nixos = {
-        command = "nix";
-        args = [ "run" "github:utensils/mcp-nixos" "--" ];
+        command = "${pkgs.nix}/bin/nix";
+        args = [ "run" "github:utensils/mcp-nixos" ];
       };
     };
     permissions = {
