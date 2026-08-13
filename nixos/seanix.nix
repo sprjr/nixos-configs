@@ -14,6 +14,7 @@ in
 {
   imports = [
     home-manager.nixosModules.home-manager
+    ./modules/hardware/ca0132-ae5.nix
     ./modules/system/esp-tooling.nix
   ];
 
