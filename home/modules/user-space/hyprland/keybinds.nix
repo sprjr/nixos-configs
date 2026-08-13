@@ -50,6 +50,10 @@ let
         Super 1..0             switch to workspace 1..10
         Super Shift 1..0       move window to workspace 1..10
 
+      Dictionary
+        Super D                English dictionary (selection or prompt)
+        Super Shift D          Japanese dictionary (selection or prompt)
+
       Wallpaper
         Super Shift W          rotate wallpaper now
 
@@ -108,6 +112,8 @@ in
       ] ++ optionals (cfg.shell == "native") [
         "$mainMod, Space, exec, fuzzel"
         "$mainMod SHIFT, W, exec, hypr-wallpaper"
+        "$mainMod, D, exec, dict-lookup --selection"
+        "$mainMod SHIFT, D, exec, jp-lookup --selection"
       ] ++ workspaceBinds;
 
       # Repeating + lock-screen-active volume/brightness keys.
