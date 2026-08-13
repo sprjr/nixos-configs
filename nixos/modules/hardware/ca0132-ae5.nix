@@ -1,8 +1,4 @@
-# Creative Sound BlasterX AE-5 Plus (CA0132) workarounds.
-# The ca0132 kernel driver loads DSP firmware but fails to enable output
-# pin widgets on the AE-5. PipeWire hardware volume writes also re-mute
-# the DAC by setting the amp mute bit. A PipeWire loopback provides
-# software volume control without touching the hardware mixer.
+# Creative Sound BlasterX AE-5 Plus (CA0132) workarounds
 { pkgs, ... }:
 {
   environment.etc."wireplumber/wireplumber.conf.d/51-ca0132-ae5.conf".text = ''
@@ -19,6 +15,18 @@
           }
         }
       }
+      {
+        matches = [
+          {
+            node.name = "~alsa_output.pci-0000_21_00.0.*"
+          }
+        ]
+        actions = {
+          update-props = {
+            priority.session = 0
+          }
+        }
+      }
     ]
   '';
 
@@ -32,6 +40,7 @@
             "node.name" = "ae5-headphones";
             "media.class" = "Audio/Sink";
             "audio.position" = [ "FL" "FR" ];
+            "priority.session" = 1500;
           };
           "playback.props" = {
             "node.name" = "ae5-headphones-playback";
@@ -60,6 +69,23 @@
         hda-verb /dev/snd/hwC0D1 0x0f SET_PIN_WIDGET_CONTROL 0xc0
         hda-verb /dev/snd/hwC0D1 0x10 SET_PIN_WIDGET_CONTROL 0xc0
         hda-verb /dev/snd/hwC0D1 0x02 SET_AMP_GAIN_MUTE 0xb03c
+      '';
+    };
+  };
+
+  systemd.services.ca0132-mixer-guard = {
+    description = "Re-apply CA0132 DAC unmute on ALSA mixer changes";
+    after = [ "sound.target" "ca0132-init.service" ];
+    wantedBy = [ "multi-user.target" ];
+    path = with pkgs; [ alsa-utils alsa-tools coreutils ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 5;
+      ExecStart = pkgs.writeShellScript "ca0132-mixer-guard" ''
+        stdbuf -oL alsactl monitor | while read -r line; do
+          hda-verb /dev/snd/hwC0D1 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null
+        done
       '';
     };
   };
