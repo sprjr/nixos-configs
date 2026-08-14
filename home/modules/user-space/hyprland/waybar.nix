@@ -403,13 +403,13 @@ in
 
         "custom/dict" = {
           format = "";
-          tooltip-format = "English dictionary (WordNet)";
+          tooltip = false;
           on-click = "dict-lookup";
         };
 
         "custom/jp-dict" = {
           format = "󰗊";
-          tooltip-format = "Japanese dictionary (Jisho)";
+          tooltip = false;
           on-click = "jp-lookup";
         };
 
