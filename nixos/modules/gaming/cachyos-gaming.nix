@@ -23,10 +23,12 @@ in {
 
   # Binary caches for pre-built CachyOS kernels; avoids local compilation
   nix.settings = {
+    # TODO: revert priority and connect-timeout once garnix stops 503ing
     extra-substituters = [
-      "https://attic.xuyh0120.win/lantian"
-      "https://cache.garnix.io"
+      "https://attic.xuyh0120.win/lantian?priority=50"
+      "https://cache.garnix.io?priority=50"
     ];
+    connect-timeout = 5;
     extra-trusted-public-keys = [
       "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
