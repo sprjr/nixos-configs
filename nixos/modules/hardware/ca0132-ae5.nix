@@ -31,19 +31,34 @@
   '';
 
   services.pipewire.extraConfig.pipewire."91-ca0132-loopback" = {
+    "context.objects" = [
+      {
+        factory = "adapter";
+        args = {
+          "factory.name" = "support.null-audio-sink";
+          "node.name" = "ae5-headphones";
+          "node.description" = "Sound BlasterX AE-5";
+          "media.class" = "Audio/Sink";
+          "object.linger" = true;
+          "audio.position" = [ "FL" "FR" ];
+          "priority.session" = 1500;
+          "monitor.channel-volumes" = true;
+        };
+      }
+    ];
     "context.modules" = [
       {
         name = "libpipewire-module-loopback";
         args = {
-          "node.description" = "Sound BlasterX AE-5";
           "capture.props" = {
-            "node.name" = "ae5-headphones";
-            "media.class" = "Audio/Sink";
+            "node.name" = "ae5-bridge-capture";
+            "node.target" = "ae5-headphones";
+            "stream.capture.sink" = true;
             "audio.position" = [ "FL" "FR" ];
-            "priority.session" = 1500;
+            "node.passive" = true;
           };
           "playback.props" = {
-            "node.name" = "ae5-headphones-playback";
+            "node.name" = "ae5-bridge-playback";
             "node.target" = "alsa_output.pci-0000_21_00.0.analog-stereo";
             "audio.position" = [ "FL" "FR" ];
             "node.passive" = true;
