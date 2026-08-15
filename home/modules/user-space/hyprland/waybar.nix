@@ -160,6 +160,7 @@ let
       "privacy"
       "idle_inhibitor"
       "systemd-failed-units"
+      "custom/app-launcher"
       "custom/dict"
       "custom/jp-dict"
       "custom/clipboard"
@@ -431,6 +432,12 @@ in
           on-click = "grimblast copy area";
           on-click-right = "grimblast copy screen";
         };
+
+        "custom/app-launcher" = {
+          format = "󱓞";
+          tooltip = false;
+          on-click = "hyprctl dispatch exec fuzzel";
+        };
       };
 
       style = ''
@@ -483,6 +490,7 @@ in
         #custom-dict,
         #custom-jp-dict,
         #custom-color-picker,
+        #custom-app-launcher,
         #custom-clipboard,
         #custom-screenshot {
           padding: 0 8px;
@@ -510,6 +518,7 @@ in
         #custom-clipboard { color: #cdd6f4; }
         #custom-color-picker { color: #f5c2e7; }
         #custom-screenshot { color: #89dceb; }
+        #custom-app-launcher { color: #b4befe; }
         #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
         #clock-tokyo { color: #89b4fa; font-size: 11px; }
