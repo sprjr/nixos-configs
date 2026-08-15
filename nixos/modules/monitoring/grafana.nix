@@ -313,6 +313,7 @@ in
     "monitoring/blackbox-targets/media" = { };
     "monitoring/blackbox-targets/ike" = { };
     "monitoring/ntfy/grafana-alerts-url" = { };
+    "monitoring/ha-webhook/grafana-alerts-url" = { };
   };
 
   sops.templates."prometheus-blackbox.yml" = {
@@ -366,6 +367,12 @@ in
               disableResolveMessage: false
               settings:
                 url: ${config.sops.placeholder."monitoring/ntfy/grafana-alerts-url"}?template=grafana
+                httpMethod: POST
+            - uid: awtrix-ha-alerts
+              type: webhook
+              disableResolveMessage: false
+              settings:
+                url: ${config.sops.placeholder."monitoring/ha-webhook/grafana-alerts-url"}
                 httpMethod: POST
     '';
   };
