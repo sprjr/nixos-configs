@@ -154,8 +154,8 @@ in
         echo "Monitoring ALSA card $card ($dev) for mixer changes"
 
         stdbuf -oL alsactl monitor "$card" | while read -r line; do
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb05a 2>/dev/null
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null
+          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb05a 2>/dev/null || true
+          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null || true
         done
       '';
     };
