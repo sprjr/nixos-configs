@@ -131,7 +131,7 @@ in
     after = [ "ca0132-init.service" ];
     requisite = [ "ca0132-init.service" ];
     bindsTo = [ "ca0132-init.service" ];
-    path = with pkgs; [ alsa-utils alsa-tools coreutils findutils ];
+    path = with pkgs; [ alsa-tools coreutils findutils ];
     serviceConfig = {
       Type = "simple";
       Restart = "on-failure";
@@ -148,23 +148,17 @@ in
         fi
 
         dev="/dev/snd/$hwname"
-        card=''${hwname#hwC}
-        card=''${card%%D*}
+        echo "Polling DAC mute state on $dev every 3s"
 
-        echo "Monitoring ALSA card $card ($dev) for mixer changes"
-
-        # Repeated unmute during PipeWire startup window
-        for i in 1 2 3 4 5; do
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb05a 2>/dev/null || true
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null || true
-          sleep 1
-        done
-
-        # Monitor for ongoing mixer changes; debounce 2s before unmuting
-        stdbuf -oL alsactl monitor "hw:$card" | while read -r line; do
-          while read -t 2 -r _; do :; done
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb05a 2>/dev/null || true
-          hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null || true
+        while true; do
+          output=$(hda-verb "$dev" 0x02 GET_AMP_GAIN_MUTE 0xa000 2>/dev/null) || true
+          case "$output" in
+            *"value = 0x"[89a-fA-F]*)
+              hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb05a 2>/dev/null || true
+              hda-verb "$dev" 0x02 SET_AMP_GAIN_MUTE 0xb03c 2>/dev/null || true
+              ;;
+          esac
+          sleep 3
         done
       '';
     };
