@@ -367,6 +367,39 @@
               )
             ];
           };
+          badgey = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // {
+              diskDevice = "/dev/sda";
+            };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/modules/disks/disko-btrfs-luks.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/badgey.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
+                  facter.reportPath = ./nixos/hosts/badgey/facter.json;
+                }
+              )
+            ];
+          };
         };
 
         # Darwin
