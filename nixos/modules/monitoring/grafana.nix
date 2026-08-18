@@ -16,6 +16,7 @@ let
     "opnsense-fairview" = "white";
     seair = "super-light-blue";
     defiant = "light-purple";
+    badgey = "dark-green";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -172,6 +173,7 @@ in
               "opnsense-fairview:9100"
               "seair:9100"
               "defiant:9100"
+              "badgey:9100"
             ];
           }
         ];
@@ -556,7 +558,7 @@ in
                       model = {
                         refId = "A";
                         # Only always-on hosts; workstations sleep and would false-alarm.
-                        expr = ''up{job="node", instance=~"shikisha:9100|wopr-0:9100"}'';
+                        expr = ''up{job="node", instance=~"shikisha:9100|wopr-0:9100|badgey:9100"}'';
                         instant = true;
                       };
                     }
