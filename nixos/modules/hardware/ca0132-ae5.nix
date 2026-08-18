@@ -78,6 +78,7 @@ in
           "playback.props" = {
             "node.name" = "ae5-bridge-playback";
             "node.target" = "alsa_output.pci-0000_21_00.0.analog-stereo";
+            "node.dont-reconnect" = true;
             "audio.position" = [ "FL" "FR" ];
             "node.passive" = true;
             "stream.dont-remix" = true;
