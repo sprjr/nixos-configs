@@ -48,6 +48,16 @@ in
     ]
   '';
 
+  # Disable WirePlumber's role-based ducking/corking — it dampens audio on
+  # lower-priority streams when higher-priority ones play simultaneously.
+  environment.etc."wireplumber/wireplumber.conf.d/90-disable-ducking.conf".text = ''
+    wireplumber.profiles = {
+      main = {
+        policy.role = disabled
+      }
+    }
+  '';
+
   services.pipewire.extraConfig.pipewire."91-ca0132-loopback" = {
     "context.objects" = [
       {
