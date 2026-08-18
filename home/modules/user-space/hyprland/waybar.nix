@@ -132,45 +132,43 @@ let
     "custom/ha-cameras"
   ];
 
-  modulesLeft =
-    [
-      "hyprland/workspaces"
-    ]
-    ++ haModules
-    ++ [
-      "custom/timer"
-      "custom/weather"
-      "custom/public-ip"
-    ];
+  modulesLeft = [
+    "hyprland/workspaces"
+  ]
+  ++ haModules
+  ++ [
+    "custom/timer"
+    "custom/weather"
+    "custom/public-ip"
+  ];
 
-  modulesRight =
-    [
-      "pulseaudio"
-      "bluetooth"
-      "cpu"
-      "memory"
-      "disk"
-      "temperature"
-    ]
-    ++ optional (cfg.gpu != null) "custom/gpu"
-    ++ [ "power-profiles-daemon" ]
-    ++ optional cfg.battery "battery"
-    ++ [
-      "hyprland/language"
-      "privacy"
-      "idle_inhibitor"
-      "systemd-failed-units"
-      "custom/app-launcher"
-      "custom/dict"
-      "custom/jp-dict"
-      "custom/clipboard"
-      "custom/color-picker"
-      "custom/screenshot"
-      "tray"
-      "custom/power-menu"
-      "custom/notification"
-    ]
-    ++ cfg.waybarExtra;
+  modulesRight = [
+    "pulseaudio"
+    "bluetooth"
+    "cpu"
+    "memory"
+    "disk"
+    "temperature"
+  ]
+  ++ optional (cfg.gpu != null) "custom/gpu"
+  ++ [ "power-profiles-daemon" ]
+  ++ optional cfg.battery "battery"
+  ++ [
+    "hyprland/language"
+    "privacy"
+    "idle_inhibitor"
+    "systemd-failed-units"
+    "custom/app-launcher"
+    "custom/dict"
+    "custom/jp-dict"
+    "custom/clipboard"
+    "custom/color-picker"
+    "custom/screenshot"
+    "tray"
+    "custom/power-menu"
+    "custom/notification"
+  ]
+  ++ cfg.waybarExtra;
 in
 {
   config = mkIf (cfg.enable && cfg.shell == "native") {
@@ -198,7 +196,11 @@ in
         spacing = 6;
 
         modules-left = modulesLeft;
-        modules-center = [ "mpris" "clock" "clock#tokyo" ];
+        modules-center = [
+          "mpris"
+          "clock"
+          "clock#tokyo"
+        ];
         modules-right = modulesRight;
 
         "hyprland/workspaces" = {
@@ -230,13 +232,23 @@ in
         temperature = {
           critical-threshold = 80;
           format = "{temperatureC}°C ";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
         };
 
         pulseaudio = {
           format = "{icon} {volume}%";
           format-muted = "󰝟";
-          format-icons.default = [ "󰕿" "󰖀" "󰕾" ];
+          format-icons.default = [
+            "󰕿"
+            "󰖀"
+            "󰕾"
+          ];
           on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
@@ -259,7 +271,18 @@ in
           };
           format = "{icon} {capacity}%";
           format-charging = "󰂄 {capacity}%";
-          format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          format-icons = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
         };
 
         tray.spacing = 8;
@@ -284,6 +307,7 @@ in
 
         idle_inhibitor = {
           format = "{icon}";
+          start-activated = true;
           format-icons = {
             activated = "󰅶";
             deactivated = "󰾪";
