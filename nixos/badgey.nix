@@ -16,6 +16,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.systemd.enable = true;
 
   time.timeZone = "America/Denver";
   i18n.defaultLocale = "en_US.UTF-8";

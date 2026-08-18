@@ -379,7 +379,6 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-btrfs-luks.nix
-              ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/badgey.nix
               ./nixos/modules/system/comin.nix
