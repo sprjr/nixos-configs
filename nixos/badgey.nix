@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [ ./modules/system/sops.nix ];
@@ -62,6 +67,8 @@
     rocmPackages.rocminfo
     rocmPackages.rocm-smi
   ];
+
+  services.tailscale.enable = true;
 
   services.btrfs.autoScrub = {
     enable = true;
