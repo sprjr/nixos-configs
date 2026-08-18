@@ -239,18 +239,24 @@ in
     # Suppress XDG autostart for apps already launched by exec-once. UWSM activates
     # xdg-desktop-autostart.target, which would double-launch anything that also
     # has an in-app "start on login" entry in ~/.config/autostart/.
-    xdg.configFile."autostart/steam.desktop".text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Steam
-      Hidden=true
-    '';
-    xdg.configFile."autostart/signal-desktop.desktop".text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Signal
-      Hidden=true
-    '';
+    xdg.configFile."autostart/steam.desktop" = {
+      force = true;
+      text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=Steam
+        Hidden=true
+      '';
+    };
+    xdg.configFile."autostart/signal-desktop.desktop" = {
+      force = true;
+      text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=Signal
+        Hidden=true
+      '';
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;
