@@ -59,6 +59,7 @@ in
     ./widgets/stats.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
+    ./widgets/budslink.nix
   ];
 
   options.patrick.home.hyprland = {

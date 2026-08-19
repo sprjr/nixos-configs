@@ -145,6 +145,7 @@ let
   modulesRight = [
     "pulseaudio"
     "bluetooth"
+    "custom/budslink"
     "cpu"
     "memory"
     "disk"
@@ -262,6 +263,12 @@ in
           # Left-click toggles adapter power, right-click opens the manager.
           on-click = "bt-toggle";
           on-click-right = "blueman-manager";
+        };
+
+        "custom/budslink" = {
+          exec = "waybar-budslink";
+          return-type = "json";
+          interval = 30;
         };
 
         battery = {
@@ -515,6 +522,7 @@ in
         #custom-jp-dict,
         #custom-color-picker,
         #custom-app-launcher,
+        #custom-budslink,
         #custom-clipboard,
         #custom-screenshot {
           padding: 0 8px;
@@ -526,6 +534,9 @@ in
         #bluetooth { color: #89dceb; }
         #bluetooth.disabled,
         #bluetooth.off { color: #6c7086; }
+        #custom-budslink { color: #89dceb; }
+        #custom-budslink.warning { color: #f9e2af; }
+        #custom-budslink.critical { color: #f38ba8; }
         #battery { color: #a6e3a1; }
         #custom-gpu { color: #cba6f7; }
         #custom-weather { color: #74c7ec; }
