@@ -15,6 +15,7 @@
     enable = true;
     hostname = "badgey";
     vaapiDriver = "radeonsi";
+    checkConfig = false;
 
     settings = {
       mqtt = {
