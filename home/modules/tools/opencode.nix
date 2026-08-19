@@ -12,12 +12,12 @@ let
     glob = "allow";
     grep = "allow";
     list = "allow";
-    bash = "deny";
-    webfetch = "deny";
-    websearch = "deny";
-    todowrite = "deny";
-    task = "deny";
-    external_directory = "deny";
+    bash = "ask";
+    webfetch = "ask";
+    websearch = "ask";
+    todowrite = "ask";
+    task = "ask";
+    external_directory = "ask";
   };
 
   opencodeSettings = builtins.toJSON {
@@ -40,7 +40,7 @@ let
         name = "Ollama";
         npm = "@ai-sdk/openai-compatible";
         options = {
-          baseURL = "http://127.0.0.1:11434/v1";
+          baseURL = "http://badgey:11434/v1";
         };
         models = {
           "qwen3:8b" = {
@@ -79,8 +79,7 @@ in
     opencode-desktop
   ];
 
-  xdg.configFile."opencode/opencode.json".source =
-    pkgs.runCommand "opencode-config.json" { } ''
-      ${pkgs.jq}/bin/jq '.' ${pkgs.writeText "opencode-config-raw.json" opencodeSettings} > $out
-    '';
+  xdg.configFile."opencode/opencode.json".source = pkgs.runCommand "opencode-config.json" { } ''
+    ${pkgs.jq}/bin/jq '.' ${pkgs.writeText "opencode-config-raw.json" opencodeSettings} > $out
+  '';
 }
