@@ -55,9 +55,13 @@ let
             _launch = false;
             name = "deepseek-r1:7b";
           };
-          "gemma4:4b" = {
+          "gemma3:4b" = {
             _launch = false;
-            name = "gemma4:4b";
+            name = "gemma3:4b";
+          };
+          "moondream:1.8b" = {
+            _launch = false;
+            name = "moondream:1.8b";
           };
           "hf.co/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF:latest" = {
             _launch = false;
