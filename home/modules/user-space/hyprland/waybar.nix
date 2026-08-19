@@ -146,10 +146,10 @@ let
     "pulseaudio"
     "bluetooth"
     "custom/budslink"
-    "cpu"
-    "memory"
-    "disk"
-    "temperature"
+    #"cpu"
+    #"memory"
+    #"disk"
+    #"temperature"
   ]
   ++ optional (cfg.gpu != null) "custom/gpu"
   ++ [ "power-profiles-daemon" ]
