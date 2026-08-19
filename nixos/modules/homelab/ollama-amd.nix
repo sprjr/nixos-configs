@@ -9,7 +9,6 @@
   services.ollama = {
     package = pkgs.ollama-rocm;
     enable = true;
-    acceleration = "rocm";
     host = "0.0.0.0";
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
