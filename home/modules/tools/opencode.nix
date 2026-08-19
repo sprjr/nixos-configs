@@ -25,7 +25,16 @@ let
     default_agent = "general";
     autoupdate = false;
     share = "disabled";
-    model = "ollama/qwen3.5:9b";
+    model = "ollama/qwen3:8b";
+    mcpServers = {
+      nixos = {
+        command = "${pkgs.nix}/bin/nix";
+        args = [
+          "run"
+          "github:utensils/mcp-nixos"
+        ];
+      };
+    };
     provider = {
       ollama = {
         name = "Ollama";
@@ -34,13 +43,21 @@ let
           baseURL = "http://127.0.0.1:11434/v1";
         };
         models = {
-          "qwen3.5:35b" = {
+          "qwen3:8b" = {
             _launch = true;
-            name = "qwen3.5:35b";
+            name = "qwen3:8b";
           };
-          "qwen3.5:9b" = {
+          "qwen3.5:4b" = {
             _launch = true;
-            name = "qwen3.5:9b";
+            name = "qwen3.5:4b";
+          };
+          "deepseek-r1:7b" = {
+            _launch = true;
+            name = "deepseek-r1:7b";
+          };
+          "gemma4:4b" = {
+            _launch = true;
+            name = "gemma4:4b";
           };
         };
       };
