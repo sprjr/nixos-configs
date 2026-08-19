@@ -391,6 +391,8 @@
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
+              ./nixos/modules/homelab/ollama-amd.nix
+              ./nixos/modules/homelab/frigate.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {

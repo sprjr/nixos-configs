@@ -66,6 +66,7 @@
     compsize
     rocmPackages.rocminfo
     rocmPackages.rocm-smi
+    sops
   ];
 
   services.tailscale.enable = true;

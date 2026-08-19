@@ -11,6 +11,11 @@
     mode = "0400";
   };
 
+  sops.secrets."mosquitto/frigate-password" = {
+    owner = "mosquitto";
+    mode = "0400";
+  };
+
   services.mosquitto = {
     enable = true;
     package = pkgs.mosquitto;
@@ -21,6 +26,10 @@
         users.homeassistant = {
           acl = [ "readwrite #" ];
           passwordFile = config.sops.secrets."mosquitto/homeassistant-password".path;
+        };
+        users.frigate = {
+          acl = [ "readwrite frigate/#" ];
+          passwordFile = config.sops.secrets."mosquitto/frigate-password".path;
         };
         settings.allow_anonymous = false;
       }
