@@ -141,6 +141,9 @@ in
 
   # Flatpaks
   services.flatpak.enable = true;
+  services.flatpak.packages = [
+    "io.github.maniacx.BudsLink"
+  ];
 
   # Tailscale
   services.tailscale.enable = true;

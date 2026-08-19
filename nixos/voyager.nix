@@ -156,6 +156,9 @@ in
   # Gaming
   programs.steam.enable = true;
   services.flatpak.enable = true;
+  services.flatpak.packages = [
+    "io.github.maniacx.BudsLink"
+  ];
 
   # VPN/Mesh Network
   services.tailscale.enable = true;
