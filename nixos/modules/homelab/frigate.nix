@@ -6,9 +6,14 @@
 }:
 
 {
-  sops.secrets."frigate/env-file" = {
+  sops.secrets."frigate/mqtt-password" = { };
+
+  sops.templates."frigate-env" = {
     owner = "frigate";
     mode = "0400";
+    content = ''
+      FRIGATE_MQTT_PASSWORD=${config.sops.placeholder."frigate/mqtt-password"}
+    '';
   };
 
   services.frigate = {
@@ -44,7 +49,7 @@
   users.users.frigate.extraGroups = [ "video" ];
 
   systemd.services.frigate.serviceConfig = {
-    EnvironmentFile = config.sops.secrets."frigate/env-file".path;
+    EnvironmentFile = config.sops.templates."frigate-env".path;
   };
 
   networking.firewall = {
