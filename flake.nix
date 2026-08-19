@@ -66,6 +66,7 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     weathr = {
       url = "github:Veirt/weathr";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -122,6 +123,7 @@
       home-manager,
       hyprsession,
       nix-cachyos-kernel,
+      nix-flatpak,
       nix-on-droid,
       nixos-facter-modules,
       nixos-hardware,
@@ -151,6 +153,7 @@
             modules = [
               comin.nixosModules.comin
               home-manager.nixosModules.home-manager
+              nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/system/ssh.nix
@@ -240,6 +243,7 @@
             specialArgs = inputs;
             modules = [
               comin.nixosModules.comin
+              nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
@@ -313,6 +317,7 @@
             modules = [
               comin.nixosModules.comin
               home-manager.nixosModules.home-manager
+              nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/modules/system/ssh.nix
