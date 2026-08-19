@@ -59,6 +59,14 @@ let
             _launch = false;
             name = "gemma4:4b";
           };
+          "hf.co/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF:latest" = {
+            _launch = false;
+            name = "DeepSeek-R1-Distill-Qwen-7B-GGUF";
+          };
+          "hf.co/Jackrong/Qwen3.5-9B-Claude-4.6-Opus-Reasoning-Distilled-GGUF:latest" = {
+            _launch = false;
+            name = "Qwen3.5-9B-Claude-Distilled";
+          };
         };
       };
     };
