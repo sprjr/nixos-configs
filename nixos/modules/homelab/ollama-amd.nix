@@ -22,6 +22,7 @@
       OLLAMA_FLASH_ATTENTION = "1";
       OLLAMA_NUM_GPU = "999";
       OLLAMA_NEW_ENGINE = "1";
+      OLLAMA_CONTEXT_LENGTH = "8192";
       # Navi 10 (gfx1010) — verified with rocminfo
       HSA_OVERRIDE_GFX_VERSION = "10.1.0";
     };
