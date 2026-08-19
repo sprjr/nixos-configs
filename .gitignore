@@ -34,3 +34,6 @@ memory/
 TASKS.md
 .claude/
 systems-reference.md
+
+# Agent handoff context
+HANDOFF.md
