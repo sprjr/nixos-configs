@@ -69,6 +69,7 @@ monitoring:
     ntfy:
         comin-url: ENC[AES256_GCM,data:+sh/rbQjRlMtXeecoVqPxh1uQjp6SXsuOLmOYwIPhjBd1Cwfict97U7Nb+BUI3NCwtQccunzg1EZ9pSwxs1kVcr3AB+eWelh,iv:RmLb0DyoYUtEuSN8b5TcTo8VEAQk6GpTCiA/ZydBZM4=,tag:LGvkPYi3a+zn63kswkB7rw==,type:str]
         grafana-alerts-url: ENC[AES256_GCM,data:a4bPkrS4TiuilgmluNG6fMow8jqL1WTf/cvphnFH4pWN5KJw3JhFvyGfoQ==,iv:ZszaAVrF4PzCTQOsYPP8XRb5wmg9L5g3rvHSKJVU/Dk=,tag:M0DkRHcoK1NVY019YYSMcw==,type:str]
+        frigate-events-url: ENC[AES256_GCM,data:iYJO+oPvSL6sBeOhGJ7+Sh9dERULxSk3aFq9J00NKr5Q2WI0PPoNgrD+jQ==,iv:Hq5f5ISo8LLaZea3cEAei3v4cBd2UNgitreOP2Yz3k0=,tag:TKoq+6zbrIxaa04Y685NcA==,type:str]
     ha-webhook:
         grafana-alerts-url: ENC[AES256_GCM,data:MhdskB9EpwHi+qPu2GJZe0fSIUj6cTwXr6q1JPTlzzqR+3Rv4z+BlhT0FSsmYX+AdN2wmfPI,iv:sT4T2SyHOp4qqHayEsR9wbnkBfeO+jd+60lMx+nH6+U=,tag:LOWoRsOc21yakPBRLj9uTQ==,type:str]
 palworld:
@@ -87,7 +88,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-20T19:30:15Z"
-    mac: ENC[AES256_GCM,data:WVY+40YEWKRcaiueIzw+Qzv3EpUPm3FfWst2E1a2s8jCyP11IfQIgue9KWEqeonkwVK1/zEeTODZGx1MPEvYbBOg+l/5rZC2fzB9cSUxF8AupBRSQlSl2WdS/7OIi+43jV6WpXD+FRQ4U1yp0iiB+uEj9SKc5gn+PYtCoDpg480=,iv:g1RtMpblismMafDhH1BgJ+9JSp3onE+yK+JkQgei040=,tag:QMc6qrTsTXuCeAWuvUZQ9A==,type:str]
+    lastmodified: "2026-08-20T20:42:36Z"
+    mac: ENC[AES256_GCM,data:SxV+iqfzkRvjp/qRNNkcpcmtq518G6MnP1Xz2rF4kjevWFh/HS8ACA9YFhxl2ODvw4t3yMXiZqusnp0V/PkKggxCbP/Kae+XaJJWUefIGz1A1aCV2OkMDjyYWMweZoGGFDUCOh/NSecJCekHqmbKZkMfmOGKy5hp9ymjRU5es4o=,iv:tXUg/HRbYuol5AHUfpandoD8rBjCrTNphyUr6kbfHhg=,tag:bUtd4Gm/IdTjPPhQb6eIng==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
