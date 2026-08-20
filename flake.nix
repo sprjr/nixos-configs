@@ -315,7 +315,7 @@
             system = "x86_64-linux";
             specialArgs = inputs;
             modules = [
-              comin.nixosModules.comin
+              #comin.nixosModules.comin
               home-manager.nixosModules.home-manager
               nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
