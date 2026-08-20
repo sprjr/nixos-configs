@@ -12,6 +12,13 @@ let
         command = "${pkgs.nix}/bin/nix";
         args = [ "run" "github:utensils/mcp-nixos" ];
       };
+      ollama = {
+        command = "${pkgs.nodejs}/bin/npx";
+        args = [ "-y" "mcp-ollama" ];
+        env = {
+          OLLAMA_HOST = "http://badgey:11434";
+        };
+      };
     };
     permissions = {
       defaultMode = "plan";
