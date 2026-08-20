@@ -75,7 +75,7 @@ palworld:
     admin-password: ENC[AES256_GCM,data:S6GzzwFXA9SBCyNcBvsAVCtNgXhbPKPuyFB/QwyIzO+rtkqU0Idd9SUhPe4=,iv:AFHcoJgVVjgjfRfx+KN8wfzanacm/Ax2MbEQIZZhJe4=,tag:N8p4dpAL3hens8HRyTPJmQ==,type:str]
     server-password: ENC[AES256_GCM,data:Rg62ct23/+msHIEThfziKoO6Z1sLhV+jHfVsSAKLB8qHsRt4ToB9xeluSPM=,iv:O6Alk0fkgYSQQixIu/uagk2/0Q/rcCyNjuqikA41mNg=,tag:PxLpevb3Ziqp9VwqHu0Sxg==,type:str]
 frigate:
-    mqtt-password: ENC[AES256_GCM,data:On4UbsXD3org14/B7p3RmrHHfIjZbQepjxtoxrq6evZRrBSfoY1f5y9rMrA=,iv:t5NSroOkMPdofjw7GXtCgKtGtOjNgbwPqry9ma8I1mg=,tag:nwMs7wLioCkHae+TPB3NzA==,type:str]
+    mqtt-password: ENC[AES256_GCM,data:DsKKl5TZnYYzHW2+SBJ87HTsbM2/+X8qLFue7TO8cjfyL6v90GH7jGTga5Y=,iv:MRcCeCjR2J6tB2DpaXI5XQluKElKvcWHb0kJWLaGfvA=,tag:6HFBgiCtGjuQ62UffwDVcg==,type:str]
 sops:
     age:
         - enc: |
@@ -87,7 +87,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-19T21:48:53Z"
-    mac: ENC[AES256_GCM,data:KtTvVLHR4WvPjmjCPObNQhIlos1r/HUZg6SvaMdN1eupRL53ZdSJynus3zaj8WbYxyZep2j/voF2WXcii3+ENc4xAD6wWgJEDI941STYxju9GxtXJhPwKSN1SKBq86CibyuvBIQ/lH6PEdD5zwFPU/l72T74hdUr3/A6a23qG3w=,iv:bufSmCcj1MXCrNMg8Bc5YFD8gMVKfncPUlPpbuLvhkk=,tag:/ETEmvTJCYqk4RTs3rRBhw==,type:str]
+    lastmodified: "2026-08-20T19:30:15Z"
+    mac: ENC[AES256_GCM,data:WVY+40YEWKRcaiueIzw+Qzv3EpUPm3FfWst2E1a2s8jCyP11IfQIgue9KWEqeonkwVK1/zEeTODZGx1MPEvYbBOg+l/5rZC2fzB9cSUxF8AupBRSQlSl2WdS/7OIi+43jV6WpXD+FRQ4U1yp0iiB+uEj9SKc5gn+PYtCoDpg480=,iv:g1RtMpblismMafDhH1BgJ+9JSp3onE+yK+JkQgei040=,tag:QMc6qrTsTXuCeAWuvUZQ9A==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
