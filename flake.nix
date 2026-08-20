@@ -326,7 +326,7 @@
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
-              ./nixos/modules/system/comin.nix
+              #./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
