@@ -315,7 +315,7 @@
             system = "x86_64-linux";
             specialArgs = inputs;
             modules = [
-              comin.nixosModules.comin
+              #comin.nixosModules.comin
               home-manager.nixosModules.home-manager
               nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
@@ -327,7 +327,7 @@
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               #./nixos/modules/system/comin.nix
-              ./nixos/modules/system/comin-notify.nix
+              #./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
