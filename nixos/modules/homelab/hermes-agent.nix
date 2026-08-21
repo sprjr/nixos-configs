@@ -199,6 +199,13 @@ in
     '';
   };
 
+  sops.templates."hermes-profile-env" = {
+    mode = "0444";
+    content = ''
+      API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
+    '';
+  };
+
   systemd.tmpfiles.rules = [
     "d /var/lib/hermes-agent 0755 root root -"
     "d /var/lib/hermes-agent/profiles 0755 root root -"
@@ -238,24 +245,32 @@ in
       chmod 644 /var/lib/hermes-agent/config.yaml
       cp ${triageSoulMd} /var/lib/hermes-agent/SOUL.md
       chmod 644 /var/lib/hermes-agent/SOUL.md
+      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/.env
+      chmod 644 /var/lib/hermes-agent/.env
 
       # Coder profile
       cp ${coderConfigYaml} /var/lib/hermes-agent/profiles/coder/config.yaml
       chmod 644 /var/lib/hermes-agent/profiles/coder/config.yaml
       cp ${coderSoulMd} /var/lib/hermes-agent/profiles/coder/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/coder/SOUL.md
+      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/coder/.env
+      chmod 644 /var/lib/hermes-agent/profiles/coder/.env
 
       # Researcher profile
       cp ${researcherConfigYaml} /var/lib/hermes-agent/profiles/researcher/config.yaml
       chmod 644 /var/lib/hermes-agent/profiles/researcher/config.yaml
       cp ${researcherSoulMd} /var/lib/hermes-agent/profiles/researcher/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/researcher/SOUL.md
+      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/researcher/.env
+      chmod 644 /var/lib/hermes-agent/profiles/researcher/.env
 
       # Home profile
       cp ${homeConfigYaml} /var/lib/hermes-agent/profiles/home/config.yaml
       chmod 644 /var/lib/hermes-agent/profiles/home/config.yaml
       cp ${homeSoulMd} /var/lib/hermes-agent/profiles/home/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/home/SOUL.md
+      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/home/.env
+      chmod 644 /var/lib/hermes-agent/profiles/home/.env
     '';
   };
 
