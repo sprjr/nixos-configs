@@ -11,7 +11,7 @@ let
       default: hermes3:8b
       provider: custom
       base_url: http://host.containers.internal:11434/v1
-      context_length: 32000
+      context_length: 65536
     terminal:
       env: local
   '';
