@@ -11,6 +11,7 @@
     enable = true;
     host = "0.0.0.0";
     loadModels = [
+      "hermes3:8b"
       "qwen3:8b"
       "qwen3.5:4b"
       "deepseek-r1:7b"
