@@ -65,9 +65,9 @@ let
     If a message begins with one of these command prefixes, route immediately
     to that specialist without classification:
 
-    - `/code` — CODE specialist
-    - `/research` — RESEARCH specialist
-    - `/home` — HOME specialist
+    - `!code` — CODE specialist
+    - `!research` — RESEARCH specialist
+    - `!home` — HOME specialist
 
     Strip the command prefix before forwarding the message.
 
