@@ -23,13 +23,12 @@ let
     with open("${apiKeyFile}") as f:
         api_key = f.read().strip()
 
-    HERMES_API = "http://127.0.0.1:8642/v1/chat/completions"
+    HERMES_API = "http://127.0.0.1:8642/p/home/v1/chat/completions"
     TELEGRAM_API = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     SYSTEM_PROMPT = (
-        "You are a security camera assistant integrated with Frigate NVR. "
-        "Summarize detection events concisely for Telegram. "
-        "Include the camera name, what was detected, confidence, and zone. "
-        "If you notice patterns across recent events, mention them briefly."
+        "Summarize this Frigate NVR detection event concisely for Telegram. "
+        "Include camera name, detection type, confidence, and zone. "
+        "Note patterns across recent events in this session."
     )
 
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
