@@ -12,7 +12,7 @@ let
       default: hermes3:8b
       provider: custom
       base_url: http://host.containers.internal:11434/v1
-      context_length: 16384
+      context_length: 65536
   '';
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
