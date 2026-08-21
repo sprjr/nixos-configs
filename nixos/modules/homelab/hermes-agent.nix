@@ -193,8 +193,6 @@ in
   sops.templates."hermes-agent-env" = {
     mode = "0400";
     content = ''
-      TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-bot-token"}
-      TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
       HERMES_DASHBOARD_BASIC_AUTH_USERNAME=${config.sops.placeholder."hermes-agent/dashboard-username"}
       HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=${config.sops.placeholder."hermes-agent/dashboard-password"}
       API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
