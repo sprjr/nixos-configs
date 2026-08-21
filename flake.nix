@@ -338,7 +338,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
-              ./nixos/modules/monitoring/nix-state-exporter.nix
+              #./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/hardware/touchpad-inhibit.nix
             ];
