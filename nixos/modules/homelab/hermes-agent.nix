@@ -80,7 +80,11 @@ let
 
     ## Scheduling
 
-    For SCHEDULE messages, handle them directly using the cronjob tool:
+    For SCHEDULE messages, handle them directly using the cronjob tool.
+
+    **Before any scheduling operation**, run ``date`` in the terminal to get the
+    current local time. Never assume the time from session context — always check.
+    Use the result to calculate correct offsets and cron expressions.
 
     - **Reminders**: Use one-shot schedules (e.g., ``cronjob(action="create", schedule="30m", prompt="Remind: take out the trash", deliver="telegram")``)
     - **Recurring tasks**: Use interval or cron expressions (e.g., ``cronjob(action="create", schedule="0 9 * * 1-5", prompt="Good morning. Here is your daily briefing.", deliver="telegram")``)
@@ -385,6 +389,7 @@ in
       HERMES_WRITE_SAFE_ROOT = "/opt/data";
       HERMES_DASHBOARD = "1";
       HERMES_TIMEZONE = "America/Denver";
+      TZ = "America/Denver";
       HERMES_REDACT_SECRETS = "true";
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
