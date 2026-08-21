@@ -77,6 +77,11 @@ palworld:
     server-password: ENC[AES256_GCM,data:Rg62ct23/+msHIEThfziKoO6Z1sLhV+jHfVsSAKLB8qHsRt4ToB9xeluSPM=,iv:O6Alk0fkgYSQQixIu/uagk2/0Q/rcCyNjuqikA41mNg=,tag:PxLpevb3Ziqp9VwqHu0Sxg==,type:str]
 frigate:
     mqtt-password: ENC[AES256_GCM,data:DsKKl5TZnYYzHW2+SBJ87HTsbM2/+X8qLFue7TO8cjfyL6v90GH7jGTga5Y=,iv:MRcCeCjR2J6tB2DpaXI5XQluKElKvcWHb0kJWLaGfvA=,tag:6HFBgiCtGjuQ62UffwDVcg==,type:str]
+hermes-agent:
+    telegram-bot-token: ENC[AES256_GCM,data:77mw4ANwl0eoJIDDMdyO4Pna/MyRsfrjF5S/OHKAALtPLQ2wLuFQIQGVBk7Qkw==,iv:ApMrl29R7snbJVsea98JkvQf0uzQ6EYZFVouzUhTKP4=,tag:7hm9ymbNaE481Synrw+lBg==,type:str]
+    telegram-allowed-users: null
+    dashboard-username: ENC[AES256_GCM,data:8vYhp8f4Ow==,iv:fWbZTaEZVBTqmIKjajOP+KetRBPcjHMZ+3f7b6A65+Y=,tag:ti6MAYdnsvSlNiVas1fRlw==,type:str]
+    dashboard-password: ENC[AES256_GCM,data:SJPGnjHS56L47zWPYCKOUc+h1dI=,iv:tjL3+6lkxFPF/4pMBoBdhubRzjt3NefpF0UuY/LSYmo=,tag:EhWku11n0eKNF7kDrkS5XQ==,type:str]
 sops:
     age:
         - enc: |
@@ -88,7 +93,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-20T20:42:36Z"
-    mac: ENC[AES256_GCM,data:SxV+iqfzkRvjp/qRNNkcpcmtq518G6MnP1Xz2rF4kjevWFh/HS8ACA9YFhxl2ODvw4t3yMXiZqusnp0V/PkKggxCbP/Kae+XaJJWUefIGz1A1aCV2OkMDjyYWMweZoGGFDUCOh/NSecJCekHqmbKZkMfmOGKy5hp9ymjRU5es4o=,iv:tXUg/HRbYuol5AHUfpandoD8rBjCrTNphyUr6kbfHhg=,tag:bUtd4Gm/IdTjPPhQb6eIng==,type:str]
+    lastmodified: "2026-08-21T01:14:58Z"
+    mac: ENC[AES256_GCM,data:CnyjMEqW60gVNDEVY0BFL4g2LfJqnwWgX4n6uTbKxCCRmupdW/9qo0CnLsNe6AGVfeHxBQLCJ9sRONoNLEoXhbrttnusaRPPZVRkWe+caGzPQTgOghkjdV3TUEpZQQMxd1gHiHsbBUkPXjRsF7RP5NGTvzxVlaDTUu6ZrHSv7MI=,iv:xWleCapuRV8cs5o1WfXGqpcOjE9oSWnrZbABJY3NoHw=,tag:/bX4IBvhfLg2aEbgW97myg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
