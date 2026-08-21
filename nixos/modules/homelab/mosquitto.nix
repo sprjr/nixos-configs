@@ -16,6 +16,11 @@
     mode = "0400";
   };
 
+  sops.secrets."mosquitto/hermes-password" = {
+    owner = "mosquitto";
+    mode = "0400";
+  };
+
   services.mosquitto = {
     enable = true;
     package = pkgs.mosquitto;
@@ -30,6 +35,10 @@
         users.frigate = {
           acl = [ "readwrite frigate/#" ];
           passwordFile = config.sops.secrets."mosquitto/frigate-password".path;
+        };
+        users.hermes = {
+          acl = [ "read frigate/#" ];
+          passwordFile = config.sops.secrets."mosquitto/hermes-password".path;
         };
         settings.allow_anonymous = false;
       }
