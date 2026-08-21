@@ -63,6 +63,8 @@ in
       "--cap-add=DAC_OVERRIDE"
       "--cap-add=CHOWN"
       "--cap-add=FOWNER"
+      "--cap-add=SETUID"
+      "--cap-add=SETGID"
       "--security-opt=no-new-privileges"
       "--pids-limit=256"
     ];
