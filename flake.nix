@@ -399,6 +399,8 @@
               ./nixos/modules/homelab/ollama-amd.nix
               ./nixos/modules/homelab/frigate.nix
               ./nixos/modules/homelab/frigate-notify.nix
+              ./nixos/modules/virtualisation/podman.nix
+              ./nixos/modules/homelab/hermes-agent.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
