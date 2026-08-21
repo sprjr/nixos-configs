@@ -103,6 +103,7 @@ in
       "signal"
       "steam"
       "tailscale-app"
+      "telegram"
       "thunderbird"
       "vlc"
     ];

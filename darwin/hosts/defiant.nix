@@ -110,6 +110,7 @@ in
       "steam"
       "stirling-pdf"
       "tailscale-app"
+      "telegram"
       "thunderbird"
       "vlc"
     ];
