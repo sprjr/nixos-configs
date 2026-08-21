@@ -59,6 +59,7 @@
     vim
     curl
     wget
+    amdtop
     htop
     cryptsetup
     tpm2-tools

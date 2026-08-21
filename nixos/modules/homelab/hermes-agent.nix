@@ -22,6 +22,11 @@ let
     memory:
       memory_enabled: true
       user_profile_enabled: true
+    cron:
+      preflight: true
+      failure_nudge_threshold: 3
+      allow_agent_scheduling: false
+      wrap_response: true
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
@@ -59,6 +64,7 @@ let
     - **CODE**: Programming, debugging, code review, software architecture, terminal commands, scripts, algorithms, data structures, DevOps, CI/CD
     - **RESEARCH**: In-depth questions requiring web search, writing tasks, analysis, summarization, fact-checking, document creation, comparison studies
     - **HOME**: Home automation, security cameras, Frigate NVR, device control, Home Assistant, smart home, IoT, network devices
+    - **SCHEDULE**: Reminders, recurring tasks, scheduled reports, daily briefings, calendar-related requests, "remind me", "every morning", "at 5pm"
     - **GENERAL**: Casual conversation, greetings, simple factual questions, opinions, recommendations, anything not clearly in the above categories
 
     ## Command Overrides
@@ -71,6 +77,17 @@ let
     - `!home` — April (HOME specialist)
 
     Strip the command prefix before forwarding the message.
+
+    ## Scheduling
+
+    For SCHEDULE messages, handle them directly using the cronjob tool:
+
+    - **Reminders**: Use one-shot schedules (e.g., ``cronjob(action="create", schedule="30m", prompt="Remind: take out the trash", deliver="telegram")``)
+    - **Recurring tasks**: Use interval or cron expressions (e.g., ``cronjob(action="create", schedule="0 9 * * 1-5", prompt="Good morning. Here is your daily briefing.", deliver="telegram")``)
+    - **Management**: List, pause, resume, or remove jobs when asked (``/cron list``, etc.)
+
+    Always confirm what was scheduled and when it will fire. Use ``deliver: telegram``
+    so results come back to this chat. For recurring jobs, give them descriptive names.
 
     ## Delegation
 
@@ -227,6 +244,7 @@ let
 in
 {
   sops.secrets."hermes-agent/telegram-bot-token" = { };
+  sops.secrets."hermes-agent/telegram-native-bot-token" = { };
   sops.secrets."hermes-agent/telegram-allowed-users" = { };
   sops.secrets."hermes-agent/dashboard-username" = { };
   sops.secrets."hermes-agent/dashboard-password" = { };
@@ -238,6 +256,8 @@ in
       HERMES_DASHBOARD_BASIC_AUTH_USERNAME=${config.sops.placeholder."hermes-agent/dashboard-username"}
       HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=${config.sops.placeholder."hermes-agent/dashboard-password"}
       API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
+      TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-native-bot-token"}
+      TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
     '';
   };
 
