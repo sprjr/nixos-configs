@@ -401,6 +401,7 @@
               ./nixos/modules/homelab/frigate-notify.nix
               ./nixos/modules/virtualisation/podman.nix
               ./nixos/modules/homelab/hermes-agent.nix
+              ./nixos/modules/homelab/frigate-hermes.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
