@@ -82,7 +82,7 @@
       sl
       ternimal
     ]
-    ++ lib.optionals stdenv.isLinux [
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
       # Linux-specific packages
       android-tools
       bandwhich
@@ -122,7 +122,7 @@
       wireshark
       xpipe
     ]
-    ++ lib.optionals stdenv.isDarwin [
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
       # MacOS-specific packages
       mas
       m-cli
