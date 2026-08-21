@@ -55,7 +55,7 @@ in
   };
 
   virtualisation.oci-containers.containers.hermes-agent = {
-    image = "nousresearch/hermes-agent:latest";
+    image = "docker.io/nousresearch/hermes-agent:latest";
     autoStart = true;
     extraOptions = [
       "--network=host"
