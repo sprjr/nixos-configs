@@ -403,6 +403,7 @@
               ./nixos/modules/homelab/hermes-agent.nix
               ./nixos/modules/homelab/hermes-router.nix
               ./nixos/modules/homelab/frigate-hermes.nix
+              ./nixos/modules/homelab/ha-events.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {

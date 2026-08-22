@@ -8,7 +8,6 @@ let
   mqttPasswordFile = config.sops.secrets."mosquitto/hermes-password".path;
   botTokenFile = config.sops.secrets."hermes-agent/telegram-bot-token".path;
   allowedUsersFile = config.sops.secrets."hermes-agent/telegram-allowed-users".path;
-  apiKeyFile = config.sops.secrets."hermes-agent/api-server-key".path;
 
   frigateHermes = pkgs.writeScript "frigate-hermes.py" ''
     #!${pkgs.python3}/bin/python3
@@ -20,41 +19,41 @@ let
         bot_token = f.read().strip()
     with open("${allowedUsersFile}") as f:
         chat_ids = [uid.strip() for uid in f.read().strip().split(",")]
-    with open("${apiKeyFile}") as f:
-        api_key = f.read().strip()
 
-    HERMES_API = "http://127.0.0.1:8642/p/home/v1/chat/completions"
+    OLLAMA_API = "http://127.0.0.1:11434/api/chat"
+    OLLAMA_MODEL = "qwen3.5:4b"
     TELEGRAM_API = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     SYSTEM_PROMPT = (
+        "You are April, a home automation and security specialist. "
         "Summarize this Frigate NVR detection event concisely for Telegram. "
         "Include camera name, detection type, confidence, and zone. "
-        "Note patterns across recent events in this session."
+        "For routine detections (known persons, pets), keep summaries brief. "
+        "For unusual detections, provide detailed analysis. "
+        "Note patterns across recent events if context is available."
     )
 
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     signal.signal(signal.SIGINT, lambda *_: sys.exit(0))
 
-    def hermes_summarize(event_text):
+    def ollama_summarize(event_text):
         payload = json.dumps({
-            "model": "hermes-agent",
+            "model": OLLAMA_MODEL,
             "messages": [
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": event_text},
             ],
+            "stream": False,
+            "keep_alive": -1,
         }).encode()
         req = urllib.request.Request(
-            HERMES_API,
+            OLLAMA_API,
             data=payload,
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "X-Hermes-Session-Key": "frigate-events",
-            },
+            headers={"Content-Type": "application/json"},
         )
         try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=60) as resp:
                 data = json.loads(resp.read())
-                return data["choices"][0]["message"]["content"]
+                return data["message"]["content"]
         except Exception as e:
             return None
 
@@ -96,7 +95,7 @@ let
                 f"Zone: {zones}"
             )
 
-            summary = hermes_summarize(event_text)
+            summary = ollama_summarize(event_text)
             message = summary if summary else event_text
 
             for chat_id in chat_ids:
@@ -110,10 +109,10 @@ in {
   sops.secrets."mosquitto/hermes-password" = { };
 
   systemd.services.frigate-hermes = {
-    description = "Forward Frigate events through Hermes Agent to Telegram";
+    description = "Forward Frigate events through Ollama to Telegram";
     after = [
       "network-online.target"
-      "podman-hermes-agent.service"
+      "ollama.service"
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];

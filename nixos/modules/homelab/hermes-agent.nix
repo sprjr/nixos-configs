@@ -12,7 +12,7 @@ let
       default: hermes3:8b
       provider: custom
       base_url: http://host.containers.internal:11434/v1
-      context_length: 65536
+      context_length: 16384
   '';
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
@@ -25,7 +25,7 @@ let
     cron:
       preflight: true
       failure_nudge_threshold: 3
-      allow_agent_scheduling: false
+      allow_agent_scheduling: true
       wrap_response: true
   '';
 
@@ -88,6 +88,7 @@ let
 
     - **Reminders**: Use one-shot schedules (e.g., ``cronjob(action="create", schedule="30m", prompt="Remind: take out the trash", deliver="telegram")``)
     - **Recurring tasks**: Use interval or cron expressions (e.g., ``cronjob(action="create", schedule="0 9 * * 1-5", prompt="Good morning. Here is your daily briefing.", deliver="telegram")``)
+    - **Proactive home checks**: Route scheduled HA queries to April (e.g., ``cronjob(action="create", schedule="0 22 * * *", prompt="!home Check all door and lock sensors via the HA API. Report anything that is open or unlocked.", deliver="telegram")``)
     - **Management**: List, pause, resume, or remove jobs when asked (``/cron list``, etc.)
 
     Always confirm what was scheduled and when it will fire. Use ``deliver: telegram``
@@ -229,6 +230,30 @@ let
     - Integrated with Frigate NVR on the badgey homelab server
     - Security cameras report events via MQTT from shikisha
     - Frigate detection events include camera name, object type, confidence score, and zone
+    - Home Assistant runs on shikisha at ``$HA_URL`` (port 8123)
+
+    ## Home Assistant REST API
+
+    The HA long-lived access token is available as ``$HA_TOKEN``.
+    Use it to query or control Home Assistant:
+
+    ```
+    # Get all entity states
+    curl -s -H "Authorization: Bearer $HA_TOKEN" $HA_URL/api/states
+
+    # Get a specific entity
+    curl -s -H "Authorization: Bearer $HA_TOKEN" $HA_URL/api/states/binary_sensor.front_door
+
+    # Call a service (e.g., turn off a light)
+    curl -s -X POST -H "Authorization: Bearer $HA_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{"entity_id": "light.living_room"}' \
+      $HA_URL/api/services/light/turn_off
+    ```
+
+    When running scheduled checks, always run ``date`` first to get the
+    current time. Use the time to assess whether states are concerning
+    (e.g., garage door open at midnight vs. noon).
 
     ## Response Style
 
@@ -243,6 +268,7 @@ let
     - Track patterns across events in the same session
     - For routine detections (known persons, pets), keep summaries brief
     - For unusual detections, provide detailed analysis
+    - When running proactive checks, report only actionable findings — skip entities in expected states
     - If a question is about code or research rather than home automation, say so
   '';
 in
@@ -253,6 +279,7 @@ in
   sops.secrets."hermes-agent/dashboard-username" = { };
   sops.secrets."hermes-agent/dashboard-password" = { };
   sops.secrets."hermes-agent/api-server-key" = { };
+  sops.secrets.ha_token = { };
 
   sops.templates."hermes-agent-env" = {
     mode = "0400";
@@ -262,6 +289,7 @@ in
       API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
       TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-native-bot-token"}
       TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
+      HA_TOKEN=${config.sops.placeholder.ha_token}
     '';
   };
 
@@ -367,6 +395,7 @@ in
       "--network=hermes-net"
       "--ip=10.89.0.2"
       "--add-host=host.containers.internal:host-gateway"
+      "--add-host=shikisha:100.67.20.13"
       "-p" "127.0.0.1:9119:9119"
       "-p" "127.0.0.1:8642:8642"
       "--cap-drop=ALL"
@@ -393,6 +422,7 @@ in
       HERMES_REDACT_SECRETS = "true";
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
+      HA_URL = "http://shikisha:8123";
     };
     cmd = [
       "gateway"
