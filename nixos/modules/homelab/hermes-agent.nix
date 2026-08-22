@@ -12,7 +12,8 @@ let
       default: hermes3:8b
       provider: custom
       base_url: http://host.containers.internal:11434/v1
-      context_length: 16384
+      # Hermes Agent hard-requires >= 64K; actual KV cache set by OLLAMA_CONTEXT_LENGTH
+      context_length: 131072
   '';
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
