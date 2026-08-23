@@ -1,3 +1,4 @@
+# stream: http://shikisha:8080/stream/dashboard.m3u8
 {
   config,
   pkgs,
