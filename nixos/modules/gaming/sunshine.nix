@@ -29,5 +29,18 @@
       fec_percentage = 20;
       min_log_level = "info";
     };
+
+    # mon-remote/mon-local (home/modules/user-space/hyprland/monitors.nix) toggle streaming mode.
+    applications.apps = [
+      {
+        name = "Desktop";
+        "prep-cmd" = [
+          {
+            do = "mon-remote";
+            undo = "mon-local";
+          }
+        ];
+      }
+    ];
   };
 }

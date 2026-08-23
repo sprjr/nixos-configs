@@ -54,14 +54,24 @@
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
-    # `mon-remote` (remon): single HDMI streaming head, desktop outputs off — mirrors the old
-    # kscreen switch-remote.sh. `mon-local` (lomon) re-applies `monitors` above.
-    remoteMonitors = [
-      "HDMI-A-1,1920x1080@60,0x0,1"
-      "DP-1,disable"
-      "DP-2,disable"
-      "DP-3,disable"
-    ];
+    # `mon-remote` (remon): DPMS off DP-1/2/3, migrate workspaces 1-3 to a persistent
+    # headless output. `mon-local` (lomon) reverses both. Replaces the old enable/disable
+    # mechanism under test for the aquamarine SEGV (see monitors.nix).
+    streaming = {
+      enable = true;
+      resolution = "1920x1080@60";
+      physicalOutputs = [
+        "DP-1"
+        "DP-2"
+        "DP-3"
+      ];
+      workspaces = [
+        1
+        2
+        3
+      ];
+      primaryOutput = "DP-1";
+    };
   };
 
   # Git configuration

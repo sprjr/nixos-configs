@@ -92,19 +92,50 @@ in
       ];
     };
 
-    remoteMonitors = mkOption {
-      type = types.listOf types.str;
-      default = [ ];
-      description = ''
-        Monitor descriptors applied by the `mon-remote` command for a remote/streaming session
-        (e.g. a single streaming head with the desktop outputs disabled). Empty omits the command.
-        `mon-local` re-applies the `monitors` list. Both dispatch to hyprctl inside a Hyprland
-        session and fall back to the KDE ~/.local/bin/switch-*.sh scripts otherwise.
-      '';
-      example = [
-        "HDMI-A-1,1920x1080@60,0x0,1"
-        "DP-1,disable"
-      ];
+    streaming = {
+      enable = mkEnableOption "persistent headless output + DPMS/workspace-migration mon-remote/mon-local";
+
+      resolution = mkOption {
+        type = types.str;
+        default = "1920x1080@60";
+        description = "Mode applied to the persistent headless streaming output.";
+      };
+
+      physicalOutputs = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = ''
+          Physical output names DPMS'd off by `mon-remote` (entering streaming mode) and
+          DPMS'd on by `mon-local` (leaving it). The outputs stay in Hyprland's live output
+          list throughout -- only their power state changes.
+        '';
+        example = [
+          "DP-1"
+          "DP-2"
+          "DP-3"
+        ];
+      };
+
+      workspaces = mkOption {
+        type = types.listOf types.int;
+        default = [ ];
+        description = ''
+          Workspace numbers moved onto the headless output by `mon-remote` and back onto
+          `primaryOutput` by `mon-local`.
+        '';
+        example = [
+          1
+          2
+          3
+        ];
+      };
+
+      primaryOutput = mkOption {
+        type = types.str;
+        default = "";
+        description = "Physical output `workspaces` are moved back onto by `mon-local`.";
+        example = "DP-1";
+      };
     };
 
     battery = mkOption {
