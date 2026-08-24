@@ -11,25 +11,29 @@ let
   # OpenCode Go:  "https://opencode.ai/zen/go/v1"
   cloudBase = "https://ollama.com/v1";
 
-  mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072 }: ''
+  mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072, api_key ? false }:
+    let keyLine = if api_key then "\n      api_key: __CLOUD_API_KEY__" else "";
+    in ''
     model:
       default: ${model}
       provider: custom
       base_url: ${base_url}
-      context_length: ${toString context_length}
+      context_length: ${toString context_length}${keyLine}
   '';
 
   # Per-profile model assignments
-  triageModel = mkModelBlock { model = "deepseek-v4-flash:0731"; };
-  coderModel = mkModelBlock { model = "kimi-k2.7-code"; };
-  researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; };
-  homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; };
+  triageModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
+  coderModel = mkModelBlock { model = "kimi-k2.7-code"; api_key = true; };
+  researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
+  homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; api_key = true; };
 
   localModel = mkModelBlock {
     model = "qwen3.5:4b";
     base_url = "http://host.containers.internal:11434/v1";
     context_length = 16384;
   };
+
+  cloudApiKeyFile = config.sops.secrets."hermes-agent/cloud-api-key".path;
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
     ${triageModel}
@@ -351,10 +355,14 @@ in
       Type = "oneshot";
       RemainAfterExit = true;
     };
+    path = [ pkgs.gnused ];
     script = ''
+      CLOUD_KEY=$(cat ${cloudApiKeyFile})
+
       # Default profile
       cp ${hermesConfigYaml} /var/lib/hermes-agent/config.yaml
-      chmod 644 /var/lib/hermes-agent/config.yaml
+      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/config.yaml
+      chmod 600 /var/lib/hermes-agent/config.yaml
       cp ${triageSoulMd} /var/lib/hermes-agent/SOUL.md
       chmod 644 /var/lib/hermes-agent/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/.env
@@ -362,7 +370,8 @@ in
 
       # Coder profile
       cp ${coderConfigYaml} /var/lib/hermes-agent/profiles/coder/config.yaml
-      chmod 644 /var/lib/hermes-agent/profiles/coder/config.yaml
+      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/coder/config.yaml
+      chmod 600 /var/lib/hermes-agent/profiles/coder/config.yaml
       cp ${coderSoulMd} /var/lib/hermes-agent/profiles/coder/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/coder/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/coder/.env
@@ -370,7 +379,8 @@ in
 
       # Researcher profile
       cp ${researcherConfigYaml} /var/lib/hermes-agent/profiles/researcher/config.yaml
-      chmod 644 /var/lib/hermes-agent/profiles/researcher/config.yaml
+      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/researcher/config.yaml
+      chmod 600 /var/lib/hermes-agent/profiles/researcher/config.yaml
       cp ${researcherSoulMd} /var/lib/hermes-agent/profiles/researcher/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/researcher/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/researcher/.env
@@ -378,7 +388,8 @@ in
 
       # Home profile
       cp ${homeConfigYaml} /var/lib/hermes-agent/profiles/home/config.yaml
-      chmod 644 /var/lib/hermes-agent/profiles/home/config.yaml
+      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/home/config.yaml
+      chmod 600 /var/lib/hermes-agent/profiles/home/config.yaml
       cp ${homeSoulMd} /var/lib/hermes-agent/profiles/home/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/home/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/home/.env
