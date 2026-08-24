@@ -6,41 +6,33 @@
 }:
 
 let
-  # Cloud provider selection — change this line to switch backends
-  # Valid values: "opencode-go" | "ollama-cloud"
-  cloudProvider = "ollama-cloud";
+  # Cloud API base URLs — change cloudBase to switch all profiles at once
+  # Ollama Cloud: "https://ollama.com/v1"
+  # OpenCode Go:  "https://opencode.ai/zen/go/v1"
+  cloudBase = "https://ollama.com/v1";
 
-  ollamaCloudModelBlock = ''
+  mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072 }: ''
     model:
-      default: OLLAMA_CLOUD_MODEL
+      default: ${model}
       provider: custom
-      base_url: https://ollama.com/v1
-      context_length: 32768
+      base_url: ${base_url}
+      context_length: ${toString context_length}
   '';
 
-  opencodeGoModelBlock = ''
-    model:
-      default: OPENCODE_GO_MODEL
-      provider: custom
-      base_url: https://opencode.ai/zen/go/v1
-      context_length: 131072
-  '';
+  # Per-profile model assignments
+  triageModel = mkModelBlock { model = "deepseek-v4-flash:cloud"; };
+  coderModel = mkModelBlock { model = "kimi-k2.7-code:cloud"; };
+  researcherModel = mkModelBlock { model = "deepseek-v4-flash:cloud"; };
+  homeModel = mkModelBlock { model = "gemma4:cloud"; context_length = 128000; };
 
-  cloudModelBlock =
-    if cloudProvider == "opencode-go"
-    then opencodeGoModelBlock
-    else ollamaCloudModelBlock;
-
-  localModelBlock = ''
-    model:
-      default: qwen3.5:4b
-      provider: custom
-      base_url: http://host.containers.internal:11434/v1
-      context_length: 16384
-  '';
+  localModel = mkModelBlock {
+    model = "qwen3.5:4b";
+    base_url = "http://host.containers.internal:11434/v1";
+    context_length = 16384;
+  };
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
-    ${cloudModelBlock}
+    ${triageModel}
     terminal:
       env: local
     memory:
@@ -54,17 +46,17 @@ let
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
-    ${cloudModelBlock}
+    ${coderModel}
     terminal:
       env: local
   '';
 
   researcherConfigYaml = pkgs.writeText "hermes-researcher-config.yaml" ''
-    ${cloudModelBlock}
+    ${researcherModel}
   '';
 
   homeConfigYaml = pkgs.writeText "hermes-home-config.yaml" ''
-    ${cloudModelBlock}
+    ${homeModel}
     terminal:
       env: local
   '';
