@@ -34,14 +34,7 @@ in
     enable = true;
     host = "0.0.0.0";
     loadModels = [
-      "hermes3:8b"
-      "qwen3:8b"
       "qwen3.5:4b"
-      "deepseek-r1:7b"
-      "gemma3:4b"
-      "moondream:1.8b"
-      "hf.co/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF"
-      "hf.co/Jackrong/Qwen3.5-9B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
     ];
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";

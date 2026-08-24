@@ -6,18 +6,41 @@
 }:
 
 let
-  # Shared model config fragment
-  modelBlock = ''
+  # Cloud provider selection — change this line to switch backends
+  # Valid values: "opencode-go" | "ollama-cloud"
+  cloudProvider = "opencode-go";
+
+  ollamaCloudModelBlock = ''
     model:
-      default: hermes3:8b
+      default: OLLAMA_CLOUD_MODEL
       provider: custom
-      base_url: http://host.containers.internal:11434/v1
-      # Hermes Agent hard-requires >= 64K; actual KV cache set by OLLAMA_CONTEXT_LENGTH
+      base_url: https://ollama.com/v1
+      context_length: 32768
+  '';
+
+  opencodeGoModelBlock = ''
+    model:
+      default: OPENCODE_GO_MODEL
+      provider: custom
+      base_url: https://opencode.ai/zen/go/v1
       context_length: 131072
   '';
 
+  cloudModelBlock =
+    if cloudProvider == "opencode-go"
+    then opencodeGoModelBlock
+    else ollamaCloudModelBlock;
+
+  localModelBlock = ''
+    model:
+      default: qwen3.5:4b
+      provider: custom
+      base_url: http://host.containers.internal:11434/v1
+      context_length: 16384
+  '';
+
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
-    ${modelBlock}
+    ${cloudModelBlock}
     terminal:
       env: local
     memory:
@@ -31,17 +54,17 @@ let
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
-    ${modelBlock}
+    ${cloudModelBlock}
     terminal:
       env: local
   '';
 
   researcherConfigYaml = pkgs.writeText "hermes-researcher-config.yaml" ''
-    ${modelBlock}
+    ${cloudModelBlock}
   '';
 
   homeConfigYaml = pkgs.writeText "hermes-home-config.yaml" ''
-    ${modelBlock}
+    ${cloudModelBlock}
     terminal:
       env: local
   '';
@@ -280,6 +303,7 @@ in
   sops.secrets."hermes-agent/dashboard-username" = { };
   sops.secrets."hermes-agent/dashboard-password" = { };
   sops.secrets."hermes-agent/api-server-key" = { };
+  sops.secrets."hermes-agent/cloud-api-key" = { };
   sops.secrets.ha_token = { };
 
   sops.templates."hermes-agent-env" = {
@@ -291,6 +315,7 @@ in
       TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-native-bot-token"}
       TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
       HA_TOKEN=${config.sops.placeholder.ha_token}
+      OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
     '';
   };
 
