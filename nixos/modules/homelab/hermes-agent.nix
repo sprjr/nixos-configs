@@ -12,7 +12,7 @@ let
   cloudBase = "https://ollama.com/v1";
 
   mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072, api_key ? false }:
-    let keyLine = if api_key then "\n      api_key: __CLOUD_API_KEY__" else "";
+    let keyLine = if api_key then "\n  api_key: __CLOUD_API_KEY__" else "";
     in ''
     model:
       default: ${model}
