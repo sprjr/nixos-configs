@@ -8,7 +8,7 @@
 let
   # Cloud provider selection — change this line to switch backends
   # Valid values: "opencode-go" | "ollama-cloud"
-  cloudProvider = "opencode-go";
+  cloudProvider = "ollama-cloud";
 
   ollamaCloudModelBlock = ''
     model:
