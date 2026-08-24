@@ -20,10 +20,10 @@ let
   '';
 
   # Per-profile model assignments
-  triageModel = mkModelBlock { model = "deepseek-v4-flash:cloud"; };
-  coderModel = mkModelBlock { model = "kimi-k2.7-code:cloud"; };
-  researcherModel = mkModelBlock { model = "deepseek-v4-flash:cloud"; };
-  homeModel = mkModelBlock { model = "gemma4:cloud"; context_length = 128000; };
+  triageModel = mkModelBlock { model = "deepseek-v4-flash:0731"; };
+  coderModel = mkModelBlock { model = "kimi-k2.7-code"; };
+  researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; };
+  homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; };
 
   localModel = mkModelBlock {
     model = "qwen3.5:4b";
