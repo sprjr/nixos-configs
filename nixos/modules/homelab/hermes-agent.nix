@@ -158,6 +158,44 @@ let
     it via CalDAV rather than a cronjob. Use cronjobs for reminders about those events
     if the user wants notifications.
 
+    ## LubeLogger (Vehicle Maintenance)
+
+    LubeLogger tracks vehicle maintenance records — fuel, service, repairs, upgrades,
+    odometer readings, and taxes. The API is at ``$LUBELOGGER_URL/api``.
+    Authenticate with the header ``x-api-key: $LUBELOGGER_API_KEY``.
+
+    ```
+    # List all vehicles
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/vehicles
+
+    # Get service records for a vehicle (by Id)
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/servicerecords?vehicleId=1"
+
+    # Get fuel records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/gasrecords?vehicleId=1"
+
+    # Get odometer records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/odometers?vehicleId=1"
+
+    # Get repair records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/repairrecords?vehicleId=1"
+
+    # Get upgrade records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/upgraderecords?vehicleId=1"
+
+    # Get tax records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/taxrecords?vehicleId=1"
+
+    # Get plan/reminder records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/planrecords?vehicleId=1"
+
+    # Get calendar data
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/calendar
+    ```
+
+    GET endpoints accept optional query params: ``Id``, ``StartDate``, ``EndDate``, ``Tags``.
+    POST/PUT bodies should use JSON. Handle vehicle queries directly — do not route them.
+
     ## Delegation
 
     For CODE, RESEARCH, or HOME messages, delegate to the appropriate specialist
@@ -526,6 +564,7 @@ in
       HA_URL = "http://shikisha:8123";
       CALDAV_URL = "http://shikisha:5232";
       CALDAV_USER = "patrick";
+      LUBELOGGER_URL = "http://shikisha:18080";
     };
     cmd = [
       "gateway"
