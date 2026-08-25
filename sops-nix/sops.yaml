@@ -90,6 +90,7 @@ hermes-agent:
     cloud-api-key: ENC[AES256_GCM,data:9fSJLubes2yiznSWpS41AgguPWb2uvRuN18nnGQGSv0Xxw2JmSPZdROdC9mPQNCXW0ufjFz8IU7Q,iv:vKrcTmfc0KKVERqbOWXdZkMVP4/sbFBzOh7jjq6zmqA=,tag:5kW3Zpdvrru93XnO0Rh4nA==,type:str]
 radicale:
     htpasswd: ENC[AES256_GCM,data:KRoptPpu3H3SLD0N/f3R4Y5mKRD7hYtH1PPZ3Wq+srXXrG+kJZr6FY9LtdsbOS2eozYmoQHMnucARmufay6Lxp9t2SU=,iv:2sjRE+OZjFd4YgAIvTyoRymcC4f6j5rX/BWZ49xFNaE=,tag:lYAfbKI7zyhLhiZ0J2IjmQ==,type:str]
+    password: ENC[AES256_GCM,data:yc/PxvzxsEQNlxAZdN7FK7yWlY1fC/Ozj7L1OVj5fpAN8XhsAgIcMQ/BOP8=,iv:H6T/Kv4M1Iawm5aqgUgPMvkMvWVwfjUx8uFeJcIZ6sI=,tag:+cAVbCiJfCmW2bhXobYDGw==,type:str]
 sops:
     age:
         - enc: |
@@ -101,7 +102,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-25T04:48:45Z"
-    mac: ENC[AES256_GCM,data:5li9jMD/AJpOwccuPLpgpcDc5RKx928HzCsumAfGHjBYDPTOAS1elIERCDblpqQp3a0ClqpO4h8lByympbpk2gXKQFSuVNicX08gswtwumuLR7pXTHT5TnAmqhExT8mHWJFCY0NJRr/8xWz3+OfHR3QWIEVGwOZ1/+KLJImVtKE=,iv:rYends5mcUA3gDSDMTlxWWY7eDL9vboY2mwVZrPw3Ug=,tag:YXnv4N1qIHaOnGOWcXkBKw==,type:str]
+    lastmodified: "2026-08-25T05:53:39Z"
+    mac: ENC[AES256_GCM,data:Z1Xq9xQlt7yIrRaW2BylmH5ga5hX/bpoZfPLydAtO98Z312HbbQ4T3AM1Ifjbu7k21nnzmJyBMKGu37cQeuM9tchAwlscZTGxru8CVLpss2gkIQuTOM6sFwL6G4dg+8Vxxq/oLYLm5WMT4eVBD17TgX3fYkmV5DeP5xbNhoP4Jw=,iv:ocK+81PxcN1kC0zRQULb3CLrPwVI6iHyVswl+JrD8iI=,tag:G0PzWKHIGO0CIbSoXt7IdQ==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
