@@ -297,6 +297,7 @@
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix
+              ./nixos/modules/homelab/radicale.nix
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix

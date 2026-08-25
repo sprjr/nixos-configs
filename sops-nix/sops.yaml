@@ -88,6 +88,8 @@ hermes-agent:
     api-server-key: ENC[AES256_GCM,data:IiP5BE4tVqTaOifdmbf1C++jlE4=,iv:uPanBh+x2u1unXM1mpYm4Yj/XZel1lj7P0D/gdXNRJM=,tag:iUl3o0X9khSy+hzCRl22KQ==,type:str]
     telegram-native-bot-token: ENC[AES256_GCM,data:tKBIjBKkLhHF2mMIPzVg3qojy6pa66CTb3sPmkaj2rogvaNCkmHIeOlTrBDbxw==,iv:yOpycTU3ci5a5zT6nwB1ayUaNhpWFvI+d9TEHEKMCL8=,tag:rVfzGv3ng4S2uo6UOi/JyA==,type:str]
     cloud-api-key: ENC[AES256_GCM,data:9fSJLubes2yiznSWpS41AgguPWb2uvRuN18nnGQGSv0Xxw2JmSPZdROdC9mPQNCXW0ufjFz8IU7Q,iv:vKrcTmfc0KKVERqbOWXdZkMVP4/sbFBzOh7jjq6zmqA=,tag:5kW3Zpdvrru93XnO0Rh4nA==,type:str]
+radicale:
+    htpasswd: ENC[AES256_GCM,data:KRoptPpu3H3SLD0N/f3R4Y5mKRD7hYtH1PPZ3Wq+srXXrG+kJZr6FY9LtdsbOS2eozYmoQHMnucARmufay6Lxp9t2SU=,iv:2sjRE+OZjFd4YgAIvTyoRymcC4f6j5rX/BWZ49xFNaE=,tag:lYAfbKI7zyhLhiZ0J2IjmQ==,type:str]
 sops:
     age:
         - enc: |
@@ -99,7 +101,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-24T22:42:09Z"
-    mac: ENC[AES256_GCM,data:ZxF1ehv5tynew2YPSHGWc4gE6bC64OFy4YblErQtfkJdV+9XyaBVmHJteFSCD2+0GgNegWzXlOzHXL2OfxYpd9NqdM2BGGDWnEg1wbzKAkrX3jUEPM7iRp5vZ1pCRjdYdGO6y6IYw3ClJfcqTVPE/tiyNekXxbsCsF5rTL6XBYo=,iv:6ZcFPgPEpWdiqzeIVD4/OGEMQRSvRbrlTJenv9kXezA=,tag:wKrfJqOEnjMY/Y9Y3Ay/pg==,type:str]
+    lastmodified: "2026-08-25T04:48:45Z"
+    mac: ENC[AES256_GCM,data:5li9jMD/AJpOwccuPLpgpcDc5RKx928HzCsumAfGHjBYDPTOAS1elIERCDblpqQp3a0ClqpO4h8lByympbpk2gXKQFSuVNicX08gswtwumuLR7pXTHT5TnAmqhExT8mHWJFCY0NJRr/8xWz3+OfHR3QWIEVGwOZ1/+KLJImVtKE=,iv:rYends5mcUA3gDSDMTlxWWY7eDL9vboY2mwVZrPw3Ug=,tag:YXnv4N1qIHaOnGOWcXkBKw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
