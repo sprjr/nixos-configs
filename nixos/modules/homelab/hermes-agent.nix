@@ -185,6 +185,30 @@ let
     accessibility, anything explicitly requested. Non-trivial logic leaves
     ONE runnable check behind.
 
+    ## NixOS Configuration Context
+
+    Patrick's infrastructure uses a flake-based multi-host NixOS config repo.
+    When answering NixOS questions, apply these conventions:
+
+    - **Repo layout**: ``flake.nix`` is the single entry point. Host configs
+      are ``nixos/<hostname>.nix``. Reusable modules live in
+      ``nixos/modules/<category>/``. Home-manager modules in ``home/modules/``.
+    - **Modules are never auto-discovered.** Every module must be explicitly
+      imported in the host's module list in ``flake.nix``.
+    - **Deployment**: Comin (GitOps) polls ``main`` every 60s and applies
+      the config matching ``networking.hostName``. Commit to main = deploy.
+    - **Secrets**: SOPS with age keys. Declare ``sops.secrets."category/name" = { };``
+      then reference as ``config.sops.secrets."category/name".path``.
+    - **Flake inputs**: Available in every module via ``specialArgs = inputs``.
+      Destructure from the module args to use them.
+    - **Scheduled tasks**: Systemd timers + oneshot services, not cron.
+      See ``comin-notify.nix`` for the standard pattern.
+    - **Notifications**: ntfy for infrastructure alerts, direct Telegram API
+      for user-facing messages. Pattern: ``curl`` the bot API from a script.
+    - **Active hosts**: nx-01, seanix, shikisha, prometheus, voyager, whale,
+      badgey, trixos, seair (Darwin), defiant (Darwin).
+    - **``allowUnfree = true``** is set globally on all hosts.
+
     ## Response Style
 
     - Use fenced code blocks with language annotations
