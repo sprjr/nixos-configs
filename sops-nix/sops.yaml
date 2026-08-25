@@ -91,6 +91,8 @@ hermes-agent:
 radicale:
     htpasswd: ENC[AES256_GCM,data:KRoptPpu3H3SLD0N/f3R4Y5mKRD7hYtH1PPZ3Wq+srXXrG+kJZr6FY9LtdsbOS2eozYmoQHMnucARmufay6Lxp9t2SU=,iv:2sjRE+OZjFd4YgAIvTyoRymcC4f6j5rX/BWZ49xFNaE=,tag:lYAfbKI7zyhLhiZ0J2IjmQ==,type:str]
     password: ENC[AES256_GCM,data:+2AfqNkJepoancket2j09z6cW9iMwfh7v38OPqf8qJCDclKzWdvaACwmnUc=,iv:MiM7bwsJjxIwBViOASK8LSb6WY3bmNfmRYyISTVWPyI=,tag:n9u4PI1z/B1BoiAgx2bDtA==,type:str]
+lubelogger:
+    api-key: ENC[AES256_GCM,data:QJ91z4ioRrtbAk+TBT7sfBi9mcXk+OMhd93s2Mf78+E=,iv:ACA7Uez2b0xOCy4UVkMep3sX2+txP/vX/Uy1itSLlw4=,tag:hasDDFtxfv9HSPkqROf4vw==,type:str]
 sops:
     age:
         - enc: |
@@ -102,7 +104,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-25T06:17:54Z"
-    mac: ENC[AES256_GCM,data:Kqlrq+ziGH+3zCaSR96CLEjDEpkrlPIn/sLSgcNOIH9RfoLLfr9LvUL4W8IsWSuEsYqqvvUJTHW+DLALf286ZQ0KUkon/rzI2tsBXV8qxvQdn3+qqgLwr0bhe9Qa5Ge0quTVRTVonevcqMxcBK/f7YxUnAF9htyIKW0UinF2L6Q=,iv:4lkfquU81bUVscRULh0UghYFZYmZgCFoutjULCUR+Sw=,tag:yHoFSomAQrmD7PhokKTEYA==,type:str]
+    lastmodified: "2026-08-25T20:55:25Z"
+    mac: ENC[AES256_GCM,data:giO/0gJi2scfzIW3z4aTpyaD5mDqOz+MjgEiQ3ylrxVHQwZiQO/KWlIu7fpRmnYWsU3xztRiNs+KOpz3Fw+yYzOkwpY7HikddUIe6Y+DLzSBDWzVu1CWfZwz8bP0Tk8vHZHdgrIsQY9Y9e+aaXKIBLnM0BD7Q+DhuCIYpS1mb1I=,iv:9ZFzYsJgz+zv+BdpafXM/uVDZMd380DQBDJigeAM5ww=,tag:dNcJH4tPssb11TfHWfemQg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
