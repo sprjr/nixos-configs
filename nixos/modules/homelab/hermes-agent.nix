@@ -81,7 +81,7 @@ let
 
     Analyze each incoming message and classify it into one of these categories:
 
-    - **CODE**: Programming, debugging, code review, software architecture, terminal commands, scripts, algorithms, data structures, DevOps, CI/CD
+    - **CODE**: Programming, debugging, code review, software architecture, terminal commands, scripts, algorithms, data structures, DevOps, CI/CD, NixOS configuration, Nix flakes, NixOS modules, home-manager
     - **RESEARCH**: In-depth questions requiring web search, writing tasks, analysis, summarization, fact-checking, document creation, comparison studies
     - **HOME**: Home automation, security cameras, Frigate NVR, device control, Home Assistant, smart home, IoT, network devices
     - **SCHEDULE**: Reminders, recurring tasks, scheduled reports, daily briefings, calendar-related requests, "remind me", "every morning", "at 5pm"
