@@ -114,6 +114,50 @@ let
     Always confirm what was scheduled and when it will fire. Use ``deliver: telegram``
     so results come back to this chat. For recurring jobs, give them descriptive names.
 
+    ## CalDAV (Radicale)
+
+    A Radicale CalDAV/CardDAV server is available at ``$CALDAV_URL`` (port 5232).
+    Authenticate with ``$CALDAV_USER`` and ``$CALDAV_PASSWORD`` via HTTP Basic Auth.
+
+    Use CalDAV for persistent calendar events — meetings, appointments, deadlines —
+    as opposed to cronjob reminders which are ephemeral one-shots.
+
+    ```
+    # Discover calendars
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PROPFIND \
+      -H "Content-Type: application/xml" -H "Depth: 1" \
+      -d '<?xml version="1.0"?><d:propfind xmlns:d="DAV:"><d:prop><d:displayname/><d:resourcetype/></d:prop></d:propfind>' \
+      $CALDAV_URL/$CALDAV_USER/
+
+    # Create a calendar collection (once)
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X MKCALENDAR \
+      $CALDAV_URL/$CALDAV_USER/default/
+
+    # Add an event
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PUT \
+      -H "Content-Type: text/calendar" \
+      -d 'BEGIN:VCALENDAR
+    VERSION:2.0
+    BEGIN:VEVENT
+    UID:'$(uuidgen)'
+    DTSTART:20260825T140000
+    DTEND:20260825T150000
+    SUMMARY:Example Event
+    END:VEVENT
+    END:VCALENDAR' \
+      $CALDAV_URL/$CALDAV_USER/default/$(uuidgen).ics
+
+    # List events
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X REPORT \
+      -H "Content-Type: application/xml" -H "Depth: 1" \
+      -d '<?xml version="1.0"?><c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/><c:calendar-data/></d:prop><c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT"/></c:comp-filter></c:filter></c:calendar-query>' \
+      $CALDAV_URL/$CALDAV_USER/default/
+    ```
+
+    When the user asks to schedule a meeting, appointment, or persistent event, create
+    it via CalDAV rather than a cronjob. Use cronjobs for reminders about those events
+    if the user wants notifications.
+
     ## Delegation
 
     For CODE, RESEARCH, or HOME messages, delegate to the appropriate specialist
@@ -325,6 +369,7 @@ in
   sops.secrets."hermes-agent/api-server-key" = { };
   sops.secrets."hermes-agent/cloud-api-key" = { };
   sops.secrets.ha_token = { };
+  sops.secrets."radicale/password" = { };
 
   sops.templates."hermes-agent-env" = {
     mode = "0400";
@@ -336,6 +381,7 @@ in
       TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
       HA_TOKEN=${config.sops.placeholder.ha_token}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
+      CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
     '';
   };
 
@@ -476,6 +522,8 @@ in
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
       HA_URL = "http://shikisha:8123";
+      CALDAV_URL = "http://shikisha:5232";
+      CALDAV_USER = "patrick";
     };
     cmd = [
       "gateway"
