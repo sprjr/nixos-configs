@@ -370,6 +370,7 @@ in
   sops.secrets."hermes-agent/cloud-api-key" = { };
   sops.secrets.ha_token = { };
   sops.secrets."radicale/password" = { };
+  sops.secrets."lubelogger/api-key" = { };
 
   sops.templates."hermes-agent-env" = {
     mode = "0400";
@@ -382,6 +383,7 @@ in
       HA_TOKEN=${config.sops.placeholder.ha_token}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
+      LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
     '';
   };
 
