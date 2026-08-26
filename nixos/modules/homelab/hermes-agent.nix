@@ -664,6 +664,26 @@ in
     };
   };
 
+  systemd.services.hermes-api-proxy = {
+    description = "Proxy Hermes API to Tailscale interface";
+    after = [
+      "network-online.target"
+      "tailscaled.service"
+      "podman-hermes-agent.service"
+    ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.socat pkgs.tailscale ];
+    serviceConfig = {
+      ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
+        TS_IP=$(tailscale ip -4)
+        exec socat TCP-LISTEN:8642,bind="$TS_IP",reuseaddr,fork TCP:127.0.0.1:8642
+      '';
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
+
   virtualisation.oci-containers.containers.hermes-agent = {
     image = "docker.io/nousresearch/hermes-agent:latest";
     autoStart = true;
@@ -710,5 +730,5 @@ in
     ];
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 9119 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8642 9119 ];
 }
