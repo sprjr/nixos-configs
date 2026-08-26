@@ -114,87 +114,20 @@ let
     Always confirm what was scheduled and when it will fire. Use ``deliver: telegram``
     so results come back to this chat. For recurring jobs, give them descriptive names.
 
-    ## CalDAV (Radicale)
+    ## Service APIs
 
-    A Radicale CalDAV/CardDAV server is available at ``$CALDAV_URL`` (port 5232).
-    Authenticate with ``$CALDAV_USER`` and ``$CALDAV_PASSWORD`` via HTTP Basic Auth.
+    API reference files are in ``/opt/data/references/``. Read the relevant
+    file before making API calls to a service.
 
-    Use CalDAV for persistent calendar events — meetings, appointments, deadlines —
-    as opposed to cronjob reminders which are ephemeral one-shots.
-
-    ```
-    # Discover calendars
-    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PROPFIND \
-      -H "Content-Type: application/xml" -H "Depth: 1" \
-      -d '<?xml version="1.0"?><d:propfind xmlns:d="DAV:"><d:prop><d:displayname/><d:resourcetype/></d:prop></d:propfind>' \
-      $CALDAV_URL/$CALDAV_USER/
-
-    # Create a calendar collection (once)
-    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X MKCALENDAR \
-      $CALDAV_URL/$CALDAV_USER/default/
-
-    # Add an event
-    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PUT \
-      -H "Content-Type: text/calendar" \
-      -d 'BEGIN:VCALENDAR
-    VERSION:2.0
-    BEGIN:VEVENT
-    UID:'$(uuidgen)'
-    DTSTART:20260825T140000
-    DTEND:20260825T150000
-    SUMMARY:Example Event
-    END:VEVENT
-    END:VCALENDAR' \
-      $CALDAV_URL/$CALDAV_USER/default/$(uuidgen).ics
-
-    # List events
-    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X REPORT \
-      -H "Content-Type: application/xml" -H "Depth: 1" \
-      -d '<?xml version="1.0"?><c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/><c:calendar-data/></d:prop><c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT"/></c:comp-filter></c:filter></c:calendar-query>' \
-      $CALDAV_URL/$CALDAV_USER/default/
-    ```
-
-    When the user asks to schedule a meeting, appointment, or persistent event, create
-    it via CalDAV rather than a cronjob. Use cronjobs for reminders about those events
-    if the user wants notifications.
-
-    ## LubeLogger (Vehicle Maintenance)
-
-    LubeLogger tracks vehicle maintenance records — fuel, service, repairs, upgrades,
-    odometer readings, and taxes. The API is at ``$LUBELOGGER_URL/api``.
-    Authenticate with the header ``x-api-key: $LUBELOGGER_API_KEY``.
-
-    ```
-    # List all vehicles
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/vehicles
-
-    # Get service records for a vehicle (by Id)
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/servicerecords?vehicleId=1"
-
-    # Get fuel records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/gasrecords?vehicleId=1"
-
-    # Get odometer records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/odometers?vehicleId=1"
-
-    # Get repair records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/repairrecords?vehicleId=1"
-
-    # Get upgrade records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/upgraderecords?vehicleId=1"
-
-    # Get tax records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/taxrecords?vehicleId=1"
-
-    # Get plan/reminder records
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/planrecords?vehicleId=1"
-
-    # Get calendar data
-    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/calendar
-    ```
-
-    GET endpoints accept optional query params: ``Id``, ``StartDate``, ``EndDate``, ``Tags``.
-    POST/PUT bodies should use JSON. Handle vehicle queries directly — do not route them.
+    - **CalDAV (Radicale)** — calendar events, appointments, deadlines.
+      Reference: ``/opt/data/references/caldav-api.md``.
+      Use CalDAV for persistent events; use cronjobs for ephemeral reminders.
+    - **LubeLogger** — vehicle maintenance, fuel, service, repairs.
+      Reference: ``/opt/data/references/lubelogger-api.md``.
+      Handle vehicle queries directly — do not route them.
+    - **Dawarich** — location history, tracks, visits, places.
+      Reference: ``/opt/data/references/dawarich-api.md``.
+      Read-only access. Handle location queries directly — do not route them.
 
     ## Delegation
 
@@ -430,6 +363,168 @@ let
     - When running proactive checks, report only actionable findings — skip entities in expected states
     - If a question is about code or research rather than home automation, say so
   '';
+
+  caldavRefMd = pkgs.writeText "caldav-api.md" ''
+    # CalDAV (Radicale) API Reference
+
+    Radicale CalDAV/CardDAV server at ``$CALDAV_URL`` (port 5232).
+    Authenticate with ``$CALDAV_USER`` and ``$CALDAV_PASSWORD`` via HTTP Basic Auth.
+
+    Use CalDAV for persistent calendar events — meetings, appointments, deadlines —
+    as opposed to cronjob reminders which are ephemeral one-shots.
+
+    ```
+    # Discover calendars
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PROPFIND \
+      -H "Content-Type: application/xml" -H "Depth: 1" \
+      -d '<?xml version="1.0"?><d:propfind xmlns:d="DAV:"><d:prop><d:displayname/><d:resourcetype/></d:prop></d:propfind>' \
+      $CALDAV_URL/$CALDAV_USER/
+
+    # Create a calendar collection (once)
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X MKCALENDAR \
+      $CALDAV_URL/$CALDAV_USER/default/
+
+    # Add an event
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X PUT \
+      -H "Content-Type: text/calendar" \
+      -d 'BEGIN:VCALENDAR
+    VERSION:2.0
+    BEGIN:VEVENT
+    UID:'$(uuidgen)'
+    DTSTART:20260825T140000
+    DTEND:20260825T150000
+    SUMMARY:Example Event
+    END:VEVENT
+    END:VCALENDAR' \
+      $CALDAV_URL/$CALDAV_USER/default/$(uuidgen).ics
+
+    # List events
+    curl -s -u "$CALDAV_USER:$CALDAV_PASSWORD" -X REPORT \
+      -H "Content-Type: application/xml" -H "Depth: 1" \
+      -d '<?xml version="1.0"?><c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/><c:calendar-data/></d:prop><c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT"/></c:comp-filter></c:filter></c:calendar-query>' \
+      $CALDAV_URL/$CALDAV_USER/default/
+    ```
+
+    When the user asks to schedule a meeting, appointment, or persistent event, create
+    it via CalDAV rather than a cronjob. Use cronjobs for reminders about those events
+    if the user wants notifications.
+  '';
+
+  lubeloggerRefMd = pkgs.writeText "lubelogger-api.md" ''
+    # LubeLogger (Vehicle Maintenance) API Reference
+
+    LubeLogger tracks vehicle maintenance records — fuel, service, repairs, upgrades,
+    odometer readings, and taxes. The API is at ``$LUBELOGGER_URL/api``.
+    Authenticate with the header ``x-api-key: $LUBELOGGER_API_KEY``.
+
+    ```
+    # List all vehicles
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/vehicles
+
+    # Get service records for a vehicle (by Id)
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/servicerecords?vehicleId=1"
+
+    # Get fuel records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/gasrecords?vehicleId=1"
+
+    # Get odometer records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/odometers?vehicleId=1"
+
+    # Get repair records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/repairrecords?vehicleId=1"
+
+    # Get upgrade records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/upgraderecords?vehicleId=1"
+
+    # Get tax records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/taxrecords?vehicleId=1"
+
+    # Get plan/reminder records
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" "$LUBELOGGER_URL/api/vehicle/planrecords?vehicleId=1"
+
+    # Get calendar data
+    curl -s -H "x-api-key: $LUBELOGGER_API_KEY" $LUBELOGGER_URL/api/calendar
+    ```
+
+    GET endpoints accept optional query params: ``Id``, ``StartDate``, ``EndDate``, ``Tags``.
+    POST/PUT bodies should use JSON.
+  '';
+
+  dawarichRefMd = pkgs.writeText "dawarich-api.md" ''
+    # Dawarich (Location History) API Reference
+
+    Dawarich is a self-hosted location history tracker. The API is at
+    ``$DAWARICH_URL/api/v1``. Authenticate with query param
+    ``api_key=$DAWARICH_API_KEY`` or header ``Authorization: Bearer $DAWARICH_API_KEY``.
+
+    Read-only access. Do not create, update, or delete any records.
+
+    ```
+    # Current user info
+    curl -s "$DAWARICH_URL/api/v1/users/me?api_key=$DAWARICH_API_KEY"
+
+    # Location points (paginated, filterable by time range and bounding box)
+    curl -s "$DAWARICH_URL/api/v1/points?api_key=$DAWARICH_API_KEY&start_at=1719792000&end_at=1719878400&order=desc"
+
+    # Slim mode (fewer fields, faster)
+    curl -s "$DAWARICH_URL/api/v1/points?api_key=$DAWARICH_API_KEY&slim=true&start_at=1719792000&end_at=1719878400"
+
+    # Points within bounding box
+    curl -s "$DAWARICH_URL/api/v1/points?api_key=$DAWARICH_API_KEY&min_latitude=39.5&max_latitude=40.0&min_longitude=-105.5&max_longitude=-104.5"
+
+    # Tracked months (which months have data)
+    curl -s "$DAWARICH_URL/api/v1/points/tracked_months?api_key=$DAWARICH_API_KEY"
+
+    # Timeline for a date range
+    curl -s "$DAWARICH_URL/api/v1/timeline?api_key=$DAWARICH_API_KEY&start_at=2026-08-01&end_at=2026-08-25"
+
+    # Statistics overview
+    curl -s "$DAWARICH_URL/api/v1/stats?api_key=$DAWARICH_API_KEY"
+
+    # Yearly insights
+    curl -s "$DAWARICH_URL/api/v1/insights?api_key=$DAWARICH_API_KEY"
+
+    # Yearly digest
+    curl -s "$DAWARICH_URL/api/v1/digests/2025?api_key=$DAWARICH_API_KEY"
+
+    # Visits (with optional bounding box)
+    curl -s "$DAWARICH_URL/api/v1/visits?api_key=$DAWARICH_API_KEY"
+
+    # Places
+    curl -s "$DAWARICH_URL/api/v1/places?api_key=$DAWARICH_API_KEY"
+
+    # Search places by name
+    curl -s "$DAWARICH_URL/api/v1/places/search?api_key=$DAWARICH_API_KEY&q=office"
+
+    # Nearby places (by lat/lon)
+    curl -s "$DAWARICH_URL/api/v1/places/nearby?api_key=$DAWARICH_API_KEY&latitude=39.7&longitude=-104.9"
+
+    # Tracks
+    curl -s "$DAWARICH_URL/api/v1/tracks?api_key=$DAWARICH_API_KEY"
+
+    # Points for a specific track
+    curl -s "$DAWARICH_URL/api/v1/tracks/1/points?api_key=$DAWARICH_API_KEY"
+
+    # Flights
+    curl -s "$DAWARICH_URL/api/v1/flights?api_key=$DAWARICH_API_KEY"
+
+    # Areas (geofences)
+    curl -s "$DAWARICH_URL/api/v1/areas?api_key=$DAWARICH_API_KEY"
+
+    # Countries visited / cities
+    curl -s "$DAWARICH_URL/api/v1/countries/visited_cities?api_key=$DAWARICH_API_KEY"
+
+    # Reverse geocode search near coordinates
+    curl -s "$DAWARICH_URL/api/v1/locations?api_key=$DAWARICH_API_KEY&latitude=39.7&longitude=-104.9"
+
+    # Health check (no auth required)
+    curl -s "$DAWARICH_URL/api/v1/health"
+    ```
+
+    Pagination headers: ``X-Current-Page``, ``X-Total-Pages``. Time params
+    (``start_at``, ``end_at``) accept Unix timestamps for points, ISO dates
+    for timeline.
+  '';
 in
 {
   sops.secrets."hermes-agent/telegram-bot-token" = { };
@@ -442,6 +537,7 @@ in
   sops.secrets.ha_token = { };
   sops.secrets."radicale/password" = { };
   sops.secrets."lubelogger/api-key" = { };
+  sops.secrets."dawarich/api-key" = { };
 
   sops.templates."hermes-agent-env" = {
     mode = "0400";
@@ -455,6 +551,7 @@ in
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
       LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
+      DAWARICH_API_KEY=${config.sops.placeholder."dawarich/api-key"}
     '';
   };
 
@@ -471,6 +568,7 @@ in
     "d /var/lib/hermes-agent/profiles/coder 0755 root root -"
     "d /var/lib/hermes-agent/profiles/researcher 0755 root root -"
     "d /var/lib/hermes-agent/profiles/home 0755 root root -"
+    "d /var/lib/hermes-agent/references 0755 root root -"
   ];
 
   systemd.services.hermes-network-init = {
@@ -510,6 +608,12 @@ in
       chmod 644 /var/lib/hermes-agent/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/.env
       chmod 644 /var/lib/hermes-agent/.env
+
+      # API reference files
+      cp ${caldavRefMd} /var/lib/hermes-agent/references/caldav-api.md
+      cp ${lubeloggerRefMd} /var/lib/hermes-agent/references/lubelogger-api.md
+      cp ${dawarichRefMd} /var/lib/hermes-agent/references/dawarich-api.md
+      chmod 644 /var/lib/hermes-agent/references/*.md
 
       # Coder profile
       cp ${coderConfigYaml} /var/lib/hermes-agent/profiles/coder/config.yaml
@@ -598,6 +702,7 @@ in
       CALDAV_URL = "http://shikisha:5232";
       CALDAV_USER = "patrick";
       LUBELOGGER_URL = "http://shikisha:18080";
+      DAWARICH_URL = "http://shikisha:31122";
     };
     cmd = [
       "gateway"
