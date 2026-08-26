@@ -94,7 +94,7 @@ radicale:
 lubelogger:
     api-key: ENC[AES256_GCM,data:QJ91z4ioRrtbAk+TBT7sfBi9mcXk+OMhd93s2Mf78+E=,iv:ACA7Uez2b0xOCy4UVkMep3sX2+txP/vX/Uy1itSLlw4=,tag:hasDDFtxfv9HSPkqROf4vw==,type:str]
 dawarich:
-    api-key: ENC[AES256_GCM,data:M9343505TPYfE+/h4apM6GMb46v+8BMUwA8KfeIt5ho=,iv:W3i0YqpsYE+lugWgSByzGV00XVlHQLOQExl9dqeJlPY=,tag:PaRvK8GEWUhWIcmo6aDbKw==,type:str]
+    api-key: ENC[AES256_GCM,data:jFax0lTlr0NXp7GuBV0fN64ajfbaXp25I50JcRY2TfbZvCRwV1/wS0M3HASf+xtOSBvtlyevIMqudxDNenQWzQ==,iv:o2sioBJi9RN8Wz7LgysJWUYw/lu3g2QJs7AfDTk3/nQ=,tag:+DRgPnyRXJ1YvII03bcm0A==,type:str]
 sops:
     age:
         - enc: |
@@ -106,7 +106,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-26T05:34:25Z"
-    mac: ENC[AES256_GCM,data:l2D87ptPAbA/vRnli3RPdYgRAcVJyRSPjaCqLWAaKlSsYE+fwer005jITzUbrNkJHLEymVDQNO+ZMUozQEFzYvTjhFr4y+XC2PNGX3WdE0vKavTW+6E4vwGorh5fe95sDFeo+JM2eTGVVGaJYD4PcD0BGCT4qJNiVBE13NdR/kk=,iv:v0kSawRELM6Kg3CJvCuk5xYk1xo0zpzkxuMzNODDqnU=,tag:7MYA3QmQNZ3Fe24lUlyH/w==,type:str]
+    lastmodified: "2026-08-26T14:44:20Z"
+    mac: ENC[AES256_GCM,data:sJxxM1oKfZMnlKf+b03jsS35Ob/rS1iOcFsjwRPCcjh+H5Aqb9NyKv5X/Cxgn1GArcdg/9/j4McnXcD8i5MYt2xpQUkiPthx0NljOOPXxrax58+N7gpZ2aVY2a3WZ0lt/MR0x8Y93EYpiJ99dgG94ZiCi4eC7bLduXl8G5Guu78=,iv:W0zw8TGZMTNSVzUvkiCmdHBs/2S/2k0DpbduZs/bNO8=,tag:VkCj5+gfRKzleoaZOuLx4w==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
