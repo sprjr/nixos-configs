@@ -171,6 +171,7 @@ in {
     after = [
       "network-online.target"
       "ollama.service"
+      "sops-nix.service"
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];

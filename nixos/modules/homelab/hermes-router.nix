@@ -118,6 +118,7 @@ in {
     after = [
       "network-online.target"
       "podman-hermes-agent.service"
+      "sops-nix.service"
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
