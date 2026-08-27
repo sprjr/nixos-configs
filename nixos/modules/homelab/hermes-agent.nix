@@ -323,6 +323,7 @@ let
     - Security cameras report events via MQTT from shikisha
     - Frigate detection events include camera name, object type, confidence score, and zone
     - Home Assistant runs on shikisha at ``$HA_URL`` (port 8123)
+    - A second Home Assistant instance runs on wopr-0 at ``$HA_URL_WOPR`` (port 8123); use ``$HA_TOKEN_WOPR`` to query or control it
 
     ## Home Assistant REST API
 
@@ -342,6 +343,9 @@ let
       -d '{"entity_id": "light.living_room"}' \
       $HA_URL/api/services/light/turn_off
     ```
+
+    For the wopr-0 instance, substitute ``$HA_URL_WOPR`` and ``$HA_TOKEN_WOPR``
+    in the same commands.
 
     When running scheduled checks, always run ``date`` first to get the
     current time. Use the time to assess whether states are concerning
@@ -535,6 +539,7 @@ in
   sops.secrets."hermes-agent/api-server-key" = { };
   sops.secrets."hermes-agent/cloud-api-key" = { };
   sops.secrets.ha_token = { };
+  sops.secrets.ha_token_wopr = { };
   sops.secrets."radicale/password" = { };
   sops.secrets."lubelogger/api-key" = { };
   sops.secrets."dawarich/api-key" = { };
@@ -548,6 +553,7 @@ in
       TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-native-bot-token"}
       TELEGRAM_ALLOWED_USERS=${config.sops.placeholder."hermes-agent/telegram-allowed-users"}
       HA_TOKEN=${config.sops.placeholder.ha_token}
+      HA_TOKEN_WOPR=${config.sops.placeholder.ha_token_wopr}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
       LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
@@ -692,6 +698,7 @@ in
       "--ip=10.89.0.2"
       "--add-host=host.containers.internal:host-gateway"
       "--add-host=shikisha:100.67.20.13"
+      "--add-host=wopr-0:100.100.21.96"
       "-p" "127.0.0.1:9119:9119"
       "-p" "127.0.0.1:8642:8642"
       "--cap-drop=ALL"
@@ -719,6 +726,7 @@ in
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
       HA_URL = "http://shikisha:8123";
+      HA_URL_WOPR = "http://wopr-0:8123";
       CALDAV_URL = "http://shikisha:5232";
       CALDAV_USER = "patrick";
       LUBELOGGER_URL = "http://shikisha:18080";
