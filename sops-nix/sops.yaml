@@ -98,6 +98,9 @@ lubelogger:
     api-key: ENC[AES256_GCM,data:QJ91z4ioRrtbAk+TBT7sfBi9mcXk+OMhd93s2Mf78+E=,iv:ACA7Uez2b0xOCy4UVkMep3sX2+txP/vX/Uy1itSLlw4=,tag:hasDDFtxfv9HSPkqROf4vw==,type:str]
 dawarich:
     api-key: ENC[AES256_GCM,data:jFax0lTlr0NXp7GuBV0fN64ajfbaXp25I50JcRY2TfbZvCRwV1/wS0M3HASf+xtOSBvtlyevIMqudxDNenQWzQ==,iv:o2sioBJi9RN8Wz7LgysJWUYw/lu3g2QJs7AfDTk3/nQ=,tag:+DRgPnyRXJ1YvII03bcm0A==,type:str]
+zipline:
+    postgres-password: ENC[AES256_GCM,data:rRSpZDeJnPBnCfOtbhIenlJA/2Luf0SAc3jwrZSnubklN4bYA3Rx+AaWRhQ=,iv:Y4FeZT59M/mkI5hu4bZDYUuNvl04HFO6TSYyZmLoauU=,tag:lF5pw3rJkCkqnMDzlgpDTg==,type:str]
+    core-secret: ENC[AES256_GCM,data:CYHlX222HPQUkEnhFn08NtNfhSleHOjp0DIGpweiIlnQCGjfkykvDviRj3w=,iv:XauW1nvzPHxPQA5mbmFKKTcVGoU23W/Cx/tBuCkRlvg=,tag:/f8TLrm4ndgfqmrvZd5Ecw==,type:str]
 sops:
     age:
         - enc: |
@@ -109,7 +112,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-28T21:39:54Z"
-    mac: ENC[AES256_GCM,data:AHPpN0NR4lTq2uUGJgQN1wFuKJqxCDgBt1Rj/bsvSamRr+BNgxd2TzF8Qt9EdcJO42VPZmoHwN/mvKUpS3psoz4LW5EEi9kQCONY8CTj2HTwViEIQaCAtbtduH1Bbp1FK8RgKMxmUjTJd5qDlns5U5CzKnEM6QwwCV2g5nYGU14=,iv:m8T/1WgR5ZmUd5beI86pR/LrOevYrIffnWcQ/UWirQg=,tag:FzVMg88z3VtFbLbDCCXrKQ==,type:str]
+    lastmodified: "2026-08-28T21:43:35Z"
+    mac: ENC[AES256_GCM,data:3wnYP6hr7r30OSLCVEV72gHPS7ZOnBKKX7MQgXPVlygl5W2cSiuleQ5KJ6CkLsgE9TgoWEkjNC7XMabVIJ7zRYXQaAiJVbdFa/pT1Evyf5DwvVE22+O/BRinS7ZoEOlvDAuAnSmT+SFV9n3rkG16IwgemvunfOXGd9py17OXt2c=,iv:Nei9hNBkOI2EgX3WkrHk2GPrjEh8LFXbjhOzt/H+F50=,tag:PhaDGaPyZi9IioNGxOEhyw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
