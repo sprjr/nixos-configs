@@ -7,11 +7,17 @@
 
 {
   sops.secrets."frigate/mqtt-password" = { };
+  sops.secrets."frigate/front-door-rtsp" = { };
+  sops.secrets."frigate/garage-rtsp" = { };
 
   sops.templates."frigate-env" = {
     owner = "frigate";
     mode = "0400";
-    content = "FRIGATE_MQTT_PASSWORD=${config.sops.placeholder."frigate/mqtt-password"}\n";
+    content = ''
+      FRIGATE_MQTT_PASSWORD=${config.sops.placeholder."frigate/mqtt-password"}
+      FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
+      FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
+    '';
   };
 
   services.frigate = {
@@ -40,7 +46,39 @@
         };
       };
 
-      cameras = { };
+      go2rtc.streams = {
+        front_door = "{FRIGATE_FRONT_DOOR_RTSP}";
+        garage = "{FRIGATE_GARAGE_RTSP}";
+      };
+
+      cameras = {
+        front_door = {
+          enabled = true;
+          ffmpeg.inputs = [{
+            path = "rtsp://127.0.0.1:8554/front_door";
+            roles = [ "detect" ];
+          }];
+          detect = {
+            enabled = true;
+            width = 1280;
+            height = 720;
+          };
+          record.enabled = false;
+        };
+        garage = {
+          enabled = true;
+          ffmpeg.inputs = [{
+            path = "rtsp://127.0.0.1:8554/garage";
+            roles = [ "detect" ];
+          }];
+          detect = {
+            enabled = true;
+            width = 1280;
+            height = 720;
+          };
+          record.enabled = false;
+        };
+      };
     };
   };
 
