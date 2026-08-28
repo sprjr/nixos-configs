@@ -62,6 +62,7 @@
       tmux
       todoist
       tree
+      typst
       xclip
       yazi
       zellij
