@@ -299,6 +299,7 @@
               ./nixos/modules/homelab/jellyfin.nix
               ./nixos/modules/homelab/radicale.nix
               ./nixos/modules/homelab/lubelogger.nix
+              ./nixos/modules/homelab/zipline.nix
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix
