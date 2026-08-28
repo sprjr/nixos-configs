@@ -173,7 +173,7 @@ in {
       "ollama.service"
       "sops-nix.service"
     ];
-    wants = [ "network-online.target" ];
+    wants = [ "network-online.target" "sops-nix.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${haEvents}";

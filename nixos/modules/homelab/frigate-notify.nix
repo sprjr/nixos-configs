@@ -56,7 +56,7 @@ in {
   systemd.services.frigate-notify = {
     description = "Forward Frigate detection events to ntfy";
     after = [ "network-online.target" "sops-nix.service" ];
-    wants = [ "network-online.target" ];
+    wants = [ "network-online.target" "sops-nix.service" ];
     wantedBy = [ "multi-user.target" ];
     path = [ pkgs.mosquitto pkgs.ntfy-sh ];
     serviceConfig = {
