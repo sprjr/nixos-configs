@@ -10,7 +10,7 @@ in
   sops.templates."zipline-env" = {
     mode = "0400";
     content = ''
-      DATABASE_URL=postgresql://zipline:${config.sops.placeholder."zipline/postgres-password"}@host.docker.internal:5433/zipline
+      DATABASE_URL=postgresql://zipline:${config.sops.placeholder."zipline/postgres-password"}@zipline-db:5432/zipline
       CORE_SECRET=${config.sops.placeholder."zipline/core-secret"}
     '';
   };
@@ -33,7 +33,6 @@ in
     backend = "docker";
     containers.zipline-postgres = {
       image = "postgres:16";
-      ports = [ "5433:5432" ];
       volumes = [
         "${dataDir}/pgdata:/var/lib/postgresql/data"
       ];
@@ -71,7 +70,7 @@ in
       ];
       dependsOn = [ "zipline-postgres" ];
       extraOptions = [
-        "--add-host=host.docker.internal:host-gateway"
+        "--link=zipline-postgres:zipline-db"
       ];
     };
   };
