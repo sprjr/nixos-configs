@@ -46,8 +46,12 @@
 
   users.users.frigate.extraGroups = [ "video" ];
 
-  systemd.services.frigate.serviceConfig = {
-    EnvironmentFile = [ config.sops.templates."frigate-env".path ];
+  systemd.services.frigate = {
+    after = [ "sops-nix.service" ];
+    wants = [ "sops-nix.service" ];
+    serviceConfig = {
+      EnvironmentFile = [ config.sops.templates."frigate-env".path ];
+    };
   };
 
   networking.firewall = {

@@ -45,6 +45,11 @@
     ];
   };
 
+  systemd.services.mosquitto = {
+    after = [ "sops-nix.service" ];
+    wants = [ "sops-nix.service" ];
+  };
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 1883 ];
