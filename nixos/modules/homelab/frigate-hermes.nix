@@ -73,11 +73,13 @@ let
         except Exception:
             pass
 
-    def send_ha_notification(title, message):
-        payload = json.dumps({
-            "title": title,
-            "message": message,
-        }).encode()
+    def send_ha_notification(title, message, event_id=None):
+        notification = {"title": title, "message": message}
+        if event_id:
+            notification["data"] = {
+                "image": f"/api/frigate/notifications/{event_id}/snapshot.jpg",
+            }
+        payload = json.dumps(notification).encode()
         req = urllib.request.Request(
             HA_NOTIFY_URL,
             data=payload,
@@ -120,8 +122,9 @@ let
             summary = ollama_summarize(event_text)
             message = summary if summary else event_text
 
+            event_id = after.get("id") if after.get("has_snapshot") else None
             title = f"{label} detected — {camera}"
-            send_ha_notification(title, message)
+            send_ha_notification(title, message, event_id)
 
             for chat_id in chat_ids:
                 send_telegram(message, chat_id)
