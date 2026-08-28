@@ -10,7 +10,7 @@ in
   sops.templates."zipline-env" = {
     mode = "0400";
     content = ''
-      DATABASE_URL=postgresql://zipline:${config.sops.placeholder."zipline/postgres-password"}@zipline-postgres:5432/zipline
+      DATABASE_URL=postgresql://zipline:${config.sops.placeholder."zipline/postgres-password"}@host.docker.internal:5433/zipline
       CORE_SECRET=${config.sops.placeholder."zipline/core-secret"}
     '';
   };
@@ -29,30 +29,11 @@ in
     "d ${dataDir}/pgdata 0755 root root -"
   ];
 
-  systemd.services.zipline-network-init = {
-    description = "Create Zipline Docker network";
-    wantedBy = [ "multi-user.target" ];
-    before = [
-      "docker-zipline.service"
-      "docker-zipline-postgres.service"
-    ];
-    after = [ "docker.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    path = [ pkgs.docker ];
-    script = ''
-      if ! docker network inspect zipline-net >/dev/null 2>&1; then
-        docker network create zipline-net
-      fi
-    '';
-  };
-
   virtualisation.oci-containers = {
     backend = "docker";
     containers.zipline-postgres = {
       image = "postgres:16";
+      ports = [ "5433:5432" ];
       volumes = [
         "${dataDir}/pgdata:/var/lib/postgresql/data"
       ];
@@ -64,7 +45,6 @@ in
         config.sops.templates."zipline-postgres-env".path
       ];
       extraOptions = [
-        "--network=zipline-net"
         "--health-cmd=pg_isready -U zipline"
         "--health-interval=10s"
         "--health-timeout=5s"
@@ -91,7 +71,7 @@ in
       ];
       dependsOn = [ "zipline-postgres" ];
       extraOptions = [
-        "--network=zipline-net"
+        "--add-host=host.docker.internal:host-gateway"
       ];
     };
   };
