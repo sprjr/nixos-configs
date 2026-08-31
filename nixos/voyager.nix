@@ -63,6 +63,12 @@ in
   ];
   nix.channel.enable = false;
 
+  # Graphics (Intel integrated — Mesa + VA-API for HDMI output & HW decode)
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ intel-media-driver ];
+  };
+
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
