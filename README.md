@@ -1,5 +1,7 @@
 This stores my NixOS configs
 
+> Note: AI-assisted changes are made to this repo from time to time.
+
 ## Usage
 
 ### NixOS
