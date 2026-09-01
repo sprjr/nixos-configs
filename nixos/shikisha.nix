@@ -123,6 +123,9 @@ in
   # Tailscale
   services.tailscale.enable = true;
 
+  # Satisfactory dedicated server monitoring (docker container on this host)
+  services.satisfactory-exporter.enable = true;
+
   networking.iproute2.enable = true;
 
   # Wireguard
