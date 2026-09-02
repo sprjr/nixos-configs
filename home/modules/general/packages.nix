@@ -47,6 +47,7 @@
       mtr
       nebula
       nps
+      opencode
       openssl
       opentofu
       pv

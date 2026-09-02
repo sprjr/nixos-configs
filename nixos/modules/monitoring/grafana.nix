@@ -64,6 +64,10 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/syncthing.json)
   );
 
+  satisfactoryDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/satisfactory.json)
+  );
+
   # services-overview skips colorByHost: its series are probe URLs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
@@ -81,6 +85,10 @@ let
     {
       name = "syncthing.json";
       path = pkgs.writeText "syncthing.json" (builtins.toJSON syncthingDashboard);
+    }
+    {
+      name = "satisfactory.json";
+      path = pkgs.writeText "satisfactory.json" (builtins.toJSON satisfactoryDashboard);
     }
   ];
 
@@ -596,6 +604,59 @@ in
                   execErrState = "Error";
                   labels.severity = "critical";
                   annotations.summary = "{{ $labels.instance }} has stopped reporting to Prometheus";
+                }
+                {
+                  uid = "satisfactory-save-stale";
+                  title = "Satisfactory save is stale";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''time() - satisfactory_last_save_timestamp_seconds'' ;
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 1800 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "10m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Satisfactory has not saved in over 30 minutes";
                 }
               ];
             }
