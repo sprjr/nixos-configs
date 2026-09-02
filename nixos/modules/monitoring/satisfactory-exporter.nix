@@ -26,7 +26,7 @@ let
 
     PROM_FILE = "${textfileDir}/satisfactory.prom"
     TMP_FILE = PROM_FILE + ".tmp"
-    TOKEN_FILE = "${cfg.apiTokenFile}"
+    TOKEN_FILE = "${if cfg.apiTokenFile != null then cfg.apiTokenFile else ""}";
     API_URL = "${apiUrl}"
 
     # Self-signed cert; the API is loopback-only so we skip verification.
