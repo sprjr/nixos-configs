@@ -71,7 +71,7 @@ in
       owner = "root";
       mode = "0400";
     };
-    satisfactory/api-token = {
+    "satisfactory/api-token" = {
       owner = "root";
       mode = "0400";
     };
