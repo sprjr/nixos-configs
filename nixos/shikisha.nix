@@ -71,6 +71,10 @@ in
       owner = "root";
       mode = "0400";
     };
+    satisfactory/api-token = {
+      owner = "root";
+      mode = "0400";
+    };
   };
 
   # Bluetooth
@@ -124,7 +128,10 @@ in
   services.tailscale.enable = true;
 
   # Satisfactory dedicated server monitoring (docker container on this host)
-  services.satisfactory-exporter.enable = true;
+  services.satisfactory-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets."satisfactory/api-token".path;
+  };
 
   networking.iproute2.enable = true;
 
