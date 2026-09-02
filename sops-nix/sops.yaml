@@ -101,6 +101,8 @@ dawarich:
 zipline:
     postgres-password: ENC[AES256_GCM,data:rRSpZDeJnPBnCfOtbhIenlJA/2Luf0SAc3jwrZSnubklN4bYA3Rx+AaWRhQ=,iv:Y4FeZT59M/mkI5hu4bZDYUuNvl04HFO6TSYyZmLoauU=,tag:lF5pw3rJkCkqnMDzlgpDTg==,type:str]
     core-secret: ENC[AES256_GCM,data:CYHlX222HPQUkEnhFn08NtNfhSleHOjp0DIGpweiIlnQCGjfkykvDviRj3w=,iv:XauW1nvzPHxPQA5mbmFKKTcVGoU23W/Cx/tBuCkRlvg=,tag:/f8TLrm4ndgfqmrvZd5Ecw==,type:str]
+satisfactory:
+    api-token: ENC[AES256_GCM,data:tmJ3KOV2FTlyR85+JhZrG8qxe8UfNjGInbFmRK6HOVTkpmZ2c+bnp+Fh+brc22FgF108F93gyc8kFfyduQHlHD8CMx2qZ1iSYuSAopTDpN8So281kRl164buhgeXxebh9KLWxKrdeUc39I2Y46vYDceTqWiPn5FuTBh9rCMTdjNJjZm9zXU5inzGmd3j3eKEEV3wN1c4VbEeKHpKIQ==,iv:xoicJa3UkFC27y6dA7DyRu75noEF/UpvDc2u972RBEk=,tag:k20eAIwKjI+DqsFJGNTwLw==,type:str]
 sops:
     age:
         - enc: |
@@ -112,7 +114,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-08-28T21:43:35Z"
-    mac: ENC[AES256_GCM,data:3wnYP6hr7r30OSLCVEV72gHPS7ZOnBKKX7MQgXPVlygl5W2cSiuleQ5KJ6CkLsgE9TgoWEkjNC7XMabVIJ7zRYXQaAiJVbdFa/pT1Evyf5DwvVE22+O/BRinS7ZoEOlvDAuAnSmT+SFV9n3rkG16IwgemvunfOXGd9py17OXt2c=,iv:Nei9hNBkOI2EgX3WkrHk2GPrjEh8LFXbjhOzt/H+F50=,tag:PhaDGaPyZi9IioNGxOEhyw==,type:str]
+    lastmodified: "2026-09-02T20:58:50Z"
+    mac: ENC[AES256_GCM,data:cSY0FJGgawSs8qoR/zS+XNCs45SV3+Dws7Ald+pmIq6FgTBHK2s3Xp5WW+k4gTythSkLSeueEjSwH5afoAuUrQBox2NL6cuue3wBXQhRQM9hzISIagiDMmVN4E96DSbMaMEkfyBIChLrlIzfBHlHziib79Ga1wWCnrhcwZxy9tY=,iv:gvTRzLMUM1TG5U9vrlTgyH8bYID3WZ6HnVvNjO+u+0U=,tag:dLiVz012Hww/zxJ55IK5fw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
