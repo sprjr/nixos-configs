@@ -63,6 +63,28 @@ in
   networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Wake-on-LAN: pin the wired NIC to respond to magic packets so a WoL boot
+  # (paired with TPM2 LUKS auto-unlock) can bring seanix up fully headless.
+  networking.networkmanager.ensureProfiles.profiles = {
+    "seanix-wol" = {
+      connection = {
+        id = "seanix-wol";
+        type = "ethernet";
+        interface-name = "enp34s0";
+        autoconnect = true;
+      };
+      "802-3-ethernet" = {
+        wake-on-lan = 1; # magic packet (NM_WOL_MAGIC)
+      };
+      ipv4 = {
+        method = "auto";
+      };
+      ipv6 = {
+        method = "auto";
+      };
+    };
+  };
+
   # Firewall Port allowances
   networking.firewall.allowedTCPPortRanges = [
     # KDE Connect
