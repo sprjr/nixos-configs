@@ -60,6 +60,7 @@ in
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
+    ./widgets/calendar.nix
   ];
 
   options.patrick.home.hyprland = {

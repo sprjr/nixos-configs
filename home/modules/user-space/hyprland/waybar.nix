@@ -139,6 +139,7 @@ let
   ++ [
     "custom/timer"
     "custom/weather"
+    "custom/calendar"
     "custom/public-ip"
   ];
 
@@ -355,6 +356,12 @@ in
           on-click = "waybar-weather-toggle";
         };
 
+        "custom/calendar" = {
+          exec = "waybar-calendar";
+          return-type = "json";
+          interval = 300;
+        };
+
         "custom/public-ip" = {
           exec = "waybar-public-ip";
           return-type = "json";
@@ -508,6 +515,7 @@ in
         #systemd-failed-units,
         #language,
         #custom-weather,
+        #custom-calendar,
         #custom-public-ip,
         #custom-gpu,
         #custom-ha-fan,
@@ -540,6 +548,7 @@ in
         #battery { color: #a6e3a1; }
         #custom-gpu { color: #cba6f7; }
         #custom-weather { color: #74c7ec; }
+        #custom-calendar { color: #f5c2e7; }
         #mpris { color: #cba6f7; }
         #disk { color: #f2cdcd; }
         #privacy { color: #f38ba8; }
