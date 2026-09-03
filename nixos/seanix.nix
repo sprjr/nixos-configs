@@ -25,8 +25,14 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf".device =
-    "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
+  boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.tpm2.enable = true;
+  boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
+
+  boot.initrd.luks.devices."luks-f9b0a070-8711-4b4a-84ac-a70044729daf" = {
+    device = "/dev/disk/by-uuid/f9b0a070-8711-4b4a-84ac-a70044729daf";
+    crypttabExtraOpts = [ "tpm2-device=auto" ];
+  };
   networking.hostName = "seanix"; # Define your hostname.
 
   # USB Realtek WiFi adapter dongle
@@ -182,6 +188,7 @@ in
 
   # System packages (user-specific packages live in home-manager profiles)
   environment.systemPackages = with pkgs; [
+    cryptsetup
     fanctl
     file
     git
@@ -191,6 +198,7 @@ in
     pipewire
     sops
     tailscale
+    tpm2-tools
     usb-modeswitch
     usbutils
     vim
