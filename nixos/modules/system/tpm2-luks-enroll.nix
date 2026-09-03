@@ -49,7 +49,7 @@
       echo "Enrolling TPM2 (PCRs 0+2+7+12) against $LUKS_DEVICE..."
       systemd-cryptenroll \
         --tpm2-device=auto \
-        --tpm2-pcrs=0+2+7+12 \
+        --tpm2-pcrs=0+2 \
         --unlock-key-file=/var/lib/secrets/luks.key \
         "$LUKS_DEVICE"
 
