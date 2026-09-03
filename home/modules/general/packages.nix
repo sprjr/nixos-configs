@@ -53,7 +53,6 @@
       pv
       python314
       python314Packages.pip
-      stirling-pdf-desktop
       rig
       russ
       rustlings
