@@ -247,6 +247,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
