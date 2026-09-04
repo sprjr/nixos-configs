@@ -75,6 +75,11 @@ in
       owner = "root";
       mode = "0400";
     };
+    # Home Assistant long-lived access token for ha-exporter entity availability.
+    ha_token = {
+      owner = "root";
+      mode = "0400";
+    };
   };
 
   # Bluetooth
@@ -131,6 +136,12 @@ in
   services.satisfactory-exporter = {
     enable = true;
     apiTokenFile = config.sops.secrets."satisfactory/api-token".path;
+  };
+
+  # Home Assistant + Frigate integration health: entity availability metrics.
+  services.ha-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets.ha_token.path;
   };
 
   networking.iproute2.enable = true;

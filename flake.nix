@@ -288,6 +288,7 @@
               ./nixos/modules/disks/unraid-nextcloud.nix
               ./nixos/modules/gaming/palworld-server.nix
               ./nixos/modules/monitoring/satisfactory-exporter.nix
+              ./nixos/modules/monitoring/ha-exporter.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
               #./nixos/modules/network/scripts/net_watchdog.nix
