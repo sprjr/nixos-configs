@@ -10,7 +10,9 @@ in
   sops.templates."zipline-env" = {
     mode = "0400";
     content = ''
-      DATABASE_URL=postgresql://zipline:${config.sops.placeholder."zipline/postgres-password"}@zipline-db:5432/zipline
+      DATABASE_URL=postgresql://zipline:${
+        config.sops.placeholder."zipline/postgres-password"
+      }@zipline-db:5432/zipline
       CORE_SECRET=${config.sops.placeholder."zipline/core-secret"}
     '';
   };
@@ -53,7 +55,7 @@ in
 
     containers.zipline = {
       image = "ghcr.io/diced/zipline:latest";
-      ports = [ "3001:3000" ];
+      ports = [ "3221:3000" ];
       volumes = [
         "${dataDir}/uploads:/zipline/uploads"
         "${dataDir}/public:/zipline/public"
