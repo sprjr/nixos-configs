@@ -128,6 +128,11 @@ let
     - **Dawarich** — location history, tracks, visits, places.
       Reference: ``/opt/data/references/dawarich-api.md``.
       Read-only access. Handle location queries directly — do not route them.
+    - **Monitoring (Prometheus + Loki)** — deployment status, host health,
+      service probes, system logs.
+      Reference: ``/opt/data/references/monitoring-api.md``.
+      Handle deployment status checks and host health queries directly —
+      do not route them unless the user asks for a code fix.
 
     ## Delegation
 
@@ -257,6 +262,49 @@ let
       badgey, trixos, seair (Darwin), defiant (Darwin).
     - **``allowUnfree = true``** is set globally on all hosts.
 
+    ## Deployment Verification
+
+    After submitting a PR that gets merged, verify the deployment succeeded.
+    The monitoring API reference is at ``/opt/data/references/monitoring-api.md``.
+    Read it before making API calls.
+
+    ### Verification workflow
+
+    1. **Check sync state**: Query ``comin_sync_state`` for all affected hosts.
+       Value 2 = in-sync, 1 = pending (still building/switching — wait), 0 = failed.
+    2. **Confirm commit**: Query ``comin_deployed_commit_info`` and check
+       that the ``message`` label matches the merged change. GitHub merge/squash/rebase
+       may change the commit hash, so match on the commit message content rather
+       than the hash.
+    3. **On failure**: Query ``comin_eval_success``, ``comin_build_success``,
+       ``comin_deploy_success`` to isolate which stage failed. Then pull comin
+       logs from Loki for the failing host to get the actual error.
+    4. **Self-correct**: If the failure was caused by your change, analyze the
+       error, prepare a fix PR, and note what went wrong.
+
+    ### Proactive polling
+
+    After submitting a PR, save the commit message or PR identifier to memory.
+    Schedule a recurring cronjob (every 2-4 hours) that checks whether the
+    commit message has appeared in ``comin_deployed_commit_info`` on the
+    affected hosts. Comin polls every 60s, but PRs may not merge for hours or
+    days.
+
+    Once the commit is detected as deployed:
+    - If all affected hosts show ``comin_sync_state`` = 2 (in-sync), report
+      success via Telegram and cancel the cronjob.
+    - If any host shows ``comin_sync_state`` = 0 (failed), diagnose via Loki
+      logs, alert via Telegram, and prepare a correction PR.
+    - If 7 days pass with no merge detected, cancel the cronjob and note
+      the PR may have been abandoned.
+
+    ### Host scoping
+
+    Changes to host-specific files (``nixos/<hostname>.nix``) affect only that
+    host. Changes to shared modules (``nixos/modules/``) may affect multiple
+    hosts — check all comin-managed hosts: badgey, nx-01, seanix, shikisha,
+    prometheus. Voyager does NOT have comin metrics.
+
     ## Response Style
 
     - Use fenced code blocks with language annotations
@@ -324,6 +372,9 @@ let
     - Frigate detection events include camera name, object type, confidence score, and zone
     - Home Assistant runs on shikisha at ``$HA_URL`` (port 8123)
     - A second Home Assistant instance runs on wopr-0 at ``$HA_URL_WOPR`` (port 8123); use ``$HA_TOKEN_WOPR`` to query or control it
+    - Host health and service probes are available via Prometheus at ``$PROMETHEUS_URL``.
+      Reference: ``/opt/data/references/monitoring-api.md``.
+      Use ``up{job="node"}`` to check if hosts are reachable, ``probe_success`` for service health.
 
     ## Home Assistant REST API
 
@@ -529,6 +580,165 @@ let
     (``start_at``, ``end_at``) accept Unix timestamps for points, ISO dates
     for timeline.
   '';
+
+  monitoringRefMd = pkgs.writeText "monitoring-api.md" ''
+    # Monitoring Stack API Reference
+
+    Prometheus at ``$PROMETHEUS_URL`` (port 9090) and Loki at ``$LOKI_URL``
+    (port 3100), both on shikisha. Unauthenticated — no tokens needed.
+    Access is firewall-restricted to the Tailscale network.
+
+    ## Prometheus Instant Query
+
+    ```
+    # Single instant query
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_sync_state"
+
+    # Filter by host
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_sync_state%7Binstance%3D%22badgey%3A9100%22%7D"
+    ```
+
+    URL-encode special characters in PromQL: ``{`` = ``%7B``, ``}`` = ``%7D``,
+    ``=`` = ``%3D``, ``"`` = ``%22``, ``~`` = ``%7E``.
+
+    ## Prometheus Range Query
+
+    ```
+    # Query over a time range (Unix timestamps, step in seconds)
+    curl -s "$PROMETHEUS_URL/api/v1/query_range?query=comin_sync_state&start=$(date -d '1 hour ago' +%s)&end=$(date +%s)&step=60"
+    ```
+
+    ## Prometheus Response Format
+
+    Instant queries return:
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": { "__name__": "comin_sync_state", "instance": "badgey:9100", "job": "node" },
+            "value": [1725000000, "2"]
+          }
+        ]
+      }
+    }
+    ```
+
+    ``value[0]`` is the Unix timestamp, ``value[1]`` is the metric value as a string.
+    Range queries use ``"resultType": "matrix"`` with ``"values"`` (array of ``[timestamp, value]`` pairs).
+
+    ## Comin Deployment Metrics
+
+    These metrics are exported by nix-state-exporter on each host every 60s.
+    Prometheus scrapes them via the node-exporter textfile collector.
+
+    **Hosts with comin metrics**: badgey, nx-01, seanix, shikisha, prometheus.
+    Voyager does NOT export comin metrics (nix-state-exporter is disabled there).
+
+    | Metric | Type | Description |
+    |--------|------|-------------|
+    | ``comin_sync_state`` | gauge | 0 = failed, 1 = pending, 2 = in-sync |
+    | ``comin_eval_success`` | gauge | 0 = eval failed, 1 = eval OK |
+    | ``comin_build_success`` | gauge | 0 = build failed, 1 = build OK |
+    | ``comin_deploy_success`` | gauge | 0 = deploy (switch) failed, 1 = deploy OK |
+    | ``comin_commit_info`` | gauge | Labels: ``commit`` (8-char hash prefix), ``message`` (first line, max 72 chars) |
+    | ``comin_deployed_commit_info`` | gauge | Same labels as above — the currently deployed commit |
+    | ``nixos_rebuild_timestamp_seconds`` | gauge | mtime of ``/run/current-system`` |
+    | ``nixos_current_generation`` | gauge | NixOS system profile generation number |
+    | ``nixos_info`` | gauge | Labels: ``version``, ``kernel`` |
+
+    ### Deployment status check
+
+    ```
+    # All hosts — sync state
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_sync_state"
+
+    # All hosts — deployed commit
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_deployed_commit_info"
+
+    # All hosts — tracked (fetched) commit
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_commit_info"
+
+    # Isolate failure stage
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_eval_success"
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_build_success"
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=comin_deploy_success"
+
+    # Time since last rebuild per host
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=time()%20-%20nixos_rebuild_timestamp_seconds"
+    ```
+
+    To check convergence: compare the ``commit`` label on ``comin_commit_info``
+    with ``comin_deployed_commit_info``. If they match and ``comin_sync_state`` is 2,
+    the host is fully converged. If ``comin_sync_state`` is 1 (pending), the
+    build or switch is still running — wait and re-check. Value 0 means failure.
+
+    ## General Monitoring Queries
+
+    ```
+    # Host up/down (all node-exporter targets)
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=up%7Bjob%3D%22node%22%7D"
+
+    # Service probe status (blackbox exporter)
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=probe_success"
+
+    # System load on a specific host
+    curl -s "$PROMETHEUS_URL/api/v1/query?query=node_load1%7Binstance%3D%22shikisha%3A9100%22%7D"
+    ```
+
+    ## Loki Log Query
+
+    ```
+    # Comin logs from all hosts (last 10 minutes, limit 100 lines)
+    curl -s "$LOKI_URL/loki/api/v1/query_range?query=%7Bunit%3D%22comin.service%22%7D&start=$(date -d '10 minutes ago' +%s)000000000&end=$(date +%s)000000000&limit=100"
+
+    # Comin logs from a specific host
+    curl -s "$LOKI_URL/loki/api/v1/query_range?query=%7Bunit%3D%22comin.service%22%2Chost%3D%22badgey%22%7D&start=$(date -d '10 minutes ago' +%s)000000000&end=$(date +%s)000000000&limit=100"
+
+    # Comin errors only
+    curl -s "$LOKI_URL/loki/api/v1/query_range?query=%7Bunit%3D%22comin.service%22%7D%20%7C%3D%20%22error%22&start=$(date -d '30 minutes ago' +%s)000000000&end=$(date +%s)000000000&limit=100"
+
+    # Any service logs
+    curl -s "$LOKI_URL/loki/api/v1/query_range?query=%7Bunit%3D%22<service>.service%22%2Chost%3D%22<hostname>%22%7D&start=$(date -d '30 minutes ago' +%s)000000000&end=$(date +%s)000000000&limit=100"
+    ```
+
+    Loki uses nanosecond-precision timestamps: append ``000000000`` to a Unix
+    epoch seconds value. ``$(date +%s)000000000`` = now. Relative times:
+    ``$(date -d '1 hour ago' +%s)000000000``.
+
+    ## Loki Response Format
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "resultType": "streams",
+        "result": [
+          {
+            "stream": { "host": "badgey", "unit": "comin.service", "level": "info" },
+            "values": [
+              ["1725000000000000000", "log line text here"]
+            ]
+          }
+        ]
+      }
+    }
+    ```
+
+    ``values`` entries are ``[nanosecond_timestamp, log_line]`` pairs.
+    Keep ``limit`` at 100 or less to avoid overwhelming output.
+
+    ## Loki Label Reference
+
+    | Label | Values | Description |
+    |-------|--------|-------------|
+    | ``job`` | ``systemd-journal`` | Always this value |
+    | ``host`` | ``badgey``, ``nx-01``, ``seanix``, ``shikisha``, ``prometheus``, ``voyager`` | Source hostname |
+    | ``unit`` | ``comin.service``, ``podman-hermes-agent.service``, etc. | Systemd unit name |
+    | ``level`` | ``emerg``, ``alert``, ``crit``, ``err``, ``warning``, ``notice``, ``info``, ``debug`` | Journal priority |
+  '';
 in
 {
   sops.secrets."hermes-agent/telegram-bot-token" = { };
@@ -621,6 +831,7 @@ in
       cp ${caldavRefMd} /var/lib/hermes-agent/references/caldav-api.md
       cp ${lubeloggerRefMd} /var/lib/hermes-agent/references/lubelogger-api.md
       cp ${dawarichRefMd} /var/lib/hermes-agent/references/dawarich-api.md
+      cp ${monitoringRefMd} /var/lib/hermes-agent/references/monitoring-api.md
       chmod 644 /var/lib/hermes-agent/references/*.md
 
       # Coder profile
@@ -733,6 +944,8 @@ in
       CALDAV_USER = "patrick";
       LUBELOGGER_URL = "http://shikisha:18080";
       DAWARICH_URL = "http://shikisha:31122";
+      PROMETHEUS_URL = "http://shikisha:9090";
+      LOKI_URL = "http://shikisha:3100";
     };
     cmd = [
       "gateway"
