@@ -68,7 +68,7 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/satisfactory.json)
   );
 
-  # services-overview skips colorByHost: its series are probe URLs, not hosts.
+  # services-overview + ha-frigate skip colorByHost: their series are probe URLs/jobs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
       name = "homelab-overview.json";
@@ -77,6 +77,10 @@ let
     {
       name = "services-overview.json";
       path = ./dashboards/services-overview.json;
+    }
+    {
+      name = "ha-frigate.json";
+      path = ./dashboards/ha-frigate.json;
     }
     {
       name = "nix-state.json";
@@ -242,6 +246,57 @@ in
             replacement = "127.0.0.1:9115";
           }
         ];
+      }
+      # Home Assistant web API. Uses http_responsive: unauthenticated /api returns
+      # 401, which the module accepts as "responsive". Internal fixed hostname, so
+      # static_configs (no sops secret needed).
+      {
+        job_name = "blackbox-home-assistant";
+        metrics_path = "/probe";
+        params.module = [ "http_responsive" ];
+        static_configs = [ { targets = [ "http://shikisha:8123/api" ]; } ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
+      # Frigate web UI (badgey). Internal fixed hostname -> static_configs.
+      {
+        job_name = "blackbox-frigate";
+        metrics_path = "/probe";
+        params.module = [ "http_2xx" ];
+        static_configs = [ { targets = [ "http://badgey:80" ]; } ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
+      # Frigate native Prometheus /metrics endpoint (badgey:80/metrics). Detection
+      # counts, camera health, detector speed, per-camera fps.
+      {
+        job_name = "frigate";
+        metrics_path = "/metrics";
+        static_configs = [ { targets = [ "badgey:80" ]; } ];
       }
     ];
     # syntax-only: full check fails on sops-rendered file_sd paths missing in the sandbox.
@@ -657,6 +712,59 @@ in
                   execErrState = "Error";
                   labels.severity = "warning";
                   annotations.summary = "Satisfactory has not saved in over 30 minutes";
+                }
+                {
+                  uid = "ha-entity-unavailable";
+                  title = "HA tracked entity unavailable";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''ha_entity_available == 0'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "5m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "HA entity {{ $labels.entity }} is unavailable";
                 }
               ];
             }
