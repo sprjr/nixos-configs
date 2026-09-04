@@ -25,7 +25,7 @@ let
     ps.python-dateutil
   ]);
 
-  waybar-calendar = pkgs.writeScript "waybar-calendar" ''
+  waybar-calendar = pkgs.writeScriptBin "waybar-calendar" ''
     #!${calPython}/bin/python3
     import base64
     import datetime
