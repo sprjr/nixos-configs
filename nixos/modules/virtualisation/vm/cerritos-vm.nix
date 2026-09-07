@@ -98,15 +98,17 @@ in
       ${pkgs.libvirt}/bin/virsh net-start cerritos-net 2>/dev/null || true
       ${pkgs.libvirt}/bin/virsh net-autostart cerritos-net
 
-      # Writable copy of the guest disk image (store image is read-only)
-      mkdir -p /var/lib/libvirt/images
-      if [ ! -e /var/lib/libvirt/images/cerritos.qcow2 ]; then
-        cp ${cerritosDiskImage}/nixos.qcow2 /var/lib/libvirt/images/cerritos.qcow2
-      fi
+      # Stop the domain first so we can safely refresh the disk image.
+      ${pkgs.libvirt}/bin/virsh destroy cerritos 2>/dev/null || true
 
-      # Define and start the domain (idempotent)
+      # Writable copy of the guest disk image (store image is read-only).
+      # Always refresh so guest config changes propagate on redeploy.
+      mkdir -p /var/lib/libvirt/images
+      cp ${cerritosDiskImage}/nixos.qcow2 /var/lib/libvirt/images/cerritos.qcow2
+
+      # Define and start the domain (idempotent).
       ${pkgs.libvirt}/bin/virsh define ${domainXml}
-      ${pkgs.libvirt}/bin/virsh start cerritos 2>/dev/null || true
+      ${pkgs.libvirt}/bin/virsh start cerritos
     '';
   };
 }
