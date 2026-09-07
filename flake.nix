@@ -381,6 +381,7 @@
             system = "x86_64-linux";
             specialArgs = inputs // {
               diskDevice = "/dev/sda";
+              cerritosConfig = self.packages.${system}.nixosConfigurations.cerritos;
             };
             modules = [
               disko.nixosModules.disko
@@ -407,6 +408,7 @@
               ./nixos/modules/virtualisation/podman.nix
               ./nixos/modules/homelab/hermes-agent.nix
               ./nixos/modules/homelab/hermes-router.nix
+              ./nixos/modules/virtualisation/vm/cerritos-vm.nix
               ./nixos/modules/homelab/hermes-backup.nix
               ./nixos/modules/homelab/frigate-hermes.nix
               ./nixos/modules/homelab/ha-events.nix
@@ -416,6 +418,21 @@
                   facter.reportPath = ./nixos/hosts/badgey/facter.json;
                 }
               )
+            ];
+          };
+          # cerritos — NixOS VM hosted on badgey (libvirt/QEMU/KVM), segmented
+          # NAT network, comin-managed. Hermes uses it as a declarative proxy host.
+          cerritos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              sops-nix.nixosModules.sops
+              ./nixos/modules/system/ssh.nix
+              ./nixos/cerritos.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/resolved-dns.nix
             ];
           };
         };
