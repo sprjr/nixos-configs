@@ -55,7 +55,6 @@
       python314Packages.pip
       rig
       russ
-      rustlings
       syncthing
       terraformer
       tldr
