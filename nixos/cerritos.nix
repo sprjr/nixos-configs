@@ -38,6 +38,13 @@
     device = "/dev/vda";
   };
 
+  # Serial console so `virsh console cerritos` shows boot output (diagnostics).
+  boot.kernelParams = [ "console=ttyS0,115200" ];
+  systemd.services."serial-getty@ttyS0" = {
+    enable = true;
+    serviceConfig.Restart = "always";
+  };
+
   # Root filesystem on the virtio disk (required by make-disk-image).
   fileSystems."/" = {
     device = "/dev/vda1";
