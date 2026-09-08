@@ -39,7 +39,12 @@
   };
 
   # Serial console so `virsh console cerritos` shows boot output (diagnostics).
-  boot.kernelParams = [ "console=ttyS0,115200" ];
+  # earlyprintk prints BEFORE the 8250 serial driver is up, so a hang in early
+  # boot (before root mount / network) is still visible on the serial console.
+  boot.kernelParams = [
+    "console=ttyS0,115200"
+    "earlyprintk=serial,ttyS0,115200"
+  ];
   systemd.services."serial-getty@ttyS0" = {
     enable = true;
     serviceConfig.Restart = "always";
