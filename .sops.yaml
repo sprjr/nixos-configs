@@ -7,3 +7,7 @@ creation_rules:
     key_groups:
       - age:
         - *primary
+  - path_regex: sops-nix/hermes-.*\.md$
+    key_groups:
+      - age:
+        - *primary
