@@ -60,8 +60,9 @@ in
         ROOT_URL = "https://${domain}/";
         # Bind on all interfaces so the external Caddy host (which proxies via
         # tailscale) can reach it. Firewall restricts this to tailscale0.
+        # Port 3002: 3000 is taken by Grafana on shikisha.
         HTTP_ADDR = "0.0.0.0";
-        HTTP_PORT = 3000;
+        HTTP_PORT = 3002;
         # Forgejo's own SSH on a non-conflicting port (system openssh owns 22).
         SSH_PORT = 2222;
         DISABLE_SSH = false;
@@ -93,7 +94,7 @@ in
   # Forgejo HTTP + SSH reachable over tailscale only. The external Caddy host
   # proxies public traffic in via tailscale (no nginx on this host).
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    3000
+    3002
     2222
   ];
 }
