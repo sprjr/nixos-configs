@@ -6,8 +6,8 @@
 }:
 
 let
-  # Public hostname for the Forgejo instance. Change to taste; the nginx
-  # vhost and ROOT_URL below follow this value.
+  # Public hostname for the Forgejo instance. Change to taste; ROOT_URL below
+  # follows this value. Public traffic is proxied in by the external Caddy host.
   domain = "git.rawliyosh.com";
   # Data lives on the existing unraid NFS mount (see modules/disks/unraid-gitea.nix).
   stateDir = "/mnt/unraid/Gitea";
@@ -58,7 +58,9 @@ in
       server = {
         DOMAIN = domain;
         ROOT_URL = "https://${domain}/";
-        HTTP_ADDR = "127.0.0.1";
+        # Bind on all interfaces so the external Caddy host (which proxies via
+        # tailscale) can reach it. Firewall restricts this to tailscale0.
+        HTTP_ADDR = "0.0.0.0";
         HTTP_PORT = 3000;
         # Forgejo's own SSH on a non-conflicting port (system openssh owns 22).
         SSH_PORT = 2222;
@@ -87,33 +89,9 @@ in
     };
   };
 
-  # ---- Reverse proxy (nginx) ----
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    recommendedGzipSettings = true;
-    virtualHosts.${domain} = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
-        proxyWebsockets = true;
-      };
-    };
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "acme@rawliyosh.com";
-  };
-
   # ---- Firewall ----
-  # Public web via nginx (80/443). Forgejo HTTP + SSH reachable over tailscale.
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
+  # Forgejo HTTP + SSH reachable over tailscale only. The external Caddy host
+  # proxies public traffic in via tailscale (no nginx on this host).
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
     3000
     2222
