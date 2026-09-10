@@ -79,13 +79,15 @@ in
 
     # Sensitive values are injected via systemd LoadCredential as
     # FORGEJO__<SECTION>__<KEY>__FILE env vars (no plaintext in the nix store).
+    # mkForce: the nixpkgs module sets these to paths under stateDir by default;
+    # we override with sops-managed paths.
     secrets = {
       security = {
-        SECRET_KEY = config.sops.secrets."forgejo/secret-key".path;
-        INTERNAL_TOKEN = config.sops.secrets."forgejo/internal-token".path;
+        SECRET_KEY = lib.mkForce config.sops.secrets."forgejo/secret-key".path;
+        INTERNAL_TOKEN = lib.mkForce config.sops.secrets."forgejo/internal-token".path;
       };
       oauth2 = {
-        JWT_SECRET = config.sops.secrets."forgejo/oauth2-jwt-secret".path;
+        JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/oauth2-jwt-secret".path;
       };
     };
   };
