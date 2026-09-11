@@ -32,6 +32,11 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwthXRMGvo8b5XY16K534RvnQxAHqikIdEFBsRVyptp hermes@cerritos"
   ];
 
+  # Open SSH so Hermes (and patrick) can reach this segmented-NAT guest. NixOS's
+  # default firewall is enabled; without this, inbound 22 is dropped even though
+  # sshd runs, which surfaces as "ssh: connection refused" despite a healthy guest.
+  networking.firewall.allowedTCPPorts = [ 22 ];
+
   # BIOS boot for libvirt (SeaBIOS + GRUB on the virtio disk).
   boot.loader.grub = {
     enable = true;
