@@ -38,6 +38,17 @@
     device = "/dev/vda";
   };
 
+  # The guest disk is presented as virtio (/dev/vda) by libvirt. NixOS's
+  # default initrd module set targets real-hardware disk controllers (ahci,
+  # sd_mod) and does NOT include virtio, so without this the initrd can never
+  # enumerate the root disk -> "Timed out waiting for device /dev/vda1" ->
+  # emergency mode. Pull the virtio drivers into the initrd explicitly.
+  boot.initrd.availableKernelModules = [
+    "virtio_pci"
+    "virtio_blk"
+    "virtio_net"
+  ];
+
   # Serial console so `virsh console cerritos` shows boot output (diagnostics).
   # earlyprintk prints BEFORE the 8250 serial driver is up, so a hang in early
   # boot (before root mount / network) is still visible on the serial console.
