@@ -32,6 +32,14 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwthXRMGvo8b5XY16K534RvnQxAHqikIdEFBsRVyptp hermes@cerritos"
   ];
 
+  # Root console password (user-supplied `openssl passwd -6` hash) so an operator
+  # can reach the guest via `virsh console cerritos` for local diagnostics.
+  # CONSOLE-ONLY by design: sshd forbids password auth (PasswordAuthentication =
+  # false, PermitRootLogin = prohibit-password), and the guest sits on the isolated
+  # segmented-NAT cerritos-net. Only breaks the serial-console catch-22 (boot works
+  # but SSH is unreachable -> no way in). Rotate/remove once SSH is restored.
+  users.users.root.initialHashedPassword = "$6$BGHGnq.RFCO76n8T$ZhPmXzYjjBEI1fVGCet9c9YZA1hYiDr0OxZEwb7Rw5LpOyix7t2TPd/9ybVIFEml2LMwqqQV8zejGdQyXJjiU.";
+
   # Open SSH so Hermes (and patrick) can reach this segmented-NAT guest. NixOS's
   # default firewall is enabled; without this, inbound 22 is dropped even though
   # sshd runs, which surfaces as "ssh: connection refused" despite a healthy guest.
