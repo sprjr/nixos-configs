@@ -34,7 +34,18 @@ in
     enable = true;
     host = "0.0.0.0";
     loadModels = [
+      # Baseline, pinned into VRAM by ollama-model-warmup below
       "qwen3.5:4b"
+      # Gemma
+      "gemma3:4b"
+      "gemma3n:e2b"
+      "gemma3n:e4b" # ~92% of 8GB VRAM at Q4
+      "gemma4:e2b-it-qat" # default gemma4:e2b build (7.2 GB) does NOT fit 8GB
+      # DeepSeek (reasoning; keep context modest)
+      "deepseek-r1:7b"
+      "deepseek-r1:8b"
+      # Ornith (agentic coding; needs capped num_ctx on 8GB)
+      "ornith:9b"
     ];
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
