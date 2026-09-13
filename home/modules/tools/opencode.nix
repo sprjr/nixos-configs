@@ -47,10 +47,6 @@ let
             _launch = false;
             name = "qwen3:8b";
           };
-          "qwen3.5:4b" = {
-            _launch = false;
-            name = "qwen3.5:4b";
-          };
           "deepseek-r1:7b" = {
             _launch = false;
             name = "deepseek-r1:7b";

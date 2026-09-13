@@ -27,12 +27,6 @@ let
   researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
   homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; api_key = true; };
 
-  localModel = mkModelBlock {
-    model = "qwen3.5:4b";
-    base_url = "http://host.containers.internal:11434/v1";
-    context_length = 16384;
-  };
-
   cloudApiKeyFile = config.sops.secrets."hermes-agent/cloud-api-key".path;
 
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''

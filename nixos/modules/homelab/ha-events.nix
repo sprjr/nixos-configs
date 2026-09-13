@@ -23,7 +23,7 @@ let
         chat_ids = [uid.strip() for uid in f.read().strip().split(",")]
 
     OLLAMA_API = "http://127.0.0.1:11434/api/chat"
-    OLLAMA_MODEL = "qwen3.5:4b"
+    OLLAMA_MODEL = "moondream:1.8b"
     TELEGRAM_API = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     LISTEN_PORT = 8643
     RATE_LIMIT_SECONDS = 300
