@@ -46,6 +46,8 @@ in
       "deepseek-r1:8b"
       # Ornith (agentic coding; needs capped num_ctx on 8GB)
       "ornith:9b"
+      # Vision-only VLM for Frigate snapshot analysis (frigate-hermes)
+      "moondream:1.8b"
     ];
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
