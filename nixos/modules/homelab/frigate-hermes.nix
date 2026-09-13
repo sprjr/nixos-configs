@@ -24,41 +24,81 @@ let
         ha_token = f.read().strip()
 
     OLLAMA_API = "http://127.0.0.1:11434/api/chat"
-    OLLAMA_MODEL = "qwen3.5:4b"
+    # Frigate's unauthenticated nginx web API (bound to localhost by the frigate module)
+    FRIGATE_API = "http://127.0.0.1:5000"
+    # Moondream: tiny purpose-built vision model — handles image analysis & summary
+    MOONDREAM_MODEL = "moondream:1.8b"
     TELEGRAM_API = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     HA_NOTIFY_URL = "http://shikisha:8123/api/services/notify/mobile_app_pixel_8"
-    SYSTEM_PROMPT = (
-        "You are April, a home automation and security specialist. "
-        "Summarize this Frigate NVR detection event concisely. "
-        "Include camera name, detection type, confidence, and zone. "
-        "For routine detections (known persons, pets), keep summaries brief. "
-        "For unusual detections, provide detailed analysis. "
-        "Note patterns across recent events if context is available."
-    )
 
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     signal.signal(signal.SIGINT, lambda *_: sys.exit(0))
 
-    def ollama_summarize(event_text):
+    def moondream_summarize(event_text, event_id=None):
+        """Analyze a Frigate event with moondream.
+        If a snapshot id is given, fetch the frame from Frigate and have
+        moondream describe it. Then ask moondream to summarize. Returns a
+        summary string, or None if inference fails."""
+        import base64 as _b64
+
+        description = ""
+        if event_id:
+            img_url = f"{FRIGATE_API}/api/events/{event_id}/snapshot.jpg"
+            try:
+                req = urllib.request.Request(img_url)
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    img_data = resp.read()
+                img_b64 = _b64.b64encode(img_data).decode()
+            except Exception:
+                img_b64 = None
+            if img_b64:
+                # Moondream has a 2K context window; describe the frame first.
+                try:
+                    describe_payload = json.dumps({
+                        "model": MOONDREAM_MODEL,
+                        "messages": [{
+                            "role": "user",
+                            "content": ("Describe this camera frame concisely: people, "
+                                        "vehicles, packages, or anything unusual."),
+                            "images": ["data:image/jpeg;base64," + img_b64],
+                        }],
+                        "stream": False,
+                        "keep_alive": -1,
+                    }).encode()
+                    req = urllib.request.Request(
+                        OLLAMA_API, data=describe_payload,
+                        headers={"Content-Type": "application/json"},
+                    )
+                    with urllib.request.urlopen(req, timeout=60) as resp:
+                        data = json.loads(resp.read())
+                        description = data["message"]["content"].strip()
+                except Exception:
+                    description = ""
+
+        summary_prompt = (
+            f"Summarize this Frigate NVR detection event for a home security alert. "
+            f"Include camera, detection type, confidence, and zone. "
+            f"Keep routine detections (known persons, pets) brief; give detailed "
+            f"analysis for anything unusual.\n\n{event_text}"
+        )
+        if description:
+            summary_prompt += f"\n\nThe camera frame shows: {description}"
+
         payload = json.dumps({
-            "model": OLLAMA_MODEL,
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": event_text},
-            ],
+            "model": MOONDREAM_MODEL,
+            "messages": [{"role": "user", "content": summary_prompt}],
             "stream": False,
             "keep_alive": -1,
         }).encode()
         req = urllib.request.Request(
-            OLLAMA_API,
-            data=payload,
+            OLLAMA_API, data=payload,
             headers={"Content-Type": "application/json"},
         )
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
                 data = json.loads(resp.read())
                 return data["message"]["content"]
-        except Exception as e:
+        except Exception:
             return None
 
     def send_telegram(text, chat_id):
@@ -119,10 +159,12 @@ let
                 f"Zone: {zones}"
             )
 
-            summary = ollama_summarize(event_text)
+            event_id = after.get("id") if after.get("has_snapshot") else None
+
+            # Moondream analyzes the frame (if a snapshot exists) and summarizes.
+            summary = moondream_summarize(event_text, event_id)
             message = summary if summary else event_text
 
-            event_id = after.get("id") if after.get("has_snapshot") else None
             title = f"{label} detected — {camera}"
             send_ha_notification(title, message, event_id)
 

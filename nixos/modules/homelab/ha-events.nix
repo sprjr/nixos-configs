@@ -8,6 +8,7 @@ let
   webhookSecretFile = config.sops.secrets."ha-events/webhook-secret".path;
   botTokenFile = config.sops.secrets."hermes-agent/telegram-bot-token".path;
   allowedUsersFile = config.sops.secrets."hermes-agent/telegram-allowed-users".path;
+  cloudApiKeyFile = config.sops.secrets."hermes-agent/cloud-api-key".path;
 
   haEvents = pkgs.writeScript "ha-events.py" ''
     #!${pkgs.python3}/bin/python3
@@ -21,9 +22,14 @@ let
         bot_token = f.read().strip()
     with open("${allowedUsersFile}") as f:
         chat_ids = [uid.strip() for uid in f.read().strip().split(",")]
+    with open("${cloudApiKeyFile}") as f:
+        cloud_api_key = f.read().strip()
 
-    OLLAMA_API = "http://127.0.0.1:11434/api/chat"
-    OLLAMA_MODEL = "qwen3.5:4b"
+    # The main Hermes model (deepseek-v4-flash) is served from Ollama Cloud,
+    # not from badgey's local 8GB AMD card — same OpenAI-compatible endpoint
+    # and sops API key that hermes-agent.nix uses for the triage model.
+    CLOUD_API = "https://ollama.com/v1/chat/completions"
+    CLOUD_MODEL = "deepseek-v4-flash:0731"
     TELEGRAM_API = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     LISTEN_PORT = 8643
     RATE_LIMIT_SECONDS = 300
@@ -50,25 +56,27 @@ let
             last_event_times[entity_id] = now
             return False
 
-    def ollama_summarize(event_text):
+    def cloud_summarize(event_text):
         payload = json.dumps({
-            "model": OLLAMA_MODEL,
+            "model": CLOUD_MODEL,
             "messages": [
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": event_text},
             ],
             "stream": False,
-            "keep_alive": -1,
         }).encode()
         req = urllib.request.Request(
-            OLLAMA_API,
+            CLOUD_API,
             data=payload,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {cloud_api_key}",
+            },
         )
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
                 data = json.loads(resp.read())
-                return data["message"]["content"]
+                return data["choices"][0]["message"]["content"]
         except Exception:
             return None
 
@@ -135,12 +143,12 @@ let
                     f"Time: {timestamp}"
                 )
 
-                summary = ollama_summarize(event_text)
+                summary = cloud_summarize(event_text)
                 message = summary if summary else event_text
 
                 for chat_id in chat_ids:
                     send_telegram(message, chat_id)
-            except (json.JSONDecodeError, KeyError) as e:
+            except (json.JSONDecodeError, KeyError, IndexError) as e:
                 print(f"Error processing event: {e}", flush=True)
 
         def do_GET(self):
@@ -167,10 +175,9 @@ in {
   sops.secrets."ha-events/webhook-secret" = { };
 
   systemd.services.ha-events = {
-    description = "Home Assistant event webhook to Ollama/Telegram";
+    description = "Home Assistant event webhook to Hermes (deepseek-v4-flash)/Telegram";
     after = [
       "network-online.target"
-      "ollama.service"
       "sops-nix.service"
     ];
     wants = [ "network-online.target" "sops-nix.service" ];
