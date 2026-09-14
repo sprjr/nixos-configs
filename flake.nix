@@ -313,7 +313,6 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
-              ./nixos/modules/virtualisation/k3s-server.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
