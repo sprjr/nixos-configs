@@ -20,6 +20,23 @@
     '';
   };
 
+  # go2rtc runs as its own unit and expands ${VAR} env refs from the template below.
+  sops.templates."go2rtc-env" = {
+    mode = "0400";
+    content = ''
+      FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
+      FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
+    '';
+  };
+
+  services.go2rtc = {
+    enable = true;
+    settings.streams = {
+      front_door = "$${FRIGATE_FRONT_DOOR_RTSP}";
+      garage = "$${FRIGATE_GARAGE_RTSP}";
+    };
+  };
+
   services.frigate = {
     enable = true;
     hostname = "badgey";
@@ -44,11 +61,6 @@
           type = "cpu";
           num_threads = 4;
         };
-      };
-
-      go2rtc.streams = {
-        front_door = "{FRIGATE_FRONT_DOOR_RTSP}";
-        garage = "{FRIGATE_GARAGE_RTSP}";
       };
 
       cameras = {
@@ -89,6 +101,16 @@
     wants = [ "sops-nix.service" ];
     serviceConfig = {
       EnvironmentFile = [ config.sops.templates."frigate-env".path ];
+    };
+  };
+
+  # Dynamic-user unit; the manager reads the EnvironmentFile as root, so the
+  # template needs no owner. Must start after the secrets are mounted.
+  systemd.services.go2rtc = {
+    after = [ "sops-nix.service" ];
+    wants = [ "sops-nix.service" ];
+    serviceConfig = {
+      EnvironmentFile = [ config.sops.templates."go2rtc-env".path ];
     };
   };
 
