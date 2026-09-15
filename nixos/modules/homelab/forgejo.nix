@@ -125,10 +125,7 @@ in
     2222
   ];
 
-  # Mirror the module's preStart but omit its trailing `chmod u-w`: Forgejo
-  # persists an oauth2 JWT secret into app.ini on every startup, so the
-  # hardened file breaks `migrate` (EACCES). Must be mkForce, not append — the
-  # module's migrate runs after the chmod inside the same script.
+  # Fixing persisted app.ini startup oauth2 JWT secret issue causing break
   systemd.services.forgejo.preStart = lib.mkForce ''
     (umask 027
       config='${customDir}/conf/app.ini'
