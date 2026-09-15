@@ -431,7 +431,6 @@
               ./nixos/modules/system/ssh.nix
               ./nixos/cerritos.nix
               ./nixos/modules/system/comin.nix
-              ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/resolved-dns.nix
             ];
           };
