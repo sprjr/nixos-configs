@@ -6,24 +6,14 @@
 }:
 
 let
-  # Public hostname for the Forgejo instance. Change to taste; ROOT_URL below
-  # follows this value. Public traffic is proxied in by the external Caddy host.
   domain = "git.rawliyosh.com";
-  # Data lives on the existing unraid NFS mount (see modules/disks/unraid-gitea.nix).
+  # Data on the unraid NFS mount (repos + LFS).
   stateDir = "/mnt/unraid/Gitea";
-  # The writable config/secret dir is kept OFF the NFS mount. When useWizard is
-  # disabled the module writes app.ini and the secret files under customDir, and
-  # the unraid NFS export does not permit the forgejo uid to write there (open
-  # .../app.ini: permission denied). A local dir keeps those writes on ext4 while
-  # repositories/LFS data stay on NFS stateDir.
+  # Local ext4: the NFS export rejects writes from the forgejo uid.
   customDir = "/var/lib/forgejo/custom";
-  # INI formatter for the generated app.ini (same as the nixpkgs forgejo module).
   format = pkgs.formats.ini { };
 in
 {
-  # ---- Secrets (sops-nix) ----
-  # All values are user-created sops entries; the agent never supplies them.
-  # See the PR body for the exact `sops set` commands.
   sops.secrets."forgejo/database-password" = {
     owner = "forgejo";
     mode = "0400";
@@ -40,22 +30,14 @@ in
     owner = "forgejo";
     mode = "0400";
   };
-  # LFS JWT secret: lfs.enable=true adds a 5th LoadCredential whose default
-  # source path is under the NFS stateDir (${stateDir}/custom/conf/lfs_jwt_secret).
-  # That file is never auto-generated on a fresh stateDir, so the unit dies at
-  # the systemd CREDENTIALS step. Override with a sops-managed path via
-  # services.forgejo.secrets.server.LFS_JWT_SECRET below.
   sops.secrets."forgejo/lfs-jwt-secret" = {
     owner = "forgejo";
     mode = "0400";
   };
 
-  # ---- Forgejo service (nixpkgs module) ----
   services.forgejo = {
     enable = true;
     stateDir = stateDir;
-    # customDir is kept off the NFS mount (see let binding above): the module
-    # writes app.ini + secret files here when useWizard/INSTALL_LOCK is set.
     customDir = customDir;
     repositoryRoot = "${stateDir}/repositories";
 
@@ -63,8 +45,6 @@ in
       type = "postgres";
       name = "forgejo";
       user = "forgejo";
-      # createDatabase = true auto-provisions a local postgres with the
-      # forgejo user/db; the password is read from the sops secret file.
       passwordFile = config.sops.secrets."forgejo/database-password".path;
     };
 
@@ -78,29 +58,22 @@ in
       server = {
         DOMAIN = domain;
         ROOT_URL = "https://${domain}/";
-        # Bind on all interfaces so the external Caddy host (which proxies via
-        # tailscale) can reach it. Firewall restricts this to tailscale0.
-        # Port 3002: 3000 is taken by Grafana on shikisha.
+        # Tailscale-only (Caddy proxies in); 3002 as Grafana owns 3000.
         HTTP_ADDR = "0.0.0.0";
         HTTP_PORT = 3002;
-        # Forgejo's own SSH on a non-conflicting port (system openssh owns 22).
+        # 2222; system openssh owns 22.
         SSH_PORT = 2222;
         DISABLE_SSH = false;
       };
       service = {
-        # Personal instance: no open registration.
         DISABLE_REGISTRATION = true;
       };
       security = {
-        # Manage everything declaratively; no web install wizard.
         INSTALL_LOCK = true;
       };
     };
 
-    # Sensitive values are injected via systemd LoadCredential as
-    # FORGEJO__<SECTION>__<KEY>__FILE env vars (no plaintext in the nix store).
-    # mkForce: the nixpkgs module sets these to paths under stateDir by default;
-    # we override with sops-managed paths.
+    # Via systemd LoadCredential; no plaintext in the nix store.
     secrets = {
       security = {
         SECRET_KEY = lib.mkForce config.sops.secrets."forgejo/secret-key".path;
@@ -109,23 +82,23 @@ in
       oauth2 = {
         JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/oauth2-jwt-secret".path;
       };
-      # LFS JWT secret — added automatically by lfs.enable=true; mkForce it to the
-      # sops path so it doesn't point at the never-generated NFS default.
       server = {
+        # lfs.enable=true defaults this to a file under stateDir that isn't created.
         LFS_JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/lfs-jwt-secret".path;
       };
     };
   };
 
-  # ---- Firewall ----
-  # Forgejo HTTP + SSH reachable over tailscale only. The external Caddy host
-  # proxies public traffic in via tailscale (no nginx on this host).
+  # Reachable over tailscale only; the external Caddy host proxies public traffic in.
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
     3002
     2222
   ];
 
-  # Fixing persisted app.ini startup oauth2 JWT secret issue causing break
+  # Fail to start rather than run against an unmounted store.
+  systemd.services.forgejo.unitConfig.RequiresMountsFor = [ stateDir ];
+
+  # Mirror nixpkgs' preStart, leaving app.ini writable for the JWT secret.
   systemd.services.forgejo.preStart = lib.mkForce ''
     (umask 027
       config='${customDir}/conf/app.ini'
