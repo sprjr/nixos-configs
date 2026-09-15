@@ -17,6 +17,8 @@ let
   # .../app.ini: permission denied). A local dir keeps those writes on ext4 while
   # repositories/LFS data stay on NFS stateDir.
   customDir = "/var/lib/forgejo/custom";
+  # INI formatter for the generated app.ini (same as the nixpkgs forgejo module).
+  format = pkgs.formats.ini { };
 in
 {
   # ---- Secrets (sops-nix) ----
@@ -122,4 +124,20 @@ in
     3002
     2222
   ];
+
+  # Fixing persisted app.ini startup oauth2 JWT secret issue causing break
+  systemd.services.forgejo.preStart = lib.mkForce ''
+    (umask 027
+      config='${customDir}/conf/app.ini'
+      cp -f '${format.generate "app.ini" config.services.forgejo.settings}' "$config"
+      chmod u+w "$config"
+      ${lib.getExe' config.services.forgejo.package "environment-to-ini"} --config "$config"
+    )
+    ${lib.getExe config.services.forgejo.package} migrate
+    ${lib.getExe config.services.forgejo.package} admin regenerate hooks
+    if [ -r ${stateDir}/.ssh/authorized_keys ]
+    then
+      ${lib.getExe config.services.forgejo.package} admin regenerate keys
+    fi
+  '';
 }
