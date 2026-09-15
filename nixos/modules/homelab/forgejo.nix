@@ -11,6 +11,12 @@ let
   domain = "git.rawliyosh.com";
   # Data lives on the existing unraid NFS mount (see modules/disks/unraid-gitea.nix).
   stateDir = "/mnt/unraid/Gitea";
+  # The writable config/secret dir is kept OFF the NFS mount. When useWizard is
+  # disabled the module writes app.ini and the secret files under customDir, and
+  # the unraid NFS export does not permit the forgejo uid to write there (open
+  # .../app.ini: permission denied). A local dir keeps those writes on ext4 while
+  # repositories/LFS data stay on NFS stateDir.
+  customDir = "/var/lib/forgejo/custom";
 in
 {
   # ---- Secrets (sops-nix) ----
@@ -46,6 +52,9 @@ in
   services.forgejo = {
     enable = true;
     stateDir = stateDir;
+    # customDir is kept off the NFS mount (see let binding above): the module
+    # writes app.ini + secret files here when useWizard/INSTALL_LOCK is set.
+    customDir = customDir;
     repositoryRoot = "${stateDir}/repositories";
 
     database = {
