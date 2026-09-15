@@ -25,11 +25,6 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -124,7 +119,6 @@
       hyprsession,
       nix-cachyos-kernel,
       nix-flatpak,
-      nix-on-droid,
       nixos-facter-modules,
       nixos-hardware,
       sops-nix,
@@ -489,16 +483,5 @@
           };
         };
       }
-    ))
-    // {
-      nixOnDroidConfigurations.droid = nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs {
-          system = "aarch64-linux";
-          config.allowUnfree = true;
-        };
-        modules = [ ./nixos/droid.nix ];
-        extraSpecialArgs = inputs;
-        home-manager-path = home-manager.outPath;
-      };
-    };
+    ));
 }
