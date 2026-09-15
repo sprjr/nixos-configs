@@ -32,6 +32,15 @@ in
     owner = "forgejo";
     mode = "0400";
   };
+  # LFS JWT secret: lfs.enable=true adds a 5th LoadCredential whose default
+  # source path is under the NFS stateDir (${stateDir}/custom/conf/lfs_jwt_secret).
+  # That file is never auto-generated on a fresh stateDir, so the unit dies at
+  # the systemd CREDENTIALS step. Override with a sops-managed path via
+  # services.forgejo.secrets.server.LFS_JWT_SECRET below.
+  sops.secrets."forgejo/lfs-jwt-secret" = {
+    owner = "forgejo";
+    mode = "0400";
+  };
 
   # ---- Forgejo service (nixpkgs module) ----
   services.forgejo = {
@@ -88,6 +97,11 @@ in
       };
       oauth2 = {
         JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/oauth2-jwt-secret".path;
+      };
+      # LFS JWT secret — added automatically by lfs.enable=true; mkForce it to the
+      # sops path so it doesn't point at the never-generated NFS default.
+      server = {
+        LFS_JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/lfs-jwt-secret".path;
       };
     };
   };
