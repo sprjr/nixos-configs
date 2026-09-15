@@ -17,6 +17,8 @@ let
   # .../app.ini: permission denied). A local dir keeps those writes on ext4 while
   # repositories/LFS data stay on NFS stateDir.
   customDir = "/var/lib/forgejo/custom";
+  # INI formatter for the generated app.ini (same as the nixpkgs forgejo module).
+  format = pkgs.formats.ini { };
 in
 {
   # ---- Secrets (sops-nix) ----
@@ -122,4 +124,35 @@ in
     3002
     2222
   ];
+
+  # ---- Startup fix: keep app.ini writable so Forgejo can persist oauth2 JWT ----
+  # Root cause (matches NixOS/nixpkgs#262802 + Forgejo FIXME forgejo@193ac67176):
+  # Forgejo ALWAYS persists an oauth2 JWT secret back into app.ini during
+  # `forgejo migrate` at startup, even when one is already set (and regardless
+  # of oauth2 ENABLE). The nixpkgs module's preStart does `chmod u-w app.ini`
+  # after generating it, so that persist hits EACCES:
+  #   error saving JWT Secret for custom config ... permission denied
+  # Sops secrets (kept per the locked decision) are injected correctly via
+  # LoadCredential/env; the failure is purely the read-only file. We therefore
+  # override the module's preStart wholesale (mkForce) to mirror the module
+  # EXACTLY (cp generated app.ini, chmod u+w, environment-to-ini, then
+  # `forgejo migrate` + hook/keys regenerate) WITHOUT the trailing chmod u-w.
+  # Mirroring, not appending: because the module's `migrate` runs inside the
+  # same preStart AFTER the u-w, an `mkAfter` would be too late. We drop the
+  # hardening so Forgejo's own persist works. (No secrets in the store: values
+  # still arrive via LoadCredential as FORGEJO__<SECTION>__<KEY>__FILE.)
+  systemd.services.forgejo.preStart = lib.mkForce ''
+    (umask 027
+      config='${customDir}/conf/app.ini'
+      cp -f '${format.generate "app.ini" config.services.forgejo.settings}' "$config"
+      chmod u+w "$config"
+      ${lib.getExe' config.services.forgejo.package "environment-to-ini"} --config "$config"
+    )
+    ${lib.getExe config.services.forgejo.package} migrate
+    ${lib.getExe config.services.forgejo.package} admin regenerate hooks
+    if [ -r ${stateDir}/.ssh/authorized_keys ]
+    then
+      ${lib.getExe config.services.forgejo.package} admin regenerate keys
+    fi
+  '';
 }
