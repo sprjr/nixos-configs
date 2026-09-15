@@ -11,6 +11,12 @@ let
   domain = "git.rawliyosh.com";
   # Data lives on the existing unraid NFS mount (see modules/disks/unraid-gitea.nix).
   stateDir = "/mnt/unraid/Gitea";
+  # The writable config/secret dir is kept OFF the NFS mount. When useWizard is
+  # disabled the module writes app.ini and the secret files under customDir, and
+  # the unraid NFS export does not permit the forgejo uid to write there (open
+  # .../app.ini: permission denied). A local dir keeps those writes on ext4 while
+  # repositories/LFS data stay on NFS stateDir.
+  customDir = "/var/lib/forgejo/custom";
 in
 {
   # ---- Secrets (sops-nix) ----
@@ -32,11 +38,23 @@ in
     owner = "forgejo";
     mode = "0400";
   };
+  # LFS JWT secret: lfs.enable=true adds a 5th LoadCredential whose default
+  # source path is under the NFS stateDir (${stateDir}/custom/conf/lfs_jwt_secret).
+  # That file is never auto-generated on a fresh stateDir, so the unit dies at
+  # the systemd CREDENTIALS step. Override with a sops-managed path via
+  # services.forgejo.secrets.server.LFS_JWT_SECRET below.
+  sops.secrets."forgejo/lfs-jwt-secret" = {
+    owner = "forgejo";
+    mode = "0400";
+  };
 
   # ---- Forgejo service (nixpkgs module) ----
   services.forgejo = {
     enable = true;
     stateDir = stateDir;
+    # customDir is kept off the NFS mount (see let binding above): the module
+    # writes app.ini + secret files here when useWizard/INSTALL_LOCK is set.
+    customDir = customDir;
     repositoryRoot = "${stateDir}/repositories";
 
     database = {
@@ -88,6 +106,11 @@ in
       };
       oauth2 = {
         JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/oauth2-jwt-secret".path;
+      };
+      # LFS JWT secret — added automatically by lfs.enable=true; mkForce it to the
+      # sops path so it doesn't point at the never-generated NFS default.
+      server = {
+        LFS_JWT_SECRET = lib.mkForce config.sops.secrets."forgejo/lfs-jwt-secret".path;
       };
     };
   };
