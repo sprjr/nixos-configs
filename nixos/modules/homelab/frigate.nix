@@ -97,8 +97,8 @@
   users.users.frigate.extraGroups = [ "video" ];
 
   systemd.services.frigate = {
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
     serviceConfig = {
       EnvironmentFile = [ config.sops.templates."frigate-env".path ];
     };
@@ -107,8 +107,8 @@
   # Dynamic-user unit; the manager reads the EnvironmentFile as root, so the
   # template needs no owner. Must start after the secrets are mounted.
   systemd.services.go2rtc = {
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
     serviceConfig = {
       EnvironmentFile = [ config.sops.templates."go2rtc-env".path ];
     };

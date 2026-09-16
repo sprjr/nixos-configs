@@ -165,8 +165,8 @@ in
   systemd.services.hermes-agent-init = {
     description = "Deploy Hermes Agent configuration and profiles";
     wantedBy = [ "multi-user.target" ];
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
     before = [ "podman-hermes-agent.service" ];
     serviceConfig = {
       Type = "oneshot";
@@ -312,8 +312,8 @@ in
   };
 
   systemd.services.podman-hermes-agent = {
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8642 9119 ];

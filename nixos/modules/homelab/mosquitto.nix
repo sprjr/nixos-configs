@@ -46,8 +46,8 @@
   };
 
   systemd.services.mosquitto = {
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
   };
 
   networking.firewall = {

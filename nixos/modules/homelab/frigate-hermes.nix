@@ -141,9 +141,10 @@ in {
     after = [
       "network-online.target"
       "ollama.service"
-      "sops-nix.service"
+      "sops-secrets-rendered.service"
     ];
-    wants = [ "network-online.target" "sops-nix.service" ];
+    wants = [ "network-online.target" ];
+    requires = [ "sops-secrets-rendered.service" ];
     wantedBy = [ "multi-user.target" ];
     path = [ pkgs.mosquitto ];
     serviceConfig = {
