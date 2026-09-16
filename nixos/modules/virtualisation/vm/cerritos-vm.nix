@@ -7,8 +7,7 @@
 }:
 
 let
-  # Build a bootable qcow2 disk image for the cerritos guest from its own
-  # NixOS configuration (defined as a separate nixosConfiguration in flake.nix).
+  # Build a bootable qcow2 disk image for the cerritos guest.
   cerritosDiskImage = import "${pkgs.path}/nixos/lib/make-disk-image.nix" {
     inherit lib;
     pkgs = cerritosConfig.pkgs;
@@ -20,8 +19,7 @@ let
     additionalSpace = "2G";
   };
 
-  # Segmented NAT network: isolated from the LAN, outbound internet via Badgey.
-  # Static guest IP (192.168.122.10) sits outside the DHCP range to avoid conflicts.
+  # Isolated NAT network; static guest IP outside the DHCP range.
   networkXml = pkgs.writeText "cerritos-net.xml" ''
     <network>
       <name>cerritos-net</name>
@@ -76,9 +74,7 @@ in
   security.polkit.enable = true;
   virtualisation.libvirtd.enable = true;
 
-  # Hermes private key for SSH into cerritos. Value is a user-created sops
-  # secret (never generated/committed by the agent). Rendered to
-  # /run/secrets/cerritos/hermes-ssh-key for Hermes to use.
+  # Hermes SSH key into cerritos (user-created sops secret).
   sops.secrets."cerritos/hermes-ssh-key" = { };
 
   systemd.services.cerritos-vm = {
@@ -100,12 +96,10 @@ in
 
       # Stop the domain first so we can safely refresh the disk image.
       ${pkgs.libvirt}/bin/virsh destroy cerritos 2>/dev/null || true
-      # Un-define the domain so 'virsh define' below can't collide with the
-      # previous definition (destroy alone leaves it registered in libvirt).
+      # Un-define so 'virsh define' can't collide with the registered domain.
       ${pkgs.libvirt}/bin/virsh undefine cerritos --managed-save 2>/dev/null || true
 
-      # Writable copy of the guest disk image (store image is read-only).
-      # Always refresh so guest config changes propagate on redeploy.
+      # Refresh a writable copy of the disk image (store image is read-only).
       mkdir -p /var/lib/libvirt/images
       cp ${cerritosDiskImage}/nixos.qcow2 /var/lib/libvirt/images/cerritos.qcow2
 
