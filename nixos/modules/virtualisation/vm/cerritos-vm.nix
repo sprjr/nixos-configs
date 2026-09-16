@@ -102,7 +102,7 @@ in
       ${pkgs.libvirt}/bin/virsh destroy cerritos 2>/dev/null || true
       # Un-define the domain so 'virsh define' below can't collide with the
       # previous definition (destroy alone leaves it registered in libvirt).
-      ${pkgs.libvirt}/bin/virsh undefine cerritos 2>/dev/null || true
+      ${pkgs.libvirt}/bin/virsh undefine cerritos --managed-save 2>/dev/null || true
 
       # Writable copy of the guest disk image (store image is read-only).
       # Always refresh so guest config changes propagate on redeploy.
