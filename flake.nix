@@ -404,6 +404,7 @@
               ./nixos/modules/homelab/hermes-router.nix
               ./nixos/modules/virtualisation/vm/cerritos-vm.nix
               ./nixos/modules/homelab/hermes-backup.nix
+              ./nixos/modules/homelab/hermes-fileshare.nix
               ./nixos/modules/homelab/frigate-hermes.nix
               ./nixos/modules/homelab/ha-events.nix
               (
