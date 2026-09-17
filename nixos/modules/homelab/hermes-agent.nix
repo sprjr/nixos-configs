@@ -12,7 +12,7 @@ let
   cloudBase = "https://ollama.com/v1";
 
   mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072, api_key ? false }:
-    let keyLine = if api_key then "\n  api_key: __CLOUD_API_KEY__" else "";
+    let keyLine = if api_key then "\n  api_key: \${OPENAI_API_KEY}" else "";
     in ''
     model:
       default: ${model}
@@ -33,8 +33,6 @@ let
     context_length = 16384;
   };
 
-  cloudApiKeyFile = config.sops.secrets."hermes-agent/cloud-api-key".path;
-
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
     ${triageModel}
     terminal:
@@ -47,6 +45,8 @@ let
       failure_nudge_threshold: 3
       allow_agent_scheduling: true
       wrap_response: true
+      model: deepseek-v4.1-flash
+      model_provider: custom
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
@@ -172,13 +172,10 @@ in
       Type = "oneshot";
       RemainAfterExit = true;
     };
-    path = [ pkgs.gnused ];
+    path = [ pkgs.coreutils ];
     script = ''
-      CLOUD_KEY=$(cat ${cloudApiKeyFile})
-
       # Default profile
       cp ${hermesConfigYaml} /var/lib/hermes-agent/config.yaml
-      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/config.yaml
       chmod 600 /var/lib/hermes-agent/config.yaml
       cp ${config.sops.secrets."hermes-agent/soul-triage".path} /var/lib/hermes-agent/SOUL.md
       chmod 644 /var/lib/hermes-agent/SOUL.md
@@ -194,7 +191,6 @@ in
 
       # Coder profile
       cp ${coderConfigYaml} /var/lib/hermes-agent/profiles/coder/config.yaml
-      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/coder/config.yaml
       chmod 600 /var/lib/hermes-agent/profiles/coder/config.yaml
       cp ${config.sops.secrets."hermes-agent/soul-coder".path} /var/lib/hermes-agent/profiles/coder/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/coder/SOUL.md
@@ -203,7 +199,6 @@ in
 
       # Researcher profile
       cp ${researcherConfigYaml} /var/lib/hermes-agent/profiles/researcher/config.yaml
-      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/researcher/config.yaml
       chmod 600 /var/lib/hermes-agent/profiles/researcher/config.yaml
       cp ${config.sops.secrets."hermes-agent/soul-researcher".path} /var/lib/hermes-agent/profiles/researcher/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/researcher/SOUL.md
@@ -212,7 +207,6 @@ in
 
       # Home profile
       cp ${homeConfigYaml} /var/lib/hermes-agent/profiles/home/config.yaml
-      sed -i "s|__CLOUD_API_KEY__|$CLOUD_KEY|g" /var/lib/hermes-agent/profiles/home/config.yaml
       chmod 600 /var/lib/hermes-agent/profiles/home/config.yaml
       cp ${config.sops.secrets."hermes-agent/soul-home".path} /var/lib/hermes-agent/profiles/home/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/home/SOUL.md
