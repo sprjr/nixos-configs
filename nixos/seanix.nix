@@ -74,7 +74,7 @@ in
         autoconnect = true;
       };
       "802-3-ethernet" = {
-        wake-on-lan = 1; # magic packet (NM_WOL_MAGIC)
+        wake-on-lan = 64; # NM_SETTING_WIRED_WAKE_ON_LAN_MAGIC
       };
       ipv4 = {
         method = "auto";
