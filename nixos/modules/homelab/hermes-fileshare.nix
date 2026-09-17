@@ -55,10 +55,7 @@ in
         install -d -m 0755 -o ${toString cfg.agentUid} -g ${toString cfg.agentUid} \
           ${shareDir}/ingested ${shareDir}/outbox
 
-        # Root-written drops land root-owned and the container only fixes ownership
-        # at boot, so hand them to the agent here. Only the ingest target is
-        # walked recursively; the drop dir itself stays cheap to scan. The upload
-        # log is written by this same unit, so it must not be treated as a drop.
+        # Not a drop: this unit writes the upload log into the same directory.
         find ${shareDir} -maxdepth 1 -mindepth 1 -type f ! -name zipline-urls.txt \
           -exec mv -f -t ${shareDir}/ingested {} +
 
@@ -69,7 +66,6 @@ in
 
         for f in ${shareDir}/outbox/*; do
           [ -f "$f" ] || continue
-          # A failed upload must not abort the run nor drop the file: it retries next tick.
           if url=$(curl -fsS -X POST "$ZIPLINE_URL/api/upload" \
             -H "Authorization: $ZIPLINE_TOKEN" \
             -H "x-zipline-deletes-at: $ZIPLINE_TTL" \
