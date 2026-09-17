@@ -22,7 +22,7 @@ let
   '';
 
   # Per-profile model assignments
-  triageModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
+  triageModel = mkModelBlock { model = "deepseek-v4.1-flash"; api_key = true; };
   coderModel = mkModelBlock { model = "kimi-k2.7-code"; api_key = true; };
   researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
   homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; api_key = true; };
