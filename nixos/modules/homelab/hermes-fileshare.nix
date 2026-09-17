@@ -57,8 +57,9 @@ in
 
         # Root-written drops land root-owned and the container only fixes ownership
         # at boot, so hand them to the agent here. Only the ingest target is
-        # walked recursively; the drop dir itself stays cheap to scan.
-        find ${shareDir} -maxdepth 1 -mindepth 1 -type f \
+        # walked recursively; the drop dir itself stays cheap to scan. The upload
+        # log is written by this same unit, so it must not be treated as a drop.
+        find ${shareDir} -maxdepth 1 -mindepth 1 -type f ! -name zipline-urls.txt \
           -exec mv -f -t ${shareDir}/ingested {} +
 
         if find ${shareDir}/ingested \( ! -uid ${toString cfg.agentUid} -o ! -gid ${toString cfg.agentUid} \) \
