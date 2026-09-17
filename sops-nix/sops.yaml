@@ -97,7 +97,7 @@ radicale:
 lubelogger:
     api-key: ENC[AES256_GCM,data:QJ91z4ioRrtbAk+TBT7sfBi9mcXk+OMhd93s2Mf78+E=,iv:ACA7Uez2b0xOCy4UVkMep3sX2+txP/vX/Uy1itSLlw4=,tag:hasDDFtxfv9HSPkqROf4vw==,type:str]
 dawarich:
-    api-key: ENC[AES256_GCM,data:jFax0lTlr0NXp7GuBV0fN64ajfbaXp25I50JcRY2TfbZvCRwV1/wS0M3HASf+xtOSBvtlyevIMqudxDNenQWzQ==,iv:o2sioBJi9RN8Wz7LgysJWUYw/lu3g2QJs7AfDTk3/nQ=,tag:+DRgPnyRXJ1YvII03bcm0A==,type:str]
+    api-key: ENC[AES256_GCM,data:Q6nVCFBsqI8xRl6CnYDiOwVft988wEojdni0WL2VlMu+rKYRpj8+5VBlzlks6l77NoDVSOd2nqFH6mdMvMDLAQ==,iv:vmOEAH9BMxwWrLEinNfPeo3T3v0YZPN5IJfumN6H+XU=,tag:HJnAfYwGxw5F5JFYQ8WrNA==,type:str]
 zipline:
     postgres-password: ENC[AES256_GCM,data:rRSpZDeJnPBnCfOtbhIenlJA/2Luf0SAc3jwrZSnubklN4bYA3Rx+AaWRhQ=,iv:Y4FeZT59M/mkI5hu4bZDYUuNvl04HFO6TSYyZmLoauU=,tag:lF5pw3rJkCkqnMDzlgpDTg==,type:str]
     core-secret: ENC[AES256_GCM,data:CYHlX222HPQUkEnhFn08NtNfhSleHOjp0DIGpweiIlnQCGjfkykvDviRj3w=,iv:XauW1nvzPHxPQA5mbmFKKTcVGoU23W/Cx/tBuCkRlvg=,tag:/f8TLrm4ndgfqmrvZd5Ecw==,type:str]
@@ -123,7 +123,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-09-17T15:52:25Z"
-    mac: ENC[AES256_GCM,data:q4vcY+DOE6C7oG8BNB/VIbM3fT9HdvftoY9znN+vLpx30LQUlQb60vT4Kw0LocIz0gXUVIlivxzZ0mU49gnO55+daFDvwmcWZYjO46xaDuQXcLEyuxbtiuonKCcYrT4VPv1Y5cHy/Kt7I+5sUVCHDKcRo0Zew+YYOFGDK2XJHy8=,iv:YBPeHLbfhOWebjHZFkW4Hp41VMhPD7Cs197H6d3uo/w=,tag:4qgop2MF1KEqBiufboUrkg==,type:str]
+    lastmodified: "2026-09-17T16:16:52Z"
+    mac: ENC[AES256_GCM,data:H17VaoQKefiWjRcdKk31MMMa5xCb+3R7OXQK7/RYM//srDelyxNOPYoDJUrbizfbEol/cnM4lFg1Fnw7QD2ZzvLQ0TVEknoR/c/cFldh2joZZbgssllJaIrQF5zKbn6xMxISzkyoHcjHfptA7Xqh7qf4LP0l1R2EjKuZzJtMruY=,iv:VxQ4y+Tv/44V7adhyz4uI1CF9iGXxjY01/H8qPeZOXI=,tag:veM0ZlgYBtk9lZXztSAgLA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
