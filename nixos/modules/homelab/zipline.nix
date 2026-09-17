@@ -77,5 +77,5 @@ in
     };
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3001 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3221 ];
 }
