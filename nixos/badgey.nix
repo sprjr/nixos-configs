@@ -8,6 +8,8 @@
 {
   imports = [ ./modules/system/sops.nix ];
 
+  services.hermes-fileshare.enable = true;
+
   networking.hostName = "badgey";
 
   nix.settings = {
