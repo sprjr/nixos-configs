@@ -55,10 +55,8 @@ in
         install -d -m 0755 -o ${toString cfg.agentUid} -g ${toString cfg.agentUid} \
           ${shareDir}/ingested ${shareDir}/outbox
 
-        # Root-written drops land root-owned and the container only fixes ownership
-        # at boot, so hand them to the agent here. Only the ingest target is
-        # walked recursively; the drop dir itself stays cheap to scan.
-        find ${shareDir} -maxdepth 1 -mindepth 1 -type f \
+        # Not a drop: this unit writes the upload log into the same directory.
+        find ${shareDir} -maxdepth 1 -mindepth 1 -type f ! -name zipline-urls.txt \
           -exec mv -f -t ${shareDir}/ingested {} +
 
         if find ${shareDir}/ingested \( ! -uid ${toString cfg.agentUid} -o ! -gid ${toString cfg.agentUid} \) \
@@ -68,15 +66,17 @@ in
 
         for f in ${shareDir}/outbox/*; do
           [ -f "$f" ] || continue
-          url=$(curl -fsS -X POST "$ZIPLINE_URL/api/upload" \
+          if url=$(curl -fsS -X POST "$ZIPLINE_URL/api/upload" \
             -H "Authorization: $ZIPLINE_TOKEN" \
             -H "x-zipline-deletes-at: $ZIPLINE_TTL" \
             -H "x-zipline-original-name: true" \
             -H "x-zipline-no-json: true" \
             -F "file=@$f")
-          printf '%s\t%s\t%s\n' "$(date -Is)" "$(basename "$f")" "$url" \
-            >> ${shareDir}/zipline-urls.txt
-          rm -f "$f"
+          then
+            printf '%s\t%s\t%s\n' "$(date -Is)" "$(basename "$f")" "$url" \
+              >> ${shareDir}/zipline-urls.txt
+            rm -f "$f"
+          fi
         done
 
         chown ${toString cfg.agentUid}:${toString cfg.agentUid} ${shareDir}/zipline-urls.txt 2>/dev/null || true
