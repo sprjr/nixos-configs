@@ -68,15 +68,18 @@ in
 
         for f in ${shareDir}/outbox/*; do
           [ -f "$f" ] || continue
-          url=$(curl -fsS -X POST "$ZIPLINE_URL/api/upload" \
+          # A failed upload must not abort the run nor drop the file: it retries next tick.
+          if url=$(curl -fsS -X POST "$ZIPLINE_URL/api/upload" \
             -H "Authorization: $ZIPLINE_TOKEN" \
             -H "x-zipline-deletes-at: $ZIPLINE_TTL" \
             -H "x-zipline-original-name: true" \
             -H "x-zipline-no-json: true" \
             -F "file=@$f")
-          printf '%s\t%s\t%s\n' "$(date -Is)" "$(basename "$f")" "$url" \
-            >> ${shareDir}/zipline-urls.txt
-          rm -f "$f"
+          then
+            printf '%s\t%s\t%s\n' "$(date -Is)" "$(basename "$f")" "$url" \
+              >> ${shareDir}/zipline-urls.txt
+            rm -f "$f"
+          fi
         done
 
         chown ${toString cfg.agentUid}:${toString cfg.agentUid} ${shareDir}/zipline-urls.txt 2>/dev/null || true

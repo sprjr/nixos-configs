@@ -8,8 +8,7 @@
 {
   imports = [ ./modules/system/sops.nix ];
 
-  # Enable once hermes-agent/zipline-token exists in sops-nix/sops.yaml.
-  services.hermes-fileshare.enable = false;
+  services.hermes-fileshare.enable = true;
 
   networking.hostName = "badgey";
 
