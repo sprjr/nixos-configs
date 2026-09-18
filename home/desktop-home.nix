@@ -21,6 +21,7 @@
     ./modules/user-space/bat.nix
     ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
     ./modules/user-space/hyprland
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-desktop.nix
