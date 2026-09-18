@@ -1,12 +1,16 @@
-{ config, pkgs, home-manager, ... }:
+{ pkgs, ... }:
 
 {
   gtk = {
     enable = true;
+    colorScheme = "dark";
 
     theme = {
-      name = "Nordic";
-      package = pkgs.nordic;
+      name = "catppuccin-mocha-blue-standard";
+      package = pkgs.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "blue" ];
+      };
     };
 
     iconTheme = {
@@ -15,16 +19,8 @@
     };
   };
 
-  home.sessionVariables = {
-    GTK_THEME = "Nordic";
-    QT_STYLE_OVERRIDE = "gtk"; # makes qt apps follow the gtk theme
-    XCURSOR_THEME = "Adwaita";
-  };
-
-  home.pointerCursor = {
-    git.enable = true;
-    name = "Adwaita";
-    size = 24;
-    package = pkgs.gnome-adwaita-icon-theme;
+  qt = {
+    enable = true;
+    platformTheme = "gtk3";
   };
 }
