@@ -429,6 +429,46 @@
               ./nixos/modules/network/resolved-dns.nix
             ];
           };
+          # stargazer — ThinkPad P1 Gen 3 (NVIDIA T1000), disko+facter, TPM2 LUKS
+          stargazer = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // {
+              diskDevice = "/dev/nvme0n1";
+            };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              nix-flatpak.nixosModules.nix-flatpak
+              sops-nix.nixosModules.sops
+              nixos-hardware.nixosModules.lenovo-thinkpad-p1-gen3
+              ./nixos/modules/disks/disko-stargazer.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/hosts/workstations/stargazer.nix
+              ./nixos/modules/desktop/greetd.nix
+              ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/i18n/japanese-input.nix
+              ./nixos/modules/hardware/nvidia-t1000.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/stargazer/facter.json) {
+                  facter.reportPath = ./nixos/hosts/stargazer/facter.json;
+                }
+              )
+            ];
+          };
         };
 
         # Darwin
