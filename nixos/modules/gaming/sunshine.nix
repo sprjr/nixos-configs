@@ -13,7 +13,9 @@
     settings = {
       port = 47989;
 
-      capture = "kms";
+      # mon-remote streams a virtual output, which kms cannot capture.
+      capture = "wlr";
+      output_name = "HEADLESS-STREAM";
       encoder = "nvenc";
 
       hevc_mode = 0;
