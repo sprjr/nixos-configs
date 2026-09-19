@@ -36,6 +36,9 @@ let
 
   runtimeNameFile = ''"''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr-streaming-output"'';
 
+  # Pinned so Sunshine's output_name can reference it.
+  headlessName = "HEADLESS-STREAM";
+
   # Runtime `hyprctl keyword monitor` can't take the ",preferred,auto,auto" catch-all
   # (empty output name), so only named descriptors are re-applied.
   named = filter (m: !(hasPrefix "," m));
@@ -51,8 +54,8 @@ let
     '';
   };
 
-  # Idempotent, never destroys the output. Hyprland doesn't guarantee "HEADLESS-1" as the
-  # first name handed out, so the assigned name is recorded for mon-remote to read.
+  # Idempotent, never destroys the output. The name is pinned via headlessName so
+  # Sunshine's static output_name resolves to it.
   headlessOutputSetup = pkgs.writeShellApplication {
     name = "hyprland-headless-output-setup";
     runtimeInputs = [
@@ -61,13 +64,13 @@ let
     ];
     text = ''
       ${findInstance}
-      existing=$(hyprctl monitors all -j | jq -r '.[] | select(.name | startswith("HEADLESS-")) | .name' | head -n1)
+      existing=$(hyprctl monitors all -j | jq -r --arg n ${escapeShellArg headlessName} '.[] | select(.name == $n) | .name' | head -n1)
       if [ -z "$existing" ]; then
-        hyprctl output create headless
-        existing=$(hyprctl monitors all -j | jq -r '.[] | select(.name | startswith("HEADLESS-")) | .name' | head -n1)
+        hyprctl output create headless ${headlessName}
+        existing=$(hyprctl monitors all -j | jq -r --arg n ${escapeShellArg headlessName} '.[] | select(.name == $n) | .name' | head -n1)
       fi
       if [ -z "$existing" ]; then
-        echo "hyprland-headless-output-setup: failed to create/find a HEADLESS-* output" >&2
+        echo "hyprland-headless-output-setup: failed to create/find ${headlessName}" >&2
         exit 1
       fi
       hyprctl keyword monitor "$existing,${streamCfg.resolution},auto,1"
