@@ -17,6 +17,7 @@
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
     ./modules/user-space/cosmic/cosmic.nix
     ./modules/user-space/hyprland
     ./modules/tools/helix/config.nix
