@@ -1,6 +1,10 @@
 # Ignore all potential secrets files
 *secrets*
 
+# Never commit sops/age decryption keys
+keys.txt
+**/sops/age/
+
 # Ignore backup disk config
 *hetzner*
 
