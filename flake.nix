@@ -41,6 +41,11 @@
       url = "github:NixOS/nixos-hardware/master";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    # nix-on-droid master carries the proot TCSETS2 fix (upstream #529) and now tracks latest nixpkgs.
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/df611d5358360092b1d2e7e756f94b23843bd9d6";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvidia-patch = {
       url = "github:icewind1991/nvidia-patch-nixos";
       inputs.nixpkgs.follows = "flake-utils";
@@ -123,6 +128,7 @@
       nixos-hardware,
       sops-nix,
       thyx,
+      nix-on-droid,
       nixpkgs,
       nixpkgs-stable,
       spicetify-nix,
@@ -244,6 +250,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/system/unit-failure-notify.nix
+              ./nixos/modules/virtualisation/multiarch.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
@@ -462,5 +469,15 @@
           };
         };
       }
-    ));
+    ))
+    // {
+      nixOnDroidConfigurations.droid = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [ ./nixos/droid.nix ];
+        extraSpecialArgs = inputs;
+      };
+    };
 }
