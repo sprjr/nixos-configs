@@ -247,14 +247,14 @@ in
           }
         ];
       }
-      # Home Assistant web API. Uses http_responsive: unauthenticated /api returns
-      # 401, which the module accepts as "responsive". Internal fixed hostname, so
-      # static_configs (no sops secret needed).
+      # Home Assistant. Probes an API endpoint rather than the frontend root so
+      # the signal covers HA's API and auth stack; it returns 200 unauthenticated.
+      # Internal fixed hostname, so static_configs (no sops secret needed).
       {
         job_name = "blackbox-home-assistant";
         metrics_path = "/probe";
         params.module = [ "http_responsive" ];
-        static_configs = [ { targets = [ "http://shikisha:8123/api" ]; } ];
+        static_configs = [ { targets = [ "http://shikisha:8123/auth/providers" ]; } ];
         relabel_configs = [
           {
             source_labels = [ "__address__" ];

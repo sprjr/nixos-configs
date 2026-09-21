@@ -12,7 +12,7 @@
     {
       "id": 1,
       "type": "stat",
-      "title": "Home Assistant API",
+      "title": "Home Assistant",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 4, "w": 12, "x": 0, "y": 0 },
       "fieldConfig": {
