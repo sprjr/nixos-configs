@@ -39,7 +39,7 @@ in {
     extraConfig = ''
 # Separate everything with tabs, not spaces.
 # to convert to tabs in Vim, use :%s/\s\+/\t/g
-logfile	/media/backups/log/rsnapshot-trixos.log
+logfile	/media/backups/log/rsnapshot.log
 snapshot_root	/media/backups/
 retain	hourly	24
 retain	daily	7
