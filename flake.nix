@@ -194,6 +194,7 @@
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/audio/boot-sound-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
+              ./nixos/modules/system/android-adb.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
