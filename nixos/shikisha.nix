@@ -144,6 +144,11 @@ in
     apiTokenFile = config.sops.secrets.ha_token.path;
   };
 
+  services.unit-failure-notify = {
+    enable = true;
+    ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
+  };
+
   networking.iproute2.enable = true;
 
   # Wireguard

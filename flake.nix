@@ -243,6 +243,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
+              ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
@@ -324,6 +325,7 @@
               ./nixos/badgey.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/user/patrick.nix
