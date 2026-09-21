@@ -74,6 +74,7 @@ monitoring:
         comin-url: ENC[AES256_GCM,data:+sh/rbQjRlMtXeecoVqPxh1uQjp6SXsuOLmOYwIPhjBd1Cwfict97U7Nb+BUI3NCwtQccunzg1EZ9pSwxs1kVcr3AB+eWelh,iv:RmLb0DyoYUtEuSN8b5TcTo8VEAQk6GpTCiA/ZydBZM4=,tag:LGvkPYi3a+zn63kswkB7rw==,type:str]
         grafana-alerts-url: ENC[AES256_GCM,data:a4bPkrS4TiuilgmluNG6fMow8jqL1WTf/cvphnFH4pWN5KJw3JhFvyGfoQ==,iv:ZszaAVrF4PzCTQOsYPP8XRb5wmg9L5g3rvHSKJVU/Dk=,tag:M0DkRHcoK1NVY019YYSMcw==,type:str]
         frigate-events-url: ENC[AES256_GCM,data:iYJO+oPvSL6sBeOhGJ7+Sh9dERULxSk3aFq9J00NKr5Q2WI0PPoNgrD+jQ==,iv:Hq5f5ISo8LLaZea3cEAei3v4cBd2UNgitreOP2Yz3k0=,tag:TKoq+6zbrIxaa04Y685NcA==,type:str]
+        admin-notifications-url: ENC[AES256_GCM,data:DL9ECqquczZGEcC8Ck5TiamQoz2TX8l4+qBo11i36kXdk/oR0LaQ0aC70nxTmdpjdyhfnJrx6XTifzyRhAbgc/IEs1T4XHkXU5Imifu6,iv:y5t7+URqHrWf2VOZ0TTggZFkOJp6iGcHovxtz0oLJYc=,tag:TX7qhxdWB+wTaTZXpG8BBw==,type:str]
     ha-webhook:
         grafana-alerts-url: ENC[AES256_GCM,data:MhdskB9EpwHi+qPu2GJZe0fSIUj6cTwXr6q1JPTlzzqR+3Rv4z+BlhT0FSsmYX+AdN2wmfPI,iv:sT4T2SyHOp4qqHayEsR9wbnkBfeO+jd+60lMx+nH6+U=,tag:LOWoRsOc21yakPBRLj9uTQ==,type:str]
 palworld:
@@ -124,7 +125,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-09-17T17:59:09Z"
-    mac: ENC[AES256_GCM,data:WQHmvsQOS5jFap+uOSzZ14abZnOJjkXmOl4s1Blett9hb6KxN48J0XHofa3/onzsHMQ7B3dcqF45qgf00xCowf6Yu7Rq+7EUsIe+RaBn/CkUu+cumHxzAPjOyespsZom5GeZdRh43uR2xXdUonfWzxj5y/laaIRJQ/crn2RRZoc=,iv:PTHF8o9Gxvv1UaP8a9ZL2QQdZ2Mn/uyUn+GawO0tNC4=,tag:UFICdM6jTArWCpIBTDE1Eg==,type:str]
+    lastmodified: "2026-09-21T19:10:30Z"
+    mac: ENC[AES256_GCM,data:ZjN/S91gSzTaLIBVLGEljAoVuZGS/egR1cKMQdtK46ZlfcLawT+224atC3xJ2aAdo6b1gLsQylQV9L5NuQ5OsSuuIDVmPq07DVUUUyTMbufBv9ev4ES+w1f1Wzs1rZEGv5ZGEDf8P3IGBq0e/LJMkB4TS44v2qLudLxB6nzGWOc=,iv:bQLE98TgDkGipwBtPkxoiiPoECpVuhajPCaUZuQ1D44=,tag:RcR8y9iChjCNcdaqHPoaPg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
