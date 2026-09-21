@@ -40,10 +40,8 @@ syncthing:
         device-id: ENC[AES256_GCM,data:bLz4KTZtqHUVrpfMtpOgkV0mkSGOP0L/d/r3aDmKu6rxSL7tPWr4sO7j03K0qYLizEs9d1mDCYqeDcs28l93,iv:VFbDSC6iyrflskX53PJroJgptWXOySLOjhwJdQ1Er+g=,tag:4YCP4FxyVergzzmLUqX5gw==,type:str]
     device-id:
         nx-01: null
-        prometheus: null
         voyager: ENC[AES256_GCM,data:C39kjRxpH3gZaAt5XcqH1V1/tKriePV+BUHQbYcJE36pcVSRcsLXld3f7Etpv6Mn0xpliJqvj3Qk6q0fkjM=,iv:PZhn2MvJkV8Uci9u9Zmu8gDlZU/r7Yy49LbRQf1QFtE=,tag:sqC/veTWvGMCk2aKmzfDVg==,type:str]
         seanix: ENC[AES256_GCM,data:hPpluftvbGDV2/7vkdrBoLrAAx9i1zQlfUQAdyS1NURqsgi/gbhts1JIiwHonBFoosaRTJckXfos6FmkrQE7,iv:LyVx574SqsQ1hB7eMmKvrDpykCS/HTB0WM2me/pUv2k=,tag:zqnpQtrZ1+2rsPxmfQuw4A==,type:str]
-        trixos: null
         seair: ENC[AES256_GCM,data:/u9/XZnLhZBa3tljtMTT59z8A5HXLgQqVhCJDoJrJgeG2SxpbyPzx+1THVSQqHGEYKqYIAb3JLXL2O5bOXqH,iv:p7AJkkCvqpd6CztUKVroZ6da/BzHd+dFVm9T4czbLaY=,tag:f7ypD4og3bUhWnDGV5N2dw==,type:str]
         defiant: ENC[AES256_GCM,data:M6ggRSbs3FG+95Hg+WO30IHIeZYmPn2DDu4lbB2E7ocNvt2X/L664H9h5qMpDtY7Tkkh+3e+rYHReU3pSRFg,iv:OSwqvpUHeXv659AlcBDYGLUwpjKHdyO9qlLn5WFeMZw=,tag:QH8uSYoiD/h0b9m2z3lO4Q==,type:str]
 cosmic:

@@ -9,11 +9,9 @@ This stores my NixOS configs
 (Available configurations at this time include):
 
 #### NixOS
-```trixos```
 ```seanix```
 ```seanvy```
 ```shikisha```
-```prometheus```
 The names vaguely have relation to their function, but just as well might not.
 
 #### Darwin
