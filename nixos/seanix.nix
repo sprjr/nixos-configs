@@ -18,6 +18,15 @@ in
     ./modules/system/esp-tooling.nix
   ];
 
+  services.android-adb = {
+    enable = true;
+    settings = {
+      global.window_animation_scale = "0.5";
+      global.transition_animation_scale = "0.5";
+      global.animator_duration_scale = "0.5";
+    };
+  };
+
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
   #boot.kernelPackages = pkgs.linuxPackages_zen; # commented out to test nvidia zen kernel package in the nvidia config module
 
