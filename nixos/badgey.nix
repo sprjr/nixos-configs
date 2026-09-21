@@ -74,6 +74,11 @@
 
   services.tailscale.enable = true;
 
+  services.unit-failure-notify = {
+    enable = true;
+    ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
+  };
+
   services.btrfs.autoScrub = {
     enable = true;
     interval = "monthly";
