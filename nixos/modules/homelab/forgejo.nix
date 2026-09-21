@@ -95,8 +95,24 @@ in
     2222
   ];
 
-  # Fail to start rather than run against an unmounted store.
-  systemd.services.forgejo.unitConfig.RequiresMountsFor = [ stateDir ];
+  # Fail rather than run against an unmounted store; the wait also triggers the automount.
+  systemd.services.forgejo = {
+    after = [ "tailscaled.service" ];
+    wants = [ "tailscaled.service" ];
+    serviceConfig.ExecStartPre = [
+      (pkgs.writeShellScript "wait-for-forgejo-state" ''
+        for _ in $(${pkgs.coreutils}/bin/seq 1 24); do
+          ${pkgs.coreutils}/bin/ls ${stateDir} >/dev/null 2>&1 || true
+          if ${pkgs.gnugrep}/bin/grep -qs " ${stateDir} nfs" /proc/mounts; then
+            exit 0
+          fi
+          ${pkgs.coreutils}/bin/sleep 5
+        done
+        echo "${stateDir} is not an nfs mount after 120s" >&2
+        exit 1
+      '')
+    ];
+  };
 
   # Mirror nixpkgs' preStart, leaving app.ini writable for the JWT secret.
   systemd.services.forgejo.preStart = lib.mkForce ''
