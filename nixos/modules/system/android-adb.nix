@@ -40,9 +40,14 @@ let
       fi
     }
 
-    state=$(adb_cmd get-state 2>/dev/null || true)
+    for _ in $(seq "${toString cfg.waitSeconds}"); do
+      state=$(adb_cmd get-state 2>/dev/null || true)
+      [ "$state" = "device" ] && break
+      sleep 1
+    done
+
     if [ "$state" != "device" ]; then
-      echo "android-adb: no authorized device (state: ''${state:-none})"
+      echo "android-adb: no authorized device after ${toString cfg.waitSeconds}s (state: ''${state:-none})"
       exit 0
     fi
 
@@ -81,6 +86,12 @@ in
       type = types.nullOr types.str;
       default = null;
       description = "adb serial or host:port. Null targets the single attached device.";
+    };
+
+    waitSeconds = mkOption {
+      type = types.int;
+      default = 30;
+      description = "Seconds to wait for the device to authorize before giving up.";
     };
 
     settings = mkOption {
