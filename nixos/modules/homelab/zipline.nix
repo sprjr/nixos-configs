@@ -77,5 +77,21 @@ in
     };
   };
 
+  # dependsOn only orders unit start; wait for the postgres healthcheck to pass.
+  systemd.services.docker-zipline.serviceConfig.ExecStartPre = [
+    (pkgs.writeShellScript "wait-for-zipline-postgres" ''
+      for _ in $(${pkgs.coreutils}/bin/seq 1 24); do
+        if [ "$(${config.virtualisation.docker.package}/bin/docker inspect \
+          --format '{{if .State.Health}}{{.State.Health.Status}}{{end}}' \
+          zipline-postgres 2>/dev/null)" = healthy ]; then
+          exit 0
+        fi
+        ${pkgs.coreutils}/bin/sleep 5
+      done
+      echo "zipline-postgres is not healthy after 120s" >&2
+      exit 1
+    '')
+  ];
+
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3221 ];
 }
