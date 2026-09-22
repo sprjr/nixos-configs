@@ -674,7 +674,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''node_filesystem_readonly{mountpoint="/"} == 1'';
+                        expr = ''node_filesystem_readonly{mountpoint="/"} == 1 and on (instance) min_over_time(node_filesystem_readonly{mountpoint="/"}[30d]) == 0'';
                         instant = true;
                       };
                     }
