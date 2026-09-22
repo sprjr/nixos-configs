@@ -3,7 +3,7 @@
 {
   # Modules
   # From what I read, this may cause recursion as pkgs needs the modules to be evaluated before it can call properly
-  imports = if pkgs.stdenv.isDarwin then [
+  imports = if pkgs.stdenv.hostPlatform.isDarwin then [
     ./modules/user-space/bat.nix
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-darwin.nix
@@ -29,7 +29,7 @@
     userEmail = "patrick@rawlinson.ws";
   };
 
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+  home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

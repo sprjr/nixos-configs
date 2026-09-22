@@ -38,7 +38,7 @@
   };
 
   home.username = "patrick";
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+  home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
 
   nix = {
     package = pkgs.nix;
