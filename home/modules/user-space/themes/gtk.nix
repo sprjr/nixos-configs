@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   gtk = {
@@ -13,6 +13,8 @@
       };
     };
 
+    gtk4.theme = config.gtk.theme;
+
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
@@ -21,6 +23,6 @@
 
   qt = {
     enable = true;
-    platformTheme = "gtk3";
+    platformTheme.name = "gtk3";
   };
 }
