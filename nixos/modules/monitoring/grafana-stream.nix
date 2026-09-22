@@ -18,7 +18,7 @@ let
   ffmpegX11 = pkgs.ffmpeg.override { withXcb = true; };
 
   streamDeps = with pkgs; [
-    xorg.xorgserver
+    xorg-server
     chromium
     ffmpegX11
     curl

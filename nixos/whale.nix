@@ -28,6 +28,7 @@ in {
     "network-online.target"
     "systemd-resolved.service"
   ];
+  systemd.services."cage-tty1".wants = [ "network-online.target" ];
 
   # Kiosk user for cage
   users.users.kiosk = {

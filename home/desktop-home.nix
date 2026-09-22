@@ -88,7 +88,7 @@
   };
 
   home = {
-    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
     username = "patrick";
   };
 

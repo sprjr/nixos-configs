@@ -153,7 +153,7 @@
         ${pkgs.fish}/bin/fish --init-command="source ${fish_config}" $@
       '';
       # Tmux configs
-      myClip = if pkgs.stdenv.isDarwin then pkgs.writeShellScript "myClip" ''
+      myClip = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.writeShellScript "myClip" ''
         stdin=$(cat)
 
         /usr/bin/printf "%s" "$stdin" | /usr/bin/pbcopy
