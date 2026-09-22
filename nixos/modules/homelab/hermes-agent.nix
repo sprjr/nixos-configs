@@ -273,7 +273,7 @@ in
       "--cap-add=SETUID"
       "--cap-add=SETGID"
       "--security-opt=no-new-privileges"
-      "--pids-limit=256"
+      "--pids-limit=2048"
     ];
     volumes = [
       "/var/lib/hermes-agent:/opt/data"
