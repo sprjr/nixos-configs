@@ -26,7 +26,7 @@ let
     ++ map (p: "shell pm disable-user --user 0 ${escapeShellArg p}") cfg.disabledPackages
     ++ map (p: "shell pm enable ${escapeShellArg p}") cfg.enabledPackages;
 
-  applyScript = pkgs.writeShellScript "android-adb-apply" ''
+  applyScript = pkgs.writeShellScriptBin "android-adb-apply" ''
     set -uo pipefail
 
     ADB=${escapeShellArg "${pkgs.android-tools}/bin/adb"}
@@ -134,7 +134,7 @@ in
         Type = "oneshot";
         User = cfg.user;
         RemainAfterExit = false;
-        ExecStart = "${applyScript}";
+        ExecStart = "${applyScript}/bin/android-adb-apply";
       };
     };
 
