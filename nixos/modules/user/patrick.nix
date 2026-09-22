@@ -41,6 +41,9 @@
 
   programs.zsh.enable = true;
 
+  # home-manager writes GTK dconf keys, which needs the system dconf D-Bus service.
+  programs.dconf.enable = true;
+
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
