@@ -661,6 +661,59 @@ in
                   annotations.summary = "{{ $labels.instance }} has stopped reporting to Prometheus";
                 }
                 {
+                  uid = "root-filesystem-readonly";
+                  title = "Root filesystem remounted read-only";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''node_filesystem_readonly{mountpoint="/"} == 1 and on (instance) min_over_time(node_filesystem_readonly{mountpoint="/"}[30d]) == 0'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "1m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "critical";
+                  annotations.summary = "{{ $labels.instance }} root filesystem is read-only";
+                }
+                {
                   uid = "satisfactory-save-stale";
                   title = "Satisfactory save is stale";
                   condition = "C";
