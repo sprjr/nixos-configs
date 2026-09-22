@@ -95,27 +95,28 @@ in
     2222
   ];
 
-  # Fail rather than run against an unmounted store; the wait also triggers the automount.
+  # Wait for the store mount before migrate; nixpkgs runs preStart ahead of ExecStartPre.
   systemd.services.forgejo = {
     after = [ "tailscaled.service" ];
     wants = [ "tailscaled.service" ];
-    serviceConfig.ExecStartPre = [
-      (pkgs.writeShellScript "wait-for-forgejo-state" ''
-        for _ in $(${pkgs.coreutils}/bin/seq 1 24); do
-          ${pkgs.coreutils}/bin/ls ${stateDir} >/dev/null 2>&1 || true
-          if ${pkgs.gnugrep}/bin/grep -qs " ${stateDir} nfs" /proc/mounts; then
-            exit 0
-          fi
-          ${pkgs.coreutils}/bin/sleep 5
-        done
-        echo "${stateDir} is not an nfs mount after 120s" >&2
-        exit 1
-      '')
-    ];
+    serviceConfig.TimeoutStartSec = 300;
   };
 
   # Mirror nixpkgs' preStart, leaving app.ini writable for the JWT secret.
   systemd.services.forgejo.preStart = lib.mkForce ''
+    # preStart runs before ExecStartPre, so wait here or migrate runs against an unmounted store.
+    for _ in $(${pkgs.coreutils}/bin/seq 1 24); do
+      if ${pkgs.util-linux}/bin/findmnt -rno FSTYPE --target ${stateDir} | ${pkgs.gnugrep}/bin/grep -qE '^nfs4?$'; then
+        break
+      fi
+      ${pkgs.coreutils}/bin/ls ${stateDir} >/dev/null 2>&1 || true
+      ${pkgs.coreutils}/bin/sleep 5
+    done
+    if ! ${pkgs.util-linux}/bin/findmnt -rno FSTYPE --target ${stateDir} | ${pkgs.gnugrep}/bin/grep -qE '^nfs4?$'; then
+      echo "${stateDir} is not an nfs mount after 120s" >&2
+      exit 1
+    fi
+
     (umask 027
       config='${customDir}/conf/app.ini'
       cp -f '${format.generate "app.ini" config.services.forgejo.settings}' "$config"
