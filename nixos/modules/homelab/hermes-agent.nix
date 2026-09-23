@@ -95,6 +95,7 @@ in
   sops.secrets."hermes-agent/api-server-key" = { };
   sops.secrets."hermes-agent/cloud-api-key" = { };
   sops.secrets."hermes-agent/forgejo-pat" = { };
+  sops.secrets."hermes-agent/github-pat" = { };
   sops.secrets.ha_token = { };
   sops.secrets.ha_token_wopr = { };
   sops.secrets."radicale/password" = { };
@@ -146,6 +147,7 @@ in
       HA_TOKEN_WOPR=${config.sops.placeholder.ha_token_wopr}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
       FORGEJO_PAT=${config.sops.placeholder."hermes-agent/forgejo-pat"}
+      GITHUB_PAT=${config.sops.placeholder."hermes-agent/github-pat"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
       LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
       DAWARICH_API_KEY=${config.sops.placeholder."dawarich/api-key"}
