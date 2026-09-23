@@ -111,7 +111,6 @@ in
         ", Print, exec, grimblast copy screen"
       ] ++ optionals (cfg.shell == "native") [
         "$mainMod, Space, exec, fuzzel"
-        "$mainMod SHIFT, W, exec, hypr-wallpaper"
         "$mainMod, D, exec, dict-lookup --selection"
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
       ] ++ workspaceBinds;

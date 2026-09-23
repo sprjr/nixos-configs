@@ -58,6 +58,10 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     thyx = {
       url = "github:rccyx/thyx";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -132,6 +136,7 @@
       nixpkgs,
       nixpkgs-stable,
       spicetify-nix,
+      stylix,
       weathr,
       dark-wallpaper-laptop,
       ...
@@ -160,6 +165,7 @@
               ./nixos/modules/desktop/greetd.nix
               ./nixos/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
@@ -186,6 +192,7 @@
               ./nixos/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
@@ -268,6 +275,7 @@
               ./nixos/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               #./nixos/modules/system/comin.nix
@@ -395,6 +403,7 @@
               ./nixos/hosts/workstations/stargazer.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/hardware/nvidia-t1000.nix
               ./nixos/modules/system/comin.nix

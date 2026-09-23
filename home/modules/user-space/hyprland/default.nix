@@ -12,9 +12,7 @@ let
 
   isLaptop = cfg.formFactor == "laptop";
 
-  # Catppuccin Mocha border colors (rest of the palette lives per-app).
-  activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
-  inactiveBorder = "rgba(313244aa)";
+  # Border colors are the Stylix palette (base0D active, base03 inactive).
 
   # Nvidia compositor env (seanix).
   nvidiaEnv = optionals (cfg.gpu == "nvidia") [
@@ -74,8 +72,8 @@ in
       default = "native";
       description = ''
         Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
-        hypridle, swaync, and awww. "caelestia" uses caelestia-shell (Quickshell-based
-        unified shell).
+        hypridle, and swaync (wallpaper via Stylix). "caelestia" uses caelestia-shell
+        (Quickshell-based unified shell).
       '';
     };
 
@@ -303,13 +301,10 @@ in
         "$fileManager" = "cosmic-files";
         "$mainMod" = "SUPER";
 
-        env = [
-          "XCURSOR_SIZE,24"
-          "XCURSOR_THEME,Nordzy-catppuccin-frappe-dark"
-          "HYPRCURSOR_SIZE,24"
-          "HYPRCURSOR_THEME,Nordzy-hyprcursors"
-        ]
-        ++ nvidiaEnv;
+        # Cursor env is home.pointerCursor's (Stylix sets XCURSOR_THEME; the old
+        # HYPRCURSOR_THEME override went with the Frappe theme). Only the
+        # compositor-specific Nvidia env is declared here.
+        env = nvidiaEnv;
 
         cursor = mkIf (cfg.gpu == "nvidia") {
           no_hardware_cursors = true;
@@ -322,7 +317,6 @@ in
           "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
           # Start Secret Service for Electron apps (no kwallet under Hyprland).
           "gnome-keyring-daemon --start --components=secrets"
-          "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
           "wl-paste --watch cliphist store"
           "fcitx5 -d --replace"
           "steam"
@@ -336,8 +330,6 @@ in
           gaps_in = 5;
           gaps_out = 10;
           border_size = 0;
-          "col.active_border" = activeBorder;
-          "col.inactive_border" = inactiveBorder;
           layout = "dwindle";
           allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
           resize_on_border = true;
