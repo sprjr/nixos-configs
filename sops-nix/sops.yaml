@@ -89,11 +89,11 @@ hermes-agent:
     dashboard-password: ENC[AES256_GCM,data:SJPGnjHS56L47zWPYCKOUc+h1dI=,iv:tjL3+6lkxFPF/4pMBoBdhubRzjt3NefpF0UuY/LSYmo=,tag:EhWku11n0eKNF7kDrkS5XQ==,type:str]
     api-server-key: ENC[AES256_GCM,data:IiP5BE4tVqTaOifdmbf1C++jlE4=,iv:uPanBh+x2u1unXM1mpYm4Yj/XZel1lj7P0D/gdXNRJM=,tag:iUl3o0X9khSy+hzCRl22KQ==,type:str]
     telegram-native-bot-token: ENC[AES256_GCM,data:tKBIjBKkLhHF2mMIPzVg3qojy6pa66CTb3sPmkaj2rogvaNCkmHIeOlTrBDbxw==,iv:yOpycTU3ci5a5zT6nwB1ayUaNhpWFvI+d9TEHEKMCL8=,tag:rVfzGv3ng4S2uo6UOi/JyA==,type:str]
-    cloud-api-key: ENC[AES256_GCM,data:99jM83faS8ELFJY+6b1Pt1csQbVzySqKCjlb8zZx4lYotS4xGrhIN0lRN67gjEV7GdC3tsMac8au,iv:T/MXD4ngYF8EoXmiUHmodyfo8IY2dm/pjSKiPHdKV20=,tag:s/qHYMI+caGxtz5iVpN/vg==,type:str]
+    cloud-api-key: ENC[AES256_GCM,data:7sVOqfBTWK05x1s1NB45wBYv/D4iAEIbIOpgUiXX4EgFFzYcxxubx2zQVIfrc0LkKS/MdQC4aSuu,iv:IvgeKYU2I6biLH+XZ0fe+uu+IFrM5odpmTog66HQv/s=,tag:BP0qBpjC/qHQi0NqW9/o2Q==,type:str]
     zipline-token: ENC[AES256_GCM,data:m/huR9xmHfcZINh+vafo/536idGWRrxWrG5lB87wG6qDWkNNUvnubZtM8Cu8reExzJ0RJd30WWC4pV2Bsjh/Z9NZSyArAdVTbBEkTa+lOpNgxpU0Jxa4M93OJNkXRZyX2QinSWicizNpqF2AznLxWOy43AUCsp/iEo8nh7Emg+hZxvvjRuGiNiq2diOR3hMGhY4IW7mWtS22AnZ6SCePFOM0Gj4LspCf8QVrBwr9VUpOkGVfzVwWo4jHG5GpjV8SWjpJXt4cYOq4YnSLEQVaOAM1HLcTOaO6wgGbePIwjKIK8dzIeQBxBrcqQQymKpNRNhendNuUTPpqjzDq1XaTkXrW7hXoDLf/dUsKig+mfRZO,iv:taTvUV2FSOWfxMEfkxbBmo1LCmaH3xyCmHqq6hKJYWI=,tag:cfz/E2XNIAiIxUq7Ykdn4Q==,type:str]
     forgejo-pat: ENC[AES256_GCM,data:Z7yVdxE27EJi9Gj4ImFo8VXAuqTEJY/biL0WcL58nEUFWLNVddr7UA==,iv:r95CWCPdGz2tohKuA41ie9QdnSJkHPOD0uzlmnjyVrg=,tag:eQcDBfHiVLUHGAC+k1wWSg==,type:str]
 radicale:
-    htpasswd: ENC[AES256_GCM,data:KRoptPpu3H3SLD0N/f3R4Y5mKRD7hYtH1PPZ3Wq+srXXrG+kJZr6FY9LtdsbOS2eozYmoQHMnucARmufay6Lxp9t2SU=,iv:2sjRE+OZjFd4YgAIvTyoRymcC4f6j5rX/BWZ49xFNaE=,tag:lYAfbKI7zyhLhiZ0J2IjmQ==,type:str]
+    htpasswd: ENC[AES256_GCM,data:9pWEBKWoHdlY61aIfnt9sWDlfvJJxLvQTnPH4ij44tWNaUgw0Zv3t1Z3eBQKtf7aIx0qqcT4iA9o5tjJo8v+0MzVwYg=,iv:/RMYCjjeGGMTeScHRyfS5IxXGZIxypei7JUZn4+JD6E=,tag:kxRt3NB2JBVk66TIvO88xw==,type:str]
     password: ENC[AES256_GCM,data:+2AfqNkJepoancket2j09z6cW9iMwfh7v38OPqf8qJCDclKzWdvaACwmnUc=,iv:MiM7bwsJjxIwBViOASK8LSb6WY3bmNfmRYyISTVWPyI=,tag:n9u4PI1z/B1BoiAgx2bDtA==,type:str]
 lubelogger:
     api-key: ENC[AES256_GCM,data:QJ91z4ioRrtbAk+TBT7sfBi9mcXk+OMhd93s2Mf78+E=,iv:ACA7Uez2b0xOCy4UVkMep3sX2+txP/vX/Uy1itSLlw4=,tag:hasDDFtxfv9HSPkqROf4vw==,type:str]
@@ -124,7 +124,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-09-23T03:01:39Z"
-    mac: ENC[AES256_GCM,data:NjbVJFD8bOB7M4I8TaAbTMJxhc9rUl3Ciny/MFGz/GhUA5HLZLtDdVVghMilndFpWNnR7yjypJemnaVXKVwf07JXtDpQxAHboibjqc9yzvhjdLtPPrMHG8lxA8olB44CEsQyF8iLO9pzGZqXgH8kMD4l5nC4IExih/NGEQSwad0=,iv:mwAoNVmg3mQjh5QLMcgWkEp1NgFtm4L7puY4d9As6HU=,tag:GUKqq/IJ/rjjWfDj4IzSVQ==,type:str]
+    lastmodified: "2026-09-23T17:06:57Z"
+    mac: ENC[AES256_GCM,data:eyxvYsnqpLh06Lshtl+6eO4McgQ5QxTMRfbxjoMvvnQexG2w3rJNpMOQK/MO7b45yWNJvAS9yQMmZ+Lulv95TDhGTOSWPgl0i0sT2zZfZlAEQSE6tFEbAz5jfBOPXQK+FHAbFkq0NQTl0DOFv2f51Ek/V9biTS3nn+ED2dne3pI=,iv:NFcFyfir61OUhVklXRkJD2nZeR2GnXokRHuXJJvbE70=,tag:eubXsDaaV8Q6lrcoEViSNQ==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
