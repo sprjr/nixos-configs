@@ -11,21 +11,42 @@ let
   # OpenCode Go:  "https://opencode.ai/zen/go/v1"
   cloudBase = "https://ollama.com/v1";
 
-  mkModelBlock = { model, base_url ? cloudBase, context_length ? 131072, api_key ? false }:
-    let keyLine = if api_key then "\n  api_key: \${OPENAI_API_KEY}" else "";
-    in ''
-    model:
-      default: ${model}
-      provider: custom
-      base_url: ${base_url}
-      context_length: ${toString context_length}${keyLine}
-  '';
+  mkModelBlock =
+    {
+      model,
+      base_url ? cloudBase,
+      context_length ? 131072,
+      api_key ? false,
+    }:
+    let
+      keyLine = if api_key then "\n  api_key: \${OPENAI_API_KEY}" else "";
+    in
+    ''
+      model:
+        default: ${model}
+        provider: custom
+        base_url: ${base_url}
+        context_length: ${toString context_length}${keyLine}
+    '';
 
   # Per-profile model assignments
-  triageModel = mkModelBlock { model = "deepseek-v4.1-flash"; api_key = true; };
-  coderModel = mkModelBlock { model = "kimi-k2.7-code"; api_key = true; };
-  researcherModel = mkModelBlock { model = "deepseek-v4-flash:0731"; api_key = true; };
-  homeModel = mkModelBlock { model = "gemma4:31b"; context_length = 128000; api_key = true; };
+  triageModel = mkModelBlock {
+    model = "deepseek-v4.1-flash";
+    api_key = true;
+  };
+  coderModel = mkModelBlock {
+    model = "kimi-k2.7-code";
+    api_key = true;
+  };
+  researcherModel = mkModelBlock {
+    model = "deepseek-v4-flash:0731";
+    api_key = true;
+  };
+  homeModel = mkModelBlock {
+    model = "gemma4:31b";
+    context_length = 128000;
+    api_key = true;
+  };
 
   localModel = mkModelBlock {
     model = "qwen3.5:4b";
@@ -73,6 +94,7 @@ in
   sops.secrets."hermes-agent/dashboard-password" = { };
   sops.secrets."hermes-agent/api-server-key" = { };
   sops.secrets."hermes-agent/cloud-api-key" = { };
+  sops.secrets."hermes-agent/forgejo-pat" = { };
   sops.secrets.ha_token = { };
   sops.secrets.ha_token_wopr = { };
   sops.secrets."radicale/password" = { };
@@ -123,6 +145,7 @@ in
       HA_TOKEN=${config.sops.placeholder.ha_token}
       HA_TOKEN_WOPR=${config.sops.placeholder.ha_token_wopr}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
+      FORGEJO_PAT=${config.sops.placeholder."hermes-agent/forgejo-pat"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
       LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
       DAWARICH_API_KEY=${config.sops.placeholder."dawarich/api-key"}
@@ -183,16 +206,26 @@ in
       chmod 644 /var/lib/hermes-agent/.env
 
       # API reference files
-      cp ${config.sops.secrets."hermes-agent/ref-caldav".path} /var/lib/hermes-agent/references/caldav-api.md
-      cp ${config.sops.secrets."hermes-agent/ref-lubelogger".path} /var/lib/hermes-agent/references/lubelogger-api.md
-      cp ${config.sops.secrets."hermes-agent/ref-dawarich".path} /var/lib/hermes-agent/references/dawarich-api.md
-      cp ${config.sops.secrets."hermes-agent/ref-monitoring".path} /var/lib/hermes-agent/references/monitoring-api.md
+      cp ${
+        config.sops.secrets."hermes-agent/ref-caldav".path
+      } /var/lib/hermes-agent/references/caldav-api.md
+      cp ${
+        config.sops.secrets."hermes-agent/ref-lubelogger".path
+      } /var/lib/hermes-agent/references/lubelogger-api.md
+      cp ${
+        config.sops.secrets."hermes-agent/ref-dawarich".path
+      } /var/lib/hermes-agent/references/dawarich-api.md
+      cp ${
+        config.sops.secrets."hermes-agent/ref-monitoring".path
+      } /var/lib/hermes-agent/references/monitoring-api.md
       chmod 644 /var/lib/hermes-agent/references/*.md
 
       # Coder profile
       cp ${coderConfigYaml} /var/lib/hermes-agent/profiles/coder/config.yaml
       chmod 600 /var/lib/hermes-agent/profiles/coder/config.yaml
-      cp ${config.sops.secrets."hermes-agent/soul-coder".path} /var/lib/hermes-agent/profiles/coder/SOUL.md
+      cp ${
+        config.sops.secrets."hermes-agent/soul-coder".path
+      } /var/lib/hermes-agent/profiles/coder/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/coder/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/coder/.env
       chmod 644 /var/lib/hermes-agent/profiles/coder/.env
@@ -200,7 +233,9 @@ in
       # Researcher profile
       cp ${researcherConfigYaml} /var/lib/hermes-agent/profiles/researcher/config.yaml
       chmod 600 /var/lib/hermes-agent/profiles/researcher/config.yaml
-      cp ${config.sops.secrets."hermes-agent/soul-researcher".path} /var/lib/hermes-agent/profiles/researcher/SOUL.md
+      cp ${
+        config.sops.secrets."hermes-agent/soul-researcher".path
+      } /var/lib/hermes-agent/profiles/researcher/SOUL.md
       chmod 644 /var/lib/hermes-agent/profiles/researcher/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/researcher/.env
       chmod 644 /var/lib/hermes-agent/profiles/researcher/.env
@@ -224,7 +259,10 @@ in
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.socat pkgs.tailscale ];
+    path = [
+      pkgs.socat
+      pkgs.tailscale
+    ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-dashboard-proxy" ''
         TS_IP=$(tailscale ip -4)
@@ -244,7 +282,10 @@ in
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.socat pkgs.tailscale ];
+    path = [
+      pkgs.socat
+      pkgs.tailscale
+    ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
         TS_IP=$(tailscale ip -4)
@@ -264,8 +305,10 @@ in
       "--add-host=host.containers.internal:host-gateway"
       "--add-host=shikisha:100.67.20.13"
       "--add-host=wopr-0:100.100.21.96"
-      "-p" "127.0.0.1:9119:9119"
-      "-p" "127.0.0.1:8642:8642"
+      "-p"
+      "127.0.0.1:9119:9119"
+      "-p"
+      "127.0.0.1:8642:8642"
       "--cap-drop=ALL"
       "--cap-add=DAC_OVERRIDE"
       "--cap-add=CHOWN"
@@ -310,5 +353,8 @@ in
     requires = [ "sops-secrets-rendered.service" ];
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8642 9119 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    8642
+    9119
+  ];
 }
