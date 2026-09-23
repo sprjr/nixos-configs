@@ -205,6 +205,7 @@
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
+              ./nixos/modules/ml/piper-training.nix
               ./nixos/modules/user/patrick-desktop.nix
             ];
           };
