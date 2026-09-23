@@ -1,28 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  gtk = {
-    enable = true;
-    colorScheme = "dark";
-
-    theme = {
-      name = "catppuccin-mocha-blue-standard";
-      package = pkgs.catppuccin-gtk.override {
-        variant = "mocha";
-        accents = [ "blue" ];
-      };
-    };
-
-    gtk4.theme = config.gtk.theme;
-
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-  };
-
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk3";
-  };
+  # Theme, colours, fonts, and icons all come from Stylix. The Qt platform theme is
+  # Stylix's too (qtct), so nothing but the Qt bridge is declared here.
+  qt.enable = true;
 }

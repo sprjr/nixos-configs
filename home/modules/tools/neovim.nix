@@ -17,7 +17,6 @@
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
       ale
-      nord-vim
       vim-airline
       vim-airline-themes
       vim-better-whitespace

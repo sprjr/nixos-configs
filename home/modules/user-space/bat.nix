@@ -1,16 +1,10 @@
-{ config, pkgs, home-manager, ... }:
+{ ... }:
 
 {
-  home.file.".config/bat/config" = {
-    text = ''
-      # Run `bat --list-themes` for a list of all available themes
-       --theme="Catppuccin Mocha"
-
-       # Show line numbers, git modifications, and file header (no grid)
-       --style="numbers,changes,header"
-
-       # Enable this to use italic text on the terminal. This is not supported on all terminal emulators (like tmux, by default)
-       --italic-text=always
-    '';
+  # Theme is provided by Stylix (programs.bat.config.theme = "base16-stylix").
+  # Only non-theming flags are declared here.
+  programs.bat.config = {
+    style = "numbers,changes,header";
+    italic-text = "always";
   };
 }

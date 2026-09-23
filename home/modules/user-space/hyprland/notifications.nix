@@ -28,33 +28,6 @@ in
           "notifications"
         ];
       };
-      style = ''
-        * {
-          font-family: "JetBrainsMono Nerd Font";
-        }
-        .control-center,
-        .notification-row {
-          background: #1e1e2e;
-          color: #cdd6f4;
-        }
-        .notification {
-          border-radius: 10px;
-          background: #313244;
-        }
-        .notification-content {
-          padding: 8px;
-        }
-        .close-button {
-          background: #f38ba8;
-          color: #1e1e2e;
-          border-radius: 8px;
-        }
-        .control-center .widget-title > button {
-          background: #b4befe;
-          color: #1e1e2e;
-          border-radius: 8px;
-        }
-      '';
     };
 
     # Scoped to hyprland-session.target.
