@@ -72,8 +72,8 @@ in
       default = "native";
       description = ''
         Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
-        hypridle, swaync, and awww. "caelestia" uses caelestia-shell (Quickshell-based
-        unified shell).
+        hypridle, and swaync (wallpaper via Stylix). "caelestia" uses caelestia-shell
+        (Quickshell-based unified shell).
       '';
     };
 
@@ -301,8 +301,9 @@ in
         "$fileManager" = "cosmic-files";
         "$mainMod" = "SUPER";
 
-        # XCURSOR_THEME/HYPRCURSOR_THEME come from home.pointerCursor (Stylix), so
-        # only the compositor-specific Nvidia env is declared here.
+        # Cursor env is home.pointerCursor's (Stylix sets XCURSOR_THEME; the old
+        # HYPRCURSOR_THEME override went with the Frappe theme). Only the
+        # compositor-specific Nvidia env is declared here.
         env = nvidiaEnv;
 
         cursor = mkIf (cfg.gpu == "nvidia") {
