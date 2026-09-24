@@ -9,6 +9,7 @@ with lib;
 
 let
   cfg = config.patrick.home.hyprland;
+  c = config.lib.stylix.colors.withHashtag;
 
   # User-space Bluetooth power toggle (no rfkill/root needed); blueman-manager handles pairing.
   btToggle = pkgs.writeShellApplication {
@@ -191,6 +192,105 @@ in
         enable = true;
         targets = [ "hyprland-session.target" ];
       };
+      style = ''
+        * {
+          min-height: 0;
+        }
+        #workspaces button {
+          padding: 0 8px;
+          color: ${c.base04};
+          background: transparent;
+        }
+        #workspaces button.active {
+          color: ${c.base00};
+          background: ${c.base07};
+          border-radius: 8px;
+        }
+        #cpu,
+        #memory,
+        #temperature,
+        #pulseaudio,
+        #bluetooth,
+        #battery,
+        #clock,
+        #tray,
+        #mpris,
+        #disk,
+        #privacy,
+        #idle_inhibitor,
+        #power-profiles-daemon,
+        #systemd-failed-units,
+        #language,
+        #custom-weather,
+        #custom-calendar,
+        #custom-public-ip,
+        #custom-gpu,
+        #custom-budslink,
+        #custom-ha-fan,
+        #custom-ha-lamp,
+        #custom-ha-office-fan,
+        #custom-ha-motion,
+        #custom-ha-cameras,
+        #custom-timer,
+        #custom-notification,
+        #custom-power-menu,
+        #custom-app-launcher,
+        #custom-dict,
+        #custom-jp-dict,
+        #custom-color-picker,
+        #custom-clipboard,
+        #custom-screenshot {
+          padding: 0 8px;
+        }
+        #cpu { color: ${c.base08}; }
+        #memory { color: ${c.base0A}; }
+        #temperature { color: ${c.base09}; }
+        #pulseaudio { color: ${c.base0C}; }
+        #bluetooth { color: ${c.base0D}; }
+        #bluetooth.disabled,
+        #bluetooth.off { color: ${c.base04}; }
+        #battery { color: ${c.base0B}; }
+        #custom-gpu { color: ${c.base0E}; }
+        #custom-weather { color: ${c.base0D}; }
+        #custom-calendar { color: ${c.base0C}; }
+        #custom-budslink { color: ${c.base0E}; }
+        #mpris { color: ${c.base0E}; }
+        #disk { color: ${c.base0F}; }
+        #privacy { color: ${c.base08}; }
+        #idle_inhibitor.activated { color: ${c.base0A}; }
+        #idle_inhibitor.deactivated { color: ${c.base04}; }
+        #power-profiles-daemon { color: ${c.base0B}; }
+        #systemd-failed-units { color: ${c.base08}; }
+        #language { color: ${c.base07}; }
+        #custom-app-launcher { color: ${c.base07}; }
+        #custom-dict { color: ${c.base05}; }
+        #custom-jp-dict { color: ${c.base06}; }
+        #custom-clipboard { color: ${c.base05}; }
+        #custom-color-picker { color: ${c.base0F}; }
+        #custom-screenshot { color: ${c.base05}; }
+        #custom-power-menu { color: ${c.base08}; }
+        #custom-notification { color: ${c.base05}; }
+        #clock { color: ${c.base05}; font-weight: bold; }
+        #clock.tokyo { color: ${c.base04}; font-size: 11px; }
+        #custom-ha-office-fan,
+        #custom-ha-cameras { color: ${c.base0D}; }
+        #custom-ha-fan.on,
+        #custom-ha-lamp.on { color: ${c.base0B}; }
+        #custom-ha-fan.off,
+        #custom-ha-lamp.off { color: ${c.base04}; }
+        #custom-ha-fan.unavailable,
+        #custom-ha-lamp.unavailable,
+        #custom-ha-motion.unavailable { color: ${c.base03}; }
+        #custom-ha-motion.active,
+        #custom-ha-motion.recent { color: ${c.base0B}; }
+        #custom-ha-motion.idle { color: ${c.base05}; }
+        #custom-ha-motion.stale { color: ${c.base04}; }
+        #custom-timer.running { color: ${c.base0A}; }
+        #custom-timer.idle { color: ${c.base05}; }
+        #temperature.critical,
+        #battery.critical { color: ${c.base08}; }
+        #battery.warning { color: ${c.base0A}; }
+      '';
       settings.mainBar = {
         layer = "top";
         position = "top";
