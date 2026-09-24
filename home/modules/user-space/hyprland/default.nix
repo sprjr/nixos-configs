@@ -324,7 +324,7 @@ in
           "legcord"
           "firefox"
           "ghostty"
-          "ghostty --class=ghostty-dropdown"
+          "ghostty --gtk-single-instance=false --class=ghostty-dropdown"
         ];
 
         general = {
@@ -420,12 +420,13 @@ in
           "match:class" = "^(com\\.mitchellh\\.ghostty)$";
           workspace = "2 silent";
         };
-        windowrule = [
-          "float, class:^(ghostty-dropdown)$"
-          "size 100% 40%, class:^(ghostty-dropdown)$"
-          "move 0 0, class:^(ghostty-dropdown)$"
-          "workspace special:dropdown silent, class:^(ghostty-dropdown)$"
-        ];
+        "windowrule[ghostty-dropdown]" = {
+          "match:class" = "^(ghostty-dropdown)$";
+          float = true;
+          size = "100% 40%";
+          move = "0 0";
+          workspace = "special:dropdown silent";
+        };
         "windowrule[signal]" = {
           "match:class" = "^(signal)$";
           workspace = "3 silent";
