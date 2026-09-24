@@ -23,6 +23,11 @@ let
     "WLR_NO_HARDWARE_CURSORS,1"
   ];
 
+  ghosttyDropdownConf = pkgs.writeText "ghostty-dropdown.conf" ''
+    class = ghostty-dropdown
+    gtk-single-instance = false
+  '';
+
   # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
     name = "hyprland-log-archive";
@@ -324,7 +329,7 @@ in
           "legcord"
           "firefox"
           "ghostty"
-          "ghostty --gtk-single-instance=false --class=ghostty-dropdown"
+          "ghostty --config-file=${ghosttyDropdownConf}"
         ];
 
         general = {
