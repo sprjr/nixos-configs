@@ -7,7 +7,7 @@
     enable = true;
     settings = {
       bold-is-bright = true;
-      background-blur = 20;
+      background-blur = 25;
       term = "screen-256color";
       cursor-style = "bar";
       window-decoration = "none";
