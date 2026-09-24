@@ -21,7 +21,7 @@ let
       Hyprland keybindings (mainMod = SUPER)
 
       Apps & window
-        Super Space            app launcher (rofi)
+        Super Space            app launcher (fuzzel)
         Super Return           terminal (ghostty)
         Super E                file manager
         Super Q                close window
@@ -110,7 +110,7 @@ in
         "$mainMod SHIFT, S, exec, grimblast copy area"
         ", Print, exec, grimblast copy screen"
       ] ++ optionals (cfg.shell == "native") [
-        "$mainMod, Space, exec, rofi -show drun"
+        "$mainMod, Space, exec, fuzzel"
         "$mainMod, D, exec, dict-lookup --selection"
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
       ] ++ workspaceBinds;

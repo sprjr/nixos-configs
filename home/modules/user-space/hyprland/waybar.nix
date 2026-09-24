@@ -29,9 +29,9 @@ let
 
   powerMenu = pkgs.writeShellApplication {
     name = "waybar-power-menu";
-    runtimeInputs = with pkgs; [ rofi ];
+    runtimeInputs = with pkgs; [ fuzzel ];
     text = ''
-      choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | rofi -dmenu -p "Power  ")
+      choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | fuzzel --dmenu --prompt "Power  ")
       case "$choice" in
         *Lock) hyprlock ;;
         *Logout) hyprctl dispatch exit ;;
@@ -45,11 +45,11 @@ let
     name = "waybar-clipboard";
     runtimeInputs = with pkgs; [
       cliphist
-      rofi
+      fuzzel
       wl-clipboard
     ];
     text = ''
-      cliphist list | rofi -dmenu -p "Clipboard  " | cliphist decode | wl-copy
+      cliphist list | fuzzel --dmenu --prompt "Clipboard  " | cliphist decode | wl-copy
     '';
   };
 
@@ -57,7 +57,7 @@ let
     name = "dict-lookup";
     runtimeInputs = with pkgs; [
       wordnet
-      rofi
+      fuzzel
       libnotify
       wl-clipboard
     ];
@@ -68,7 +68,7 @@ let
         word="''${1:-}"
       fi
       if [ -z "$word" ]; then
-        word=$(rofi -dmenu -p "Define  " || true)
+        word=$(fuzzel --dmenu --prompt "Define  " || true)
       fi
       if [ -z "$word" ]; then
         exit 0
@@ -87,7 +87,7 @@ let
     runtimeInputs = with pkgs; [
       curl
       jq
-      rofi
+      fuzzel
       libnotify
       wl-clipboard
     ];
@@ -98,7 +98,7 @@ let
         word="''${1:-}"
       fi
       if [ -z "$word" ]; then
-        word=$(rofi -dmenu -p "日本語  " || true)
+        word=$(fuzzel --dmenu --prompt "日本語  " || true)
       fi
       if [ -z "$word" ]; then
         exit 0
@@ -574,7 +574,7 @@ in
         "custom/app-launcher" = {
           format = "󱓞";
           tooltip = false;
-          on-click = "hyprctl dispatch exec 'rofi -show drun'";
+          on-click = "hyprctl dispatch exec fuzzel";
         };
       };
     };

@@ -104,15 +104,15 @@ let
     '';
   };
 
-  # Camera feeds via a rofi menu (opens the HA proxy stream in the default browser).
+  # Camera feeds via a fuzzel menu (opens the HA proxy stream in the default browser).
   ha-cameras = pkgs.writeShellApplication {
     name = "ha-cameras";
     runtimeInputs = with pkgs; [
-      rofi
+      fuzzel
       xdg-utils
     ];
     text = ''
-      choice=$(printf 'Camera 1 (4.6)\nCamera 2 (4.7)\n' | rofi -dmenu -p "Camera: " || true)
+      choice=$(printf 'Camera 1 (4.6)\nCamera 2 (4.7)\n' | fuzzel --dmenu --prompt "Camera: " || true)
       case "$choice" in
         "Camera 1 (4.6)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_6" ;;
         "Camera 2 (4.7)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_7" ;;

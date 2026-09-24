@@ -45,7 +45,7 @@ in
   imports = [
     ./keybinds.nix
     ./monitors.nix
-    ./rofi.nix
+    ./fuzzel.nix
     ./waybar.nix
     ./hyprlock.nix
     ./hypridle.nix
@@ -71,7 +71,7 @@ in
       ];
       default = "native";
       description = ''
-        Shell layer for the Hyprland session. "native" uses waybar, rofi, hyprlock,
+        Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
         hypridle, and swaync (wallpaper via Stylix). "caelestia" uses caelestia-shell
         (Quickshell-based unified shell).
       '';
