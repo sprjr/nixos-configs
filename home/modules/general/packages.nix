@@ -17,7 +17,6 @@
       atuin
       btop
       awscli2
-      bat
       caligula
       chafa # (in-shell image handling)
       direnv
