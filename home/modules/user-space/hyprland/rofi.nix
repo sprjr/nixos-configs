@@ -9,7 +9,7 @@ in
   config = mkIf (cfg.enable && cfg.shell == "native") {
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
+      package = pkgs.rofi;
       terminal = "ghostty";
       extraConfig = {
         modi = "drun,run,window";

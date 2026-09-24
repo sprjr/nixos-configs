@@ -28,7 +28,7 @@ let
 
   powerMenu = pkgs.writeShellApplication {
     name = "waybar-power-menu";
-    runtimeInputs = with pkgs; [ rofi-wayland ];
+    runtimeInputs = with pkgs; [ rofi ];
     text = ''
       choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | rofi -dmenu -p "Power  ")
       case "$choice" in
@@ -44,7 +44,7 @@ let
     name = "waybar-clipboard";
     runtimeInputs = with pkgs; [
       cliphist
-      rofi-wayland
+      rofi
       wl-clipboard
     ];
     text = ''
@@ -56,7 +56,7 @@ let
     name = "dict-lookup";
     runtimeInputs = with pkgs; [
       wordnet
-      rofi-wayland
+      rofi
       libnotify
       wl-clipboard
     ];
@@ -86,7 +86,7 @@ let
     runtimeInputs = with pkgs; [
       curl
       jq
-      rofi-wayland
+      rofi
       libnotify
       wl-clipboard
     ];

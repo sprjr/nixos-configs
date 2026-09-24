@@ -108,7 +108,7 @@ let
   ha-cameras = pkgs.writeShellApplication {
     name = "ha-cameras";
     runtimeInputs = with pkgs; [
-      rofi-wayland
+      rofi
       xdg-utils
     ];
     text = ''

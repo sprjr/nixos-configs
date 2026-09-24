@@ -43,7 +43,7 @@ let
   timer-start = pkgs.writeShellApplication {
     name = "timer-start";
     runtimeInputs = with pkgs; [
-      rofi-wayland
+      rofi
       util-linux
       coreutils
       timer-countdown
