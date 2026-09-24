@@ -324,6 +324,7 @@ in
           "legcord"
           "firefox"
           "ghostty"
+          "ghostty --class=ghostty-dropdown"
         ];
 
         general = {
@@ -369,6 +370,7 @@ in
             "workspaces,1,1.94,almostLinear,fade"
             "workspacesIn,1,1.21,almostLinear,fade"
             "workspacesOut,1,1.94,almostLinear,fade"
+            "specialWorkspace,1,3,easeOutQuint,slidevert"
           ];
         };
 
@@ -417,6 +419,13 @@ in
         "windowrule[ghostty]" = {
           "match:class" = "^(com\\.mitchellh\\.ghostty)$";
           workspace = "2 silent";
+        };
+        "windowrule[ghostty-dropdown]" = {
+          "match:class" = "^(ghostty-dropdown)$";
+          float = true;
+          size = "100% 40%";
+          move = "0 0";
+          workspace = "special:dropdown silent";
         };
         "windowrule[signal]" = {
           "match:class" = "^(signal)$";

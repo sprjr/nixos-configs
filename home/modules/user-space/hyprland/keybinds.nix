@@ -21,6 +21,7 @@ let
       Hyprland keybindings (mainMod = SUPER)
 
       Apps & window
+        Ctrl ``                dropdown terminal (toggle)
         Super Space            app launcher (fuzzel)
         Super Return           terminal (ghostty)
         Super E                file manager
@@ -76,6 +77,8 @@ in
 
     wayland.windowManager.hyprland.settings = {
       bind = [
+        "CTRL, grave, togglespecialworkspace, dropdown"
+
         "$mainMod, Return, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive,"
