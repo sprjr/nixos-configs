@@ -43,7 +43,7 @@ let
   timer-start = pkgs.writeShellApplication {
     name = "timer-start";
     runtimeInputs = with pkgs; [
-      fuzzel
+      rofi-wayland
       util-linux
       coreutils
       timer-countdown
@@ -53,7 +53,7 @@ let
       state="$rt/waybar-timer"
       pidf="$rt/waybar-timer.pid"
       choice=$(printf '2 min\n5 min\n15 min\n25 min\n60 min\nStop\n' \
-        | fuzzel --dmenu --prompt "Timer (or type minutes): " || true)
+        | rofi -dmenu -p "Timer (or type minutes): " || true)
       if [ -f "$pidf" ]; then
         kill "$(cat "$pidf")" 2>/dev/null || true
         rm -f "$pidf"
