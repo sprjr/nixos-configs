@@ -49,6 +49,9 @@
       light = "Papirus-Dark";
     };
 
+    # Pin dark explicitly; the default "either" derives polarity from the image.
+    polarity = "dark";
+
     # Single knob for terminal transparency; matches the live Ghostty value.
     # Alacritty derives its window opacity from this too.
     opacity.terminal = 0.5;
