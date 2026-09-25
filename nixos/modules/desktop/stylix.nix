@@ -36,12 +36,6 @@
       };
     };
 
-    cursor = {
-      package = pkgs.nordzy-cursor-theme;
-      name = "Nordzy-catppuccin-mocha-dark";
-      size = 24;
-    };
-
     icons = {
       enable = true;
       package = pkgs.papirus-icon-theme;
