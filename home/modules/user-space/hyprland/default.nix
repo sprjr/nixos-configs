@@ -269,7 +269,6 @@ in
       playerctl
       # polkit_gnome omitted: its XDG autostart races polkit-gnome-agent.service below.
       cosmic-files
-      nordzy-cursor-theme
     ];
 
     # Suppress XDG autostart for apps already launched by exec-once. UWSM activates
