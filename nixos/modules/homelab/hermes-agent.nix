@@ -85,6 +85,49 @@ let
     terminal:
       env: local
   '';
+
+  delegateScript = pkgs.writeText "hermes-delegate.py" ''
+    #!/usr/bin/env python3
+    import json, os, sys, time, urllib.request
+
+    if len(sys.argv) < 3:
+        print("Usage: delegate.py <profile> <task>")
+        sys.exit(1)
+
+    profile = sys.argv[1]
+    task = " ".join(sys.argv[2:])
+    api_key = os.environ.get("API_SERVER_KEY", "")
+
+    if not api_key:
+        print("DELEGATION_ERROR: API_SERVER_KEY not set")
+        sys.exit(1)
+
+    url = f"http://127.0.0.1:8642/p/{profile}/v1/chat/completions"
+    session_key = f"delegation:{int(time.time())}:{os.getpid()}"
+
+    payload = json.dumps({
+        "model": "hermes-agent",
+        "messages": [{"role": "user", "content": task}],
+    }).encode()
+
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "X-Hermes-Session-Key": session_key,
+        },
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = json.loads(resp.read())
+            print(data["choices"][0]["message"]["content"])
+    except Exception as e:
+        print(f"DELEGATION_ERROR: {e}")
+        sys.exit(1)
+  '';
 in
 {
   sops.secrets."hermes-agent/telegram-bot-token" = { };
@@ -208,6 +251,10 @@ in
       chmod 644 /var/lib/hermes-agent/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/.env
       chmod 644 /var/lib/hermes-agent/.env
+
+      # Delegation script
+      cp ${delegateScript} /var/lib/hermes-agent/delegate.py
+      chmod 755 /var/lib/hermes-agent/delegate.py
 
       # API reference files
       cp ${
