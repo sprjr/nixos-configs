@@ -200,8 +200,8 @@ in
         ];
       }
       # Windows workstation (Seleya). Windows has no Nix evaluator, so the exporter
-      # and Alloy config is not tracked here. Rebuild kit (configs + install script):
-      # /opt/data/cache/seleya-workstation-rebuild.
+      # and Alloy config is not tracked here. Rebuild kit + runbook: hermes-bot/homelab-kb
+      # (Forgejo shikisha:3002) under assets/seleya-workstation-rebuild and runbooks/.
       # The rules and dashboard below assume the host meets this contract:
       #   textfile dir C:\ProgramData\seleya-telemetry\textfile emits seleya_ac_online
       #   and seleya_pending_reboot (host-local sampler; no collector exposes these);
