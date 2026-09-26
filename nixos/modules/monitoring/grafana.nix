@@ -17,6 +17,7 @@ let
     seair = "super-light-blue";
     defiant = "light-purple";
     badgey = "dark-green";
+    seleya = "purple";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -68,6 +69,10 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/satisfactory.json)
   );
 
+  seleyaDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/seleya.json)
+  );
+
   # services-overview + ha-frigate skip colorByHost: their series are probe URLs/jobs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
@@ -93,6 +98,10 @@ let
     {
       name = "satisfactory.json";
       path = pkgs.writeText "satisfactory.json" (builtins.toJSON satisfactoryDashboard);
+    }
+    {
+      name = "seleya.json";
+      path = pkgs.writeText "seleya.json" (builtins.toJSON seleyaDashboard);
     }
   ];
 
@@ -189,6 +198,18 @@ in
             ];
           }
         ];
+      }
+      # Windows workstation (Seleya). Windows has no Nix evaluator, so the exporter
+      # and Alloy config is not tracked here. Rebuild kit (configs + install script):
+      # /opt/data/cache/seleya-workstation-rebuild.
+      # The rules and dashboard below assume the host meets this contract:
+      #   textfile dir C:\ProgramData\seleya-telemetry\textfile emits seleya_ac_online
+      #   and seleya_pending_reboot (host-local sampler; no collector exposes these);
+      #   performancecounter "Battery Status" (*) emits seleya_battery_*;
+      #   Alloy ships System+Application at level<=3 labelled host="seleya".
+      {
+        job_name = "windows";
+        static_configs = [ { targets = [ "seleya:9182" ]; } ];
       }
       {
         job_name = "prometheus-server";
@@ -818,6 +839,277 @@ in
                   execErrState = "Error";
                   labels.severity = "warning";
                   annotations.summary = "HA entity {{ $labels.entity }} is unavailable";
+                }
+                # Seleya is a workstation: it sleeps, so `up` is not a useful signal.
+                # These alert on state it reaches while running, and on its own sampler.
+                {
+                  uid = "seleya-disk-pressure";
+                  title = "Seleya system volume filling up";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''(1 - windows_logical_disk_free_bytes{volume="C:"} / windows_logical_disk_size_bytes{volume="C:"}) > 0.9'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "15m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya C: is over 90% full";
+                }
+                {
+                  uid = "seleya-battery-critical";
+                  title = "Seleya battery critically low on battery power";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Emitted by a host-local sampler, not a collector.
+                        expr = ''seleya_battery_charge_percent < 10 and seleya_ac_online == 0'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "5m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya battery below 10% and discharging";
+                }
+                {
+                  uid = "seleya-thermal-throttle";
+                  title = "Seleya is thermally throttled";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''windows_thermalzone_throttle_reasons > 0'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "15m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya thermal zone {{ $labels.name }} reports active throttle reasons";
+                }
+                {
+                  uid = "seleya-patch-pending-reboot";
+                  title = "Seleya has a reboot pending for over 72h";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''seleya_pending_reboot == 1'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  # 72h, not minutes: an unattended patch just waits for the next natural reboot.
+                  for = "72h";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya has been pending a reboot for over 72 hours";
+                }
+                {
+                  uid = "seleya-telemetry-stale";
+                  title = "Seleya telemetry sampler is stale";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Catches the sampler task dying while the exporter stays up, which
+                        # `up{job="windows"}` cannot see.
+                        expr = ''time() - windows_textfile_mtime_seconds{file="seleya.prom"} > 7200'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "10m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya textfile metrics have not updated in over 2 hours";
                 }
               ];
             }
