@@ -344,7 +344,7 @@
               ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
-              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/user/patrick-server.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
