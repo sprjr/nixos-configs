@@ -1,18 +1,32 @@
 import Gtk from "gi://Gtk?version=4.0"
-import AstalBrightness from "gi://AstalBrightness"
-import { createBinding } from "ags"
+import GLib from "gi://GLib"
+
+function run(cmd: string): string | null {
+  try {
+    const [, out] = GLib.spawn_command_line_sync(cmd)
+    if (!out) return null
+    return new TextDecoder().decode(out).trim()
+  } catch {
+    return null
+  }
+}
+
+function getBrightness(): number {
+  const cur = run("brightnessctl get")
+  const max = run("brightnessctl max")
+  if (!cur || !max) return -1
+  return parseInt(cur) / parseInt(max)
+}
 
 export default function Brightness() {
-  let brightness: AstalBrightness.Brightness | null = null
-  try {
-    brightness = AstalBrightness.get_default()
-  } catch {
-    return <box visible={false} />
-  }
+  const initial = getBrightness()
+  if (initial < 0) return <box visible={false} />
 
-  if (!brightness || brightness.screen < 0) {
-    return <box visible={false} />
-  }
+  const pctLabel = new Gtk.Label({
+    label: `${Math.round(initial * 100)}%`,
+    widthChars: 4,
+    xalign: 1,
+  })
 
   return (
     <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={4}>
@@ -25,16 +39,14 @@ export default function Brightness() {
         <slider
           class="brightness-slider"
           hexpand
-          value={createBinding(brightness, "screen")}
-          onChangeValue={({ value }) => {
-            brightness!.screen = value
+          value={initial}
+          onChangeValue={(self: { value: number }) => {
+            const pct = Math.round(self.value * 100)
+            pctLabel.label = `${pct}%`
+            GLib.spawn_command_line_async(`brightnessctl set ${pct}%`)
           }}
         />
-        <label
-          label={createBinding(brightness, "screen")((v: number) => `${Math.round(v * 100)}%`)}
-          widthChars={4}
-          xalign={1}
-        />
+        {pctLabel}
       </box>
     </box>
   )

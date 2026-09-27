@@ -63,7 +63,6 @@ in
           bluetooth
           wireplumber
           battery
-          brightness
           powerprofiles
           mpris
           hyprland
@@ -71,7 +70,10 @@ in
         ++ [ pkgs.libadwaita ];
     };
 
-    home.packages = [ toggleScript ];
+    home.packages = [
+      toggleScript
+      pkgs.brightnessctl
+    ];
 
     systemd.user.services.ags.Install.WantedBy = mkForce [ "hyprland-session.target" ];
 
