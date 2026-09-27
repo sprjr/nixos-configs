@@ -1,0 +1,298 @@
+window.control-center {
+  background: transparent;
+}
+
+window.control-center > box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.section {
+  background: var(--bg-alt);
+  border-radius: calc(var(--radius) - 4px);
+  padding: 12px;
+}
+
+.section-header {
+  margin-bottom: 4px;
+
+  image {
+    color: var(--accent);
+  }
+}
+
+.section-title {
+  color: var(--fg);
+  font-weight: bold;
+  font-size: 13px;
+}
+
+// Header
+.header {
+  padding: 8px 12px;
+}
+
+.header-btn {
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 8px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+
+  image {
+    color: var(--fg-dim);
+  }
+
+  &:hover {
+    background: var(--bg-hover);
+
+    image {
+      color: var(--fg);
+    }
+  }
+}
+
+// Network
+.ap-row {
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+
+  label {
+    color: var(--fg);
+  }
+
+  image {
+    color: var(--fg-dim);
+  }
+}
+
+.ap-list {
+  max-height: 200px;
+}
+
+// Bluetooth
+.bt-device-row {
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+
+  label {
+    color: var(--fg);
+  }
+
+  image {
+    color: var(--fg-dim);
+  }
+}
+
+.bt-device-list {
+  max-height: 200px;
+}
+
+// Audio
+.volume-slider,
+.brightness-slider {
+  trough {
+    background: var(--border);
+    border-radius: 4px;
+    min-height: 8px;
+  }
+
+  highlight {
+    background: var(--accent);
+    border-radius: 4px;
+    min-height: 8px;
+  }
+
+  slider {
+    background: var(--fg);
+    border-radius: 50%;
+    min-width: 16px;
+    min-height: 16px;
+    margin: -4px 0;
+  }
+}
+
+.mute-btn {
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  padding: 2px;
+  background: transparent;
+  border: none;
+
+  image {
+    color: var(--fg-dim);
+  }
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+}
+
+.sink-row {
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+
+  label {
+    color: var(--fg);
+    font-size: 12px;
+  }
+}
+
+// Power profiles
+.profile-buttons {
+  margin-top: 4px;
+}
+
+.profile-btn {
+  border-radius: 8px;
+  padding: 8px 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+
+  label {
+    color: var(--fg-dim);
+    font-size: 11px;
+  }
+
+  image {
+    color: var(--fg-dim);
+  }
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+
+  &.active {
+    background: var(--accent);
+    border-color: var(--accent);
+
+    label {
+      color: var(--bg);
+    }
+
+    image {
+      color: var(--bg);
+    }
+  }
+}
+
+// Battery
+.battery-percent {
+  color: var(--fg);
+  font-weight: bold;
+}
+
+.battery-status {
+  color: var(--fg-dim);
+  font-size: 12px;
+}
+
+.battery-time {
+  color: var(--fg-dim);
+  font-size: 12px;
+}
+
+.battery-bar {
+  min-height: 6px;
+  border-radius: 3px;
+
+  trough {
+    background: var(--border);
+    border-radius: 3px;
+    min-height: 6px;
+  }
+
+  block.filled {
+    background: var(--green);
+    border-radius: 3px;
+  }
+}
+
+// Media
+.media-player {
+  padding: 4px 0;
+}
+
+.media-title {
+  color: var(--fg);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.media-artist {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+
+.media-btn {
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 50%;
+  padding: 4px;
+  background: transparent;
+  border: none;
+
+  image {
+    color: var(--fg);
+  }
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+}
+
+// Switches
+switch {
+  min-width: 40px;
+  min-height: 20px;
+  border-radius: 10px;
+  background: var(--border);
+  border: none;
+
+  slider {
+    min-width: 16px;
+    min-height: 16px;
+    border-radius: 50%;
+    background: var(--fg);
+    margin: 2px;
+  }
+
+  &:checked {
+    background: var(--accent);
+  }
+}
+
+// Labels
+label {
+  color: var(--fg);
+}
+
+image {
+  color: var(--fg-dim);
+}
+
+// Overlay
+window.control-center-overlay {
+  background: transparent;
+}

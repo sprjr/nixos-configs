@@ -64,6 +64,7 @@ in
     ./widgets/timer.nix
     ./widgets/budslink.nix
     ./widgets/calendar.nix
+    ./control-center
   ];
 
   options.patrick.home.hyprland = {

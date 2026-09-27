@@ -27,20 +27,6 @@ let
     '';
   };
 
-  powerMenu = pkgs.writeShellApplication {
-    name = "waybar-power-menu";
-    runtimeInputs = with pkgs; [ fuzzel ];
-    text = ''
-      choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | fuzzel --dmenu --prompt "Power  ")
-      case "$choice" in
-        *Lock) hyprlock ;;
-        *Logout) hyprctl dispatch exit ;;
-        *Reboot) systemctl reboot ;;
-        *Shutdown) systemctl poweroff ;;
-      esac
-    '';
-  };
-
   clipboardBrowse = pkgs.writeShellApplication {
     name = "waybar-clipboard";
     runtimeInputs = with pkgs; [
@@ -145,6 +131,7 @@ let
   ];
 
   modulesRight = [
+    "network"
     "pulseaudio"
     "bluetooth"
     "custom/budslink"
@@ -168,7 +155,6 @@ let
     "custom/color-picker"
     "custom/screenshot"
     "tray"
-    "custom/power-menu"
     "custom/notification"
   ]
   ++ cfg.waybarExtra;
@@ -180,7 +166,6 @@ in
       pkgs.cliphist
       pkgs.hyprpicker
       btToggle
-      powerMenu
       clipboardBrowse
       dictLookup
       jpLookup
@@ -209,6 +194,7 @@ in
         #cpu,
         #memory,
         #temperature,
+        #network,
         #pulseaudio,
         #bluetooth,
         #battery,
@@ -233,7 +219,6 @@ in
         #custom-ha-cameras,
         #custom-timer,
         #custom-notification,
-        #custom-power-menu,
         #custom-app-launcher,
         #custom-dict,
         #custom-jp-dict,
@@ -245,6 +230,8 @@ in
         #cpu { color: ${c.base08}; }
         #memory { color: ${c.base0A}; }
         #temperature { color: ${c.base09}; }
+        #network { color: ${c.base0D}; }
+        #network.disconnected { color: ${c.base04}; }
         #pulseaudio { color: ${c.base0C}; }
         #bluetooth { color: ${c.base0D}; }
         #bluetooth.disabled,
@@ -268,7 +255,6 @@ in
         #custom-clipboard { color: ${c.base05}; }
         #custom-color-picker { color: ${c.base0F}; }
         #custom-screenshot { color: ${c.base05}; }
-        #custom-power-menu { color: ${c.base08}; }
         #custom-notification { color: ${c.base05}; }
         #clock { color: ${c.base05}; font-weight: bold; }
         #clock.tokyo { color: ${c.base04}; font-size: 11px; }
@@ -343,6 +329,16 @@ in
           ];
         };
 
+        network = {
+          format-wifi = "󰤨 {signalStrength}%";
+          format-ethernet = "󰈀";
+          format-disconnected = "󰤭";
+          tooltip-format-wifi = "{essid} ({signalStrength}%)";
+          tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
+          tooltip-format-disconnected = "Disconnected";
+          on-click = "control-center-toggle";
+        };
+
         pulseaudio = {
           format = "{icon} {volume}%";
           format-muted = "󰝟";
@@ -351,7 +347,8 @@ in
             "󰖀"
             "󰕾"
           ];
-          on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          on-click = "control-center-toggle";
+          on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
         bluetooth = {
@@ -361,9 +358,9 @@ in
           format-off = "󰂲";
           tooltip-format = "{controller_alias}\n{status}";
           tooltip-format-connected = "{controller_alias}\n{device_enumerate}";
-          # Left-click toggles adapter power, right-click opens the manager.
-          on-click = "bt-toggle";
-          on-click-right = "blueman-manager";
+          on-click = "control-center-toggle";
+          on-click-right = "bt-toggle";
+          on-click-middle = "blueman-manager";
         };
 
         "custom/budslink" = {
@@ -391,6 +388,7 @@ in
             "󰂂"
             "󰁹"
           ];
+          on-click = "control-center-toggle";
         };
 
         tray.spacing = 8;
@@ -431,6 +429,7 @@ in
             power-saver = "󰌪";
           };
           tooltip-format = "Power profile: {profile}";
+          on-click = "control-center-toggle";
         };
 
         disk = {
@@ -532,12 +531,6 @@ in
           on-click = "swaync-client -t -sw";
           on-click-right = "swaync-client -d -sw";
           escape = true;
-        };
-
-        "custom/power-menu" = {
-          format = "⏻";
-          tooltip = false;
-          on-click = "waybar-power-menu";
         };
 
         "custom/dict" = {

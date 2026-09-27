@@ -23,6 +23,7 @@ let
       Apps & window
         Ctrl ``                dropdown terminal (toggle)
         Super Space            app launcher (fuzzel)
+        Super A                control center (toggle)
         Super Return           terminal (ghostty)
         Super E                file manager
         Super Q                close window
@@ -114,6 +115,7 @@ in
         ", Print, exec, grimblast copy screen"
       ] ++ optionals (cfg.shell == "native") [
         "$mainMod, Space, exec, fuzzel"
+        "$mainMod, A, exec, control-center-toggle"
         "$mainMod, D, exec, dict-lookup --selection"
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
       ] ++ workspaceBinds;

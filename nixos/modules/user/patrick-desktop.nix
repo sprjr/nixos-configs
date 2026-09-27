@@ -3,6 +3,7 @@
   pkgs,
   lib,
   home-manager,
+  ags,
   caelestia-shell,
   sops-nix,
   dark-wallpaper-laptop,
@@ -45,7 +46,7 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit dark-wallpaper-laptop;
+      inherit dark-wallpaper-laptop ags;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
         dark-wallpaper-2
@@ -62,6 +63,7 @@
     users.patrick = {
       imports = [
         sops-nix.homeManagerModules.sops
+        ags.homeManagerModules.default
         caelestia-shell.homeManagerModules.default
         ../../../home/desktop-home.nix
       ];

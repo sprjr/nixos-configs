@@ -3,6 +3,7 @@
   pkgs,
   lib,
   home-manager,
+  ags,
   sops-nix,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
@@ -47,7 +48,7 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit dark-wallpaper-laptop;
+      inherit dark-wallpaper-laptop ags;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
         dark-wallpaper-2
@@ -64,6 +65,7 @@
     users.patrick = {
       imports = [
         sops-nix.homeManagerModules.sops
+        ags.homeManagerModules.default
         ../../../home/laptop-home.nix
       ];
     };
