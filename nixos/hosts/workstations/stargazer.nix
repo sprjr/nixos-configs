@@ -14,6 +14,7 @@ in
   imports = [ ../../modules/system/sops.nix ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.extraModprobeConfig = "options thinkpad_acpi fan_control=1";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -96,6 +97,28 @@ in
 
   services.libinput.enable = true;
 
+  services.thermald.enable = true;
+
+  services.thinkfan = {
+    enable = true;
+    sensors = [
+      { type = "tpacpi"; query = "/proc/acpi/ibm/thermal"; }
+    ];
+    fans = [
+      { type = "tpacpi"; query = "/proc/acpi/ibm/fan"; }
+    ];
+    levels = [
+      [ 0  0   42 ]
+      [ 1  40  48 ]
+      [ 2  45  53 ]
+      [ 3  50  58 ]
+      [ 4  55  63 ]
+      [ 5  58  68 ]
+      [ 7  63  75 ]
+      [ "level full-speed" 70 32767 ]
+    ];
+  };
+
   fonts.packages = [
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.droid-sans-mono
@@ -145,7 +168,6 @@ in
       pipewire
       pkgs-stable.tailscale
       sops
-      thermald
       usbutils
       vim
       wget
