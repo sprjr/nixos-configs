@@ -13,7 +13,8 @@ app.start({
     ControlCenter()
     Overlay()
   },
-  requestHandler(msg: string, res: (response: string) => void) {
+  requestHandler(argv: string[], res: (response: string) => void) {
+    const [msg] = argv
     if (msg === "toggle") {
       const cc = app.get_window("control-center")
       const overlay = app.get_window("control-center-overlay")
