@@ -187,14 +187,9 @@ in
           font-feature-settings: "tnum";
         }
         /* Reserve each variable-content module's widest state (tune to font size). */
-        #network,
-        #pulseaudio,
-        #battery,
         #custom-timer,
         #custom-weather { min-width: 56px; }
-        #bluetooth { min-width: 30px; }
         #custom-ha-motion { min-width: 48px; }
-        #custom-gpu { min-width: 96px; }
         #workspaces button {
           padding: 0 8px;
           color: ${c.base04};
