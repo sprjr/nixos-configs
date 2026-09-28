@@ -13,6 +13,10 @@ in
 {
   imports = [ ../../modules/system/sops.nix ];
 
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
+  ];
+
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.extraModprobeConfig = "options thinkpad_acpi fan_control=1";
 
