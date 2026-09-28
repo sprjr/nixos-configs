@@ -1,6 +1,7 @@
 import Gtk from "gi://Gtk?version=4.0"
 import AstalBluetooth from "gi://AstalBluetooth"
-import { For, createBinding } from "ags"
+import { For, createBinding, createState } from "ags"
+import ExpandButton from "./ExpandButton"
 
 function DeviceRow({ device }: { device: AstalBluetooth.Device }) {
   const connected = createBinding(device, "connected")
@@ -31,6 +32,8 @@ export default function Bluetooth() {
   const isPowered = createBinding(adapter, "powered")
   const devices = createBinding(bt, "devices")
 
+  const [expanded, setExpanded] = createState(false)
+
   const pairedDevices = devices((devs: AstalBluetooth.Device[]) =>
     devs.filter((d) => d.paired)
   )
@@ -42,21 +45,26 @@ export default function Bluetooth() {
         <label label="Bluetooth" hexpand xalign={0} class="section-title" />
         <switch
           active={isPowered}
-          onActivate={({ active }) => {
-            adapter.powered = active
+          onNotifyActive={({ active }) => {
+            if (adapter.powered !== active) adapter.powered = active
           }}
         />
+        <ExpandButton expanded={expanded} setExpanded={setExpanded} />
       </box>
-      <box
-        class="bt-device-list"
-        orientation={Gtk.Orientation.VERTICAL}
-        spacing={2}
-        visible={isPowered}
-      >
-        <For each={pairedDevices}>
-          {(device: AstalBluetooth.Device) => <DeviceRow device={device} />}
-        </For>
-      </box>
+      <revealer revealChild={expanded}>
+        <scrolledwindow
+          hscrollbarPolicy={Gtk.PolicyType.NEVER}
+          propagateNaturalHeight
+          maxContentHeight={200}
+          visible={isPowered}
+        >
+          <box class="bt-device-list" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+            <For each={pairedDevices}>
+              {(device: AstalBluetooth.Device) => <DeviceRow device={device} />}
+            </For>
+          </box>
+        </scrolledwindow>
+      </revealer>
     </box>
   )
 }

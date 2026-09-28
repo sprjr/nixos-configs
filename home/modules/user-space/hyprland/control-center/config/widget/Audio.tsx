@@ -1,6 +1,7 @@
 import Gtk from "gi://Gtk?version=4.0"
 import AstalWp from "gi://AstalWp"
-import { For, createBinding } from "ags"
+import { For, createBinding, createState } from "ags"
+import ExpandButton from "./ExpandButton"
 
 function SinkRow({ endpoint }: { endpoint: AstalWp.Endpoint }) {
   const isDefault = createBinding(endpoint, "isDefault")
@@ -30,6 +31,7 @@ export default function Audio() {
 
   const speakers = createBinding(wp.audio, "speakers")
   const showSinkList = speakers((s: AstalWp.Endpoint[]) => s.length > 1)
+  const [expanded, setExpanded] = createState(false)
 
   return (
     <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={4}>
@@ -46,6 +48,9 @@ export default function Audio() {
             )}
           />
         </button>
+        <box visible={showSinkList}>
+          <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+        </box>
       </box>
       <box spacing={8}>
         <image iconName="audio-volume-low-symbolic" css="margin-left: 4px;" />
@@ -61,16 +66,13 @@ export default function Audio() {
           xalign={1}
         />
       </box>
-      <box
-        class="sink-list"
-        orientation={Gtk.Orientation.VERTICAL}
-        spacing={2}
-        visible={showSinkList}
-      >
-        <For each={speakers}>
-          {(ep: AstalWp.Endpoint) => <SinkRow endpoint={ep} />}
-        </For>
-      </box>
+      <revealer revealChild={expanded} visible={showSinkList}>
+        <box class="sink-list" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+          <For each={speakers}>
+            {(ep: AstalWp.Endpoint) => <SinkRow endpoint={ep} />}
+          </For>
+        </box>
+      </revealer>
     </box>
   )
 }

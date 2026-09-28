@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app"
 import Astal from "gi://Astal?version=4.0"
 import Gtk from "gi://Gtk?version=4.0"
+import Gdk from "gi://Gdk?version=4.0"
 import Header from "./Header"
 import Network from "./Network"
 import Bluetooth from "./Bluetooth"
@@ -24,14 +25,16 @@ export default function ControlCenter() {
       marginTop={6}
       marginRight={6}
       application={app}
-      onKeyPressed={(self, keyval) => {
-        if (keyval === 65307) {
-          const overlay = app.get_window("control-center-overlay")
-          self.visible = false
-          if (overlay) overlay.visible = false
-        }
-      }}
     >
+      <Gtk.EventControllerKey
+        onKeyPressed={(_, keyval) => {
+          if (keyval === Gdk.KEY_Escape) {
+            app.get_window("control-center")?.set_visible(false)
+            app.get_window("control-center-overlay")?.set_visible(false)
+          }
+          return false
+        }}
+      />
       <box
         orientation={Gtk.Orientation.VERTICAL}
         spacing={8}

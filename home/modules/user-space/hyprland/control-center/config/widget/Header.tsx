@@ -14,7 +14,7 @@ function DndToggle() {
     <button
       class="header-btn"
       tooltipText="Do Not Disturb"
-      onClicked={() => execAsync(["swaync-client", "-d", "-sw"])}
+      onClicked={() => execAsync(["swaync-client", "-d", "-sw"]).catch(console.error)}
     >
       <image iconName="notifications-disabled-symbolic" />
     </button>
@@ -25,8 +25,14 @@ function IdleInhibit() {
   return (
     <button
       class="header-btn"
-      tooltipText="Idle Inhibitor"
-      onClicked={() => execAsync(["sh", "-c", "pidof wayland-idle-inhibitor.py && pkill wayland-idle-inhibitor.py || wayland-idle-inhibitor.py"])}
+      tooltipText="Toggle hypridle"
+      onClicked={() =>
+        execAsync([
+          "sh",
+          "-c",
+          "if systemctl --user is-active --quiet hypridle; then systemctl --user stop hypridle; else systemctl --user start hypridle; fi",
+        ]).catch(console.error)
+      }
     >
       <image iconName="caffeine-cup-empty-symbolic" />
     </button>
@@ -40,7 +46,7 @@ function LockButton() {
       tooltipText="Lock"
       onClicked={() => {
         dismiss()
-        execAsync(["hyprlock"])
+        execAsync(["hyprlock"]).catch(console.error)
       }}
     >
       <image iconName="system-lock-screen-symbolic" />
@@ -53,7 +59,7 @@ function LogoutButton() {
     <button
       class="header-btn"
       tooltipText="Logout"
-      onClicked={() => execAsync(["hyprctl", "dispatch", "exit"])}
+      onClicked={() => execAsync(["hyprctl", "dispatch", "exit"]).catch(console.error)}
     >
       <image iconName="system-log-out-symbolic" />
     </button>
@@ -65,7 +71,7 @@ function RebootButton() {
     <button
       class="header-btn"
       tooltipText="Reboot"
-      onClicked={() => execAsync(["systemctl", "reboot"])}
+      onClicked={() => execAsync(["systemctl", "reboot"]).catch(console.error)}
     >
       <image iconName="system-reboot-symbolic" />
     </button>
@@ -77,7 +83,7 @@ function ShutdownButton() {
     <button
       class="header-btn"
       tooltipText="Shutdown"
-      onClicked={() => execAsync(["systemctl", "poweroff"])}
+      onClicked={() => execAsync(["systemctl", "poweroff"]).catch(console.error)}
     >
       <image iconName="system-shutdown-symbolic" />
     </button>

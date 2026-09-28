@@ -74,10 +74,6 @@ window.control-center > box {
   }
 }
 
-.ap-list {
-  max-height: 200px;
-}
-
 // Bluetooth
 .bt-device-row {
   border-radius: 6px;
@@ -96,10 +92,6 @@ window.control-center > box {
   image {
     color: var(--fg-dim);
   }
-}
-
-.bt-device-list {
-  max-height: 200px;
 }
 
 // Audio
@@ -126,7 +118,8 @@ window.control-center > box {
   }
 }
 
-.mute-btn {
+.mute-btn,
+.expand-btn {
   min-width: 28px;
   min-height: 28px;
   border-radius: 6px;
