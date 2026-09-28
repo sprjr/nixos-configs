@@ -274,25 +274,30 @@ in
 
     # Suppress XDG autostart for apps already launched by exec-once. UWSM activates
     # xdg-desktop-autostart.target, which would double-launch anything that also
-    # has an in-app "start on login" entry in ~/.config/autostart/.
-    xdg.configFile."autostart/steam.desktop" = {
-      force = true;
-      text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Steam
-        Hidden=true
-      '';
-    };
-    xdg.configFile."autostart/signal-desktop.desktop" = {
-      force = true;
-      text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Signal
-        Hidden=true
-      '';
-    };
+    # has an in-app "start on login" entry in ~/.config/autostart/. Keys are the exact
+    # filenames the apps write. blueman-applet is suppressed because its tray icon
+    # duplicates the waybar bluetooth module.
+    xdg.configFile =
+      mapAttrs'
+        (
+          file: name:
+          nameValuePair "autostart/${file}.desktop" {
+            force = true;
+            text = ''
+              [Desktop Entry]
+              Type=Application
+              Name=${name}
+              Hidden=true
+            '';
+          }
+        )
+        {
+          steam = "Steam";
+          signal = "Signal";
+          signal-desktop = "Signal";
+          legcord = "Legcord";
+          blueman = "Blueman Applet";
+        };
 
     wayland.windowManager.hyprland = {
       enable = true;

@@ -130,11 +130,16 @@ let
     "custom/public-ip"
   ];
 
+  # Modules that appear/disappear or change item count sit at the outer (left) edge so
+  # toggling them never shifts the fixed-width modules to their right.
   modulesRight = [
+    "privacy"
+    "systemd-failed-units"
+    "tray"
+    "custom/budslink"
     "network"
     "pulseaudio"
     "bluetooth"
-    "custom/budslink"
     #"cpu"
     #"memory"
     #"disk"
@@ -145,17 +150,15 @@ let
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
-    "privacy"
     "idle_inhibitor"
-    "systemd-failed-units"
     "custom/app-launcher"
     "custom/dict"
     "custom/jp-dict"
     "custom/clipboard"
     "custom/color-picker"
     "custom/screenshot"
-    "tray"
     "custom/notification"
+    "custom/control-center"
   ]
   ++ cfg.waybarExtra;
 in
@@ -180,7 +183,18 @@ in
       style = ''
         * {
           min-height: 0;
+          /* Tabular digits so changing numbers don't change label width. */
+          font-feature-settings: "tnum";
         }
+        /* Reserve each variable-content module's widest state (tune to font size). */
+        #network,
+        #pulseaudio,
+        #battery,
+        #custom-timer,
+        #custom-weather { min-width: 56px; }
+        #bluetooth { min-width: 30px; }
+        #custom-ha-motion { min-width: 48px; }
+        #custom-gpu { min-width: 96px; }
         #workspaces button {
           padding: 0 8px;
           color: ${c.base04};
@@ -224,7 +238,8 @@ in
         #custom-jp-dict,
         #custom-color-picker,
         #custom-clipboard,
-        #custom-screenshot {
+        #custom-screenshot,
+        #custom-control-center {
           padding: 0 8px;
         }
         #cpu { color: ${c.base08}; }
@@ -256,6 +271,7 @@ in
         #custom-color-picker { color: ${c.base0F}; }
         #custom-screenshot { color: ${c.base05}; }
         #custom-notification { color: ${c.base05}; }
+        #custom-control-center { color: ${c.base0D}; }
         #clock { color: ${c.base05}; font-weight: bold; }
         #clock.tokyo { color: ${c.base04}; font-size: 11px; }
         #custom-ha-office-fan,
@@ -341,7 +357,8 @@ in
 
         pulseaudio = {
           format = "{icon} {volume}%";
-          format-muted = "󰝟";
+          # Keep the volume digits when muted so the module width doesn't collapse.
+          format-muted = "󰝟 {volume}%";
           format-icons.default = [
             "󰕿"
             "󰖀"
@@ -568,6 +585,12 @@ in
           format = "󱓞";
           tooltip = false;
           on-click = "hyprctl dispatch exec fuzzel";
+        };
+
+        "custom/control-center" = {
+          format = "󰒓";
+          tooltip = false;
+          on-click = "control-center-toggle";
         };
       };
     };
