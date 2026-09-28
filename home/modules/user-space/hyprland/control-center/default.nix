@@ -81,7 +81,7 @@ in
       "layerrule[control-center]" = {
         "match:namespace" = "^(control-center)$";
         blur = 1;
-        ignorezero = 1;
+        ignore_alpha = 0.0;
         animation = "slide right";
       };
     };
