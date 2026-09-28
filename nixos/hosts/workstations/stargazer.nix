@@ -106,20 +106,58 @@ in
   services.thinkfan = {
     enable = true;
     sensors = [
-      { type = "tpacpi"; query = "/proc/acpi/ibm/thermal"; }
+      {
+        type = "tpacpi";
+        query = "/proc/acpi/ibm/thermal";
+      }
     ];
     fans = [
-      { type = "tpacpi"; query = "/proc/acpi/ibm/fan"; }
+      {
+        type = "tpacpi";
+        query = "/proc/acpi/ibm/fan";
+      }
     ];
     levels = [
-      [ 0  0   42 ]
-      [ 1  40  48 ]
-      [ 2  45  53 ]
-      [ 3  50  58 ]
-      [ 4  55  63 ]
-      [ 5  58  68 ]
-      [ 7  63  75 ]
-      [ "level full-speed" 70 32767 ]
+      [
+        0
+        0
+        42
+      ]
+      [
+        1
+        40
+        48
+      ]
+      [
+        2
+        45
+        53
+      ]
+      [
+        3
+        50
+        58
+      ]
+      [
+        4
+        55
+        63
+      ]
+      [
+        5
+        58
+        68
+      ]
+      [
+        7
+        63
+        75
+      ]
+      [
+        "level full-speed"
+        70
+        32767
+      ]
     ];
   };
 
@@ -160,23 +198,21 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
-  environment.systemPackages =
-    with pkgs;
-    [
-      file
-      git
-      home-manager
-      iproute2
-      lshw
-      pciutils
-      pipewire
-      pkgs-stable.tailscale
-      sops
-      usbutils
-      vim
-      wget
-      zsh
-    ];
+  environment.systemPackages = with pkgs; [
+    file
+    git
+    home-manager
+    iproute2
+    lshw
+    pciutils
+    pipewire
+    pkgs-stable.tailscale
+    sops
+    usbutils
+    vim
+    wget
+    zsh
+  ];
 
   nix.gc = {
     automatic = true;
