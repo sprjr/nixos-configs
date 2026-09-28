@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Font, palette, and background opacity (stylix.opacity.terminal) come from
   # Stylix. Window and keybind behaviour is declared here.
   programs.ghostty = {
     enable = true;
+    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
     settings = {
       bold-is-bright = true;
       background-blur = 25;
