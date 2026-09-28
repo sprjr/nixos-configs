@@ -33,21 +33,6 @@ function IdleInhibit() {
   )
 }
 
-function SettingsButton() {
-  return (
-    <button
-      class="header-btn"
-      tooltipText="Settings"
-      onClicked={() => {
-        dismiss()
-        execAsync(["xdg-open", "gnome-control-center"])
-      }}
-    >
-      <image iconName="emblem-system-symbolic" />
-    </button>
-  )
-}
-
 function LockButton() {
   return (
     <button
@@ -105,7 +90,6 @@ export default function Header() {
       <DndToggle />
       <IdleInhibit />
       <box hexpand />
-      <SettingsButton />
       <LockButton />
       <LogoutButton />
       <RebootButton />
