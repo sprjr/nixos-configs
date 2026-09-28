@@ -78,11 +78,12 @@ in
     systemd.user.services.ags.Install.WantedBy = mkForce [ "hyprland-session.target" ];
 
     wayland.windowManager.hyprland.settings = {
-      layerrule = [
-        "blur,control-center"
-        "ignorezero,control-center"
-        "animation slide right,control-center"
-      ];
+      "layerrule[control-center]" = {
+        "match:namespace" = "^(control-center)$";
+        blur = 1;
+        ignorezero = 1;
+        animation = "slide right";
+      };
     };
   };
 }
