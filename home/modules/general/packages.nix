@@ -74,7 +74,6 @@
       cool-retro-term
       cowsay
       figlet
-      fortune
       lavat
       lolcat
       nms
@@ -88,6 +87,7 @@
       duplicati
       dust
       firefox
+      fortune
       ghostty
       google-chrome
       impala
