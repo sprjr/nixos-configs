@@ -21,6 +21,8 @@ in
 
   networking.hostName = "stargazer";
 
+  users.mutableUsers = false;
+  users.users.patrick.hashedPasswordFile = "/var/lib/secrets/default-user.hash";
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
   ];
