@@ -21,6 +21,10 @@ in
 
   networking.hostName = "stargazer";
 
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
+  ];
+
   systemd.services.NetworkManager-wait-online.enable = false;
 
   nix.settings.experimental-features = [
