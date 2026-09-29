@@ -177,6 +177,7 @@ in
           interface-name = cfg.bridge;
           autoconnect = true;
           autoconnect-priority = 100;
+          autoconnect-ports = 1;
         };
         bridge = {
           mac-address = cfg.bridgeMac;
@@ -198,6 +199,12 @@ in
           "slave-type" = "bridge";
           autoconnect = true;
           autoconnect-priority = 100;
+        };
+        ipv4 = {
+          method = "disabled";
+        };
+        ipv6 = {
+          method = "disabled";
         };
       };
     };
