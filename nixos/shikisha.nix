@@ -34,6 +34,9 @@ in
     # laptop-home.nix imports cosmic.nix unconditionally; disable it here since
     # shikisha has no COSMIC DE and the cosmic sops secrets won't be present.
     patrick.home.cosmic = lib.mkForce false;
+    # Same for Hyprland: its waybar/control-center read config.lib.stylix, and
+    # shikisha doesn't import the stylix module (headless server).
+    patrick.home.hyprland.enable = lib.mkForce false;
   };
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
