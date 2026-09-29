@@ -175,6 +175,12 @@ in
       imports = [
         ../../../home/laptop-home.nix
       ];
+
+      # 15.6" 3840x2160 panel: 1.2 leaves 3200x1800 logical, too dense to use.
+      patrick.home.hyprland.monitors = lib.mkForce [
+        "eDP-1,preferred,auto,2.0"
+        ",preferred,auto,auto"
+      ];
     };
   };
 
