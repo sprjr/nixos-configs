@@ -184,8 +184,8 @@ in
         ",preferred,auto,auto"
       ];
 
-      # Trackpad: tap-to-click on, pointer speed above the shared laptop default.
-      wayland.windowManager.hyprland.settings.input.sensitivity = lib.mkForce 0.4;
+      # Trackpad: tap-to-click on, pointer speed below the shared laptop default.
+      wayland.windowManager.hyprland.settings.input.sensitivity = lib.mkForce 0.2;
       wayland.windowManager.hyprland.settings.input.touchpad."tap-to-click" = true;
     };
   };
