@@ -69,9 +69,7 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/satisfactory.json)
   );
 
-  seleyaDashboard = colorByHost (
-    builtins.fromJSON (builtins.readFile ./dashboards/seleya.json)
-  );
+  seleyaDashboard = colorByHost (builtins.fromJSON (builtins.readFile ./dashboards/seleya.json));
 
   # services-overview + ha-frigate skip colorByHost: their series are probe URLs/jobs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
@@ -195,6 +193,7 @@ in
               "seair:9100"
               "defiant:9100"
               "badgey:9100"
+              "stargazer:9100"
             ];
           }
         ];
@@ -748,7 +747,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''time() - satisfactory_last_save_timestamp_seconds'' ;
+                        expr = "time() - satisfactory_last_save_timestamp_seconds";
                         instant = true;
                       };
                     }
@@ -801,7 +800,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''ha_entity_available == 0'';
+                        expr = "ha_entity_available == 0";
                         instant = true;
                       };
                     }
@@ -910,7 +909,7 @@ in
                       model = {
                         refId = "A";
                         # Emitted by a host-local sampler, not a collector.
-                        expr = ''seleya_battery_charge_percent < 10 and seleya_ac_online == 0'';
+                        expr = "seleya_battery_charge_percent < 10 and seleya_ac_online == 0";
                         instant = true;
                       };
                     }
@@ -963,7 +962,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''windows_thermalzone_throttle_reasons > 0'';
+                        expr = "windows_thermalzone_throttle_reasons > 0";
                         instant = true;
                       };
                     }
@@ -1016,7 +1015,7 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''seleya_pending_reboot == 1'';
+                        expr = "seleya_pending_reboot == 1";
                         instant = true;
                       };
                     }
