@@ -14,6 +14,8 @@ in
   imports = [ ../../modules/system/sops.nix ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  # RMI4 InterTouch is broken on this model; force the PS/2 path.
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
   boot.extraModprobeConfig = "options thinkpad_acpi fan_control=1";
 
   boot.loader.systemd-boot.enable = true;
