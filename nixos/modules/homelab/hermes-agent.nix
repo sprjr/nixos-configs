@@ -90,19 +90,40 @@ let
     #!/usr/bin/env python3
     import json, os, sys, time, urllib.request
 
+    TIMEOUT_DEFAULT = 1800
+
     if len(sys.argv) < 3:
-        print("Usage: delegate.py <profile> <task>")
+        print("Usage: delegate.py <profile> <task|@taskfile>")
         sys.exit(1)
 
     profile = sys.argv[1]
-    task = " ".join(sys.argv[2:])
-    api_key = os.environ.get("API_SERVER_KEY", "")
+    arg = " ".join(sys.argv[2:])
+    task = open(arg[1:]).read() if arg.startswith("@") else arg
 
+    api_key = os.environ.get("API_SERVER_KEY", "")
     if not api_key:
         print("DELEGATION_ERROR: API_SERVER_KEY not set")
         sys.exit(1)
 
-    url = f"http://127.0.0.1:8642/p/{profile}/v1/chat/completions"
+    timeout = int(os.environ.get("DELEGATE_TIMEOUT", str(TIMEOUT_DEFAULT)))
+    url = os.environ.get(
+        "DELEGATE_URL", f"http://127.0.0.1:8642/p/{profile}/v1/chat/completions"
+    )
+
+    # Serialize per profile so concurrent runs cannot share one worktree.
+    try:
+        import fcntl
+        lock_dir = os.environ.get("DELEGATE_LOCK_DIR", "/opt/data/cache/delegate-locks")
+        os.makedirs(lock_dir, exist_ok=True)
+        lock = open(os.path.join(lock_dir, f"{profile}.lock"), "a+")
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            print(f"[waiting: another {profile} delegation holds the lock]", file=sys.stderr)
+            fcntl.flock(lock, fcntl.LOCK_EX)
+    except Exception as e:
+        print(f"[lock unavailable: {e}]", file=sys.stderr)
+
     session_key = f"delegation:{int(time.time())}:{os.getpid()}"
 
     payload = json.dumps({
@@ -120,10 +141,12 @@ let
         },
     )
 
+    t0 = time.time()
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             data = json.loads(resp.read())
-            print(data["choices"][0]["message"]["content"])
+        print(data["choices"][0]["message"]["content"])
+        print(f"[delegation completed in {time.time()-t0:.0f}s]", file=sys.stderr)
     except Exception as e:
         print(f"DELEGATION_ERROR: {e}")
         sys.exit(1)

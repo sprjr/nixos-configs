@@ -18,6 +18,7 @@ let
     defiant = "light-purple";
     badgey = "dark-green";
     seleya = "purple";
+    stargazer = "light-blue";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.

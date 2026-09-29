@@ -86,6 +86,14 @@ in
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
+  # Home Assistant OS VM. Bridged onto the house LAN so the guest takes its own
+  # lease from the UniFi DHCP server rather than a shikisha-local NAT address.
+  homelab.haosVm = {
+    enable = true;
+    hostInterface = "enp1s0";
+    bridgeMac = "c8:d3:ff:a3:a7:3a";
+  };
+
   # Enable networking
   networking.networkmanager.enable = true;
 

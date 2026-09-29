@@ -263,6 +263,7 @@
               ./nixos/modules/system/sops.nix
               ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/virtualisation/multiarch.nix
+              ./nixos/modules/virtualisation/vm/haos-vm.nix
               ./nixos/modules/user/patrick.nix
             ];
           };

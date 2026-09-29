@@ -14,6 +14,8 @@ in
   imports = [ ../../modules/system/sops.nix ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  # RMI4 InterTouch is broken on this model; force the PS/2 path.
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
   boot.extraModprobeConfig = "options thinkpad_acpi fan_control=1";
 
   boot.loader.systemd-boot.enable = true;
@@ -175,6 +177,16 @@ in
       imports = [
         ../../../home/laptop-home.nix
       ];
+
+      # 15.6" 3840x2160 panel: 1.2 leaves 3200x1800 logical, too dense to use.
+      patrick.home.hyprland.monitors = lib.mkForce [
+        "eDP-1,preferred,auto,2.0"
+        ",preferred,auto,auto"
+      ];
+
+      # Trackpad: tap-to-click on, pointer speed below the shared laptop default.
+      wayland.windowManager.hyprland.settings.input.sensitivity = lib.mkForce 0.2;
+      wayland.windowManager.hyprland.settings.input.touchpad."tap-to-click" = true;
     };
   };
 
