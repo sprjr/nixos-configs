@@ -38,7 +38,7 @@ let
         <disk type='file' device='disk'>
           <driver name='qemu' type='qcow2'/>
           <source file='/var/lib/libvirt/images/haos.qcow2'/>
-          <target dev='sda' bus='sata'/>
+          <target dev='vda' bus='virtio'/>
         </disk>
         <interface type='bridge'>
           <source bridge='${cfg.bridge}'/>
