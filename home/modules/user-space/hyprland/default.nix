@@ -60,6 +60,7 @@ in
     ./widgets/weather.nix
     #./widgets/ip.nix
     ./widgets/hwmon.nix
+    ./widgets/comin-state.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix

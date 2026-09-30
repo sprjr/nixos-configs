@@ -10,10 +10,13 @@ import Brightness from "./Brightness"
 import PowerProfile from "./PowerProfile"
 import Battery from "./Battery"
 import Media from "./Media"
+import Comin from "./Comin"
 import { dismiss } from "./Overlay"
+import { createState } from "ags"
 
 export default function ControlCenter() {
   const { TOP, RIGHT } = Astal.WindowAnchor
+  const [shown, setShown] = createState(false)
 
   return (
     <window
@@ -26,6 +29,7 @@ export default function ControlCenter() {
       marginTop={6}
       marginRight={6}
       application={app}
+      onNotifyVisible={(self) => setShown(self.visible)}
     >
       <Gtk.EventControllerKey
         onKeyPressed={(_, keyval) => {
@@ -40,6 +44,7 @@ export default function ControlCenter() {
         widthRequest={400}
       >
         <Header />
+        <Comin shown={shown} />
         <Network />
         <Audio />
         <Brightness />

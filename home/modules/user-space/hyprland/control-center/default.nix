@@ -3,6 +3,7 @@
   pkgs,
   lib,
   ags,
+  osConfig ? { },
   ...
 }:
 
@@ -13,6 +14,11 @@ let
   c = config.lib.stylix.colors.withHashtag;
 
   isLaptop = cfg.formFactor == "laptop";
+
+  # Host features the widgets can't detect themselves.
+  features = builtins.toJSON {
+    comin = osConfig.services.comin.enable or false;
+  };
 
   agsConfig = pkgs.stdenv.mkDerivation {
     name = "ags-control-center-config";
@@ -41,6 +47,9 @@ let
         --is-laptop: ${if isLaptop then "1" else "0"};
       }
       VARS
+      cat > $out/features.json << 'FEATURES'
+      ${features}
+      FEATURES
     '';
   };
 
