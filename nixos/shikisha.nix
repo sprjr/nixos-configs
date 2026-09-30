@@ -50,6 +50,8 @@ in
   networking.hostName = "shikisha"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
 
+  services.alloy-syslog.enable = true;
+
   networking.firewall = {
     allowedUDPPorts = [ 8472 ];
   };
