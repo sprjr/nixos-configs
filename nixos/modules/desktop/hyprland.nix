@@ -26,6 +26,9 @@
   # autostart (exec-once in the home module).
   security.polkit.enable = true;
 
+  # D-Bus power profile switching for the control center and waybar power-profiles-daemon module.
+  services.power-profiles-daemon.enable = true;
+
   # Allow hyprlock to authenticate via PAM (password + fingerprint where fprintd is present).
   security.pam.services.hyprlock = { };
 
