@@ -203,6 +203,7 @@
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
               ./nixos/modules/disks/seanix-mount.nix
               ./nixos/modules/homelab/ollama-nvidia.nix
               #./nixos/modules/system/attic-cache.nix
@@ -299,6 +300,7 @@
               #./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/hardware/touchpad-inhibit.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
             ];
           };
           whale = nixpkgs.lib.nixosSystem {
@@ -413,6 +415,7 @@
               ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/hardware/nvidia-t1000.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
