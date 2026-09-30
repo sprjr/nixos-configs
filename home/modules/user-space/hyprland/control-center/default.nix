@@ -90,7 +90,11 @@ in
       pkgs.brightnessctl
     ];
 
-    systemd.user.services.ags.Install.WantedBy = mkForce [ "hyprland-session.target" ];
+    systemd.user.services.ags = {
+      Install.WantedBy = mkForce [ "hyprland-session.target" ];
+      # ags bundles the config at startup; a config change must restart the running instance.
+      Unit.X-Restart-Triggers = [ "${agsConfig}" ];
+    };
 
     wayland.windowManager.hyprland.settings = {
       "layerrule[control-center]" = {
