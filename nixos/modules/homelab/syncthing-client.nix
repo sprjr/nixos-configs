@@ -32,9 +32,9 @@ in {
       # Ordered after multi-user.target as well as pulled in by it: WantedBy alone makes the
       # target wait for this unit, so a slow poke here delays multi-user.target ->
       # graphical.target -> the uwsm login handoff. Ordering it after the target decouples them.
-      after = [ "syncthing.service" "multi-user.target" ];
+      after = [ "syncthing.service" "multi-user.target" "sops-secrets-rendered.service" ];
       requires = [ "syncthing.service" ];
-      wants = [ "syncthing.service" ];
+      wants = [ "syncthing.service" "sops-secrets-rendered.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
@@ -58,7 +58,11 @@ in {
           sleep 2
         done
 
-        HUB_ID=$(cat ${config.sops.secrets."syncthing/hub/device-id".path})
+        HUB_ID=$(cat ${config.sops.secrets."syncthing/hub/device-id".path} 2>/dev/null || true)
+        if [ -z "$HUB_ID" ]; then
+          echo "syncthing/hub/device-id unavailable; nothing to configure" >&2
+          exit 0
+        fi
 
         exists=$(curl -sf -H "X-API-Key: $APIKEY" http://127.0.0.1:8384/rest/config/devices | \
           jq -r --arg id "$HUB_ID" '.[] | select(.deviceID == $id) | .deviceID')
