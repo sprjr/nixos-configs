@@ -122,6 +122,8 @@ memtly:
     encryption-salt: ENC[AES256_GCM,data:IyF5vmS5QxECmSbKHU/uN2QDzYS5Sg+rttao0LorzQoQVwYXnwMZKOnmj2E=,iv:/DiEs/rbFPlP08LolGk7B9U6uCHFTDbugAuuhN35exY=,tag:x7sVHiw2zzPMZDYoWCeckQ==,type:str]
     mariadb-password: ENC[AES256_GCM,data:nku1+KyhDYuh0wmF8tLrxt7WBDR5sGRyGh+9JdyYL8b4x+1ohl40FXUqeg==,iv:AVNct2lga9R/vRmJ7P17zlo9y3LbHx/lRNjjq9ffjPg=,tag:5Kf8GL8deoxxkP2G/51WGw==,type:str]
     mariadb-root-password: ENC[AES256_GCM,data:Qk4ZMQYQOG+eB/oYKaaRHdD4L7AsJEuegYxjYbnymHMI9MU9LjoFlQTGKg==,iv:LDXo9qbKmx/CLP8ghx+jPHUI6MYuuL46AdbISGouM2w=,tag:U/XV2RjxtHlmt1wrHNEi+w==,type:str]
+cage-kiosk:
+    stargazer-memtly: ENC[AES256_GCM,data:xTlRe8lMsf5SnzcceTHWBHGVwApy2g==,iv:nNbJbOniSXgNQzSpFYLmFs1fbJ3yIIeyxanPXnpapf4=,tag:K07plpBIpQr9lJEeiGf0TA==,type:str]
 sops:
     age:
         - enc: |
@@ -133,7 +135,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-09-30T15:35:49Z"
-    mac: ENC[AES256_GCM,data:x8XSUJ9iK9QonLguQRPNeB0a1oWh+5GEv/Z/XzOlv4fRbhNpLI0VzWw7EIsTgN7B83yVzUEmHFKLJ8krVDO3Be9N2ney/3T4ygXLCBEgIfFg2f589MdqiQ6ICKBVszWVcPuuX6QSQ1wlTbQSoct774Mp76quxi4XHnIh/RMgV3I=,iv:y1qPtcew6c1EK5SJCO96pIB3vWVoisUXOgJp7I0kWwU=,tag:7d3yq7LsEaNLycE8Mhbd7g==,type:str]
+    lastmodified: "2026-09-30T20:07:00Z"
+    mac: ENC[AES256_GCM,data:SxCjFx3QcOtRsLa6pZGwE+5AEbQ9ZYGq1zbW2U6/iXLe0vo0lT6Llda2uuExgGKS45QBp1C7BhOURI8h51JzTsqjPICUndghLRP5Mz/UbyGFQmR2Y/6P9lTrsFWog+DX3qZ5CB1mZZdaCH2hmV++Mn4hEMiLUvkK9lZxseQlblo=,iv:26tUiFRf+zjbuJACykOaJ1sG71mxrca6DkwxX7qJ8gs=,tag:lPd9OMhhFTY31fFrCNjojw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
