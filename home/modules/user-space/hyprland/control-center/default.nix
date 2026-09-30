@@ -48,6 +48,11 @@ let
     name = "control-center-toggle";
     text = ''ags request "toggle"'';
   };
+
+  hwToggleScript = pkgs.writeShellApplication {
+    name = "hw-monitor-toggle";
+    text = ''ags request "toggle-hw"'';
+  };
 in
 {
   config = mkIf (cfg.enable && cfg.shell == "native") {
@@ -72,6 +77,7 @@ in
 
     home.packages = [
       toggleScript
+      hwToggleScript
       pkgs.brightnessctl
     ];
 
@@ -80,6 +86,12 @@ in
     wayland.windowManager.hyprland.settings = {
       "layerrule[control-center]" = {
         "match:namespace" = "^(control-center)$";
+        blur = 1;
+        ignore_alpha = 0.0;
+        animation = "slide right";
+      };
+      "layerrule[hw-monitor]" = {
+        "match:namespace" = "^(hw-monitor)$";
         blur = 1;
         ignore_alpha = 0.0;
         animation = "slide right";

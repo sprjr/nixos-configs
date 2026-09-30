@@ -145,8 +145,10 @@ let
     #"disk"
     #"temperature"
   ]
-  ++ optional (cfg.gpu != null) "custom/gpu"
-  ++ [ "power-profiles-daemon" ]
+  ++ [
+    "custom/hwmon"
+    "power-profiles-daemon"
+  ]
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
@@ -190,6 +192,7 @@ in
         #custom-timer,
         #custom-weather { min-width: 56px; }
         #custom-ha-motion { min-width: 48px; }
+        #custom-hwmon { min-width: 88px; }
         #workspaces button {
           padding: 0 8px;
           color: ${c.base04};
@@ -219,7 +222,7 @@ in
         #custom-weather,
         #custom-calendar,
         #custom-public-ip,
-        #custom-gpu,
+        #custom-hwmon,
         #custom-budslink,
         #custom-ha-fan,
         #custom-ha-lamp,
@@ -247,7 +250,9 @@ in
         #bluetooth.disabled,
         #bluetooth.off { color: ${c.base04}; }
         #battery { color: ${c.base0B}; }
-        #custom-gpu { color: ${c.base0E}; }
+        #custom-hwmon { color: ${c.base0E}; }
+        #custom-hwmon.warning { color: ${c.base0A}; }
+        #custom-hwmon.critical { color: ${c.base08}; }
         #custom-weather { color: ${c.base0D}; }
         #custom-calendar { color: ${c.base0C}; }
         #custom-budslink { color: ${c.base0E}; }
@@ -480,10 +485,11 @@ in
           format = "󰩠 {}";
         };
 
-        "custom/gpu" = {
-          exec = "waybar-gpu";
+        # Continuous exec: hwstat --bar emits a line every 2s.
+        "custom/hwmon" = {
+          exec = "hwstat --bar";
           return-type = "json";
-          interval = 3;
+          on-click = "hw-monitor-toggle";
         };
 
         "custom/ha-fan" = {

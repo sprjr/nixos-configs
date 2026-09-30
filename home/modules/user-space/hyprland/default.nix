@@ -59,7 +59,7 @@ in
     ./keyring.nix
     ./widgets/weather.nix
     #./widgets/ip.nix
-    ./widgets/stats.nix
+    ./widgets/hwmon.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
@@ -171,8 +171,8 @@ in
       );
       default = null;
       description = ''
-        GPU vendor for the waybar GPU widget and Nvidia session env. null omits the widget
-        and adds no GPU env.
+        GPU vendor for the hardware panel (hwstat) and Nvidia session env. null omits the
+        panel's GPU section and adds no GPU env.
       '';
     };
 

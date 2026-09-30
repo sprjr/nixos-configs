@@ -10,6 +10,7 @@ import Brightness from "./Brightness"
 import PowerProfile from "./PowerProfile"
 import Battery from "./Battery"
 import Media from "./Media"
+import { dismiss } from "./Overlay"
 
 export default function ControlCenter() {
   const { TOP, RIGHT } = Astal.WindowAnchor
@@ -28,10 +29,7 @@ export default function ControlCenter() {
     >
       <Gtk.EventControllerKey
         onKeyPressed={(_, keyval) => {
-          if (keyval === Gdk.KEY_Escape) {
-            app.get_window("control-center")?.set_visible(false)
-            app.get_window("control-center-overlay")?.set_visible(false)
-          }
+          if (keyval === Gdk.KEY_Escape) dismiss()
           return false
         }}
       />

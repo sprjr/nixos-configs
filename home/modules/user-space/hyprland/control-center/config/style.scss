@@ -190,6 +190,16 @@ window.control-center > box {
   }
 }
 
+.profile-active {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.profile-note {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+
 // Battery
 .battery-percent {
   color: var(--fg);
@@ -219,6 +229,68 @@ window.control-center > box {
   block.filled {
     background: var(--green);
     border-radius: 3px;
+  }
+}
+
+// Hardware monitor
+window.hw-monitor {
+  background: transparent;
+}
+
+window.hw-monitor > box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.hw-stat {
+  color: var(--fg);
+  font-size: 12px;
+  font-feature-settings: "tnum";
+}
+
+.hw-sub {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+
+.sparkline {
+  min-height: 36px;
+  margin: 2px 0;
+}
+
+.spark-cpu { color: var(--red); }
+.spark-gpu { color: var(--purple); }
+.spark-net { color: var(--accent); }
+
+.core-bar,
+.hw-bar {
+  trough {
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  block.filled {
+    background: var(--accent);
+    border-radius: 2px;
+  }
+}
+
+.core-bar {
+  min-width: 4px;
+
+  trough,
+  block {
+    min-width: 4px;
+  }
+}
+
+.hw-bar {
+  min-height: 6px;
+
+  trough,
+  block {
+    min-height: 6px;
   }
 }
 
