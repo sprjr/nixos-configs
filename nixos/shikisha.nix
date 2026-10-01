@@ -97,6 +97,8 @@ in
     enable = true;
     hostInterface = "enp1s0";
     bridgeMac = "c8:d3:ff:a3:a7:3a";
+    # Zigbee coordinator stays on the host until the HAOS migration.
+    zigbeePassthrough = false;
   };
 
   # Enable networking
