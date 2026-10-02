@@ -190,6 +190,8 @@ in
 
       # Auto (2) picks a software cursor here; repainting blur at 4K on the iGPU makes it stutter.
       wayland.windowManager.hyprland.settings.cursor.no_hardware_cursors = 0;
+      # Blur at 4K still delays frames (and the cursor with them) on the iGPU, even with xray.
+      wayland.windowManager.hyprland.settings.decoration.blur.enabled = lib.mkForce false;
     };
   };
 
