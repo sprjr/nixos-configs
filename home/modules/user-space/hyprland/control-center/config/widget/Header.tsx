@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app"
 import Gtk from "gi://Gtk?version=4.0"
-import { execAsync } from "ags/process"
+import { createState } from "ags"
+import { execAsync, subprocess } from "ags/process"
 
 function dismiss() {
   const cc = app.get_window("control-center")
@@ -10,13 +11,33 @@ function dismiss() {
 }
 
 function DndToggle() {
+  const [dnd, setDnd] = createState(false)
+
+  // swaync-client -s streams {"count", "dnd", "visible", "inhibited"} on every change,
+  // so DND toggled from waybar or swaync's own panel is reflected here too
+  subprocess(
+    ["swaync-client", "-s"],
+    (line) => {
+      try {
+        setDnd(!!JSON.parse(line).dnd)
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    (err) => console.error(err),
+  )
+
   return (
     <button
-      class="header-btn"
-      tooltipText="Do Not Disturb"
+      class={dnd((on) => (on ? "header-btn active" : "header-btn"))}
+      tooltipText={dnd((on) => (on ? "Do Not Disturb: on" : "Do Not Disturb: off"))}
       onClicked={() => execAsync(["swaync-client", "-d", "-sw"]).catch(console.error)}
     >
-      <image iconName="notifications-disabled-symbolic" />
+      <image
+        iconName={dnd((on) =>
+          on ? "notifications-disabled-symbolic" : "preferences-system-notifications-symbolic",
+        )}
+      />
     </button>
   )
 }
