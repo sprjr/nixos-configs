@@ -187,6 +187,9 @@ in
       # Trackpad: tap-to-click on, pointer speed below the shared laptop default.
       wayland.windowManager.hyprland.settings.input.sensitivity = lib.mkForce 0.2;
       wayland.windowManager.hyprland.settings.input.touchpad."tap-to-click" = true;
+
+      # Auto (2) picks a software cursor here; repainting blur at 4K on the iGPU makes it stutter.
+      wayland.windowManager.hyprland.settings.cursor.no_hardware_cursors = 0;
     };
   };
 
