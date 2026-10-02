@@ -21,24 +21,6 @@ function DndToggle() {
   )
 }
 
-function IdleInhibit() {
-  return (
-    <button
-      class="header-btn"
-      tooltipText="Toggle hypridle"
-      onClicked={() =>
-        execAsync([
-          "sh",
-          "-c",
-          "if systemctl --user is-active --quiet hypridle; then systemctl --user stop hypridle; else systemctl --user start hypridle; fi",
-        ]).catch(console.error)
-      }
-    >
-      <image iconName="caffeine-cup-empty-symbolic" />
-    </button>
-  )
-}
-
 function LockButton() {
   return (
     <button
@@ -94,7 +76,6 @@ export default function Header() {
   return (
     <box class="section header" spacing={4}>
       <DndToggle />
-      <IdleInhibit />
       <box hexpand />
       <LockButton />
       <LogoutButton />
