@@ -189,7 +189,7 @@ in
       wayland.windowManager.hyprland.settings.input.touchpad."tap-to-click" = true;
 
       # Auto (2) picks a software cursor here; repainting blur at 4K on the iGPU makes it stutter.
-      wayland.windowManager.hyprland.settings.cursor.no_hardware_cursors = 1;
+      wayland.windowManager.hyprland.settings.cursor.no_hardware_cursors = 0;
     };
   };
 
