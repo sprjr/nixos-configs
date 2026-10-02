@@ -60,6 +60,7 @@
     git
     vim
     curl
+    duf
     wget
     amdtop
     htop
