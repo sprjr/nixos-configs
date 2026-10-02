@@ -28,6 +28,22 @@ let
     gtk-single-instance = false
   '';
 
+  # Startup workspace rule per configured app class.
+  placementRules = listToAttrs (
+    mapAttrsToList (
+      name: v:
+      nameValuePair "windowrule[${name}]" {
+        "match:class" = v.class;
+        workspace = "${toString v.workspace} silent";
+      }
+    ) cfg.windowPlacement
+  );
+
+  # command = null opts an app out of autostart.
+  autostartCommands = concatLists (
+    mapAttrsToList (_: v: optional (v.command != null) v.command) cfg.windowPlacement
+  );
+
   # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
     name = "hyprland-log-archive";
@@ -142,6 +158,65 @@ in
         description = "Physical output `workspaces` are moved back onto by `mon-local`.";
         example = "DP-1";
       };
+    };
+
+    windowPlacement = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            class = mkOption {
+              type = types.str;
+              description = "Hyprland window class regex the rule matches.";
+              example = "^(firefox)$";
+            };
+            workspace = mkOption {
+              type = types.int;
+              description = "Workspace the app opens on at startup.";
+            };
+            command = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "Command autostarted at login. null leaves the app to be launched by hand.";
+            };
+          };
+        }
+      );
+      default = {
+        steam = {
+          class = "^(steam)$";
+          workspace = 1;
+          command = "steam";
+        };
+        ghostty = {
+          class = "^(com\\.mitchellh\\.ghostty)$";
+          workspace = 2;
+          command = "ghostty";
+        };
+        signal = {
+          class = "^(signal)$";
+          workspace = 3;
+          command = "signal-desktop";
+        };
+        legcord = {
+          class = "^(legcord)$";
+          workspace = 3;
+          command = "legcord";
+        };
+        firefox = {
+          class = "^(firefox)$";
+          workspace = 3;
+          command = "firefox";
+        };
+      };
+      description = ''
+        Startup workspace per app class, plus the login autostart command.
+
+        A single-monitor host lays its apps out over workspaces 1-?; the default is the
+        three-monitor desktop layout and is overridden per host. The default renders
+        byte-identical to the previous hardcoded rules. The ghostty-dropdown rule is not
+        here: it is float/size/move onto special:dropdown rather than a workspace
+        assignment, so it stays shared.
+      '';
     };
 
     battery = mkOption {
@@ -330,11 +405,9 @@ in
           "gnome-keyring-daemon --start --components=secrets"
           "wl-paste --watch cliphist store"
           "fcitx5 -d --replace"
-          "steam"
-          "signal-desktop"
-          "legcord"
-          "firefox"
-          "ghostty"
+        ]
+        ++ autostartCommands
+        ++ [
           "ghostty --config-file=${ghosttyDropdownConf}"
         ];
 
@@ -423,14 +496,6 @@ in
           disable_logs = !cfg.debugLogging;
         };
 
-        "windowrule[steam]" = {
-          "match:class" = "^(steam)$";
-          workspace = "1 silent";
-        };
-        "windowrule[ghostty]" = {
-          "match:class" = "^(com\\.mitchellh\\.ghostty)$";
-          workspace = "2 silent";
-        };
         "windowrule[ghostty-dropdown]" = {
           "match:class" = "^(ghostty-dropdown)$";
           float = true;
@@ -438,19 +503,8 @@ in
           move = "0 0";
           workspace = "special:dropdown silent";
         };
-        "windowrule[signal]" = {
-          "match:class" = "^(signal)$";
-          workspace = "3 silent";
-        };
-        "windowrule[legcord]" = {
-          "match:class" = "^(legcord)$";
-          workspace = "3 silent";
-        };
-        "windowrule[firefox]" = {
-          "match:class" = "^(firefox)$";
-          workspace = "3 silent";
-        };
-      };
+      }
+      // placementRules;
     };
 
     # Hyprland-only target; PartOf stops daemons on logout.

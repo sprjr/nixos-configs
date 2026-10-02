@@ -43,6 +43,34 @@
       "eDP-1,preferred,auto,1.2"
       ",preferred,auto,auto"
     ];
+    # Single-monitor layout; steam is dropped so it never autostarts.
+    windowPlacement = {
+      ghostty = {
+        class = "^(com\\.mitchellh\\.ghostty)$";
+        workspace = 1;
+        command = "ghostty";
+      };
+      firefox = {
+        class = "^(firefox)$";
+        workspace = 2;
+        command = "firefox";
+      };
+      signal = {
+        class = "^(signal)$";
+        workspace = 3;
+        command = "signal-desktop";
+      };
+      legcord = {
+        class = "^(legcord)$";
+        workspace = 3;
+        command = "legcord";
+      };
+      # Not autostarted — placed only if opened by hand.
+      "1password" = {
+        class = "^(com\\.onepassword\\.OnePassword)$";
+        workspace = 4;
+      };
+    };
   };
 
   # Git configuration
