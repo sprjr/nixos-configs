@@ -56,6 +56,14 @@ window.control-center > box {
   &.active image {
     color: var(--accent);
   }
+
+  &.armed {
+    background: var(--red);
+
+    image {
+      color: var(--bg);
+    }
+  }
 }
 
 // Network
