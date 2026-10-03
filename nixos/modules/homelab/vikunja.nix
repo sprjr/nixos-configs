@@ -94,6 +94,7 @@ in
     # does not cover clientid/clientsecret.
     sops.templates."vikunja-env" = {
       mode = "0400";
+      restartUnits = [ "vikunja.service" ];
       content = ''
         VIKUNJA_SERVICE_SECRET=${config.sops.placeholder."vikunja/service-secret"}
         ${envPrefix}_CLIENTID=${config.sops.placeholder."vikunja/oidc-client-id"}
