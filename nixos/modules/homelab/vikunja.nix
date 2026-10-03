@@ -65,6 +65,10 @@ in
         assertion = cfg.baseUrl != "";
         message = "services.vikunja.oidc.baseUrl must be set when OIDC is enabled.";
       }
+      {
+        assertion = builtins.match "[a-z0-9]+" cfg.providerKey != null;
+        message = "services.vikunja.oidc.providerKey must be lowercase alphanumeric: it becomes part of the env var name and the callback URL.";
+      }
     ];
 
     services.vikunja = {
@@ -86,8 +90,8 @@ in
     sops.secrets."vikunja/oidc-client-id" = { };
     sops.secrets."vikunja/oidc-client-secret" = { };
 
-    # Client ID and client secret come from env: Vikunja's file-based secret
-    # lookup does not cover openid provider credentials.
+    # Provider credentials reach Vikunja by env: its file-based secret lookup
+    # does not cover clientid/clientsecret.
     sops.templates."vikunja-env" = {
       mode = "0400";
       content = ''
