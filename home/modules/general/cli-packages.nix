@@ -1,0 +1,94 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+{
+  # Headless-safe: everything here must work without a display.
+  home.packages =
+    with pkgs;
+    [
+      andcli
+      attic-client
+      atuin
+      btop
+      awscli2
+      caligula
+      chafa
+      direnv
+      docker
+      docker-compose
+      dua
+      duf
+      ffmpeg
+      fzf
+      gh
+      gh-dash
+      glow
+      gocheat
+      harper
+      helix
+      htop
+      jq
+      kubernetes-helm
+      kubectx
+      lazydocker
+      lazygit
+      lima
+      lsd
+      mdp
+      minikube
+      mtr
+      nebula
+      nps
+      opencode
+      openssl
+      opentofu
+      pv
+      python314
+      python314Packages.pip
+      rig
+      russ
+      syncthing
+      terraformer
+      tldr
+      tmux
+      todoist
+      tree
+      typst
+      yazi
+      zellij
+      zoxide
+      asciiquarium
+      blahaj
+      cbonsai
+      cmatrix
+      cowsay
+      figlet
+      lavat
+      lolcat
+      nms
+      sl
+      ternimal
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      android-tools
+      bandwhich
+      duplicati
+      dust
+      fortune
+      impala
+      inetutils
+      libusb1
+      libvirt
+      meson
+      nethogs
+      netop
+      nmap
+      pkg-config
+      wireguard-tools
+      wireguard-ui
+    ];
+}
