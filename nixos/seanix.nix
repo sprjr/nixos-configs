@@ -251,6 +251,7 @@ in
 
     # Tools
     ansible
+    blender
     distrobox
     distrobox-tui
     easyeffects
