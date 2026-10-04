@@ -12,7 +12,6 @@ let
     "--exclude=/.venvs/"
     "--exclude=/ocr-venv/"
     "--exclude=/lazy-packages/"
-    "--exclude=/backups/"
     "--exclude=/home/.cache/"
     "--exclude=/home/.nix-portable/"
     "--exclude=/home/.local/share/nix/root/"
