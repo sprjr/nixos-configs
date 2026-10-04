@@ -25,7 +25,7 @@ let
       retain=${toString retain}
       minFreeGiB=${toString minFreeGiB}
       minFree=$(( minFreeGiB * 1024 * 1024 * 1024 ))
-      stamp="$(date +%Y%m%d-%H%M%S)"
+      stamp="$(date +%Y%m%d-%H%M%S)-$$"
       partial="$backupDir/.partial"
       dest="$backupDir/$stamp"
 
@@ -39,7 +39,9 @@ let
       }
 
       # make room before starting, oldest first, but never drop the last snapshot
-      while [ "$(free_bytes)" -lt "$minFree" ] && [ "$(snapshots | wc -l)" -gt 1 ]; do
+      while [ "$(free_bytes)" -lt "$minFree" ]; do
+        n="$(snapshots | wc -l)"
+        [ "$n" -gt 1 ] || break
         oldest="$(snapshots | head -1)"
         echo "hermes-backup: low free space, pruning $oldest"
         rm -rf -- "$backupDir/''${oldest:?}"
