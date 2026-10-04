@@ -77,9 +77,7 @@ in {
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${backupScript}/bin/hermes-backup";
-      TimeoutStartSec = "1h";
       Nice = 19;
-      IOSchedulingClass = "idle";
     };
   };
 
