@@ -65,6 +65,9 @@ let
       ];
     };
     disableHooks = true;
+    env = {
+      CLAUDE_CODE_PLUGIN_DIRS = "${config.home.homeDirectory}/Projects/context-bar";
+    };
     cleanupPeriodDays = 50;
     autoUpdatesChannel = "stable";
   };
