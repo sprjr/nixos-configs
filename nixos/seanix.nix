@@ -263,13 +263,11 @@ in
     kind
     looking-glass-client
     lyrebird
-    mapscii
     opencode
     opencv
     orthanc
     python313
     python313Packages.pip
-    rustnet
     terraform
     typst
     umu-launcher

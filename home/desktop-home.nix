@@ -11,6 +11,7 @@
   imports = [
     ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/claude.nix
     ./modules/tools/opencode.nix
