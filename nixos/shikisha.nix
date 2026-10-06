@@ -15,6 +15,7 @@ in
   imports = [
     home-manager.nixosModules.home-manager
     ./modules/homelab/syncthing-hub.nix
+    ./modules/homelab/vikunja.nix
     # Systemd Timers
     ./hosts/shikisha/cron/docker-findmy-restart.nix
     ./modules/system/esp-tooling.nix
@@ -28,6 +29,13 @@ in
       "seanix"
       #"voyager"
     ];
+  };
+
+  services.vikunja.oidc = {
+    enable = true;
+    providerKey = "authentik";
+    baseUrl = "https://auth0.rawliyosh.com";
+    publicHost = "vikunja.rawliyosh.com";
   };
 
   home-manager.users.patrick = {
