@@ -58,6 +58,8 @@ let
     ${triageModel}
     terminal:
       env: local
+    dashboard:
+      theme: mono
     memory:
       memory_enabled: true
       user_profile_enabled: true
@@ -68,6 +70,9 @@ let
       wrap_response: true
       model: deepseek-v4.1-flash
       model_provider: custom
+    skills:
+      auto_load:
+        - i-have-adhd
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
@@ -371,7 +376,7 @@ in
   };
 
   virtualisation.oci-containers.containers.hermes-agent = {
-    image = "docker.io/nousresearch/hermes-agent:latest";
+    image = "docker.io/nousresearch/hermes-agent:v2026.9.24";
     autoStart = true;
     extraOptions = [
       "--network=hermes-net"
