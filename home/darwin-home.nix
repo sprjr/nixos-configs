@@ -21,6 +21,7 @@
     ./modules/tools/neovim.nix
     ./modules/tools/obsidian-daily-carry.nix
     ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
   ];
 
   # Git configuration
