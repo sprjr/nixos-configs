@@ -58,6 +58,8 @@ let
     ${triageModel}
     terminal:
       env: local
+    dashboard:
+      theme: mono
     memory:
       memory_enabled: true
       user_profile_enabled: true
@@ -71,7 +73,7 @@ let
     skills:
       auto_load:
         - i-have-adhd
-'';
+  '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
     ${coderModel}
