@@ -124,6 +124,10 @@ memtly:
     mariadb-root-password: ENC[AES256_GCM,data:Qk4ZMQYQOG+eB/oYKaaRHdD4L7AsJEuegYxjYbnymHMI9MU9LjoFlQTGKg==,iv:LDXo9qbKmx/CLP8ghx+jPHUI6MYuuL46AdbISGouM2w=,tag:U/XV2RjxtHlmt1wrHNEi+w==,type:str]
 cage-kiosk:
     stargazer-memtly: ENC[AES256_GCM,data:xTlRe8lMsf5SnzcceTHWBHGVwApy2g==,iv:nNbJbOniSXgNQzSpFYLmFs1fbJ3yIIeyxanPXnpapf4=,tag:K07plpBIpQr9lJEeiGf0TA==,type:str]
+vikunja:
+    service-secret: ENC[AES256_GCM,data:+H2ku+6svh2mAYKrRBDE7vceusbnLMmLkwaGEjre2sSIGPiA7Lfo1rY=,iv:qPr8E2t7nVdZDI9Oemq/QmBFJLhvAIfa0gFbkP343T0=,tag:JD7L6FzqmJsQ7M3wdhPeJg==,type:str]
+    oidc-client-id: ENC[AES256_GCM,data:zH523OcqBFgvIWAAxhVagRq1jzSDTSvYsC097VUi1rZ1O37R/gUUGw==,iv:jhQKOrm4iNCDwMclf29YrSKJSBElRQLtncbDNpfHPF0=,tag:SdSZM4hRPnyce5GwEALveg==,type:str]
+    oidc-client-secret: ENC[AES256_GCM,data:NBxfB6z69MfcY8UAR7mQB0LUSL0SUqo6pHB9sNb27/O8d/VRxwyVfkywWu9J/K9gbjByf4e+j0iCeV4OfTf+Qx8QQ63ivZtf4Ls07m8GjZf/7PrEbw/+WZPNQkVImZfeNq4wfCh0puO/6seOluVzf1t0WldRYzi2VRILJacFJOo=,iv:NgnkrSQFvMwBJdwrjO4Z9zzfS4pnV05imYcLVi5BPzQ=,tag:bKx0yaBvHJDGL5fMHhAk6A==,type:str]
 sops:
     age:
         - enc: |
@@ -135,7 +139,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-09-30T20:07:00Z"
-    mac: ENC[AES256_GCM,data:SxCjFx3QcOtRsLa6pZGwE+5AEbQ9ZYGq1zbW2U6/iXLe0vo0lT6Llda2uuExgGKS45QBp1C7BhOURI8h51JzTsqjPICUndghLRP5Mz/UbyGFQmR2Y/6P9lTrsFWog+DX3qZ5CB1mZZdaCH2hmV++Mn4hEMiLUvkK9lZxseQlblo=,iv:26tUiFRf+zjbuJACykOaJ1sG71mxrca6DkwxX7qJ8gs=,tag:lPd9OMhhFTY31fFrCNjojw==,type:str]
+    lastmodified: "2026-10-06T19:19:03Z"
+    mac: ENC[AES256_GCM,data:gMyDqrjoOo8f8IRIAL+trrRwmVBVI9gs7hLLFTU4SuwQ2QfXqIkfppWxV90ZaZJRg3uutOpY2hkdWG5GiJUkAn9jjXUE6FMC6PF3J+xesJHo1ikQbAcg+9fSTngbIJF9eo7SWfb8n4IAWwLtePUj/jNNGWMw2icr+Pgdsawsj64=,iv:qp2TNZDoh0W8syzfTWR7/LxVzGoCuymWJPRW5UDE1DQ=,tag:t/Ttiy4+zaRQDwBo01XlRw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
