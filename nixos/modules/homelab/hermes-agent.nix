@@ -39,7 +39,8 @@ let
     api_key = true;
   };
   researcherModel = mkModelBlock {
-    model = "deepseek-v4-flash:0731";
+    model = "glm-5.3";
+    context_length = 1000000;
     api_key = true;
   };
   homeModel = mkModelBlock {
