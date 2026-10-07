@@ -2,7 +2,7 @@ import app from "ags/gtk4/app"
 import Astal from "gi://Astal?version=4.0"
 
 // Panels sharing the click-outside overlay; at most one is visible at a time.
-export const PANELS = ["control-center", "hw-monitor"]
+export const PANELS = ["control-center", "hw-monitor", "keybinds"]
 
 export function dismiss() {
   for (const name of PANELS) {

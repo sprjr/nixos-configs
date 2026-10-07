@@ -12,6 +12,7 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
   c = config.lib.stylix.colors.withHashtag;
+  data = import ../keybind-data.nix { inherit pkgs; };
 
   isLaptop = cfg.formFactor == "laptop";
 
@@ -50,6 +51,7 @@ let
       cat > $out/features.json << 'FEATURES'
       ${features}
       FEATURES
+      cp ${data.ts} $out/keybind-data.ts
     '';
   };
 
@@ -61,6 +63,11 @@ let
   hwToggleScript = pkgs.writeShellApplication {
     name = "hw-monitor-toggle";
     text = ''ags request "toggle-hw"'';
+  };
+
+  keybindsToggleScript = pkgs.writeShellApplication {
+    name = "keybinds-toggle";
+    text = ''ags request "toggle-keybinds"'';
   };
 in
 {
@@ -87,6 +94,7 @@ in
     home.packages = [
       toggleScript
       hwToggleScript
+      keybindsToggleScript
       pkgs.brightnessctl
     ];
 
@@ -105,6 +113,12 @@ in
       };
       "layerrule[hw-monitor]" = {
         "match:namespace" = "^(hw-monitor)$";
+        blur = 1;
+        ignore_alpha = 0.0;
+        animation = "slide right";
+      };
+      "layerrule[keybinds]" = {
+        "match:namespace" = "^(keybinds)$";
         blur = 1;
         ignore_alpha = 0.0;
         animation = "slide right";

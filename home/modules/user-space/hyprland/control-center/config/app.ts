@@ -3,6 +3,7 @@ import app from "ags/gtk4/app"
 import style from "./style.scss"
 import ControlCenter from "./widget/ControlCenter"
 import HwMonitor from "./widget/HwMonitor"
+import Keybinds from "./widget/Keybinds"
 import Overlay, { PANELS } from "./widget/Overlay"
 
 // Show `name` and hide the other panels, or hide it if already visible.
@@ -25,6 +26,7 @@ app.start({
 
     ControlCenter()
     HwMonitor()
+    Keybinds()
     Overlay()
   },
   requestHandler(argv: string[], res: (response: string) => void) {
@@ -34,6 +36,9 @@ app.start({
       res("ok")
     } else if (msg === "toggle-hw") {
       togglePanel("hw-monitor")
+      res("ok")
+    } else if (msg === "toggle-keybinds") {
+      togglePanel("keybinds")
       res("ok")
     } else if (msg === "quit") {
       app.quit()

@@ -5,6 +5,12 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
 
+  data = import ./keybind-data.nix { inherit pkgs; };
+
+  # Widest key string, so the plain-text sheet's keys column lines up.
+  keyWidth = foldl' (a: g: foldl' (b: x: max b (stringLength x.keys)) a g.binds) 0 data.groups;
+  padKey = s: s + fixedWidthString (keyWidth - stringLength s) " " "";
+
   # Super+N workspace / Super+Shift+N move-to-workspace for 1..0 (workspace 10).
   workspaceBinds = concatMap (n:
     let ws = if n == 0 then "10" else toString n;
@@ -13,61 +19,15 @@ let
       "$mainMod SHIFT, ${toString n}, movetoworkspace, ${ws}"
     ]) [ 1 2 3 4 5 6 7 8 9 0 ];
 
-  # Cheatsheet; keep in sync with bind lists below.
   hyprshort = pkgs.writeShellApplication {
     name = "hyprshort";
     text = ''
       cat <<'EOF'
       Hyprland keybindings (mainMod = SUPER)
 
-      Apps & window
-        Ctrl ``                dropdown terminal (toggle)
-        Super Space            app launcher (fuzzel)
-        Super A                control center (toggle)
-        Super Return           terminal (ghostty)
-        Super E                file manager
-        Super Q                close window
-        Super F                toggle floating
-        Super V                toggle split
-        Super ;                pin window (all workspaces)
-        Super Esc              lock session
-        Super Shift Esc        exit Hyprland session
-
-      Screenshots (copied to clipboard)
-        Super Shift S          region select
-        Print                  full screen
-
-      Scratchpad (minimize)
-        Super M                show/hide scratchpad
-        Super Shift M          send window to scratchpad
-
-      Focus (vim)
-        Super h/j/k/l          move focus left/down/up/right
-
-      Move window (vim)
-        Super Shift h/j/k/l    move window left/down/up/right
-
-      Workspaces
-        Super Ctrl h/l         previous/next workspace
-        Super 1..0             switch to workspace 1..10
-        Super Shift 1..0       move window to workspace 1..10
-
-      Dictionary
-        Super D                English dictionary (selection or prompt)
-        Super Shift D          Japanese dictionary (selection or prompt)
-
-      Wallpaper
-        Super Shift W          rotate wallpaper now
-
-      Mouse
-        Super + left drag      move window
-        Super + right drag     resize window
-
-      Media / hardware keys
-        Volume, mute, brightness, and play/pause/next/prev keys are bound.
-
-      Japanese IME
-        Ctrl Space             toggle Japanese IME (Fcitx5)
+      ${concatMapStringsSep "\n\n" (g:
+        g.title + "\n" + concatMapStringsSep "\n" (b: "  ${padKey b.keys}  ${b.desc}") g.binds
+      ) data.groups}
       EOF
     '';
   };
@@ -116,6 +76,7 @@ in
       ] ++ optionals (cfg.shell == "native") [
         "$mainMod, Space, exec, fuzzel"
         "$mainMod, A, exec, control-center-toggle"
+        "$mainMod, slash, exec, keybinds-toggle"
         "$mainMod, D, exec, dict-lookup --selection"
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
       ] ++ workspaceBinds;
