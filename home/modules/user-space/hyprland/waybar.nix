@@ -161,6 +161,7 @@ let
     "custom/screenshot"
     "custom/notification"
     "custom/control-center"
+    "custom/keybinds"
   ]
   ++ cfg.waybarExtra;
 in
@@ -592,6 +593,12 @@ in
           format = "󰒓";
           tooltip = false;
           on-click = "control-center-toggle";
+        };
+
+        "custom/keybinds" = {
+          format = "󰌌";
+          tooltip = false;
+          on-click = "keybinds-toggle";
         };
       };
     };
