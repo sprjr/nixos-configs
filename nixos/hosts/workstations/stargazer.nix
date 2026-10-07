@@ -219,6 +219,7 @@ in
 
   environment.systemPackages = with pkgs; [
     file
+    blender
     git
     home-manager
     iproute2
