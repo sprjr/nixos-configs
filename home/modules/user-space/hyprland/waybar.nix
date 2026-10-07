@@ -153,6 +153,7 @@ let
   ++ [
     "hyprland/language"
     "idle_inhibitor"
+    "custom/keybinds"
     "custom/app-launcher"
     "custom/dict"
     "custom/jp-dict"
@@ -161,7 +162,6 @@ let
     "custom/screenshot"
     "custom/notification"
     "custom/control-center"
-    "custom/keybinds"
   ]
   ++ cfg.waybarExtra;
 in
@@ -238,7 +238,8 @@ in
         #custom-color-picker,
         #custom-clipboard,
         #custom-screenshot,
-        #custom-control-center {
+        #custom-control-center,
+        #custom-keybinds {
           padding: 0 8px;
         }
         #cpu { color: ${c.base08}; }
@@ -273,6 +274,7 @@ in
         #custom-screenshot { color: ${c.base05}; }
         #custom-notification { color: ${c.base05}; }
         #custom-control-center { color: ${c.base0D}; }
+        #custom-keybinds { color: ${c.base0D}; }
         #clock { color: ${c.base05}; font-weight: bold; }
         #clock.tokyo { color: ${c.base04}; font-size: 11px; }
         #custom-ha-office-fan,
