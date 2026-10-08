@@ -392,6 +392,33 @@
               ./nixos/modules/network/resolved-dns.nix
             ];
           };
+          # ds9 — Linode VPS: public Caddy reverse proxy, ntfy, linkding, uptime-kuma
+          ds9 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              disko.nixosModules.disko
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/modules/disks/disko-linode.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/ds9.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/system/unit-failure-notify.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/user/patrick-server.nix
+              ./nixos/modules/virtualisation/podman.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/homelab/relay-caddy.nix
+              ./nixos/modules/homelab/ntfy.nix
+              ./nixos/modules/homelab/linkding.nix
+              ./nixos/modules/homelab/uptime-kuma.nix
+            ];
+          };
           # stargazer — ThinkPad P1 Gen 3 (NVIDIA T1000), disko+facter, TPM2 LUKS
           stargazer = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
