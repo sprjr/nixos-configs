@@ -91,4 +91,8 @@
       wireguard-tools
       wireguard-ui
     ];
+
+  xdg.configFile."glow/glow.yml".text = ''
+    pager: true
+  '';
 }
