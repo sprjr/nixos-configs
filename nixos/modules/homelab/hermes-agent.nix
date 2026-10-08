@@ -234,6 +234,7 @@ in
 
   sops.templates."hermes-profile-env" = {
     mode = "0444";
+    restartUnits = [ "hermes-agent-init.service" ];
     content = ''
       API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
       OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
@@ -272,6 +273,7 @@ in
     after = [ "sops-secrets-rendered.service" ];
     requires = [ "sops-secrets-rendered.service" ];
     before = [ "podman-hermes-agent.service" ];
+    restartTriggers = [ config.sops.templates."hermes-profile-env".file ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
