@@ -6,7 +6,7 @@
 }:
 
 {
-  imports = [ ./modules/system/sops.nix ];
+  imports = [ ../../modules/system/sops.nix ];
 
   services.hermes-fileshare.enable = true;
 

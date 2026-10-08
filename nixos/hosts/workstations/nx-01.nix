@@ -3,7 +3,6 @@
   pkgs,
   lib,
   home-manager,
-  sops-nix,
   dark-wallpaper-laptop,
   nixpkgs-stable,
   ...
@@ -15,20 +14,7 @@ let
 in
 {
   imports = [
-    ./modules/system/sops.nix
-    ./modules/system/btrfs-config.nix
-    ./modules/system/esp-tooling.nix
-  ];
-
-  users.mutableUsers = false;
-  users.users.patrick = {
-    hashedPasswordFile = "/var/lib/secrets/default-user.hash";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
-    ];
-  };
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYxyYpBB8K35/1+c22hBDV6mQFkqvxJeBC/SWs8Yyh+"
+    ../../modules/system/sops.nix
   ];
 
   # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
@@ -38,22 +24,13 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  console.keyMap = "us";
-
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 50;
-    priority = 100;
-  };
-
   # General Networking Options
-  networking.hostName = "voyager"; # Define your hostname.
+  networking.hostName = "nx-01"; # Define your hostname.
 
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Disable Orca screen reader (CosmicDE)
+  # Disable Orca screen reader that can mistakenly start enabled by default on Cosmic
   services.orca.enable = false;
 
   # Enable flakes
@@ -144,8 +121,7 @@ in
     useGlobalPkgs = true;
     users.patrick = {
       imports = [
-        sops-nix.homeManagerModules.sops
-        ../home/laptop-home.nix
+        ../../../home/laptop-home.nix
       ];
     };
   };
@@ -160,7 +136,7 @@ in
     "io.github.maniacx.BudsLink"
   ];
 
-  # VPN/Mesh Network
+  # VPN/Mesh Networks
   services.tailscale.enable = true;
   # to fix broken internet when using an exit node
   networking.firewall.checkReversePath = "loose";
@@ -183,6 +159,7 @@ in
     with pkgs;
     [
       file
+      gcompris
       git
       home-manager
       iproute2
@@ -198,6 +175,12 @@ in
       zsh
     ];
 
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    orthanc
+    weasis
+  ];
+
   # Garbage collection
   nix.gc = {
     automatic = true;
@@ -205,7 +188,7 @@ in
     options = "--delete-older-than 14d";
   };
 
-  nix.settings.auto-optimise-store = true;
+  # nix-store optimise
   nix.optimise.automatic = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?

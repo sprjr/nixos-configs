@@ -7,9 +7,9 @@
 
 {
   imports = [
-    ./modules/system/ssh.nix
-    ./modules/system/comin.nix
-    ./modules/network/resolved-dns.nix
+    ../../modules/system/ssh.nix
+    ../../modules/system/comin.nix
+    ../../modules/network/resolved-dns.nix
   ];
 
   networking.hostName = "cerritos";
@@ -86,7 +86,7 @@
 
   # sops for comin-notify's ntfy URL. The SSH private key secret lives on
   # badgey (the host), not here.
-  sops.defaultSopsFile = ../sops-nix/sops.yaml;
+  sops.defaultSopsFile = ../../../sops-nix/sops.yaml;
 
   system.stateVersion = "25.11";
 }

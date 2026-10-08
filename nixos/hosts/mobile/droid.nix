@@ -32,7 +32,7 @@
     xdg-open.enable = true;
   };
 
-  home-manager.config = ../home/droid-home.nix;
+  home-manager.config = ../../../home/droid-home.nix;
   home-manager.useGlobalPkgs = true;
 
   nix.extraOptions = ''
