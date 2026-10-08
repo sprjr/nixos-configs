@@ -71,6 +71,10 @@ let
       wrap_response: true
       model: deepseek-v4.1-flash
       model_provider: custom
+    platforms:
+      telegram:
+        allow_from:
+          - "8689937825"
     skills:
       auto_load:
         - i-have-adhd
