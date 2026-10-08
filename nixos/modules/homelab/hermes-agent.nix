@@ -241,6 +241,17 @@ in
     '';
   };
 
+  # Bot token only in the default home (a second profile holding it is a duplicate_credential blocker).
+  sops.templates."hermes-default-env" = {
+    mode = "0444";
+    restartUnits = [ "hermes-agent-init.service" ];
+    content = ''
+      API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
+      OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
+      TELEGRAM_BOT_TOKEN=${config.sops.placeholder."hermes-agent/telegram-native-bot-token"}
+    '';
+  };
+
   systemd.tmpfiles.rules = [
     "d /var/lib/hermes-agent 0755 root root -"
     "d /var/lib/hermes-agent/profiles 0755 root root -"
@@ -273,7 +284,10 @@ in
     after = [ "sops-secrets-rendered.service" ];
     requires = [ "sops-secrets-rendered.service" ];
     before = [ "podman-hermes-agent.service" ];
-    restartTriggers = [ config.sops.templates."hermes-profile-env".file ];
+    restartTriggers = [
+      config.sops.templates."hermes-profile-env".file
+      config.sops.templates."hermes-default-env".file
+    ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -285,7 +299,7 @@ in
       chmod 600 /var/lib/hermes-agent/config.yaml
       cp ${config.sops.secrets."hermes-agent/soul-triage".path} /var/lib/hermes-agent/SOUL.md
       chmod 644 /var/lib/hermes-agent/SOUL.md
-      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/.env
+      cp ${config.sops.templates."hermes-default-env".path} /var/lib/hermes-agent/.env
       chmod 644 /var/lib/hermes-agent/.env
 
       # Delegation script
