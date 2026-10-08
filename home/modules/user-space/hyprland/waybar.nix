@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig ? { },
   ...
 }:
 
@@ -10,6 +11,9 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
   c = config.lib.stylix.colors.withHashtag;
+
+  # Same condition that installs comin-state (widgets/comin-state.nix).
+  cominBar = cfg.shell == "native" && (osConfig.services.comin.enable or false);
 
   # User-space Bluetooth power toggle (no rfkill/root needed); blueman-manager handles pairing.
   btToggle = pkgs.writeShellApplication {
@@ -274,6 +278,16 @@ in
         #custom-screenshot { color: ${c.base05}; }
         #custom-notification { color: ${c.base05}; }
         #custom-control-center { color: ${c.base0D}; }
+        @keyframes comin-pulse {
+          from { opacity: 1; }
+          to { opacity: 0.4; }
+        }
+        #custom-control-center.pending,
+        #custom-control-center.in-progress.eval { color: ${c.base0A}; }
+        #custom-control-center.failed { color: ${c.base08}; }
+        #custom-control-center.in-progress {
+          animation: comin-pulse 1s ease-in-out infinite alternate;
+        }
         #custom-keybinds { color: ${c.base0D}; }
         #clock { color: ${c.base05}; font-weight: bold; }
         #clock.tokyo { color: ${c.base04}; font-size: 11px; }
@@ -595,6 +609,13 @@ in
           format = "󰒓";
           tooltip = false;
           on-click = "control-center-toggle";
+        }
+        # Button colour follows the local comin state.
+        // optionalAttrs cominBar {
+          exec = "comin-state --waybar";
+          return-type = "json";
+          interval = 5;
+          tooltip = true;
         };
 
         "custom/keybinds" = {

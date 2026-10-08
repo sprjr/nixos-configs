@@ -3,6 +3,7 @@
 # state: in-sync | pending | in-progress | failed | unknown
 # phase: eval | build | switch while in progress (time is then the phase start), else null
 import argparse
+import html
 import json
 import os
 import re
@@ -133,14 +134,25 @@ def evaluate(store_path, repo, ref, cgroup):
     return result("in-sync", "In sync", deployed, when, msg)
 
 
+# Waybar custom-module shape: the classes colour the control-center button, text stays empty
+# so the module's own format supplies the icon.
+def waybar(res):
+    classes = [res["state"]] + ([res["phase"]] if res["phase"] else [])
+    head = " · ".join(filter(None, [f"Comin: {res['label']}", res["commit"]]))
+    tooltip = "\n".join(filter(None, [head, res["detail"].strip()]))
+    return {"text": "", "class": classes, "tooltip": html.escape(tooltip)}
+
+
 def main():
     parser = argparse.ArgumentParser(description="Report comin deployment state as JSON")
+    parser.add_argument("--waybar", action="store_true", help="print a waybar custom-module object instead")
     parser.add_argument("--store", default=STORE)
     parser.add_argument("--repo", default=REPO)
     parser.add_argument("--ref", default=REF)
     parser.add_argument("--cgroup", default=CGROUP)
     args = parser.parse_args()
-    print(json.dumps(evaluate(args.store, args.repo, args.ref, args.cgroup), ensure_ascii=False))
+    res = evaluate(args.store, args.repo, args.ref, args.cgroup)
+    print(json.dumps(waybar(res) if args.waybar else res, ensure_ascii=False))
 
 
 if __name__ == "__main__":
