@@ -236,6 +236,7 @@ in
     mode = "0444";
     content = ''
       API_SERVER_KEY=${config.sops.placeholder."hermes-agent/api-server-key"}
+      OPENAI_API_KEY=${config.sops.placeholder."hermes-agent/cloud-api-key"}
     '';
   };
 
