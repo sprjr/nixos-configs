@@ -245,7 +245,7 @@ window.control-center > box {
 }
 
 // Comin
-.comin-row {
+.comin {
   padding: 6px 12px;
 }
 
@@ -257,6 +257,33 @@ window.control-center > box {
   &.in-progress { color: var(--accent); }
   &.failed { color: var(--red); }
   &.unknown { color: var(--fg-dim); }
+  &.offline { color: var(--fg-dim); }
+}
+
+@keyframes comin-pulse {
+  from { opacity: 1; }
+  to { opacity: 0.45; }
+}
+
+.comin-steps {
+  font-size: 11px;
+
+  .done { color: var(--green); }
+  .todo { color: var(--fg-dim); }
+  .active {
+    color: var(--accent);
+    font-weight: bold;
+    animation: comin-pulse 1s ease-in-out infinite alternate;
+  }
+}
+
+.comin-fleet {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+
+.comin-fleet-title {
+  font-weight: bold;
 }
 
 .comin-meta {

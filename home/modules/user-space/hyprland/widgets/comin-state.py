@@ -1,6 +1,7 @@
 # Comin deployment state for the control center, derived from world-readable comin files.
-# Prints one JSON object: {"state", "label", "commit", "time", "detail"}.
+# Prints one JSON object: {"state", "label", "commit", "time", "detail", "phase"}.
 # state: in-sync | pending | in-progress | failed | unknown
+# phase: eval | build | switch while in progress (time is then the phase start), else null
 import argparse
 import json
 import os
@@ -17,8 +18,8 @@ BUILD_TERMINAL = {"built", "failed"}
 DEPLOY_TERMINAL = {"done", "failed"}
 
 
-def result(state, label, commit="", time=None, detail=""):
-    return {"state": state, "label": label, "commit": commit[:7], "time": time, "detail": detail}
+def result(state, label, commit="", time=None, detail="", phase=None):
+    return {"state": state, "label": label, "commit": commit[:7], "time": time, "detail": detail, "phase": phase}
 
 
 def git_info(gen):
@@ -108,14 +109,14 @@ def evaluate(store_path, repo, ref, cgroup):
         commit, msg = git_info(gen)
         deployed_uuids = {(d.get("generation") or {}).get("uuid") for d in deployments}
         if gen.get("eval_status") not in EVAL_TERMINAL:
-            return result("in-progress", "Evaluating", commit, parse_ts(gen.get("eval_started_at")), msg)
+            return result("in-progress", "Evaluating", commit, parse_ts(gen.get("eval_started_at")), msg, "eval")
         if gen.get("build_status") not in BUILD_TERMINAL:
-            return result("in-progress", "Building", commit, parse_ts(gen.get("build_started_at")), msg)
+            return result("in-progress", "Building", commit, parse_ts(gen.get("build_started_at")), msg, "build")
         if not suspended and gen.get("uuid") not in deployed_uuids:
-            return result("in-progress", "Switching", commit, parse_ts(gen.get("build_ended_at")), msg)
+            return result("in-progress", "Switching", commit, parse_ts(gen.get("build_ended_at")), msg, "switch")
     if dep and dep.get("status") not in DEPLOY_TERMINAL:
         commit, msg = git_info(dep.get("generation"))
-        return result("in-progress", "Switching", commit, parse_ts(dep.get("started_at")), msg)
+        return result("in-progress", "Switching", commit, parse_ts(dep.get("started_at")), msg, "switch")
     if procs > 1:
         return result("in-progress", "In progress", remote, None, "comin has active child processes")
 
