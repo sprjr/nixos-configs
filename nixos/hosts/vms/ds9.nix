@@ -36,7 +36,7 @@ in
 
   # Host-only age key; the primary key is never placed on this machine
   sops = {
-    defaultSopsFile = ../sops-nix/relay.yaml;
+    defaultSopsFile = ../../../sops-nix/relay.yaml;
     age.keyFile = "/var/lib/sops-nix/key.txt";
     secrets."ds9/patrick-password-hash".neededForUsers = true;
   };

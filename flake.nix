@@ -167,7 +167,7 @@
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/modules/desktop/greetd.nix
-              ./nixos/nx-01.nix
+              ./nixos/hosts/workstations/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
@@ -193,7 +193,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/seanix.nix
+              ./nixos/hosts/workstations/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/desktop/stylix.nix
@@ -228,7 +228,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/shikisha.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/shikisha.nix
+              ./nixos/hosts/servers/shikisha.nix
               ./nixos/modules/disks/unraid-docker.nix
               ./nixos/modules/disks/unraid-gitea.nix
               ./nixos/modules/disks/unraid-media.nix
@@ -279,7 +279,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/voyager.nix
+              ./nixos/hosts/workstations/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/desktop/stylix.nix
@@ -317,7 +317,7 @@
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/whale.nix
+              ./nixos/hosts/kiosks/whale.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
@@ -346,7 +346,7 @@
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/badgey.nix
+              ./nixos/hosts/servers/badgey.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/unit-failure-notify.nix
@@ -387,7 +387,7 @@
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
               ./nixos/modules/system/ssh.nix
-              ./nixos/cerritos.nix
+              ./nixos/hosts/vms/cerritos.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/network/resolved-dns.nix
             ];
@@ -403,7 +403,7 @@
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-linode.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/ds9.nix
+              ./nixos/hosts/vms/ds9.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/unit-failure-notify.nix
@@ -525,7 +525,7 @@
           system = "aarch64-linux";
           config.allowUnfree = true;
         };
-        modules = [ ./nixos/droid.nix ];
+        modules = [ ./nixos/hosts/mobile/droid.nix ];
         extraSpecialArgs = inputs;
       };
     };

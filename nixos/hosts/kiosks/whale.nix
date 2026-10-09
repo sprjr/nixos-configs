@@ -5,7 +5,7 @@ let
   pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 in {
   imports = [
-    ./modules/system/sops.nix
+    ../../modules/system/sops.nix
   ];
 
   # Bootloader
