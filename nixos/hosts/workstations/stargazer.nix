@@ -217,6 +217,8 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
+  services.memtly-kiosk.enable = true;
+
   environment.systemPackages = with pkgs; [
     file
     blender
