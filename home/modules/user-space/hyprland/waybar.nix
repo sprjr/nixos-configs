@@ -525,7 +525,7 @@ in
 
         "custom/ha-office-fan" = {
           format = "󰐊";
-          tooltip = false;
+          tooltip-format = "Office fan (Super O)";
           on-click = "ha-run-script script.turn_on_office_fan_for_5m";
         };
 
@@ -537,7 +537,7 @@ in
 
         "custom/ha-cameras" = {
           format = "󰄀";
-          tooltip = false;
+          tooltip-format = "Cameras (Super Shift C)";
           on-click = "ha-cameras";
         };
 
@@ -549,7 +549,7 @@ in
         };
 
         "custom/notification" = {
-          tooltip = false;
+          tooltip-format = "Notifications (Super N)";
           format = "{icon}";
           format-icons = {
             notification = "󱅫";
@@ -570,44 +570,44 @@ in
 
         "custom/dict" = {
           format = "";
-          tooltip = false;
+          tooltip-format = "Dictionary (Super D)";
           on-click = "dict-lookup";
         };
 
         "custom/jp-dict" = {
           format = "󰗊";
-          tooltip = false;
+          tooltip-format = "Japanese dictionary (Super Shift D)";
           on-click = "jp-lookup";
         };
 
         "custom/color-picker" = {
           format = "󰈊";
-          tooltip = false;
+          tooltip-format = "Color picker (Super P)";
           on-click = "hyprpicker -a";
         };
 
         "custom/clipboard" = {
           format = "󰅍";
-          tooltip = false;
+          tooltip-format = "Clipboard (Super C)";
           on-click = "waybar-clipboard";
         };
 
         "custom/screenshot" = {
           format = "󰹑";
-          tooltip = false;
+          tooltip-format = "Screenshot (Super Shift S)";
           on-click = "grimblast copy area";
           on-click-right = "grimblast copy screen";
         };
 
         "custom/app-launcher" = {
           format = "󱓞";
-          tooltip = false;
+          tooltip-format = "App launcher (Super Space)";
           on-click = "hyprctl dispatch exec fuzzel";
         };
 
         "custom/control-center" = {
           format = "󰒓";
-          tooltip = false;
+          tooltip-format = "Control center (Super A)";
           on-click = "control-center-toggle";
         }
         # Button colour follows the local comin state.
@@ -620,7 +620,7 @@ in
 
         "custom/keybinds" = {
           format = "󰌌";
-          tooltip = false;
+          tooltip-format = "Keybinds (Super /)";
           on-click = "keybinds-toggle";
         };
       };

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ha ? true }:
 
 # Single source for the hyprshort sheet and the AGS keybind panel.
 let
@@ -24,6 +24,15 @@ let
       ];
     }
     {
+      title = "Tools";
+      icon = "edit-copy-symbolic";
+      binds = [
+        { keys = "Super C"; desc = "clipboard history (fuzzel)"; }
+        { keys = "Super P"; desc = "pick screen color"; }
+        { keys = "Super N"; desc = "notification center"; }
+      ];
+    }
+    {
       title = "Lookup";
       icon = "accessories-dictionary-symbolic";
       binds = [
@@ -32,7 +41,47 @@ let
         { keys = "Ctrl Space"; desc = "toggle Japanese IME (Fcitx5)"; }
       ];
     }
-  ];
+    {
+      title = "Window layout";
+      icon = "view-fullscreen-symbolic";
+      binds = [
+        { keys = "Super Shift F"; desc = "fullscreen (toggle)"; }
+        { keys = "Super Ctrl F"; desc = "maximize, bar stays visible"; }
+        { keys = "Super Shift T"; desc = "pseudo-tile (dwindle)"; }
+        { keys = "Super Shift Ctrl h/j/k/l"; desc = "swap with neighbouring window"; }
+        { keys = "Super Z"; desc = "swallow window (hide parent)"; }
+        { keys = "Super R"; desc = "resize mode, h/j/k/l to resize"; }
+        { keys = "Esc / Return"; desc = "leave resize mode"; }
+      ];
+    }
+    {
+      title = "Window groups";
+      icon = "view-grid-symbolic";
+      binds = [
+        { keys = "Super G"; desc = "collapse window into a group"; }
+        { keys = "Super Ctrl G"; desc = "next window in group"; }
+        { keys = "Super Shift G"; desc = "pull window out of group"; }
+      ];
+    }
+    {
+      title = "Focus & monitors";
+      icon = "video-display-symbolic";
+      binds = [
+        { keys = "Super Tab"; desc = "cycle to next window"; }
+        { keys = "Super Shift Tab"; desc = "cycle to previous window"; }
+        { keys = "Super Alt h/l"; desc = "focus monitor left/right"; }
+        { keys = "Super Alt Shift h/l"; desc = "move window to monitor left/right"; }
+      ];
+    }
+  ]
+  ++ pkgs.lib.optional ha {
+    title = "Home Assistant";
+    icon = "preferences-system-symbolic";
+    binds = [
+      { keys = "Super O"; desc = "office fan on for 5 minutes"; }
+      { keys = "Super Shift C"; desc = "camera feeds (fuzzel)"; }
+    ];
+  };
 in
 {
   inherit groups;
