@@ -88,7 +88,11 @@ in
           mpris
           hyprland
         ])
-        ++ [ pkgs.libadwaita ];
+        ++ [
+          pkgs.libadwaita
+          # nmcli for the Wi-Fi connect action
+          pkgs.networkmanager
+        ];
     };
 
     home.packages = [

@@ -86,6 +86,32 @@ window.control-center > box {
   }
 }
 
+.ap-status {
+  color: var(--fg-dim);
+  font-size: 11px;
+  padding: 0 8px;
+
+  &.error {
+    color: var(--red);
+  }
+}
+
+.ap-password {
+  padding: 2px 8px 6px;
+}
+
+.ap-connect {
+  border-radius: 6px;
+  padding: 2px 10px;
+  background: var(--accent);
+  border: none;
+
+  label {
+    color: var(--bg);
+    font-size: 12px;
+  }
+}
+
 // Bluetooth
 .bt-device-row {
   border-radius: 6px;
