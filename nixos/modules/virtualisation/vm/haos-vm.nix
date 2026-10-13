@@ -20,6 +20,7 @@ let
   domainXml = pkgs.writeText "haos.xml" ''
     <domain type='kvm'>
       <name>haos</name>
+      <uuid>2efd098e-79b7-4bfd-8460-3183047d008f</uuid>
       <title>Home Assistant OS</title>
       <memory unit='GiB'>${toString cfg.memory}</memory>
       <vcpu>${toString cfg.vcpus}</vcpu>
