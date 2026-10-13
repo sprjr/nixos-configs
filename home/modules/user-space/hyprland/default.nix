@@ -24,7 +24,7 @@ let
   ];
 
   ghosttyDropdownConf = pkgs.writeText "ghostty-dropdown.conf" ''
-    class = ghostty-dropdown
+    class = com.patrick.dropdown
     gtk-single-instance = false
   '';
 
@@ -497,7 +497,7 @@ in
         };
 
         "windowrule[ghostty-dropdown]" = {
-          "match:class" = "^(ghostty-dropdown)$";
+          "match:class" = "^(com.patrick.dropdown)$";
           float = true;
           size = "100% 40%";
           move = "0 0";
