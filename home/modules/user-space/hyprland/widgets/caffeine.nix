@@ -16,7 +16,6 @@ let
     runtimeInputs = with pkgs; [
       coreutils
       libnotify
-      procps
       systemd
     ];
     text = ''
@@ -29,7 +28,7 @@ let
       }
 
       refresh_bar() {
-        pkill -SIGRTMIN+8 -x waybar 2>/dev/null || true
+        systemctl --user kill --kill-whom=main --signal=SIGRTMIN+8 waybar.service 2>/dev/null || true
       }
 
       notify() {
