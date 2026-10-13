@@ -81,6 +81,7 @@ in
     ./widgets/timer.nix
     ./widgets/budslink.nix
     ./widgets/calendar.nix
+    ./widgets/caffeine.nix
     ./control-center
   ];
 
@@ -405,6 +406,7 @@ in
           "gnome-keyring-daemon --start --components=secrets"
           "wl-paste --watch cliphist store"
           "fcitx5 -d --replace"
+          "caffeine on"
         ]
         ++ autostartCommands;
 

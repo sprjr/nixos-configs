@@ -156,7 +156,7 @@ let
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
-    "idle_inhibitor"
+    "custom/caffeine"
     "custom/keybinds"
     "custom/app-launcher"
     "custom/dict"
@@ -220,7 +220,7 @@ in
         #mpris,
         #disk,
         #privacy,
-        #idle_inhibitor,
+        #custom-caffeine,
         #power-profiles-daemon,
         #systemd-failed-units,
         #language,
@@ -265,8 +265,8 @@ in
         #mpris { color: ${c.base0E}; }
         #disk { color: ${c.base0F}; }
         #privacy { color: ${c.base08}; }
-        #idle_inhibitor.activated { color: ${c.base0A}; }
-        #idle_inhibitor.deactivated { color: ${c.base04}; }
+        #custom-caffeine.activated { color: ${c.base0A}; }
+        #custom-caffeine.deactivated { color: ${c.base04}; }
         #power-profiles-daemon { color: ${c.base0B}; }
         #systemd-failed-units { color: ${c.base08}; }
         #language { color: ${c.base07}; }
@@ -445,13 +445,13 @@ in
           icon-spacing = 4;
         };
 
-        idle_inhibitor = {
-          format = "{icon}";
-          start-activated = true;
-          format-icons = {
-            activated = "󰅶";
-            deactivated = "󰾪";
-          };
+        "custom/caffeine" = {
+          exec = "caffeine status";
+          return-type = "json";
+          interval = 5;
+          signal = 8;
+          tooltip-format = "Caffeine {alt} (Super I)";
+          on-click = "caffeine toggle";
         };
 
         "power-profiles-daemon" = {

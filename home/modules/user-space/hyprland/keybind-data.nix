@@ -11,6 +11,7 @@ let
         { keys = "Super Space"; desc = "app launcher (fuzzel)"; }
         { keys = "Super A"; desc = "control center (toggle)"; }
         { keys = "Super /"; desc = "this cheat sheet"; }
+        { keys = "Super I"; desc = "caffeine (idle inhibit) toggle"; }
         { keys = "Super Return"; desc = "terminal (ghostty)"; }
         { keys = "Super E"; desc = "file manager"; }
         { keys = "Super Q"; desc = "close window"; }
