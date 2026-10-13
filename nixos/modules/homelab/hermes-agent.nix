@@ -78,6 +78,9 @@ let
     skills:
       auto_load:
         - i-have-adhd
+    onboarding:
+      seen:
+        busy_input_prompt: true
   '';
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
