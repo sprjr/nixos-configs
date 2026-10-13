@@ -110,7 +110,6 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  # Thermal management (Intel CPU).
   services.thermald.enable = true;
 
   # TLP with tlp-pd D-Bus shim replaces PPD on this laptop.

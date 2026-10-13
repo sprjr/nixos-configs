@@ -105,8 +105,7 @@ in
 
   services.libinput.enable = true;
 
-  # TLP with tlp-pd D-Bus shim replaces PPD on this laptop. Charge thresholds
-  # calibrated for the P1 Gen 3 to keep the battery between 75-80% when AC-driven.
+  # TLP with tlp-pd D-Bus shim replaces PPD on this laptop.
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;

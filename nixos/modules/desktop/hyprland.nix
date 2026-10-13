@@ -27,8 +27,6 @@
   security.polkit.enable = true;
 
   # D-Bus power profile switching for the control center and waybar power-profiles-daemon module.
-  # Laptops that enable TLP set this to false in their host config; mkDefault lets them override
-  # without lib.mkForce while all other hosts keep PPD enabled.
   services.power-profiles-daemon.enable = lib.mkDefault true;
 
   # Allow hyprlock to authenticate via PAM (password + fingerprint where fprintd is present).
