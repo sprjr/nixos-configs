@@ -406,10 +406,7 @@ in
           "wl-paste --watch cliphist store"
           "fcitx5 -d --replace"
         ]
-        ++ autostartCommands
-        ++ [
-          "ghostty --config-file=${ghosttyDropdownConf}"
-        ];
+        ++ autostartCommands;
 
         general = {
           gaps_in = 5;
@@ -526,6 +523,21 @@ in
       Service = {
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    # Unit so the dropdown terminal respawns after its shell exits.
+    systemd.user.services.ghostty-dropdown = {
+      Unit = {
+        Description = "Ghostty dropdown terminal";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.ghostty}/bin/ghostty --config-file=${ghosttyDropdownConf}";
+        Restart = "always";
         RestartSec = 1;
       };
       Install.WantedBy = [ "hyprland-session.target" ];
