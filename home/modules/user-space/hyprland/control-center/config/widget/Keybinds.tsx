@@ -2,7 +2,6 @@ import app from "ags/gtk4/app"
 import Astal from "gi://Astal?version=4.0"
 import Gtk from "gi://Gtk?version=4.0"
 import Gdk from "gi://Gdk?version=4.0"
-import { For } from "ags"
 import { dismiss } from "./Overlay"
 import groups, { type Group } from "../keybind-data"
 
@@ -20,24 +19,20 @@ function Column({ groups }: { groups: Group[] }) {
       vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
     >
       <box class="kb-column" orientation={Gtk.Orientation.VERTICAL} spacing={8}>
-        <For each={groups}>
-          {(group: Group) => (
-            <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-              <box class="section-header" spacing={8}>
-                <image iconName={group.icon} />
-                <label label={group.title} hexpand xalign={0} class="section-title" />
-              </box>
-              <For each={group.binds}>
-                {(bind) => (
-                  <box class="kb-row" spacing={8}>
-                    <label label={bind.keys} class="kb-keys" xalign={0} widthRequest={104} />
-                    <label label={bind.desc} class="kb-desc" hexpand xalign={0} />
-                  </box>
-                )}
-              </For>
+        {groups.map((group) => (
+          <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+            <box class="section-header" spacing={8}>
+              <image iconName={group.icon} />
+              <label label={group.title} hexpand xalign={0} class="section-title" />
             </box>
-          )}
-        </For>
+            {group.binds.map((bind) => (
+              <box class="kb-row" spacing={8}>
+                <label label={bind.keys} class="kb-keys" xalign={0} widthRequest={104} />
+                <label label={bind.desc} class="kb-desc" hexpand xalign={0} />
+              </box>
+            ))}
+          </box>
+        ))}
       </box>
     </scrolledwindow>
   )
