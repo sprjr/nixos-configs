@@ -135,7 +135,7 @@ in
 
   services.thermald.enable = true;
 
-  # TLP with tlp-pd D-Bus shim replaces PPD on this laptop.
+
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
