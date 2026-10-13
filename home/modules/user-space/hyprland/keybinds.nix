@@ -104,6 +104,7 @@ in
         "$mainMod, C, exec, waybar-clipboard"
         "$mainMod, P, exec, hyprpicker -a"
         "$mainMod, N, exec, swaync-client -t -sw"
+        "$mainMod, I, exec, caffeine toggle"
       ] ++ optionals (cfg.shell == "native" && cfg.homeAssistant.enable) [
         "$mainMod, O, exec, ha-run-script script.turn_on_office_fan_for_5m"
         "$mainMod SHIFT, C, exec, ha-cameras"
