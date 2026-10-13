@@ -110,6 +110,14 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
+  services.thermald.enable = true;
+
+  services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    pd.enable = true;
+  };
+
   # Fonts
   fonts.packages = [
     pkgs.nerd-fonts.hack

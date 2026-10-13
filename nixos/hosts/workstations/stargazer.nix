@@ -105,6 +105,16 @@ in
 
   services.libinput.enable = true;
 
+  services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    pd.enable = true;
+    settings = {
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+    };
+  };
+
   services.thermald.enable = true;
 
   services.thinkfan = {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 # Independent, login-selectable Hyprland session. Additive to cosmic.nix / gnome.nix —
 # enabling this does not disturb an existing desktop. programs.hyprland.enable installs
@@ -27,7 +27,7 @@
   security.polkit.enable = true;
 
   # D-Bus power profile switching for the control center and waybar power-profiles-daemon module.
-  services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = lib.mkDefault true;
 
   # Allow hyprlock to authenticate via PAM (password + fingerprint where fprintd is present).
   security.pam.services.hyprlock = { };
