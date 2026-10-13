@@ -18,6 +18,9 @@ in {
     desktopManager.gnome.enable = true;
   };
 
+  # Disable the Hyprland home session on whale.
+  home-manager.users.patrick.patrick.home.hyprland.enable = lib.mkForce false;
+
   # Kiosk Mode for GCompris
   services.cage = {
     enable = true;
