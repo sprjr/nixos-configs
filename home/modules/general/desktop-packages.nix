@@ -38,6 +38,12 @@
       waybar
       wireshark
       xpipe
+
+      # Testing network tools
+      iw
+      kismet
+      linssid
+      wavemon
     ]
     ++ lib.optionals stdenv.hostPlatform.isDarwin [
       mas
