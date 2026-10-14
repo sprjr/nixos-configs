@@ -21,7 +21,7 @@ type CominState = {
 
 type FleetHost = {
   host: string
-  state: "failed" | "pending" | "offline"
+  state: "in-sync" | "failed" | "pending" | "offline"
   commit: string
 }
 
@@ -43,7 +43,7 @@ const STEPS: { phase: Phase; label: string }[] = [
   { phase: "switch", label: "Switching" },
 ]
 
-const FLEET_LABELS = { failed: "Failed", pending: "Pending", offline: "Offline" }
+const FLEET_LABELS = { "in-sync": "In sync", failed: "Failed", pending: "Pending", offline: "Offline" }
 
 function cominEnabled() {
   try {
@@ -84,11 +84,16 @@ function stepClass(current: Phase | null, index: number) {
   return index === at ? "active" : "todo"
 }
 
-function fleetSummary(f: FleetState | null) {
-  if (!f) return "Checking…"
-  if (!f.ok) return "Unreachable"
-  if (f.hosts.length === 0) return `${f.total} hosts in sync`
-  return `${f.hosts.length} of ${f.total} need attention`
+function fleetStatus(f: FleetState | null) {
+  if (!f) return "Checking fleet…"
+  return f.ok ? "" : "Fleet unreachable"
+}
+
+// Two hosts per column, so the grid stays two rows tall and grows sideways
+function columns(hosts: FleetHost[]) {
+  const cols: FleetHost[][] = []
+  for (let i = 0; i < hosts.length; i += 2) cols.push(hosts.slice(i, i + 2))
+  return cols
 }
 
 // Read-only comin deployment state; polls only while the control center is shown.
@@ -157,18 +162,23 @@ export default function Comin({ shown }: { shown: Accessor<boolean> }) {
           <label label={step.label} class={status((s) => stepClass(s.phase, i))} />
         ))}
       </box>
-      <box class="comin-fleet" spacing={8} tooltipText={fleet((f) => f?.detail ?? "")}>
-        <label label="Fleet" class="comin-fleet-title" />
-        <label label={fleet(fleetSummary)} hexpand xalign={0} />
-      </box>
-      <box class="comin-fleet" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-        <For each={fleet((f) => f?.hosts ?? [])}>
-          {(h: FleetHost) => (
-            <box spacing={8}>
-              <image iconName="media-record-symbolic" class={`comin-dot ${h.state}`} />
-              <label label={h.host} />
-              <label label={FLEET_LABELS[h.state]} hexpand xalign={0} />
-              <label class="comin-meta" label={h.commit} />
+      <label
+        class="comin-fleet"
+        label={fleet(fleetStatus)}
+        visible={fleet((f) => fleetStatus(f) !== "")}
+        tooltipText={fleet((f) => f?.detail ?? "")}
+        xalign={0}
+      />
+      <box class="comin-fleet" spacing={12} homogeneous>
+        <For each={fleet((f) => columns(f?.hosts ?? []))}>
+          {(col: FleetHost[]) => (
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+              {col.map((h) => (
+                <box spacing={4} tooltipText={[FLEET_LABELS[h.state], h.commit].filter(Boolean).join(" · ")}>
+                  <image iconName="media-record-symbolic" class={`comin-dot ${h.state}`} />
+                  <label label={h.host} xalign={0} />
+                </box>
+              ))}
             </box>
           )}
         </For>

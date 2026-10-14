@@ -1,7 +1,7 @@
 # Comin state of the other fleet hosts for the control center, read from the Prometheus
 # that scrapes nix-state-exporter.
 # Prints one JSON object: {"ok", "total", "hosts": [{"host", "state", "commit"}], "detail"}.
-# hosts lists only the hosts that are not in sync. state: failed | pending | offline
+# hosts lists every fleet host but this one, by name. state: in-sync | failed | pending | offline
 import argparse
 import json
 import socket
@@ -14,7 +14,6 @@ TIMEOUT = 3
 WINDOW = "1d"
 
 STATES = {0: "failed", 1: "pending", 2: "in-sync"}
-ORDER = {"failed": 0, "pending": 1, "offline": 2}
 
 
 def query(url, expr):
@@ -39,9 +38,8 @@ def evaluate(url, me):
     hosts = []
     for name, value in sync.items():
         state = STATES.get(value, "pending") if up.get(name) else "offline"
-        if state != "in-sync":
-            hosts.append({"host": name, "state": state, "commit": commits.get(name, "")[:7]})
-    hosts.sort(key=lambda h: (ORDER[h["state"]], h["host"]))
+        hosts.append({"host": name, "state": state, "commit": commits.get(name, "")[:7]})
+    hosts.sort(key=lambda h: h["host"])
     return {"ok": True, "total": len(sync), "hosts": hosts, "detail": ""}
 
 
