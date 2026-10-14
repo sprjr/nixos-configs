@@ -29,6 +29,8 @@ in
       "seanix"
       #"voyager"
     ];
+    # Onboard one host per commit; see GUIDE-claude-sync.md
+    claudeDevices = [ ];
   };
 
   services.vikunja.oidc = {

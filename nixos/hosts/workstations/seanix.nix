@@ -34,6 +34,14 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Staged: lanzaboote Secure Boot (see GUIDE-seanix-secureboot.md); replaces the systemd-boot line above
+  #boot.loader.systemd-boot.enable = lib.mkForce false;
+  #boot.lanzaboote = {
+  #  enable = true;
+  #  pkiBundle = "/var/lib/sbctl";
+  #  autoGenerateKeys.enable = true;
+  #};
+
   boot.initrd.systemd.enable = true;
   boot.initrd.systemd.tpm2.enable = true;
   boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
@@ -227,6 +235,7 @@ in
     nvtopPackages.nvidia
     pciutils
     pipewire
+    #sbctl # Staged: Secure Boot
     sops
     tailscale
     tpm2-tools
