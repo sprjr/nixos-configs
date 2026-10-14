@@ -103,6 +103,15 @@ export default function Network() {
               <box class="section-header" spacing={8}>
                 <image iconName={createBinding(wifi, "iconName")} />
                 <label label="Wi-Fi" hexpand xalign={0} class="section-title" />
+                <label
+                  class="section-detail"
+                  label={createBinding(wifi, "ssid")((ssid) => ssid ?? "")}
+                  visible={createBinding(wifi, "state")(
+                    (state) => state === AstalNetwork.DeviceState.ACTIVATED,
+                  )}
+                  ellipsize={3}
+                  maxWidthChars={24}
+                />
                 <switch
                   active={createBinding(wifi, "enabled")}
                   onNotifyActive={({ active }) => {
