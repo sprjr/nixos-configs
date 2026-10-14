@@ -31,6 +31,7 @@ let
         { keys = "Super C"; desc = "clipboard history (fuzzel)"; }
         { keys = "Super P"; desc = "pick screen color"; }
         { keys = "Super N"; desc = "notification center"; }
+        { keys = "Super Shift N"; desc = "do-not-disturb toggle"; }
       ];
     }
     {
