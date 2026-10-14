@@ -48,6 +48,7 @@
     ++ lib.optionals stdenv.hostPlatform.isDarwin [
       mas
       m-cli
+      parallels
       pinentry_mac
     ];
 }
