@@ -70,6 +70,11 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Staged: seanix Secure Boot (see GUIDE-seanix-secureboot.md)
+    #lanzaboote = {
+    #  url = "github:nix-community/lanzaboote/v1.2.0";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -130,6 +135,7 @@
       heywoodlh-configs,
       home-manager,
       hyprsession,
+      #lanzaboote,
       nix-cachyos-kernel,
       nix-flatpak,
       nixos-facter-modules,
@@ -191,6 +197,7 @@
               comin.nixosModules.comin
               nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
+              #lanzaboote.nixosModules.lanzaboote
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/hosts/workstations/seanix.nix
