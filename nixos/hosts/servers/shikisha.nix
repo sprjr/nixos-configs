@@ -27,10 +27,11 @@ in
       "defiant"
       "seair"
       "seanix"
-      #"voyager"
+      "stargazer"
+      "voyager"
     ];
     # Onboard one host per commit; see GUIDE-claude-sync.md
-    claudeDevices = [ ];
+    claudeDevices = [ "stargazer" ];
   };
 
   services.vikunja.oidc = {

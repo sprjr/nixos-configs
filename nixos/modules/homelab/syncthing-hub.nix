@@ -21,6 +21,12 @@ in {
       default = "/var/lib/syncthing/Documents/Obsidian/Vaults";
     };
 
+    sharedPath = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/syncthing/shared";
+      description = "Hub path for the general-purpose shared folder, offered to all clientDevices.";
+    };
+
     claudeDevices = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
@@ -177,6 +183,9 @@ in {
 
         ensure_folder obsidian-vaults "Obsidian Vaults" ${lib.escapeShellArg cfg.vaultPath} true \
           "$(device_ids_for ${idFiles cfg.clientDevices})"
+
+        ensure_folder shared "Shared" ${lib.escapeShellArg cfg.sharedPath} true \
+          "$(device_ids_for ${idFiles cfg.clientDevices})"
       '' + lib.optionalString (cfg.claudeDevices != []) ''
 
         # Ignore patterns must be in place before the folder exists, or the first scan
@@ -202,6 +211,7 @@ in {
     systemd.tmpfiles.rules = [
       "d /var/lib/syncthing/.config/syncthing 0700 syncthing syncthing -"
       "d ${cfg.vaultPath} 0700 syncthing syncthing -"
+      "d ${cfg.sharedPath} 0700 syncthing syncthing -"
     ] ++ lib.optional (cfg.claudeDevices != []) "d ${cfg.claudePath} 0700 syncthing syncthing -";
   };
 }

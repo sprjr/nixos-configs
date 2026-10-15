@@ -229,6 +229,9 @@ in
 
   services.memtly-kiosk.enable = true;
 
+  # Canonical host for claude-config; see docs/GUIDE-claude-sync.md
+  services.syncthing-client.claudeConfig.enable = true;
+
   environment.systemPackages = with pkgs; [
     file
     blender

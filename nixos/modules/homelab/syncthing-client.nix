@@ -13,6 +13,12 @@ in {
       description = "Local path for the Obsidian Vaults folder.";
     };
 
+    sharedPath = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/patrick/Sync";
+      description = "Local path for the general-purpose shared folder.";
+    };
+
     claudeConfig.enable = lib.mkEnableOption "syncing ${claudeDir} (whitelisted subset) via the hub";
   };
 
@@ -32,7 +38,7 @@ in {
     };
 
     systemd.services.syncthing-configure = {
-      description = "Configure Syncthing hub device and obsidian-vaults folder";
+      description = "Configure Syncthing hub device, obsidian-vaults and shared folders";
       # Ordered after multi-user.target as well as pulled in by it: WantedBy alone makes the
       # target wait for this unit, so a slow poke here delays multi-user.target ->
       # graphical.target -> the uwsm login handoff. Ordering it after the target decouples them.
@@ -109,6 +115,40 @@ in {
               > /dev/null
           fi
         fi
+
+        existing_shared=$(curl -sf -H "X-API-Key: $APIKEY" \
+          http://127.0.0.1:8384/rest/config/folders/shared 2>/dev/null || echo "")
+
+        if [ -z "$existing_shared" ]; then
+          curl -sf -X POST \
+            -H "X-API-Key: $APIKEY" \
+            -H "Content-Type: application/json" \
+            http://127.0.0.1:8384/rest/config/folders \
+            --data "{
+              \"id\": \"shared\",
+              \"label\": \"Shared\",
+              \"path\": \"${cfg.sharedPath}\",
+              \"devices\": [{\"deviceID\": \"$HUB_ID\"}],
+              \"versioning\": {
+                \"type\": \"trashcan\",
+                \"params\": {\"cleanoutDays\": \"30\"}
+              },
+              \"ignorePerms\": true
+            }" > /dev/null
+        else
+          hub_in_shared=$(echo "$existing_shared" | \
+            jq -r --arg id "$HUB_ID" '.devices[]? | select(.deviceID == $id) | .deviceID')
+
+          if [ -z "$hub_in_shared" ]; then
+            curl -sf -X PUT \
+              -H "X-API-Key: $APIKEY" \
+              -H "Content-Type: application/json" \
+              http://127.0.0.1:8384/rest/config/folders/shared \
+              --data "$(echo "$existing_shared" | jq --arg id "$HUB_ID" \
+                '.devices += [{"deviceID": $id}]')" \
+              > /dev/null
+          fi
+        fi
       '' + lib.optionalString cfg.claudeConfig.enable ''
 
         # Ignore patterns must be in place before the folder exists, or the first scan
@@ -153,6 +193,7 @@ in {
 
     systemd.tmpfiles.rules = [
       "d ${cfg.vaultPath} 0755 patrick users -"
+      "d ${cfg.sharedPath} 0755 patrick users -"
     ] ++ lib.optional cfg.claudeConfig.enable "d ${claudeDir} 0700 patrick users -";
   };
 }
