@@ -171,8 +171,10 @@ in {
     after = [
       "network-online.target"
       "ollama.service"
+      "sops-secrets-rendered.service"
     ];
     wants = [ "network-online.target" ];
+    requires = [ "sops-secrets-rendered.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${haEvents}";

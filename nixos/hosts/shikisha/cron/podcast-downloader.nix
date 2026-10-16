@@ -99,9 +99,24 @@ in {
 
   systemd.services.podcast-downloader = {
     description = "Download new Linux Unplugged podcast episodes";
-    after       = [ "network-online.target" "mnt-unraid-Other.mount" ];
-    wants       = [ "network-online.target" ];
-    path   = [ pkgs.rsync pkgs.openssh ];
+    after       = [ "network-online.target" "tailscaled.service" "mnt-unraid-Other.mount" ];
+    wants       = [ "network-online.target" "tailscaled.service" ];
+    path   = [ pkgs.rsync pkgs.openssh pkgs.gnugrep pkgs.coreutils ];
+    # Fail rather than makedirs into the empty automount point if the NFS share
+    # is not up yet; touching the path is what triggers the automount.
+    serviceConfig.ExecStartPre = [
+      (pkgs.writeShellScript "require-unraid-other" ''
+        for _ in $(seq 1 24); do
+          ls "/mnt/unraid/Other" >/dev/null 2>&1 || true
+          if grep -qs " /mnt/unraid/Other nfs" /proc/mounts; then
+            exit 0
+          fi
+          sleep 5
+        done
+        echo "/mnt/unraid/Other is not an nfs mount after 120s" >&2
+        exit 1
+      '')
+    ];
     script = ''
       ${podcastDownloader} \
         "${config.sops.secrets."podcast/feed-url".path}" \

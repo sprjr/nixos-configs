@@ -132,6 +132,14 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  nix.gc = {
+    automatic = true;
+    interval = { Weekday = 0; Hour = 2; Minute = 0; };
+    options = "--delete-older-than 14d";
+  };
+
+  nix.optimise.automatic = true;
+
   # Sketchybar and Yabai
   #heywoodlh.darwin.sketchybar.enable = true;
   patrick.darwin.sketchybar.enable = true;

@@ -25,11 +25,6 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,6 +41,11 @@
       url = "github:NixOS/nixos-hardware/master";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    # nix-on-droid master carries the proot TCSETS2 fix (upstream #529) and now tracks latest nixpkgs.
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/df611d5358360092b1d2e7e756f94b23843bd9d6";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvidia-patch = {
       url = "github:icewind1991/nvidia-patch-nixos";
       inputs.nixpkgs.follows = "flake-utils";
@@ -58,12 +58,25 @@
       url = "gitlab:kylesferrazza/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     thyx = {
       url = "github:rccyx/thyx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-cachyos-kernel = {
       url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Staged: seanix Secure Boot (see GUIDE-seanix-secureboot.md)
+    #lanzaboote = {
+    #  url = "github:nix-community/lanzaboote/v1.2.0";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+    ags = {
+      url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
@@ -122,16 +135,18 @@
       heywoodlh-configs,
       home-manager,
       hyprsession,
+      #lanzaboote,
       nix-cachyos-kernel,
       nix-flatpak,
-      nix-on-droid,
       nixos-facter-modules,
       nixos-hardware,
       sops-nix,
       thyx,
+      nix-on-droid,
       nixpkgs,
       nixpkgs-stable,
       spicetify-nix,
+      stylix,
       weathr,
       dark-wallpaper-laptop,
       ...
@@ -158,72 +173,9 @@
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/system/ssh.nix
               ./nixos/modules/desktop/greetd.nix
-              ./nixos/nx-01.nix
+              ./nixos/hosts/workstations/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
-              ./nixos/modules/i18n/japanese-input.nix
-              #./nixos/modules/system/attic-cache.nix
-              ./nixos/modules/system/comin.nix
-              ./nixos/modules/system/comin-notify.nix
-              ./nixos/modules/network/wifi.nix
-              ./nixos/modules/network/resolved-dns.nix
-              ./nixos/modules/user/patrick.nix
-              ./nixos/modules/homelab/syncthing-client-preset.nix
-              ./nixos/modules/monitoring/alloy.nix
-              ./nixos/modules/monitoring/node-exporter.nix
-              ./nixos/modules/monitoring/nix-state-exporter.nix
-              ./nixos/modules/monitoring/syncthing-exporter.nix
-            ];
-          };
-          trixos = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = inputs;
-            modules = [
-              sops-nix.nixosModules.sops
-              /etc/nixos/hardware-configuration.nix
-              ./nixos/modules/system/ssh.nix
-              ./nixos/trixos.nix
-              ./nixos/modules/nvidia.nix
-              ./nixos/modules/monitoring/node-exporter.nix
-              ./nixos/modules/system/sops.nix
-              ./nixos/modules/homelab/syncthing-client-preset.nix
-              {
-                networking.hostName = "trixos";
-                hardware.nvidia.prime = {
-                  # Verify BUS ID
-                  intelBusId = "PCI:0:2:0";
-                  nvidiaBusId = "PCI:1:0:0";
-                };
-                environment.systemPackages = with pkgs; [
-                  cockpit
-                  ### Lutris ###
-                  (lutris.override {
-                    extraPkgs = pkgs: [
-                      # List package dependencies here
-                    ];
-                  })
-                  ### Wine ###
-                  (wineWow64Packages.full.override {
-                    wineRelease = "staging";
-                    mingwSupport = true;
-                  })
-                  winetricks
-                  spicetify-nix.packages.x86_64-linux.nord
-                ];
-              }
-            ];
-          };
-          prometheus = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = inputs;
-            modules = [
-              comin.nixosModules.comin
-              home-manager.nixosModules.home-manager
-              sops-nix.nixosModules.sops
-              ./nixos/hardware-configuration/prometheus.nix
-              ./nixos/modules/system/ssh.nix
-              ./nixos/prometheus.nix
-              ./nixos/modules/desktop/greetd.nix
-              ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               ./nixos/modules/system/comin.nix
@@ -245,17 +197,20 @@
               comin.nixosModules.comin
               nix-flatpak.nixosModules.nix-flatpak
               sops-nix.nixosModules.sops
+              #lanzaboote.nixosModules.lanzaboote
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/seanix.nix
+              ./nixos/hosts/workstations/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
               ./nixos/modules/disks/seanix-mount.nix
               ./nixos/modules/homelab/ollama-nvidia.nix
               #./nixos/modules/system/attic-cache.nix
@@ -264,6 +219,7 @@
               ./nixos/modules/system/nvidia-seanix.nix
               ./nixos/modules/audio/boot-sound-seanix.nix
               ./nixos/modules/system/udev-scrcpy.nix
+              ./nixos/modules/system/android-adb.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
@@ -279,7 +235,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/shikisha.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/shikisha.nix
+              ./nixos/hosts/servers/shikisha.nix
               ./nixos/modules/disks/unraid-docker.nix
               ./nixos/modules/disks/unraid-gitea.nix
               ./nixos/modules/disks/unraid-media.nix
@@ -287,6 +243,8 @@
               ./nixos/modules/disks/unraid-kubernetes.nix
               ./nixos/modules/disks/unraid-nextcloud.nix
               ./nixos/modules/gaming/palworld-server.nix
+              ./nixos/modules/monitoring/satisfactory-exporter.nix
+              ./nixos/modules/monitoring/ha-exporter.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix
               ./nixos/hosts/shikisha/cron/podcast-downloader.nix
               #./nixos/modules/network/scripts/net_watchdog.nix
@@ -297,9 +255,14 @@
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix
+              ./nixos/modules/homelab/radicale.nix
+              ./nixos/modules/homelab/lubelogger.nix
+              ./nixos/modules/homelab/forgejo.nix
+              ./nixos/modules/homelab/zipline.nix
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/alloy-syslog.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
@@ -307,7 +270,9 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
-              ./nixos/modules/virtualisation/k3s-server.nix
+              ./nixos/modules/system/unit-failure-notify.nix
+              ./nixos/modules/virtualisation/multiarch.nix
+              ./nixos/modules/virtualisation/vm/haos-vm.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
@@ -321,9 +286,10 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/voyager.nix
+              ./nixos/hosts/workstations/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               #./nixos/modules/system/attic-cache.nix
               #./nixos/modules/system/comin.nix
@@ -341,6 +307,7 @@
               #./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/hardware/touchpad-inhibit.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
             ];
           };
           whale = nixpkgs.lib.nixosSystem {
@@ -357,7 +324,7 @@
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/whale.nix
+              ./nixos/hosts/kiosks/whale.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
@@ -376,6 +343,7 @@
             system = "x86_64-linux";
             specialArgs = inputs // {
               diskDevice = "/dev/sda";
+              cerritosConfig = self.packages.${system}.nixosConfigurations.cerritos;
             };
             modules = [
               disko.nixosModules.disko
@@ -385,12 +353,13 @@
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/ssh.nix
-              ./nixos/badgey.nix
+              ./nixos/hosts/servers/badgey.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
-              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/user/patrick-server.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
@@ -402,12 +371,101 @@
               ./nixos/modules/virtualisation/podman.nix
               ./nixos/modules/homelab/hermes-agent.nix
               ./nixos/modules/homelab/hermes-router.nix
+              ./nixos/modules/virtualisation/vm/cerritos-vm.nix
+              ./nixos/modules/homelab/hermes-backup.nix
+              ./nixos/modules/homelab/hermes-fileshare.nix
               ./nixos/modules/homelab/frigate-hermes.nix
               ./nixos/modules/homelab/ha-events.nix
+              ./nixos/modules/gaming/pumpkin.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
                   facter.reportPath = ./nixos/hosts/badgey/facter.json;
+                }
+              )
+            ];
+          };
+          # cerritos — NixOS VM hosted on badgey (libvirt/QEMU/KVM), segmented
+          # NAT network, comin-managed. Hermes uses it as a declarative proxy host.
+          cerritos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              comin.nixosModules.comin
+              sops-nix.nixosModules.sops
+              ./nixos/modules/system/ssh.nix
+              ./nixos/hosts/vms/cerritos.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/network/resolved-dns.nix
+            ];
+          };
+          # ds9 — Linode VPS: public Caddy reverse proxy, ntfy, linkding, uptime-kuma
+          ds9 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs;
+            modules = [
+              disko.nixosModules.disko
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/modules/disks/disko-linode.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/hosts/vms/ds9.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/system/unit-failure-notify.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/user/patrick-server.nix
+              ./nixos/modules/virtualisation/podman.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/homelab/relay-caddy.nix
+              ./nixos/modules/homelab/ntfy.nix
+              ./nixos/modules/homelab/linkding.nix
+              ./nixos/modules/homelab/uptime-kuma.nix
+            ];
+          };
+          # stargazer — ThinkPad P1 Gen 3 (NVIDIA T1000), disko+facter, TPM2 LUKS
+          stargazer = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // {
+              diskDevice = "/dev/nvme0n1";
+            };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              nix-flatpak.nixosModules.nix-flatpak
+              sops-nix.nixosModules.sops
+              nixos-hardware.nixosModules.lenovo-thinkpad-p1-gen3
+              ./nixos/modules/disks/disko-stargazer.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/hosts/workstations/stargazer.nix
+              ./nixos/modules/desktop/greetd.nix
+              ./nixos/modules/desktop/memtly-kiosk.nix
+              ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
+              ./nixos/modules/i18n/japanese-input.nix
+              ./nixos/modules/hardware/nvidia-t1000.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/homelab/memtly.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/stargazer/facter.json) {
+                  facter.reportPath = ./nixos/hosts/stargazer/facter.json;
                 }
               )
             ];
@@ -474,9 +532,8 @@
           system = "aarch64-linux";
           config.allowUnfree = true;
         };
-        modules = [ ./nixos/droid.nix ];
+        modules = [ ./nixos/hosts/mobile/droid.nix ];
         extraSpecialArgs = inputs;
-        home-manager-path = home-manager.outPath;
       };
     };
 }

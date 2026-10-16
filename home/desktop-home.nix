@@ -11,6 +11,7 @@
   imports = [
     ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/claude.nix
     ./modules/tools/opencode.nix
@@ -21,6 +22,7 @@
     ./modules/user-space/bat.nix
     ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
     ./modules/user-space/hyprland
     ./modules/user-space/shell.nix
     ./modules/user-space/zellij/zellij-layout-desktop.nix
@@ -54,14 +56,24 @@
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
-    # `mon-remote` (remon): single HDMI streaming head, desktop outputs off — mirrors the old
-    # kscreen switch-remote.sh. `mon-local` (lomon) re-applies `monitors` above.
-    remoteMonitors = [
-      "HDMI-A-1,1920x1080@60,0x0,1"
-      "DP-1,disable"
-      "DP-2,disable"
-      "DP-3,disable"
-    ];
+    # `mon-remote` (remon): DPMS off DP-1/2/3, migrate workspaces 1-3 to a persistent
+    # headless output. `mon-local` (lomon) reverses both. Replaces the old enable/disable
+    # mechanism under test for the aquamarine SEGV (see monitors.nix).
+    streaming = {
+      enable = true;
+      resolution = "1920x1080@60";
+      physicalOutputs = [
+        "DP-1"
+        "DP-2"
+        "DP-3"
+      ];
+      workspaces = [
+        1
+        2
+        3
+      ];
+      primaryOutput = "DP-1";
+    };
   };
 
   # Git configuration
@@ -77,7 +89,7 @@
   };
 
   home = {
-    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
     username = "patrick";
   };
 

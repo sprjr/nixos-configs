@@ -199,7 +199,6 @@ in
       brightnessctl
       playerctl
       cosmic-files
-      nordzy-cursor-theme
       xwayland-satellite
     ];
 
@@ -241,18 +240,12 @@ in
         focus-ring.enable = false;
       };
 
-      cursor = {
-        xcursor-theme = "Nordzy-catppuccin-frappe-dark";
-        xcursor-size = 24;
-      };
-
       prefer-no-csd = true;
       screenshot-path = null;
 
       environment =
         {
           XCURSOR_SIZE = "24";
-          XCURSOR_THEME = "Nordzy-catppuccin-frappe-dark";
         }
         // nvidiaEnv;
 

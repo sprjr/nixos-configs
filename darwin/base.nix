@@ -99,6 +99,7 @@ in
       "minecraft"
       "moonlight"
       "obsidian"
+      "parallels"
       "shortcat"
       "signal"
       "steam"

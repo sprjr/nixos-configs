@@ -1,13 +1,23 @@
-{ config, pkgs, home-manager, ... }:
+{ pkgs, config, lib, ... }:
 
+let
+  stylix = config.stylix.enable or false;
+in
 {
   gtk = {
     enable = true;
-
+    colorScheme = "dark";
+  }
+  // lib.optionalAttrs (!stylix) {
     theme = {
-      name = "Nordic";
-      package = pkgs.nordic;
+      name = "catppuccin-mocha-blue-standard";
+      package = pkgs.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "blue" ];
+      };
     };
+
+    gtk4.theme = config.gtk.theme;
 
     iconTheme = {
       name = "Papirus-Dark";
@@ -15,16 +25,10 @@
     };
   };
 
-  home.sessionVariables = {
-    GTK_THEME = "Nordic";
-    QT_STYLE_OVERRIDE = "gtk"; # makes qt apps follow the gtk theme
-    XCURSOR_THEME = "Adwaita";
-  };
-
-  home.pointerCursor = {
-    git.enable = true;
-    name = "Adwaita";
-    size = 24;
-    package = pkgs.gnome-adwaita-icon-theme;
+  qt = {
+    enable = true;
+  }
+  // lib.optionalAttrs (!stylix) {
+    platformTheme.name = "gtk3";
   };
 }

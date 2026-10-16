@@ -17,6 +17,8 @@ let
     seair = "super-light-blue";
     defiant = "light-purple";
     badgey = "dark-green";
+    seleya = "purple";
+    stargazer = "light-blue";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -64,7 +66,13 @@ let
     builtins.fromJSON (builtins.readFile ./dashboards/syncthing.json)
   );
 
-  # services-overview skips colorByHost: its series are probe URLs, not hosts.
+  satisfactoryDashboard = colorByHost (
+    builtins.fromJSON (builtins.readFile ./dashboards/satisfactory.json)
+  );
+
+  seleyaDashboard = colorByHost (builtins.fromJSON (builtins.readFile ./dashboards/seleya.json));
+
+  # services-overview + ha-frigate skip colorByHost: their series are probe URLs/jobs, not hosts.
   dashboardDir = pkgs.linkFarm "grafana-dashboards" [
     {
       name = "homelab-overview.json";
@@ -75,12 +83,24 @@ let
       path = ./dashboards/services-overview.json;
     }
     {
+      name = "ha-frigate.json";
+      path = ./dashboards/ha-frigate.json;
+    }
+    {
       name = "nix-state.json";
       path = pkgs.writeText "nix-state.json" (builtins.toJSON nixStateDashboard);
     }
     {
       name = "syncthing.json";
       path = pkgs.writeText "syncthing.json" (builtins.toJSON syncthingDashboard);
+    }
+    {
+      name = "satisfactory.json";
+      path = pkgs.writeText "satisfactory.json" (builtins.toJSON satisfactoryDashboard);
+    }
+    {
+      name = "seleya.json";
+      path = pkgs.writeText "seleya.json" (builtins.toJSON seleyaDashboard);
     }
   ];
 
@@ -174,9 +194,22 @@ in
               "seair:9100"
               "defiant:9100"
               "badgey:9100"
+              "stargazer:9100"
             ];
           }
         ];
+      }
+      # Windows workstation (Seleya). Windows has no Nix evaluator, so the exporter
+      # and Alloy config is not tracked here. Rebuild kit (configs + install script):
+      # /opt/data/cache/seleya-workstation-rebuild.
+      # The rules and dashboard below assume the host meets this contract:
+      #   textfile dir C:\ProgramData\seleya-telemetry\textfile emits seleya_ac_online
+      #   and seleya_pending_reboot (host-local sampler; no collector exposes these);
+      #   performancecounter "Battery Status" (*) emits seleya_battery_*;
+      #   Alloy ships System+Application at level<=3 labelled host="seleya".
+      {
+        job_name = "windows";
+        static_configs = [ { targets = [ "seleya:9182" ]; } ];
       }
       {
         job_name = "prometheus-server";
@@ -234,6 +267,57 @@ in
             replacement = "127.0.0.1:9115";
           }
         ];
+      }
+      # Home Assistant. Probes an API endpoint rather than the frontend root so
+      # the signal covers HA's API and auth stack; it returns 200 unauthenticated.
+      # Internal fixed hostname, so static_configs (no sops secret needed).
+      {
+        job_name = "blackbox-home-assistant";
+        metrics_path = "/probe";
+        params.module = [ "http_responsive" ];
+        static_configs = [ { targets = [ "http://shikisha:8123/auth/providers" ]; } ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
+      # Frigate web UI (badgey). Internal fixed hostname -> static_configs.
+      {
+        job_name = "blackbox-frigate";
+        metrics_path = "/probe";
+        params.module = [ "http_2xx" ];
+        static_configs = [ { targets = [ "http://badgey:80" ]; } ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "127.0.0.1:9115";
+          }
+        ];
+      }
+      # Frigate native Prometheus /metrics endpoint (badgey:80/metrics). Detection
+      # counts, camera health, detector speed, per-camera fps.
+      {
+        job_name = "frigate";
+        metrics_path = "/metrics";
+        static_configs = [ { targets = [ "badgey:80" ]; } ];
       }
     ];
     # syntax-only: full check fails on sops-rendered file_sd paths missing in the sandbox.
@@ -596,6 +680,436 @@ in
                   execErrState = "Error";
                   labels.severity = "critical";
                   annotations.summary = "{{ $labels.instance }} has stopped reporting to Prometheus";
+                }
+                {
+                  uid = "root-filesystem-readonly";
+                  title = "Root filesystem remounted read-only";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''node_filesystem_readonly{mountpoint="/"} == 1 and on (instance) min_over_time(node_filesystem_readonly{mountpoint="/"}[30d]) == 0'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "1m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "critical";
+                  annotations.summary = "{{ $labels.instance }} root filesystem is read-only";
+                }
+                {
+                  uid = "satisfactory-save-stale";
+                  title = "Satisfactory save is stale";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = "time() - satisfactory_last_save_timestamp_seconds";
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 1800 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "10m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Satisfactory has not saved in over 30 minutes";
+                }
+                {
+                  uid = "ha-entity-unavailable";
+                  title = "HA tracked entity unavailable";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = "ha_entity_available == 0";
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "5m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "HA entity {{ $labels.entity }} is unavailable";
+                }
+                # Seleya is a workstation: it sleeps, so `up` is not a useful signal.
+                # These alert on state it reaches while running, and on its own sampler.
+                {
+                  uid = "seleya-disk-pressure";
+                  title = "Seleya system volume filling up";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''(1 - windows_logical_disk_free_bytes{volume="C:"} / windows_logical_disk_size_bytes{volume="C:"}) > 0.9'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "15m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya C: is over 90% full";
+                }
+                {
+                  uid = "seleya-battery-critical";
+                  title = "Seleya battery critically low on battery power";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Emitted by a host-local sampler, not a collector.
+                        expr = "seleya_battery_charge_percent < 10 and seleya_ac_online == 0";
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "5m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya battery below 10% and discharging";
+                }
+                {
+                  uid = "seleya-thermal-throttle";
+                  title = "Seleya is thermally throttled";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = "windows_thermalzone_throttle_reasons > 0";
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "15m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya thermal zone {{ $labels.name }} reports active throttle reasons";
+                }
+                {
+                  uid = "seleya-patch-pending-reboot";
+                  title = "Seleya has a reboot pending for over 72h";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = "seleya_pending_reboot == 1";
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  # 72h, not minutes: an unattended patch just waits for the next natural reboot.
+                  for = "72h";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya has been pending a reboot for over 72 hours";
+                }
+                {
+                  uid = "seleya-telemetry-stale";
+                  title = "Seleya telemetry sampler is stale";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Catches the sampler task dying while the exporter stays up, which
+                        # `up{job="windows"}` cannot see.
+                        expr = ''time() - windows_textfile_mtime_seconds{file="seleya.prom"} > 7200'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "10m";
+                  noDataState = "NoData";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "Seleya textfile metrics have not updated in over 2 hours";
                 }
               ];
             }

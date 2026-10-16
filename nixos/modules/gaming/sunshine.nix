@@ -13,7 +13,9 @@
     settings = {
       port = 47989;
 
-      capture = "kms";
+      # mon-remote streams a virtual output, which kms cannot capture.
+      capture = "wlr";
+      output_name = "HEADLESS-STREAM";
       encoder = "nvenc";
 
       hevc_mode = 0;
@@ -29,5 +31,18 @@
       fec_percentage = 20;
       min_log_level = "info";
     };
+
+    # mon-remote/mon-local (home/modules/user-space/hyprland/monitors.nix) toggle streaming mode.
+    applications.apps = [
+      {
+        name = "Desktop";
+        "prep-cmd" = [
+          {
+            do = "mon-remote";
+            undo = "mon-local";
+          }
+        ];
+      }
+    ];
   };
 }

@@ -42,16 +42,27 @@ let
         with open(state_file, "w") as f:
             json.dump(state, f)
 
+    # comin >= 0.14 nests the commit under source.git; older releases kept it top-level
+    def git_field(gen, key):
+        git = ((gen or {}).get("source") or {}).get("git") or {}
+        return git.get(key) or (gen or {}).get(key) or ""
+
+    def fetched_commit(status):
+        try:
+            with open("/var/lib/comin/repository/refs/remotes/origin/main") as f:
+                return f.read().strip()
+        except OSError:
+            return ((status.get("fetcher") or {}).get("repository_status") or {}).get("selected_commit_id", "")
+
     def check_failure(status):
         gen = (status.get("builder") or {}).get("generation") or {}
         if gen.get("eval_status") == "failed":
-            return gen.get("selected_commit_id", ""), "eval failed: " + gen.get("eval_err", "").strip()
+            return git_field(gen, "selected_commit_id"), "eval failed: " + gen.get("eval_err", "").strip()
         if gen.get("build_status") == "failed":
-            return gen.get("selected_commit_id", ""), "build failed: " + gen.get("build_err", "").strip()
+            return git_field(gen, "selected_commit_id"), "build failed: " + gen.get("build_err", "").strip()
         dep = (status.get("deployer") or {}).get("deployment") or {}
         if dep.get("status") == "failed":
-            commit_id = (dep.get("generation") or {}).get("selected_commit_id", "")
-            return commit_id, "switch failed"
+            return git_field(dep.get("generation"), "selected_commit_id"), "switch failed"
         return None, None
 
     status = get_status()
@@ -60,10 +71,10 @@ let
 
     state = load_state()
 
-    fetcher_commit = ((status.get("fetcher") or {}).get("repository_status") or {}).get("selected_commit_id", "")
+    fetcher_commit = fetched_commit(status)
     if fetcher_commit and fetcher_commit != state["last_commit_id"]:
         gen = (status.get("builder") or {}).get("generation") or {}
-        commit_msg = (gen.get("selected_commit_msg") or "").split("\n")[0]
+        commit_msg = git_field(gen, "selected_commit_msg").split("\n")[0]
         publish(f"[{hostname}] new commit {fetcher_commit[:8]}: {commit_msg}", tags="arrow_up")
         state["last_commit_id"] = fetcher_commit
 

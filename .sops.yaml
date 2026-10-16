@@ -2,8 +2,18 @@
 
 keys: # Public key
   - &primary age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
+  - &relay age1xzhqvamhepdsht70edsymnzuvw0yud6e3g23rdxk9lg9z72etylq5za2zh
 creation_rules:
   - path_regex: sops-nix/sops.yaml$
     key_groups:
       - age:
         - *primary
+  - path_regex: sops-nix/hermes-.*\.md$
+    key_groups:
+      - age:
+        - *primary
+  - path_regex: sops-nix/relay.yaml$
+    key_groups:
+      - age:
+        - *primary
+        - *relay

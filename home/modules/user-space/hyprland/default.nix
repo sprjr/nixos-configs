@@ -12,9 +12,7 @@ let
 
   isLaptop = cfg.formFactor == "laptop";
 
-  # Catppuccin Mocha border colors (rest of the palette lives per-app).
-  activeBorder = "rgba(b4befeff) rgba(89b4faff) 45deg";
-  inactiveBorder = "rgba(313244aa)";
+  # Border colors are the Stylix palette (base0D active, base03 inactive).
 
   # Nvidia compositor env (seanix).
   nvidiaEnv = optionals (cfg.gpu == "nvidia") [
@@ -24,6 +22,27 @@ let
     "NVD_BACKEND,direct"
     "WLR_NO_HARDWARE_CURSORS,1"
   ];
+
+  ghosttyDropdownConf = pkgs.writeText "ghostty-dropdown.conf" ''
+    class = com.patrick.dropdown
+    gtk-single-instance = false
+  '';
+
+  # Startup workspace rule per configured app class.
+  placementRules = listToAttrs (
+    mapAttrsToList (
+      name: v:
+      nameValuePair "windowrule[${name}]" {
+        "match:class" = v.class;
+        workspace = "${toString v.workspace} silent";
+      }
+    ) cfg.windowPlacement
+  );
+
+  # command = null opts an app out of autostart.
+  autostartCommands = concatLists (
+    mapAttrsToList (_: v: optional (v.command != null) v.command) cfg.windowPlacement
+  );
 
   # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
@@ -56,10 +75,14 @@ in
     ./keyring.nix
     ./widgets/weather.nix
     #./widgets/ip.nix
-    ./widgets/stats.nix
+    ./widgets/hwmon.nix
+    ./widgets/comin-state.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
+    ./widgets/calendar.nix
+    ./widgets/caffeine.nix
+    ./control-center
   ];
 
   options.patrick.home.hyprland = {
@@ -73,8 +96,8 @@ in
       default = "native";
       description = ''
         Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
-        hypridle, swaync, and awww. "caelestia" uses caelestia-shell (Quickshell-based
-        unified shell).
+        hypridle, and swaync (wallpaper via Stylix). "caelestia" uses caelestia-shell
+        (Quickshell-based unified shell).
       '';
     };
 
@@ -92,19 +115,109 @@ in
       ];
     };
 
-    remoteMonitors = mkOption {
-      type = types.listOf types.str;
-      default = [ ];
+    streaming = {
+      enable = mkEnableOption "persistent headless output + DPMS/workspace-migration mon-remote/mon-local";
+
+      resolution = mkOption {
+        type = types.str;
+        default = "1920x1080@60";
+        description = "Mode applied to the persistent headless streaming output.";
+      };
+
+      physicalOutputs = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = ''
+          Physical output names DPMS'd off by `mon-remote` (entering streaming mode) and
+          DPMS'd on by `mon-local` (leaving it). The outputs stay in Hyprland's live output
+          list throughout -- only their power state changes.
+        '';
+        example = [
+          "DP-1"
+          "DP-2"
+          "DP-3"
+        ];
+      };
+
+      workspaces = mkOption {
+        type = types.listOf types.int;
+        default = [ ];
+        description = ''
+          Workspace numbers moved onto the headless output by `mon-remote` and back onto
+          `primaryOutput` by `mon-local`.
+        '';
+        example = [
+          1
+          2
+          3
+        ];
+      };
+
+      primaryOutput = mkOption {
+        type = types.str;
+        default = "";
+        description = "Physical output `workspaces` are moved back onto by `mon-local`.";
+        example = "DP-1";
+      };
+    };
+
+    windowPlacement = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            class = mkOption {
+              type = types.str;
+              description = "Hyprland window class regex the rule matches.";
+              example = "^(firefox)$";
+            };
+            workspace = mkOption {
+              type = types.int;
+              description = "Workspace the app opens on at startup.";
+            };
+            command = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "Command autostarted at login. null leaves the app to be launched by hand.";
+            };
+          };
+        }
+      );
+      default = {
+        steam = {
+          class = "^(steam)$";
+          workspace = 1;
+          command = "steam";
+        };
+        ghostty = {
+          class = "^(com\\.mitchellh\\.ghostty)$";
+          workspace = 2;
+          command = "ghostty";
+        };
+        signal = {
+          class = "^(signal)$";
+          workspace = 3;
+          command = "signal-desktop";
+        };
+        legcord = {
+          class = "^(legcord)$";
+          workspace = 3;
+          command = "legcord";
+        };
+        firefox = {
+          class = "^(firefox)$";
+          workspace = 3;
+          command = "firefox";
+        };
+      };
       description = ''
-        Monitor descriptors applied by the `mon-remote` command for a remote/streaming session
-        (e.g. a single streaming head with the desktop outputs disabled). Empty omits the command.
-        `mon-local` re-applies the `monitors` list. Both dispatch to hyprctl inside a Hyprland
-        session and fall back to the KDE ~/.local/bin/switch-*.sh scripts otherwise.
+        Startup workspace per app class, plus the login autostart command.
+
+        A single-monitor host lays its apps out over workspaces 1-?; the default is the
+        three-monitor desktop layout and is overridden per host. The default renders
+        byte-identical to the previous hardcoded rules. The ghostty-dropdown rule is not
+        here: it is float/size/move onto special:dropdown rather than a workspace
+        assignment, so it stays shared.
       '';
-      example = [
-        "HDMI-A-1,1920x1080@60,0x0,1"
-        "DP-1,disable"
-      ];
     };
 
     battery = mkOption {
@@ -135,8 +248,8 @@ in
       );
       default = null;
       description = ''
-        GPU vendor for the waybar GPU widget and Nvidia session env. null omits the widget
-        and adds no GPU env.
+        GPU vendor for the hardware panel (hwstat) and Nvidia session env. null omits the
+        panel's GPU section and adds no GPU env.
       '';
     };
 
@@ -234,30 +347,34 @@ in
       playerctl
       # polkit_gnome omitted: its XDG autostart races polkit-gnome-agent.service below.
       cosmic-files
-      nordzy-cursor-theme
     ];
 
     # Suppress XDG autostart for apps already launched by exec-once. UWSM activates
     # xdg-desktop-autostart.target, which would double-launch anything that also
-    # has an in-app "start on login" entry in ~/.config/autostart/.
-    xdg.configFile."autostart/steam.desktop" = {
-      force = true;
-      text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Steam
-        Hidden=true
-      '';
-    };
-    xdg.configFile."autostart/signal-desktop.desktop" = {
-      force = true;
-      text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Signal
-        Hidden=true
-      '';
-    };
+    # has an in-app "start on login" entry in ~/.config/autostart/. Keys are the exact
+    # filenames the apps write. blueman-applet is suppressed because its tray icon
+    # duplicates the waybar bluetooth module.
+    xdg.configFile =
+      mapAttrs'
+        (
+          file: name:
+          nameValuePair "autostart/${file}.desktop" {
+            force = true;
+            text = ''
+              [Desktop Entry]
+              Type=Application
+              Name=${name}
+              Hidden=true
+            '';
+          }
+        )
+        {
+          steam = "Steam";
+          signal = "Signal";
+          signal-desktop = "Signal";
+          legcord = "Legcord";
+          blueman = "Blueman Applet";
+        };
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -271,13 +388,10 @@ in
         "$fileManager" = "cosmic-files";
         "$mainMod" = "SUPER";
 
-        env = [
-          "XCURSOR_SIZE,24"
-          "XCURSOR_THEME,Nordzy-catppuccin-frappe-dark"
-          "HYPRCURSOR_SIZE,24"
-          "HYPRCURSOR_THEME,Nordzy-hyprcursors"
-        ]
-        ++ nvidiaEnv;
+        # Cursor env is home.pointerCursor's (Stylix sets XCURSOR_THEME; the old
+        # HYPRCURSOR_THEME override went with the Frappe theme). Only the
+        # compositor-specific Nvidia env is declared here.
+        env = nvidiaEnv;
 
         cursor = mkIf (cfg.gpu == "nvidia") {
           no_hardware_cursors = true;
@@ -290,22 +404,16 @@ in
           "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
           # Start Secret Service for Electron apps (no kwallet under Hyprland).
           "gnome-keyring-daemon --start --components=secrets"
-          "hyprctl setcursor Nordzy-catppuccin-frappe-dark 24"
           "wl-paste --watch cliphist store"
           "fcitx5 -d --replace"
-          "steam"
-          "signal-desktop"
-          "legcord"
-          "firefox"
-          "ghostty"
-        ];
+          "caffeine on"
+        ]
+        ++ autostartCommands;
 
         general = {
           gaps_in = 5;
           gaps_out = 10;
           border_size = 0;
-          "col.active_border" = activeBorder;
-          "col.inactive_border" = inactiveBorder;
           layout = "dwindle";
           allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
           resize_on_border = true;
@@ -345,6 +453,7 @@ in
             "workspaces,1,1.94,almostLinear,fade"
             "workspacesIn,1,1.21,almostLinear,fade"
             "workspacesOut,1,1.94,almostLinear,fade"
+            "specialWorkspace,1,3,easeOutQuint,slidevert"
           ];
         };
 
@@ -386,27 +495,15 @@ in
           disable_logs = !cfg.debugLogging;
         };
 
-        "windowrule[steam]" = {
-          "match:class" = "^(steam)$";
-          workspace = "1 silent";
+        "windowrule[ghostty-dropdown]" = {
+          "match:class" = "^(com.patrick.dropdown)$";
+          float = true;
+          size = "100% 40%";
+          move = "0 0";
+          workspace = "special:dropdown silent";
         };
-        "windowrule[ghostty]" = {
-          "match:class" = "^(com\\.mitchellh\\.ghostty)$";
-          workspace = "2 silent";
-        };
-        "windowrule[signal]" = {
-          "match:class" = "^(signal)$";
-          workspace = "3 silent";
-        };
-        "windowrule[legcord]" = {
-          "match:class" = "^(legcord)$";
-          workspace = "3 silent";
-        };
-        "windowrule[firefox]" = {
-          "match:class" = "^(firefox)$";
-          workspace = "3 silent";
-        };
-      };
+      }
+      // placementRules;
     };
 
     # Hyprland-only target; PartOf stops daemons on logout.
@@ -428,6 +525,21 @@ in
       Service = {
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    # Unit so the dropdown terminal respawns after its shell exits.
+    systemd.user.services.ghostty-dropdown = {
+      Unit = {
+        Description = "Ghostty dropdown terminal";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.ghostty}/bin/ghostty --config-file=${ghosttyDropdownConf}";
+        Restart = "always";
         RestartSec = 1;
       };
       Install.WantedBy = [ "hyprland-session.target" ];

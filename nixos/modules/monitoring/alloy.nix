@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 
 let
   # shikisha runs Loki locally; every other host reaches it over Tailscale.
@@ -11,6 +11,10 @@ in
 {
   # Logs only; metrics stay pull-based via node-exporter.
   services.alloy.enable = true;
+
+  # grafana-alloy's rpath points at systemd-minimal-libs, which cannot read
+  # COMPRESSED-ZSTD journal files; load the full libsystemd instead.
+  systemd.services.alloy.environment.LD_LIBRARY_PATH = "${lib.getLib config.systemd.package}/lib";
 
   environment.etc."alloy/config.alloy".text = ''
     loki.write "default" {

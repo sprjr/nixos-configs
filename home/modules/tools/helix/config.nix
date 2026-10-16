@@ -5,8 +5,8 @@
 }:
 
 {
+  # Theme comes from Stylix (programs.helix.settings.theme = "stylix").
   programs.helix.settings = {
-    theme = "catppuccin_mocha";
     editor = {
       line-number = "absolute";
       soft-wrap = {

@@ -1,11 +1,30 @@
 { config, pkgs, lib, ... }:
 
+let
+  waitForData = pkgs.writeShellScript "wait-for-nextcloud-data" ''
+    for _ in $(${pkgs.coreutils}/bin/seq 1 24); do
+      ${pkgs.coreutils}/bin/ls /var/lib/nextcloud/data >/dev/null 2>&1 || true
+      if ${pkgs.gnugrep}/bin/grep -qs " /var/lib/nextcloud/data nfs" /proc/mounts; then
+        exit 0
+      fi
+      ${pkgs.coreutils}/bin/sleep 5
+    done
+    echo "/var/lib/nextcloud/data is not an nfs mount after 120s" >&2
+    exit 1
+  '';
+in
 {
   # Only Nextcloud's user-data directory lives on NFS; config stays local.
+  # dauntless resolves over MagicDNS, which is not up during early boot; retry on access.
   fileSystems."/var/lib/nextcloud/data" = {
     device = "dauntless:/mnt/user/Nextcloud/data";
     fsType = "nfs";
-    options = [ "nofail" "defaults" ];
+    options = [
+      "nofail"
+      "defaults"
+      "x-systemd.automount"
+      "x-systemd.after=tailscaled.service"
+    ];
   };
   boot.supportedFilesystems = [ "nfs" ];
 
@@ -20,11 +39,10 @@
   };
   users.groups.nextcloud = { };
 
-  # Ensure the local parent exists before the NFS mount, and that
-  # nextcloud-setup waits for the data mount.
+  # RequiresMountsFor would pull the automount in eagerly at boot; wait on the mount instead.
   systemd.tmpfiles.rules = [ "d /var/lib/nextcloud 0750 nextcloud nextcloud - -" ];
   systemd.services = lib.mkIf config.services.nextcloud.enable {
-    nextcloud-setup.unitConfig.RequiresMountsFor = [ "/var/lib/nextcloud/data" ];
-    phpfpm-nextcloud.unitConfig.RequiresMountsFor = [ "/var/lib/nextcloud/data" ];
+    nextcloud-setup.serviceConfig.ExecStartPre = [ waitForData ];
+    phpfpm-nextcloud.serviceConfig.ExecStartPre = [ waitForData ];
   };
 }

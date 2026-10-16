@@ -3,6 +3,7 @@
   pkgs,
   lib,
   home-manager,
+  ags,
   sops-nix,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
@@ -41,10 +42,13 @@
 
   programs.zsh.enable = true;
 
+  # home-manager writes GTK dconf keys, which needs the system dconf D-Bus service.
+  programs.dconf.enable = true;
+
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit dark-wallpaper-laptop;
+      inherit dark-wallpaper-laptop ags;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
         dark-wallpaper-2
@@ -61,6 +65,7 @@
     users.patrick = {
       imports = [
         sops-nix.homeManagerModules.sops
+        ags.homeManagerModules.default
         ../../../home/laptop-home.nix
       ];
     };

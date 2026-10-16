@@ -118,8 +118,10 @@ in {
     after = [
       "network-online.target"
       "podman-hermes-agent.service"
+      "sops-secrets-rendered.service"
     ];
     wants = [ "network-online.target" ];
+    requires = [ "sops-secrets-rendered.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${hermesRouter}";

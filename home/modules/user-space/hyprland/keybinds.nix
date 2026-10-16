@@ -5,6 +5,12 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
 
+  data = import ./keybind-data.nix { inherit pkgs; ha = cfg.homeAssistant.enable; };
+
+  # Widest key string, so the plain-text sheet's keys column lines up.
+  keyWidth = foldl' (a: g: foldl' (b: x: max b (stringLength x.keys)) a g.binds) 0 data.groups;
+  padKey = s: s + fixedWidthString (keyWidth - stringLength s) " " "";
+
   # Super+N workspace / Super+Shift+N move-to-workspace for 1..0 (workspace 10).
   workspaceBinds = concatMap (n:
     let ws = if n == 0 then "10" else toString n;
@@ -13,59 +19,15 @@ let
       "$mainMod SHIFT, ${toString n}, movetoworkspace, ${ws}"
     ]) [ 1 2 3 4 5 6 7 8 9 0 ];
 
-  # Cheatsheet; keep in sync with bind lists below.
   hyprshort = pkgs.writeShellApplication {
     name = "hyprshort";
     text = ''
       cat <<'EOF'
       Hyprland keybindings (mainMod = SUPER)
 
-      Apps & window
-        Super Space            app launcher (fuzzel)
-        Super Return           terminal (ghostty)
-        Super E                file manager
-        Super Q                close window
-        Super F                toggle floating
-        Super V                toggle split
-        Super ;                pin window (all workspaces)
-        Super Esc              lock session
-        Super Shift Esc        exit Hyprland session
-
-      Screenshots (copied to clipboard)
-        Super Shift S          region select
-        Print                  full screen
-
-      Scratchpad (minimize)
-        Super M                show/hide scratchpad
-        Super Shift M          send window to scratchpad
-
-      Focus (vim)
-        Super h/j/k/l          move focus left/down/up/right
-
-      Move window (vim)
-        Super Shift h/j/k/l    move window left/down/up/right
-
-      Workspaces
-        Super Ctrl h/l         previous/next workspace
-        Super 1..0             switch to workspace 1..10
-        Super Shift 1..0       move window to workspace 1..10
-
-      Dictionary
-        Super D                English dictionary (selection or prompt)
-        Super Shift D          Japanese dictionary (selection or prompt)
-
-      Wallpaper
-        Super Shift W          rotate wallpaper now
-
-      Mouse
-        Super + left drag      move window
-        Super + right drag     resize window
-
-      Media / hardware keys
-        Volume, mute, brightness, and play/pause/next/prev keys are bound.
-
-      Japanese IME
-        Ctrl Space             toggle Japanese IME (Fcitx5)
+      ${concatMapStringsSep "\n\n" (g:
+        g.title + "\n" + concatMapStringsSep "\n" (b: "  ${padKey b.keys}  ${b.desc}") g.binds
+      ) data.groups}
       EOF
     '';
   };
@@ -76,6 +38,8 @@ in
 
     wayland.windowManager.hyprland.settings = {
       bind = [
+        "CTRL, grave, togglespecialworkspace, dropdown"
+
         "$mainMod, Return, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive,"
@@ -109,11 +73,42 @@ in
         # Screenshots (grimblast: clipboard only).
         "$mainMod SHIFT, S, exec, grimblast copy area"
         ", Print, exec, grimblast copy screen"
+
+        "$mainMod SHIFT, F, fullscreen,"
+        "$mainMod CTRL, F, fullscreen, 1"
+        "$mainMod SHIFT, T, pseudo,"
+        "$mainMod SHIFT CTRL, h, swapwindow, l"
+        "$mainMod SHIFT CTRL, j, swapwindow, d"
+        "$mainMod SHIFT CTRL, k, swapwindow, u"
+        "$mainMod SHIFT CTRL, l, swapwindow, r"
+        "$mainMod, Z, toggleswallow,"
+        # Resize mode: enters the resize submap (below); Esc/Return leaves it.
+        "$mainMod, R, submap, resize"
+
+        "$mainMod, G, togglegroup,"
+        "$mainMod CTRL, G, changegroupactive, f"
+        "$mainMod SHIFT, G, moveoutofgroup,"
+
+        "$mainMod, Tab, cyclenext,"
+        "$mainMod SHIFT, Tab, cyclenext, prev"
+        "$mainMod ALT, h, focusmonitor, l"
+        "$mainMod ALT, l, focusmonitor, r"
+        "$mainMod ALT SHIFT, h, movewindow, mon:l"
+        "$mainMod ALT SHIFT, l, movewindow, mon:r"
       ] ++ optionals (cfg.shell == "native") [
         "$mainMod, Space, exec, fuzzel"
-        "$mainMod SHIFT, W, exec, hypr-wallpaper"
+        "$mainMod, A, exec, control-center-toggle"
+        "$mainMod, slash, exec, keybinds-toggle"
         "$mainMod, D, exec, dict-lookup --selection"
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
+        "$mainMod, C, exec, waybar-clipboard"
+        "$mainMod, P, exec, hyprpicker -a"
+        "$mainMod, N, exec, swaync-client -t -sw"
+        "$mainMod SHIFT, N, exec, swaync-client -d -sw"
+        "$mainMod, I, exec, caffeine toggle"
+      ] ++ optionals (cfg.shell == "native" && cfg.homeAssistant.enable) [
+        "$mainMod, O, exec, ha-run-script script.turn_on_office_fan_for_5m"
+        "$mainMod SHIFT, C, exec, ha-cameras"
       ] ++ workspaceBinds;
 
       # Repeating + lock-screen-active volume/brightness keys.
@@ -137,6 +132,19 @@ in
       bindm = [
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
+      ];
+    };
+
+    wayland.windowManager.hyprland.submaps.resize.settings = {
+      binde = [
+        ", h, resizeactive, -40 0"
+        ", l, resizeactive, 40 0"
+        ", k, resizeactive, 0 -40"
+        ", j, resizeactive, 0 40"
+      ];
+      bind = [
+        ", Escape, submap, reset"
+        ", Return, submap, reset"
       ];
     };
   };

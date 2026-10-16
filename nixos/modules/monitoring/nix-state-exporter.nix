@@ -15,6 +15,32 @@ let
         return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
 
 
+    # comin >= 0.14 nests the commit under source.git; older releases kept it top-level
+    def git_field(gen, key):
+        git = ((gen or {}).get("source") or {}).get("git") or {}
+        return git.get(key) or (gen or {}).get(key) or ""
+
+
+    def fetched_commit(status):
+        try:
+            with open("/var/lib/comin/repository/refs/remotes/origin/main") as f:
+                return f.read().strip()
+        except OSError:
+            return ((status.get("fetcher") or {}).get("repository_status") or {}).get("selected_commit_id", "")
+
+
+    # Newest successful deployment's generation from comin's store, for when the status API lacks it
+    def stored_deploy_gen():
+        try:
+            with open("/var/lib/comin/store.json") as f:
+                deployments = json.load(f).get("deployments") or []
+        except (OSError, ValueError):
+            return {}
+        done = [d for d in deployments if d.get("status") == "done"]
+        latest = max(done, key=lambda d: d.get("ended_at") or "", default=None)
+        return (latest or {}).get("generation") or {}
+
+
     lines = []
 
     # comin deployment state
@@ -28,19 +54,20 @@ let
 
             gen = (status.get("builder") or {}).get("generation") or {}
             deploy = (status.get("deployer") or {}).get("deployment") or {}
-            fetcher = (status.get("fetcher") or {}).get("repository_status") or {}
 
             eval_status = gen.get("eval_status", "")
             build_status = gen.get("build_status", "")
             deploy_status = deploy.get("status", "")
-            fetcher_commit_id = fetcher.get("selected_commit_id", "")
+            fetcher_commit_id = fetched_commit(status)
             commit = fetcher_commit_id[:8]
-            commit_msg = (gen.get("selected_commit_msg") or "").split("\n")[0][:72]
+            commit_msg = git_field(gen, "selected_commit_msg").split("\n")[0][:72]
 
             deploy_gen = (deploy.get("generation") or {})
-            deployed_commit_id = deploy_gen.get("selected_commit_id", "")
+            if not git_field(deploy_gen, "selected_commit_id"):
+                deploy_gen = stored_deploy_gen()
+            deployed_commit_id = git_field(deploy_gen, "selected_commit_id")
             deployed_commit = deployed_commit_id[:8]
-            deployed_msg = (deploy_gen.get("selected_commit_msg") or "").split("\n")[0][:72]
+            deployed_msg = git_field(deploy_gen, "selected_commit_msg").split("\n")[0][:72]
 
             eval_val = 0 if eval_status == "failed" else 1
             build_val = 0 if build_status == "failed" else 1

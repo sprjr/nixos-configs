@@ -133,6 +133,7 @@
         hmrb = "nix run nixpkgs#home-manager -- build -f ./home/home.nix";
         kubectl = "k3s kubectl";
         ls = "lsd -l";
+        pw = "openssl rand -base64 33 | tr -d \"=+/\"";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
         # Monitor switching: Hyprland via hyprctl (mon-*), KDE via kscreen fallback.

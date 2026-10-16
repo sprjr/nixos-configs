@@ -45,6 +45,11 @@
     ];
   };
 
+  systemd.services.mosquitto = {
+    after = [ "sops-secrets-rendered.service" ];
+    requires = [ "sops-secrets-rendered.service" ];
+  };
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 1883 ];

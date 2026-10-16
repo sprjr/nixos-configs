@@ -10,12 +10,14 @@
   imports = [
     #   ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     #   ./modules/user-space/btop.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
     ./modules/user-space/cosmic/cosmic.nix
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
@@ -37,7 +39,7 @@
   };
 
   home.username = "patrick";
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+  home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
 
   nix = {
     package = pkgs.nix;

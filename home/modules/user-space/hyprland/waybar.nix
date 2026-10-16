@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig ? { },
   ...
 }:
 
@@ -9,6 +10,10 @@ with lib;
 
 let
   cfg = config.patrick.home.hyprland;
+  c = config.lib.stylix.colors.withHashtag;
+
+  # Same condition that installs comin-state (widgets/comin-state.nix).
+  cominBar = cfg.shell == "native" && (osConfig.services.comin.enable or false);
 
   # User-space Bluetooth power toggle (no rfkill/root needed); blueman-manager handles pairing.
   btToggle = pkgs.writeShellApplication {
@@ -23,20 +28,6 @@ let
       else
         bluetoothctl power on
       fi
-    '';
-  };
-
-  powerMenu = pkgs.writeShellApplication {
-    name = "waybar-power-menu";
-    runtimeInputs = with pkgs; [ fuzzel ];
-    text = ''
-      choice=$(printf "  Lock\n  Logout\n  Reboot\n  Shutdown" | fuzzel --dmenu --prompt "Power  ")
-      case "$choice" in
-        *Lock) hyprlock ;;
-        *Logout) hyprctl dispatch exit ;;
-        *Reboot) systemctl reboot ;;
-        *Shutdown) systemctl poweroff ;;
-      esac
     '';
   };
 
@@ -139,35 +130,42 @@ let
   ++ [
     "custom/timer"
     "custom/weather"
+    "custom/calendar"
     "custom/public-ip"
   ];
 
+  # Modules that appear/disappear or change item count sit at the outer (left) edge so
+  # toggling them never shifts the fixed-width modules to their right.
   modulesRight = [
+    "privacy"
+    "systemd-failed-units"
+    "tray"
+    "custom/budslink"
+    "network"
     "pulseaudio"
     "bluetooth"
-    "custom/budslink"
     #"cpu"
     #"memory"
     #"disk"
     #"temperature"
   ]
-  ++ optional (cfg.gpu != null) "custom/gpu"
-  ++ [ "power-profiles-daemon" ]
+  ++ [
+    "custom/hwmon"
+    "power-profiles-daemon"
+  ]
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
-    "privacy"
-    "idle_inhibitor"
-    "systemd-failed-units"
+    "custom/caffeine"
+    "custom/keybinds"
     "custom/app-launcher"
     "custom/dict"
     "custom/jp-dict"
     "custom/clipboard"
     "custom/color-picker"
     "custom/screenshot"
-    "tray"
-    "custom/power-menu"
     "custom/notification"
+    "custom/control-center"
   ]
   ++ cfg.waybarExtra;
 in
@@ -178,7 +176,6 @@ in
       pkgs.cliphist
       pkgs.hyprpicker
       btToggle
-      powerMenu
       clipboardBrowse
       dictLookup
       jpLookup
@@ -190,6 +187,129 @@ in
         enable = true;
         targets = [ "hyprland-session.target" ];
       };
+      style = ''
+        * {
+          min-height: 0;
+          /* Tabular digits so changing numbers don't change label width. */
+          font-feature-settings: "tnum";
+        }
+        /* Reserve each variable-content module's widest state (tune to font size). */
+        #custom-timer,
+        #custom-weather { min-width: 56px; }
+        #custom-ha-motion { min-width: 48px; }
+        #custom-hwmon { min-width: 88px; }
+        #workspaces button {
+          padding: 0 8px;
+          color: ${c.base04};
+          background: transparent;
+        }
+        #workspaces button.active {
+          color: ${c.base00};
+          background: ${c.base07};
+          border-radius: 8px;
+        }
+        #cpu,
+        #memory,
+        #temperature,
+        #network,
+        #pulseaudio,
+        #bluetooth,
+        #battery,
+        #clock,
+        #tray,
+        #mpris,
+        #disk,
+        #privacy,
+        #custom-caffeine,
+        #power-profiles-daemon,
+        #systemd-failed-units,
+        #language,
+        #custom-weather,
+        #custom-calendar,
+        #custom-public-ip,
+        #custom-hwmon,
+        #custom-budslink,
+        #custom-ha-fan,
+        #custom-ha-lamp,
+        #custom-ha-office-fan,
+        #custom-ha-motion,
+        #custom-ha-cameras,
+        #custom-timer,
+        #custom-notification,
+        #custom-app-launcher,
+        #custom-dict,
+        #custom-jp-dict,
+        #custom-color-picker,
+        #custom-clipboard,
+        #custom-screenshot,
+        #custom-control-center,
+        #custom-keybinds {
+          padding: 0 8px;
+        }
+        #cpu { color: ${c.base08}; }
+        #memory { color: ${c.base0A}; }
+        #temperature { color: ${c.base09}; }
+        #network { color: ${c.base0D}; }
+        #network.disconnected { color: ${c.base04}; }
+        #pulseaudio { color: ${c.base0C}; }
+        #bluetooth { color: ${c.base0D}; }
+        #bluetooth.disabled,
+        #bluetooth.off { color: ${c.base04}; }
+        #battery { color: ${c.base0B}; }
+        #custom-hwmon { color: ${c.base0E}; }
+        #custom-hwmon.warning { color: ${c.base0A}; }
+        #custom-hwmon.critical { color: ${c.base08}; }
+        #custom-weather { color: ${c.base0D}; }
+        #custom-calendar { color: ${c.base0C}; }
+        #custom-budslink { color: ${c.base0E}; }
+        #mpris { color: ${c.base0E}; }
+        #disk { color: ${c.base0F}; }
+        #privacy { color: ${c.base08}; }
+        #custom-caffeine.activated { color: ${c.base0A}; }
+        #custom-caffeine.deactivated { color: ${c.base04}; }
+        #power-profiles-daemon { color: ${c.base0B}; }
+        #systemd-failed-units { color: ${c.base08}; }
+        #language { color: ${c.base07}; }
+        #custom-app-launcher { color: ${c.base07}; }
+        #custom-dict { color: ${c.base05}; }
+        #custom-jp-dict { color: ${c.base06}; }
+        #custom-clipboard { color: ${c.base05}; }
+        #custom-color-picker { color: ${c.base0F}; }
+        #custom-screenshot { color: ${c.base05}; }
+        #custom-notification { color: ${c.base05}; }
+        #custom-control-center { color: ${c.base0D}; }
+        @keyframes comin-pulse {
+          from { opacity: 1; }
+          to { opacity: 0.4; }
+        }
+        #custom-control-center.pending,
+        #custom-control-center.in-progress.eval { color: ${c.base0A}; }
+        #custom-control-center.failed { color: ${c.base08}; }
+        #custom-control-center.in-progress {
+          animation: comin-pulse 1s ease-in-out infinite alternate;
+        }
+        #custom-keybinds { color: ${c.base0D}; }
+        #clock { color: ${c.base05}; font-weight: bold; }
+        #clock.tokyo { color: ${c.base04}; font-size: 11px; }
+        #custom-ha-office-fan,
+        #custom-ha-cameras { color: ${c.base0D}; }
+        #custom-ha-fan.on,
+        #custom-ha-lamp.on { color: ${c.base0B}; }
+        #custom-ha-fan.off,
+        #custom-ha-lamp.off { color: ${c.base04}; }
+        #custom-ha-fan.unavailable,
+        #custom-ha-lamp.unavailable,
+        #custom-ha-motion.unavailable { color: ${c.base03}; }
+        #custom-ha-motion.active,
+        #custom-ha-motion.recent { color: ${c.base0B}; }
+        #custom-ha-motion.idle { color: ${c.base05}; }
+        #custom-ha-motion.stale { color: ${c.base04}; }
+        #custom-timer.running { color: ${c.base0A}; }
+        #custom-timer.idle { color: ${c.base05}; }
+        #temperature.critical,
+        #battery.critical { color: ${c.base08}; }
+        #battery.warning { color: ${c.base0A}; }
+      '';
       settings.mainBar = {
         layer = "top";
         position = "top";
@@ -242,15 +362,27 @@ in
           ];
         };
 
+        network = {
+          format-wifi = "󰤨 {signalStrength}%";
+          format-ethernet = "󰈀";
+          format-disconnected = "󰤭";
+          tooltip-format-wifi = "{essid} ({signalStrength}%)";
+          tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
+          tooltip-format-disconnected = "Disconnected";
+          on-click = "control-center-toggle";
+        };
+
         pulseaudio = {
           format = "{icon} {volume}%";
-          format-muted = "󰝟";
+          # Keep the volume digits when muted so the module width doesn't collapse.
+          format-muted = "󰝟 {volume}%";
           format-icons.default = [
             "󰕿"
             "󰖀"
             "󰕾"
           ];
-          on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          on-click = "control-center-toggle";
+          on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
         bluetooth = {
@@ -260,9 +392,9 @@ in
           format-off = "󰂲";
           tooltip-format = "{controller_alias}\n{status}";
           tooltip-format-connected = "{controller_alias}\n{device_enumerate}";
-          # Left-click toggles adapter power, right-click opens the manager.
-          on-click = "bt-toggle";
-          on-click-right = "blueman-manager";
+          on-click = "control-center-toggle";
+          on-click-right = "bt-toggle";
+          on-click-middle = "blueman-manager";
         };
 
         "custom/budslink" = {
@@ -290,6 +422,7 @@ in
             "󰂂"
             "󰁹"
           ];
+          on-click = "control-center-toggle";
         };
 
         tray.spacing = 8;
@@ -312,13 +445,13 @@ in
           icon-spacing = 4;
         };
 
-        idle_inhibitor = {
-          format = "{icon}";
-          start-activated = true;
-          format-icons = {
-            activated = "󰅶";
-            deactivated = "󰾪";
-          };
+        "custom/caffeine" = {
+          exec = "caffeine status";
+          return-type = "json";
+          interval = 5;
+          signal = 8;
+          tooltip-format = "Caffeine {alt} (Super I)";
+          on-click = "caffeine toggle";
         };
 
         "power-profiles-daemon" = {
@@ -330,6 +463,7 @@ in
             power-saver = "󰌪";
           };
           tooltip-format = "Power profile: {profile}";
+          on-click = "control-center-toggle";
         };
 
         disk = {
@@ -355,6 +489,12 @@ in
           on-click = "waybar-weather-toggle";
         };
 
+        "custom/calendar" = {
+          exec = "waybar-calendar";
+          return-type = "json";
+          interval = 300;
+        };
+
         "custom/public-ip" = {
           exec = "waybar-public-ip";
           return-type = "json";
@@ -362,10 +502,11 @@ in
           format = "󰩠 {}";
         };
 
-        "custom/gpu" = {
-          exec = "waybar-gpu";
+        # Continuous exec: hwstat --bar emits a line every 2s.
+        "custom/hwmon" = {
+          exec = "hwstat --bar";
           return-type = "json";
-          interval = 3;
+          on-click = "hw-monitor-toggle";
         };
 
         "custom/ha-fan" = {
@@ -384,7 +525,7 @@ in
 
         "custom/ha-office-fan" = {
           format = "󰐊";
-          tooltip = false;
+          tooltip-format = "Office fan (Super O)";
           on-click = "ha-run-script script.turn_on_office_fan_for_5m";
         };
 
@@ -396,7 +537,7 @@ in
 
         "custom/ha-cameras" = {
           format = "󰄀";
-          tooltip = false;
+          tooltip-format = "Cameras (Super Shift C)";
           on-click = "ha-cameras";
         };
 
@@ -408,7 +549,7 @@ in
         };
 
         "custom/notification" = {
-          tooltip = false;
+          tooltip-format = "Notifications (Super N)";
           format = "{icon}";
           format-icons = {
             notification = "󱅫";
@@ -427,154 +568,62 @@ in
           escape = true;
         };
 
-        "custom/power-menu" = {
-          format = "⏻";
-          tooltip = false;
-          on-click = "waybar-power-menu";
-        };
-
         "custom/dict" = {
           format = "";
-          tooltip = false;
+          tooltip-format = "Dictionary (Super D)";
           on-click = "dict-lookup";
         };
 
         "custom/jp-dict" = {
           format = "󰗊";
-          tooltip = false;
+          tooltip-format = "Japanese dictionary (Super Shift D)";
           on-click = "jp-lookup";
         };
 
         "custom/color-picker" = {
           format = "󰈊";
-          tooltip = false;
+          tooltip-format = "Color picker (Super P)";
           on-click = "hyprpicker -a";
         };
 
         "custom/clipboard" = {
           format = "󰅍";
-          tooltip = false;
+          tooltip-format = "Clipboard (Super C)";
           on-click = "waybar-clipboard";
         };
 
         "custom/screenshot" = {
           format = "󰹑";
-          tooltip = false;
+          tooltip-format = "Screenshot (Super Shift S)";
           on-click = "grimblast copy area";
           on-click-right = "grimblast copy screen";
         };
 
         "custom/app-launcher" = {
           format = "󱓞";
-          tooltip = false;
+          tooltip-format = "App launcher (Super Space)";
           on-click = "hyprctl dispatch exec fuzzel";
         };
-      };
 
-      style = ''
-        * {
-          font-family: "JetBrainsMono Nerd Font";
-          font-size: 13px;
-          min-height: 0;
+        "custom/control-center" = {
+          format = "󰒓";
+          tooltip-format = "Control center (Super A)";
+          on-click = "control-center-toggle";
         }
-        window#waybar {
-          background: #1e1e2e;
-          color: #cdd6f4;
-        }
-        #workspaces button {
-          padding: 0 8px;
-          color: #a6adc8;
-          background: transparent;
-        }
-        #workspaces button.active {
-          color: #1e1e2e;
-          background: #b4befe;
-          border-radius: 8px;
-        }
-        #cpu,
-        #memory,
-        #temperature,
-        #pulseaudio,
-        #bluetooth,
-        #battery,
-        #clock,
-        #clock-tokyo,
-        #tray,
-        #mpris,
-        #disk,
-        #privacy,
-        #idle_inhibitor,
-        #power-profiles-daemon,
-        #systemd-failed-units,
-        #language,
-        #custom-weather,
-        #custom-public-ip,
-        #custom-gpu,
-        #custom-ha-fan,
-        #custom-ha-lamp,
-        #custom-ha-office-fan,
-        #custom-ha-motion,
-        #custom-ha-cameras,
-        #custom-timer,
-        #custom-notification,
-        #custom-power-menu,
-        #custom-dict,
-        #custom-jp-dict,
-        #custom-color-picker,
-        #custom-app-launcher,
-        #custom-budslink,
-        #custom-clipboard,
-        #custom-screenshot {
-          padding: 0 8px;
-        }
-        #cpu { color: #f38ba8; }
-        #memory { color: #f9e2af; }
-        #temperature { color: #fab387; }
-        #pulseaudio { color: #94e2d5; }
-        #bluetooth { color: #89dceb; }
-        #bluetooth.disabled,
-        #bluetooth.off { color: #6c7086; }
-        #custom-budslink { color: #89dceb; }
-        #custom-budslink.warning { color: #f9e2af; }
-        #custom-budslink.critical { color: #f38ba8; }
-        #battery { color: #a6e3a1; }
-        #custom-gpu { color: #cba6f7; }
-        #custom-weather { color: #74c7ec; }
-        #mpris { color: #cba6f7; }
-        #disk { color: #f2cdcd; }
-        #privacy { color: #f38ba8; }
-        #idle_inhibitor.activated { color: #f9e2af; }
-        #idle_inhibitor.deactivated { color: #6c7086; }
-        #power-profiles-daemon { color: #a6e3a1; }
-        #systemd-failed-units { color: #f38ba8; }
-        #language { color: #b4befe; }
-        #custom-dict { color: #f5e0dc; }
-        #custom-jp-dict { color: #eba0ac; }
-        #custom-clipboard { color: #cdd6f4; }
-        #custom-color-picker { color: #f5c2e7; }
-        #custom-screenshot { color: #89dceb; }
-        #custom-app-launcher { color: #b4befe; }
-        #custom-power-menu { color: #f38ba8; }
-        #clock { color: #cdd6f4; font-weight: bold; }
-        #clock-tokyo { color: #89b4fa; font-size: 11px; }
-        #custom-ha-office-fan,
-        #custom-ha-cameras { color: #89b4fa; }
-        #custom-ha-fan.on,
-        #custom-ha-lamp.on { color: #a6e3a1; }
-        #custom-ha-fan.off,
-        #custom-ha-lamp.off { color: #6c7086; }
-        #custom-ha-fan.unavailable,
-        #custom-ha-lamp.unavailable,
-        #custom-ha-motion.unavailable { color: #45475a; }
-        #custom-ha-motion.active,
-        #custom-ha-motion.recent { color: #a6e3a1; }
-        #custom-ha-motion.idle { color: #cdd6f4; }
-        #custom-ha-motion.stale { color: #6c7086; }
-        #custom-timer.running { color: #f9e2af; }
-        #custom-timer.idle { color: #cdd6f4; }
-        #temperature.critical,
-        #battery.critical { color: #f38ba8; }
-      '';
+        # Button colour follows the local comin state.
+        // optionalAttrs cominBar {
+          exec = "comin-state --waybar";
+          return-type = "json";
+          interval = 5;
+          tooltip = true;
+        };
+
+        "custom/keybinds" = {
+          format = "󰌌";
+          tooltip-format = "Keybinds (Super /)";
+          on-click = "keybinds-toggle";
+        };
+      };
     };
   };
 }

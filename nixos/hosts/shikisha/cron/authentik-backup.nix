@@ -11,7 +11,24 @@
       };
     };
     services."authentik-backup" = {
-      path = [ pkgs.docker ];
+      path = [ pkgs.docker pkgs.gnugrep pkgs.coreutils ];
+      after = [ "tailscaled.service" ];
+      wants = [ "tailscaled.service" ];
+      # Fail rather than mkdir into the empty automount point if the NFS share
+      # is not up yet; touching the path is what triggers the automount.
+      serviceConfig.ExecStartPre = [
+        (pkgs.writeShellScript "require-unraid-nextcloud" ''
+          for _ in $(seq 1 24); do
+            ls "/mnt/unraid/Nextcloud/data" >/dev/null 2>&1 || true
+            if grep -qs " /mnt/unraid/Nextcloud/data nfs" /proc/mounts; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "/mnt/unraid/Nextcloud/data is not an nfs mount after 120s" >&2
+          exit 1
+        '')
+      ];
       script = ''
         set -eu
         BACKUP_DIR="/home/patrick/.docker/authentik/db_backups"

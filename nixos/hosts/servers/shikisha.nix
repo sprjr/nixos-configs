@@ -1,0 +1,261 @@
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  nixpkgs-stable,
+  ...
+}:
+
+let
+  system = pkgs.stdenv.hostPlatform.system;
+  pkgs-stable = nixpkgs-stable.legacyPackages.${system};
+in
+{
+  imports = [
+    home-manager.nixosModules.home-manager
+    ../../modules/homelab/syncthing-hub.nix
+    ../../modules/homelab/vikunja.nix
+    # Systemd Timers
+    ../../hosts/shikisha/cron/docker-findmy-restart.nix
+    ../../modules/system/esp-tooling.nix
+  ];
+
+  services.syncthing-hub = {
+    enable = true;
+    clientDevices = [
+      "defiant"
+      "seair"
+      "seanix"
+      "stargazer"
+      "voyager"
+    ];
+    # Onboard one host per commit; see GUIDE-claude-sync.md
+    claudeDevices = [ "stargazer" ];
+  };
+
+  services.vikunja.oidc = {
+    enable = true;
+    providerKey = "authentik";
+    baseUrl = "https://auth0.rawliyosh.com";
+    publicHost = "vikunja.rawliyosh.com";
+  };
+
+  home-manager.users.patrick = {
+    # laptop-home.nix imports cosmic.nix unconditionally; disable it here since
+    # shikisha has no COSMIC DE and the cosmic sops secrets won't be present.
+    patrick.home.cosmic = lib.mkForce false;
+    # Same for Hyprland: its waybar/control-center read config.lib.stylix, and
+    # shikisha doesn't import the stylix module (headless server).
+    patrick.home.hyprland.enable = lib.mkForce false;
+  };
+
+  # Zen Kernel (default is undeclared, or `pkgs.linuxPackages_latest;`
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  # Bootloader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # General Networking Options
+  networking.hostName = "shikisha"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant !! cannot use with networking.networkmanager.enable = true
+
+  services.alloy-syslog.enable = true;
+
+  networking.firewall = {
+    allowedUDPPorts = [ 8472 ];
+  };
+
+  # Disable NetworkManager-wait-online.service
+  systemd.services.NetworkManager-wait-online.enable = false;
+
+  # Enable flakes
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.channel.enable = false;
+
+  # Sops Secrets References:
+  sops.secrets = {
+    acme-email = {
+      owner = "root";
+      mode = "0400";
+    };
+    cloudflare-api-token = {
+      owner = "root";
+      mode = "0400";
+    };
+    "satisfactory/api-token" = {
+      owner = "root";
+      mode = "0400";
+    };
+    # Home Assistant long-lived access token for ha-exporter entity availability.
+    ha_token = {
+      owner = "root";
+      mode = "0400";
+    };
+  };
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+
+  # Home Assistant OS VM. Bridged onto the house LAN so the guest takes its own
+  # lease from the UniFi DHCP server rather than a shikisha-local NAT address.
+  homelab.haosVm = {
+    enable = true;
+    hostInterface = "enp1s0";
+    bridgeMac = "c8:d3:ff:a3:a7:3a";
+    # Zigbee coordinator stays on the host until the HAOS migration.
+    zigbeePassthrough = false;
+  };
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Enable Docker and Podman
+  virtualisation = {
+    docker.enable = true;
+    podman.enable = true;
+  };
+
+  # Set your time zone.
+  time.timeZone = "America/Denver";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+  };
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  # Fonts
+  fonts.packages = [
+    pkgs.nerd-fonts.hack
+    pkgs.nerd-fonts.droid-sans-mono
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Tailscale
+  services.tailscale.enable = true;
+
+  # Satisfactory dedicated server monitoring (docker container on this host)
+  services.satisfactory-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets."satisfactory/api-token".path;
+  };
+
+  # Home Assistant + Frigate integration health: entity availability metrics.
+  services.ha-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets.ha_token.path;
+  };
+
+  services.unit-failure-notify = {
+    enable = true;
+    ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
+  };
+
+  networking.iproute2.enable = true;
+
+  # Wireguard
+  networking.wireguard.enable = true;
+
+  # 1Password
+  programs._1password = {
+    enable = true;
+  };
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "patrick" ];
+  };
+
+  # Needed this to run bash scripts
+  services.envfs.enable = true;
+
+  # Allow broken; pin textual (since it's broken)
+  nixpkgs.config.allowBroken = true;
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      python3Packages = prev.python3Packages.overrideScope (
+        pyFinal: pyPrev: {
+          textual = pyPrev.textual.overridePythonAttrs (old: {
+            doCheck = false; # skip failed tests
+          });
+        }
+      );
+    })
+  ];
+
+  ### REMOVE THIS WHEN YOU CAN ###
+  nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
+    "qtwebengine-5.15.19"
+  ];
+
+  # System packages (user-specific packages live in home-manager profiles)
+  environment.systemPackages =
+    with pkgs;
+    [
+      cachix
+      certbot
+      file
+
+      git
+      html2text
+      lshw
+      lsof
+      mosquitto
+      openiscsi
+      pciutils
+      pipewire
+      sops
+      thermald
+      usbutils
+      urlwatch
+      vim
+      wget
+      zsh
+    ];
+
+  # Host-specific packages for patrick (not needed system-wide)
+  users.users.patrick.packages = with pkgs; [
+    argocd
+    gnumake
+    kind
+    kiwix
+    kiwix-tools
+    kubeseal
+  ];
+
+  # Garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+
+  # nix-store optimization
+  nix.optimise.automatic = true;
+  system.stateVersion = "24.11"; # Did you read the comment?
+}

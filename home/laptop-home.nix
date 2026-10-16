@@ -10,6 +10,7 @@
   imports = [
     #   ./linux/desktop_environments/gnome.nix
     ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
     ./modules/tools/alacritty.nix
     ./modules/tools/claude.nix
     ./modules/tools/opencode.nix
@@ -17,6 +18,7 @@
     ./modules/tools/neovim.nix
     ./modules/user-space/bat.nix
     ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
     ./modules/user-space/cosmic/cosmic.nix
     ./modules/user-space/hyprland
     ./modules/tools/helix/config.nix
@@ -42,6 +44,34 @@
       "eDP-1,preferred,auto,1.2"
       ",preferred,auto,auto"
     ];
+    # Single-monitor layout; steam is dropped so it never autostarts.
+    windowPlacement = {
+      ghostty = {
+        class = "^(com\\.mitchellh\\.ghostty)$";
+        workspace = 1;
+        command = "ghostty";
+      };
+      firefox = {
+        class = "^(firefox)$";
+        workspace = 2;
+        command = "firefox";
+      };
+      signal = {
+        class = "^(signal)$";
+        workspace = 3;
+        command = "signal-desktop";
+      };
+      legcord = {
+        class = "^(legcord)$";
+        workspace = 3;
+        command = "legcord";
+      };
+      # Not autostarted — placed only if opened by hand.
+      "1password" = {
+        class = "^(com\\.onepassword\\.OnePassword)$";
+        workspace = 4;
+      };
+    };
   };
 
   # Git configuration
@@ -57,7 +87,7 @@
   };
 
   home = {
-    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/patrick" else "/home/patrick";
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
     username = "patrick";
   };
 

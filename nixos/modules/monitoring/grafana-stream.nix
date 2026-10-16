@@ -1,3 +1,4 @@
+# stream: http://shikisha:8080/stream/dashboard.m3u8
 {
   config,
   pkgs,
@@ -17,7 +18,7 @@ let
   ffmpegX11 = pkgs.ffmpeg.override { withXcb = true; };
 
   streamDeps = with pkgs; [
-    xorg.xorgserver
+    xorg-server
     chromium
     ffmpegX11
     curl

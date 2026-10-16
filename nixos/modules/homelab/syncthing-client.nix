@@ -2,6 +2,8 @@
 
 let
   cfg = config.services.syncthing-client;
+  claudeDir = "/home/patrick/.claude";
+  claudeStignore = pkgs.writeText "claude-config.stignore" (import ./claude-stignore.nix);
 in {
   options.services.syncthing-client = {
     enable = lib.mkEnableOption "Syncthing client";
@@ -10,6 +12,14 @@ in {
       type = lib.types.str;
       description = "Local path for the Obsidian Vaults folder.";
     };
+
+    sharedPath = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/patrick/Sync";
+      description = "Local path for the general-purpose shared folder.";
+    };
+
+    claudeConfig.enable = lib.mkEnableOption "syncing ${claudeDir} (whitelisted subset) via the hub";
   };
 
   config = lib.mkIf cfg.enable {
@@ -28,13 +38,13 @@ in {
     };
 
     systemd.services.syncthing-configure = {
-      description = "Configure Syncthing hub device and obsidian-vaults folder";
+      description = "Configure Syncthing hub device, obsidian-vaults and shared folders";
       # Ordered after multi-user.target as well as pulled in by it: WantedBy alone makes the
       # target wait for this unit, so a slow poke here delays multi-user.target ->
       # graphical.target -> the uwsm login handoff. Ordering it after the target decouples them.
-      after = [ "syncthing.service" "multi-user.target" ];
+      after = [ "syncthing.service" "multi-user.target" "sops-secrets-rendered.service" ];
       requires = [ "syncthing.service" ];
-      wants = [ "syncthing.service" ];
+      wants = [ "syncthing.service" "sops-secrets-rendered.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
@@ -58,7 +68,11 @@ in {
           sleep 2
         done
 
-        HUB_ID=$(cat ${config.sops.secrets."syncthing/hub/device-id".path})
+        HUB_ID=$(cat ${config.sops.secrets."syncthing/hub/device-id".path} 2>/dev/null || true)
+        if [ -z "$HUB_ID" ]; then
+          echo "syncthing/hub/device-id unavailable; nothing to configure" >&2
+          exit 0
+        fi
 
         exists=$(curl -sf -H "X-API-Key: $APIKEY" http://127.0.0.1:8384/rest/config/devices | \
           jq -r --arg id "$HUB_ID" '.[] | select(.deviceID == $id) | .deviceID')
@@ -101,11 +115,85 @@ in {
               > /dev/null
           fi
         fi
+
+        existing_shared=$(curl -sf -H "X-API-Key: $APIKEY" \
+          http://127.0.0.1:8384/rest/config/folders/shared 2>/dev/null || echo "")
+
+        if [ -z "$existing_shared" ]; then
+          curl -sf -X POST \
+            -H "X-API-Key: $APIKEY" \
+            -H "Content-Type: application/json" \
+            http://127.0.0.1:8384/rest/config/folders \
+            --data "{
+              \"id\": \"shared\",
+              \"label\": \"Shared\",
+              \"path\": \"${cfg.sharedPath}\",
+              \"devices\": [{\"deviceID\": \"$HUB_ID\"}],
+              \"versioning\": {
+                \"type\": \"trashcan\",
+                \"params\": {\"cleanoutDays\": \"30\"}
+              },
+              \"ignorePerms\": true
+            }" > /dev/null
+        else
+          hub_in_shared=$(echo "$existing_shared" | \
+            jq -r --arg id "$HUB_ID" '.devices[]? | select(.deviceID == $id) | .deviceID')
+
+          if [ -z "$hub_in_shared" ]; then
+            curl -sf -X PUT \
+              -H "X-API-Key: $APIKEY" \
+              -H "Content-Type: application/json" \
+              http://127.0.0.1:8384/rest/config/folders/shared \
+              --data "$(echo "$existing_shared" | jq --arg id "$HUB_ID" \
+                '.devices += [{"deviceID": $id}]')" \
+              > /dev/null
+          fi
+        fi
+      '' + lib.optionalString cfg.claudeConfig.enable ''
+
+        # Ignore patterns must be in place before the folder exists, or the first scan
+        # would share credentials, history, and transcripts.
+        install -m 0644 ${claudeStignore} ${claudeDir}/.stignore
+
+        existing_claude=$(curl -sf -H "X-API-Key: $APIKEY" \
+          http://127.0.0.1:8384/rest/config/folders/claude-config 2>/dev/null || echo "")
+
+        if [ -z "$existing_claude" ]; then
+          curl -sf -X POST \
+            -H "X-API-Key: $APIKEY" \
+            -H "Content-Type: application/json" \
+            http://127.0.0.1:8384/rest/config/folders \
+            --data "{
+              \"id\": \"claude-config\",
+              \"label\": \"Claude Config\",
+              \"path\": \"${claudeDir}\",
+              \"devices\": [{\"deviceID\": \"$HUB_ID\"}],
+              \"versioning\": {
+                \"type\": \"trashcan\",
+                \"params\": {\"cleanoutDays\": \"30\"}
+              },
+              \"ignorePerms\": false
+            }" > /dev/null
+        else
+          hub_in_claude=$(echo "$existing_claude" | \
+            jq -r --arg id "$HUB_ID" '.devices[]? | select(.deviceID == $id) | .deviceID')
+
+          if [ -z "$hub_in_claude" ]; then
+            curl -sf -X PUT \
+              -H "X-API-Key: $APIKEY" \
+              -H "Content-Type: application/json" \
+              http://127.0.0.1:8384/rest/config/folders/claude-config \
+              --data "$(echo "$existing_claude" | jq --arg id "$HUB_ID" \
+                '.devices += [{"deviceID": $id}]')" \
+              > /dev/null
+          fi
+        fi
       '';
     };
 
     systemd.tmpfiles.rules = [
       "d ${cfg.vaultPath} 0755 patrick users -"
-    ];
+      "d ${cfg.sharedPath} 0755 patrick users -"
+    ] ++ lib.optional cfg.claudeConfig.enable "d ${claudeDir} 0700 patrick users -";
   };
 }
