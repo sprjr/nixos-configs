@@ -6,7 +6,7 @@
 }:
 
 let
-  warmupModel = "qwen3.5:4b";
+  warmupModel = "gemma3:4b";
   warmupScript = pkgs.writeShellScript "ollama-warmup" ''
     for i in $(seq 1 30); do
       if curl -sf http://127.0.0.1:11434/api/tags > /dev/null 2>&1; then
@@ -34,7 +34,7 @@ in
     enable = true;
     host = "0.0.0.0";
     loadModels = [
-      "qwen3.5:4b"
+      warmupModel
     ];
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
@@ -47,7 +47,7 @@ in
   };
 
   systemd.services.ollama-model-warmup = {
-    description = "Load qwen3.5:4b into VRAM with keep_alive=-1";
+    description = "Load ${warmupModel} into VRAM with keep_alive=-1";
     after = [ "ollama.service" ];
     requires = [ "ollama.service" ];
     wantedBy = [ "multi-user.target" ];

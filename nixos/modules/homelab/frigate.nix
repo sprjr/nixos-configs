@@ -63,6 +63,21 @@
         };
       };
 
+      objects.track = [
+        "person"
+        "car"
+      ];
+
+      # frigate-analyzer fetches /api/events/<id>/snapshot.jpg, which needs snapshots
+      snapshots = {
+        enabled = true;
+        bounding_box = true;
+        retain.default = 7;
+      };
+
+      # Plate reads land on car events as recognized_license_plate (Frigate >= 0.16)
+      lpr.enabled = true;
+
       cameras = {
         front_door = {
           enabled = true;
@@ -76,6 +91,16 @@
             height = 720;
           };
           record.enabled = false;
+          # Placeholder polygons (relative x,y pairs); replace with output from the Frigate UI zone editor
+          zones = {
+            porch.coordinates = "0.35,0.55,0.65,0.55,0.65,1,0.35,1";
+            walkway.coordinates = "0.25,0.35,0.75,0.35,0.65,0.55,0.35,0.55";
+            driveway.coordinates = "0,0.2,0.25,0.2,0.25,1,0,1";
+          };
+          review.alerts.required_zones = [
+            "porch"
+            "walkway"
+          ];
         };
         garage = {
           enabled = true;

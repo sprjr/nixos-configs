@@ -102,6 +102,10 @@ let
       name = "seleya.json";
       path = pkgs.writeText "seleya.json" (builtins.toJSON seleyaDashboard);
     }
+    {
+      name = "frigate-analyzer.json";
+      path = pkgs.writeText "frigate-analyzer.json" (builtins.toJSON (import ./dashboards/frigate-analyzer.nix));
+    }
   ];
 
   # One sops-rendered file per $__file{} substitution; Grafana trims whitespace on read.
@@ -318,6 +322,11 @@ in
         job_name = "frigate";
         metrics_path = "/metrics";
         static_configs = [ { targets = [ "badgey:80" ]; } ];
+      }
+      # frigate-analyzer (badgey): VLM review analysis, rule findings, notify outcomes.
+      {
+        job_name = "frigate-analyzer";
+        static_configs = [ { targets = [ "badgey:9465" ]; } ];
       }
     ];
     # syntax-only: full check fails on sops-rendered file_sd paths missing in the sandbox.

@@ -50,13 +50,21 @@ let
   };
 
   localModel = mkModelBlock {
-    model = "qwen3.5:4b";
+    model = "gemma3:4b";
     base_url = "http://host.containers.internal:11434/v1";
     context_length = 16384;
   };
 
+  # frigate-analyzer MCP server, bound to the hermes-net gateway on the host
+  frigateMcp = ''
+    mcp_servers:
+      frigate:
+        url: http://10.89.0.1:8650/mcp
+  '';
+
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
     ${triageModel}
+    ${frigateMcp}
     terminal:
       env: local
     dashboard:
@@ -95,6 +103,7 @@ let
 
   homeConfigYaml = pkgs.writeText "hermes-home-config.yaml" ''
     ${homeModel}
+    ${frigateMcp}
     terminal:
       env: local
   '';

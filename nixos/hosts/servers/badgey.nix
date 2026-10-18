@@ -9,6 +9,7 @@
   imports = [ ../../modules/system/sops.nix ];
 
   services.hermes-fileshare.enable = true;
+  services.frigate-analyzer.enable = true;
 
   networking.hostName = "badgey";
 

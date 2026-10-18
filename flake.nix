@@ -374,7 +374,7 @@
               ./nixos/modules/virtualisation/vm/cerritos-vm.nix
               ./nixos/modules/homelab/hermes-backup.nix
               ./nixos/modules/homelab/hermes-fileshare.nix
-              ./nixos/modules/homelab/frigate-hermes.nix
+              ./nixos/modules/homelab/frigate-analyzer
               ./nixos/modules/homelab/ha-events.nix
               ./nixos/modules/gaming/pumpkin.nix
               (

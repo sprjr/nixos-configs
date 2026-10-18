@@ -12,6 +12,10 @@ creation_rules:
     key_groups:
       - age:
         - *primary
+  - path_regex: sops-nix/frigate-analyzer-.*\.enc$
+    key_groups:
+      - age:
+        - *primary
   - path_regex: sops-nix/relay.yaml$
     key_groups:
       - age:
