@@ -10,7 +10,15 @@ let
   warmupScript = pkgs.writeShellScript "ollama-warmup" ''
     for i in $(seq 1 30); do
       if curl -sf http://127.0.0.1:11434/api/tags > /dev/null 2>&1; then
-        echo "Ollama API ready, loading ${warmupModel} into VRAM"
+        # loadModels pulls asynchronously; pull here so the load cannot race it
+        echo "Ollama API ready, pulling ${warmupModel}"
+        if ! curl -sf -X POST http://127.0.0.1:11434/api/pull \
+          -H "Content-Type: application/json" \
+          -d '{"model":"${warmupModel}","stream":false}' > /dev/null; then
+          echo "Failed to pull ${warmupModel}"
+          exit 1
+        fi
+        echo "Loading ${warmupModel} into VRAM"
         if curl -sf -X POST http://127.0.0.1:11434/api/chat \
           -H "Content-Type: application/json" \
           -d '{"model":"${warmupModel}","messages":[{"role":"user","content":"ping"}],"stream":false,"keep_alive":-1}' \
