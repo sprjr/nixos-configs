@@ -88,6 +88,7 @@
       netop
       nmap
       pkg-config
+      (pkgs.callPackage ../../../pkgs/spacescan { })
       wireguard-tools
       wireguard-ui
     ];
