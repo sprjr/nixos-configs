@@ -12,6 +12,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
   ''
     import argparse
     import base64
+    import itertools
     import json
     import logging
     import os
@@ -24,6 +25,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
     import urllib.request
     import uuid
     from datetime import datetime
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
     from pathlib import Path
 
     import paho.mqtt.client as mqtt
@@ -221,7 +223,9 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
         def __init__(self, cfg):
             self.cfg = cfg
             self.db = db_connect(cfg["db"], cfg["schema"])
-            self.jobs = queue.Queue()
+            # (priority, seq, kind, payload); manual 0, review 1, sweep 2
+            self.jobs = queue.PriorityQueue()
+            self.seq = itertools.count()
             self.cooldowns = {}
             self.packages = {}
             self.secrets = {
@@ -283,9 +287,12 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
 
         def review_prompt(self, camera, labels, zones):
             context = self.cfg["camera_context"].get(camera, "")
-            lines = [
-                f"Camera: {camera}. {context}",
-                f"Frigate detected: {', '.join(labels) or 'nothing'}. Zones entered: {', '.join(zones) or 'none'}.",
+            lines = [f"Camera: {camera}. {context}"]
+            if labels is not None:
+                lines.append(
+                    f"Frigate detected: {', '.join(labels) or 'nothing'}. Zones entered: {', '.join(zones) or 'none'}."
+                )
+            lines += [
                 "approaching_door is true only if the person is walking toward or standing at the front door.",
                 "apparent_purpose: delivery (carrier uniform, parcel, delivery vehicle), service_worker "
                 "(utility or contractor), solicitor (flyers, clipboard, door to door), visitor, resident, "
@@ -425,6 +432,43 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                 error=error, ms=ms, package_state="arrived" if seen else "removed", detection_id=None,
             )
 
+        def handle_manual(self, request):
+            camera, question = request["camera"], request.get("question")
+            try:
+                image = self.frigate(f"/api/{camera}/latest.jpg")
+                prompt = self.review_prompt(camera, None, None)
+                schema = REVIEW_SCHEMA
+                if question:
+                    prompt += "\nAlso answer this question in the answer field: " + question
+                    schema = {
+                        **REVIEW_SCHEMA,
+                        "properties": {**REVIEW_SCHEMA["properties"], "answer": {"type": "string"}},
+                        "required": REVIEW_SCHEMA["required"] + ["answer"],
+                    }
+                analysis, error, ms = self.analyze(camera, prompt, [image], schema)
+                found = analysis or {}
+                labels = [label for label, present in (
+                    ("person", found.get("people")),
+                    ("car", found.get("vehicles")),
+                    ("package", found.get("packages_visible")),
+                ) if present]
+                now = time.time()
+                path = self.save_snapshot(camera, now, image)
+                event_id = self.store(
+                    source="manual", review_id=None, camera=camera, started=now, ended=now, severity=None,
+                    labels=labels, zones=[], plates=[], paths=[path], images=[image], analysis=analysis,
+                    error=error, ms=ms, package_state=None, detection_id=None,
+                    notify_mode="manual" if request.get("notify", True) else "none",
+                )
+                request["result"] = {
+                    "event_id": event_id, "camera": camera, "summary": found.get("summary"),
+                    "answer": found.get("answer"), "error": error, "snapshot": path, "analysis": analysis,
+                }
+            except Exception as e:
+                request["result"] = {"camera": camera, "error": f"{type(e).__name__}: {e}"}
+            finally:
+                request["done"].set()
+
         def last_package_state(self, camera):
             row = self.db.execute(
                 "SELECT package_state FROM events WHERE source = 'sweep' AND camera = ? "
@@ -434,7 +478,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
         # Storage and rules
 
         def store(self, *, source, review_id, camera, started, ended, severity, labels, zones, plates,
-                  paths, images, analysis, error, ms, package_state, detection_id):
+                  paths, images, analysis, error, ms, package_state, detection_id, notify_mode="rules"):
             local = datetime.fromtimestamp(started)
             people = (analysis or {}).get("people", [])
             vehicles = self.resolve_vehicles(plates, analysis)
@@ -456,8 +500,9 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                  json.dumps(analysis) if analysis is not None else None, summary, error),
             )
             event_id = cur.lastrowid
-            matched = sorted((r for r in self.rules if all(check(k, v, facts) for k, v in r.get("when", {}).items())),
-                             key=lambda r: -SEVERITY_RANK.get(r["severity"], 0))
+            matched = [] if source == "manual" else sorted(
+                (r for r in self.rules if all(check(k, v, facts) for k, v in r.get("when", {}).items())),
+                key=lambda r: -SEVERITY_RANK.get(r["severity"], 0))
             for rule in matched:
                 self.db.execute(
                     "INSERT INTO findings (event_id, rule_id, severity, detail) VALUES (?, ?, ?, ?)",
@@ -476,7 +521,9 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
             log.info("event %d %s/%s findings=%s error=%s", event_id, source, camera,
                      [r["id"] for r in matched], error)
 
-            self.notify(event_id, facts, matched, summary, error, images[0] if images else None, detection_id)
+            self.notify(event_id, facts, matched, summary, error, images[0] if images else None, detection_id,
+                        notify_mode)
+            return event_id
 
         # Notifications
 
@@ -488,10 +535,18 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
             self.cooldowns[key] = now
             return True
 
-        def notify(self, event_id, facts, matched, summary, error, image, detection_id):
+        def notify(self, event_id, facts, matched, summary, error, image, detection_id, notify_mode):
+            if notify_mode == "none":
+                return
             camera = facts["camera"]
             due = [r for r in matched if r.get("notify", True) and self.cooled(r, camera)]
-            if due:
+            if notify_mode == "manual":
+                title = f"Camera check - {camera}"
+                severity = "low"
+                answer = (facts["analysis"] or {}).get("answer")
+                if answer:
+                    summary = "\n".join(x for x in (answer, summary) if x)
+            elif due:
                 title = f"{due[0].get('description', due[0]['id'])} - {camera}"
                 severity = due[0]["severity"]
             elif not self.rules and facts["frigate_severity"] == "alert":
@@ -597,15 +652,48 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                 return
             if review.get("type") != "end":
                 return
-            self.jobs.put(("review", review))
+            self.submit(1, "review", review)
+
+        def submit(self, priority, kind, payload):
+            self.jobs.put((priority, next(self.seq), kind, payload))
             QUEUE.set(self.jobs.qsize())
 
         def sweep_loop(self):
             while True:
                 for camera in self.cfg["sweep_cameras"]:
                     if self.jobs.qsize() < 5:
-                        self.jobs.put(("sweep", camera))
+                        self.submit(2, "sweep", camera)
                 time.sleep(self.cfg["sweep_interval"])
+
+        def control_server(self):
+            analyzer = self
+
+            class Handler(BaseHTTPRequestHandler):
+                def do_POST(self):
+                    if self.path != "/assess":
+                        self.send_error(404)
+                        return
+                    try:
+                        body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"{}")
+                        camera = body["camera"]
+                    except (ValueError, KeyError):
+                        self.send_error(400, "expected JSON with a camera field")
+                        return
+                    request = {"camera": camera, "question": body.get("question"),
+                               "notify": body.get("notify", True), "done": threading.Event()}
+                    analyzer.submit(0, "manual", request)
+                    request["done"].wait(300)
+                    data = json.dumps(request.get("result", {"error": "timed out waiting for analysis"})).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
+
+                def log_message(self, fmt, *args):
+                    log.info("control: " + fmt, *args)
+
+            ThreadingHTTPServer(("127.0.0.1", self.cfg["control_port"]), Handler).serve_forever()
 
         def run(self):
             start_http_server(self.cfg["metrics_port"])
@@ -618,14 +706,13 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
             client.connect_async(self.cfg["mqtt_host"], self.cfg["mqtt_port"], keepalive=60)
             client.loop_start()
             threading.Thread(target=self.sweep_loop, daemon=True).start()
+            threading.Thread(target=self.control_server, daemon=True).start()
+            handlers = {"manual": self.handle_manual, "review": self.handle_review, "sweep": self.handle_sweep}
             while True:
-                kind, payload = self.jobs.get()
+                _, _, kind, payload = self.jobs.get()
                 QUEUE.set(self.jobs.qsize())
                 try:
-                    if kind == "review":
-                        self.handle_review(payload)
-                    else:
-                        self.handle_sweep(payload)
+                    handlers[kind](payload)
                 except Exception:
                     log.exception("%s job failed", kind)
 
@@ -649,13 +736,23 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
 
     def main():
         parser = argparse.ArgumentParser()
-        parser.add_argument("command", choices=["run", "prune"])
-        parser.add_argument("--config", required=True)
+        parser.add_argument("command", choices=["run", "prune", "assess"])
+        parser.add_argument("camera", nargs="?", help="assess: camera name")
+        parser.add_argument("--config", default="/etc/frigate-analyzer/config.json")
         parser.add_argument("--retention-days", type=int)
+        parser.add_argument("--question", help="assess: question for the model to answer")
+        parser.add_argument("--no-notify", action="store_true", help="assess: skip notifiers")
         args = parser.parse_args()
         logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
         cfg = json.loads(Path(args.config).read_text())
-        if args.command == "prune":
+        if args.command == "assess":
+            if not args.camera:
+                parser.error("assess needs a camera")
+            body = json.dumps({"camera": args.camera, "question": args.question, "notify": not args.no_notify})
+            raw = http(f"http://127.0.0.1:{cfg['control_port']}/assess", body.encode(),
+                       {"Content-Type": "application/json"}, method="POST", timeout=310)
+            print(json.dumps(json.loads(raw), indent=2))
+        elif args.command == "prune":
             days = args.retention_days if args.retention_days is not None else cfg["retention_days"]
             prune(cfg, days)
         else:

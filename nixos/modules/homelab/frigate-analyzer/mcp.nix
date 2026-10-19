@@ -13,6 +13,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer-mcp"
     import json
     import os
     import sqlite3
+    import urllib.request
     from contextlib import closing
     from datetime import datetime
     from pathlib import Path
@@ -123,7 +124,29 @@ pkgs.writers.writePython3Bin "frigate-analyzer-mcp"
             "vehicles": [{"id": v.get("id"), "name": v.get("name"), "description": v.get("description")}
                          for v in doc.get("vehicles", [])],
             "group_by_options": sorted(GROUPS),
+            "cameras": sorted(CFG["camera_context"]),
         }
+
+
+    @mcp.tool()
+    def check_camera(camera: str, question: str | None = None, notify: bool = True) -> list:
+        """Grab the current frame from a camera and describe it now, without waiting for an event.
+
+        camera: a name from describe()["cameras"] (e.g. front_door, garage).
+        question: optional specific question, answered in the "answer" field.
+        notify: also push the snapshot and description through the enabled notifiers (ntfy etc.).
+        Takes 5-60 s. The result is stored as a source=manual event.
+        """
+        body = json.dumps({"camera": camera, "question": question, "notify": notify}).encode()
+        req = urllib.request.Request(f"http://127.0.0.1:{CFG['control_port']}/assess", data=body,
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=310) as resp:
+            result = json.loads(resp.read())
+        out = [json.dumps(result)]
+        snapshot = result.get("snapshot")
+        if snapshot and Path(snapshot).exists():
+            out.append(Image(data=Path(snapshot).read_bytes(), format="jpeg"))
+        return out
 
 
     @mcp.tool()

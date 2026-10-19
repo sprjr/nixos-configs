@@ -33,6 +33,7 @@ let
       max_images = cfg.maxImages;
       retention_days = cfg.retentionDays;
       metrics_port = cfg.metricsPort;
+      control_port = cfg.controlPort;
       camera_context = cfg.cameraContext;
       ha_url = cfg.notify.haMobile.url;
       ha_service = cfg.notify.haMobile.service;
@@ -132,6 +133,12 @@ in
       type = lib.types.port;
       default = 9465;
       description = "Prometheus metrics port (opened on tailscale0).";
+    };
+
+    controlPort = lib.mkOption {
+      type = lib.types.port;
+      default = 9466;
+      description = "Localhost-only port for on-demand camera checks (POST /assess).";
     };
 
     mcpPort = lib.mkOption {
