@@ -85,7 +85,7 @@ in
 
     frigateUrl = lib.mkOption {
       type = lib.types.str;
-      default = "http://127.0.0.1";
+      default = "http://127.0.0.1:5000";
       description = "Frigate base URL (unauthenticated nginx port).";
     };
 

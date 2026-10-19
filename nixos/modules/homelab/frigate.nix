@@ -32,8 +32,8 @@
   services.go2rtc = {
     enable = true;
     settings.streams = {
-      front_door = "$${FRIGATE_FRONT_DOOR_RTSP}";
-      garage = "$${FRIGATE_GARAGE_RTSP}";
+      front_door = "\${FRIGATE_FRONT_DOOR_RTSP}";
+      garage = "\${FRIGATE_GARAGE_RTSP}";
     };
   };
 
