@@ -665,13 +665,76 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                         self.submit(2, "sweep", camera)
                 time.sleep(self.cfg["sweep_interval"])
 
+        def recent_events(self, limit, camera):
+            conn = sqlite3.connect(f"file:{self.cfg['db']}?mode=ro", uri=True, timeout=10)
+            conn.row_factory = sqlite3.Row
+            try:
+                sql = (
+                    "SELECT e.id, e.local_time, e.camera, e.source, e.labels, e.summary, e.error, "
+                    "(SELECT json_group_array(rule_id) FROM findings f WHERE f.event_id = e.id) AS rules "
+                    "FROM events e"
+                )
+                params = []
+                if camera:
+                    sql += " WHERE e.camera = ?"
+                    params.append(camera)
+                rows = conn.execute(sql + " ORDER BY e.started_at DESC LIMIT ?", params + [limit]).fetchall()
+            finally:
+                conn.close()
+            events = []
+            lines = []
+            for row in rows:
+                event = dict(row)
+                event["labels"] = json.loads(event["labels"])
+                event["rules"] = json.loads(event["rules"])
+                events.append(event)
+                stamp = datetime.fromisoformat(event["local_time"]).strftime("%m-%d %H:%M")
+                what = ", ".join(event["labels"]) or event["source"]
+                hits = f" [{', '.join(event['rules'])}]" if event["rules"] else ""
+                lines.append(f"{stamp} {event['camera']} {what}{hits}: {event['summary'] or event['error'] or '-'}")
+            return {"events": events, "text": "\n".join(lines) or "No events stored yet."}
+
         def control_server(self):
             analyzer = self
+            token = credential("control-token")
 
             class Handler(BaseHTTPRequestHandler):
+                def authorized(self):
+                    if self.client_address[0] in ("127.0.0.1", "::1"):
+                        return True
+                    if token and self.headers.get("Authorization") == f"Bearer {token}":
+                        return True
+                    self.send_error(401)
+                    return False
+
+                def reply(self, result):
+                    data = json.dumps(result).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
+
+                def do_GET(self):
+                    url = urllib.parse.urlsplit(self.path)
+                    if url.path != "/recent":
+                        self.send_error(404)
+                        return
+                    if not self.authorized():
+                        return
+                    query = urllib.parse.parse_qs(url.query)
+                    try:
+                        limit = min(int(query.get("limit", ["5"])[0]), 50)
+                    except ValueError:
+                        self.send_error(400, "limit must be an integer")
+                        return
+                    self.reply(analyzer.recent_events(limit, query.get("camera", [None])[0]))
+
                 def do_POST(self):
                     if self.path != "/assess":
                         self.send_error(404)
+                        return
+                    if not self.authorized():
                         return
                     try:
                         body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"{}")
@@ -683,17 +746,15 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                                "notify": body.get("notify", True), "done": threading.Event()}
                     analyzer.submit(0, "manual", request)
                     request["done"].wait(300)
-                    data = json.dumps(request.get("result", {"error": "timed out waiting for analysis"})).encode()
-                    self.send_response(200)
-                    self.send_header("Content-Type", "application/json")
-                    self.send_header("Content-Length", str(len(data)))
-                    self.end_headers()
-                    self.wfile.write(data)
+                    result = request.get("result", {"camera": camera, "error": "timed out waiting for analysis"})
+                    parts = [result.get("answer"), result.get("summary"), result.get("error")]
+                    result["text"] = "\n".join(p for p in parts if p) or "No description returned."
+                    self.reply(result)
 
                 def log_message(self, fmt, *args):
                     log.info("control: " + fmt, *args)
 
-            ThreadingHTTPServer(("127.0.0.1", self.cfg["control_port"]), Handler).serve_forever()
+            ThreadingHTTPServer((self.cfg["control_bind"], self.cfg["control_port"]), Handler).serve_forever()
 
         def run(self):
             start_http_server(self.cfg["metrics_port"])

@@ -9,7 +9,11 @@
   imports = [ ../../modules/system/sops.nix ];
 
   services.hermes-fileshare.enable = true;
-  services.frigate-analyzer.enable = true;
+  services.frigate-analyzer = {
+    enable = true;
+    # Needs frigate/control-token in sops-nix/sops.yaml
+    remoteControl.enable = true;
+  };
 
   networking.hostName = "badgey";
 

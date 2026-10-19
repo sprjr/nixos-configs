@@ -34,6 +34,7 @@ let
       retention_days = cfg.retentionDays;
       metrics_port = cfg.metricsPort;
       control_port = cfg.controlPort;
+      control_bind = if cfg.remoteControl.enable then "0.0.0.0" else "127.0.0.1";
       camera_context = cfg.cameraContext;
       ha_url = cfg.notify.haMobile.url;
       ha_service = cfg.notify.haMobile.service;
@@ -56,6 +57,7 @@ let
     "telegram-users:${secrets."hermes-agent/telegram-allowed-users".path}"
   ]
   ++ lib.optional cfg.notify.haMobile.enable "ha-token:${secrets.ha_token.path}"
+  ++ lib.optional cfg.remoteControl.enable "control-token:${secrets."frigate/control-token".path}"
   ++ rulesCredential;
 
   hardening = {
@@ -138,7 +140,17 @@ in
     controlPort = lib.mkOption {
       type = lib.types.port;
       default = 9466;
-      description = "Localhost-only port for on-demand camera checks (POST /assess).";
+      description = "Control endpoint port: POST /assess (live check), GET /recent (recent events).";
+    };
+
+    remoteControl = {
+      # Requires the sops key frigate/control-token in sops-nix/sops.yaml
+      enable = lib.mkEnableOption "bearer-token access to the control endpoint from other hosts";
+      interfaces = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ "tailscale0" ];
+        description = "Interfaces on which the control port is opened.";
+      };
     };
 
     mcpPort = lib.mkOption {
@@ -194,6 +206,9 @@ in
         "hermes-agent/telegram-allowed-users" = { };
       })
       (lib.mkIf cfg.notify.haMobile.enable { ha_token = { }; })
+      (lib.mkIf cfg.remoteControl.enable {
+        "frigate/control-token".restartUnits = [ "frigate-analyzer.service" ];
+      })
       (lib.mkIf hasRules {
         "frigate-analyzer/rules" = {
           sopsFile = rulesFile;
@@ -268,9 +283,16 @@ in
       };
     };
 
-    networking.firewall.interfaces = {
-      tailscale0.allowedTCPPorts = [ cfg.metricsPort ];
-      ${cfg.mcpInterface}.allowedTCPPorts = [ cfg.mcpPort ];
-    };
+    networking.firewall.interfaces = lib.mkMerge [
+      {
+        tailscale0.allowedTCPPorts = [ cfg.metricsPort ];
+        ${cfg.mcpInterface}.allowedTCPPorts = [ cfg.mcpPort ];
+      }
+      (lib.mkIf cfg.remoteControl.enable (
+        lib.genAttrs cfg.remoteControl.interfaces (_: {
+          allowedTCPPorts = [ cfg.controlPort ];
+        })
+      ))
+    ];
   };
 }

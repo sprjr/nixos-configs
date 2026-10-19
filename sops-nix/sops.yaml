@@ -80,6 +80,7 @@ palworld:
     admin-password: ENC[AES256_GCM,data:S6GzzwFXA9SBCyNcBvsAVCtNgXhbPKPuyFB/QwyIzO+rtkqU0Idd9SUhPe4=,iv:AFHcoJgVVjgjfRfx+KN8wfzanacm/Ax2MbEQIZZhJe4=,tag:N8p4dpAL3hens8HRyTPJmQ==,type:str]
     server-password: ENC[AES256_GCM,data:Rg62ct23/+msHIEThfziKoO6Z1sLhV+jHfVsSAKLB8qHsRt4ToB9xeluSPM=,iv:O6Alk0fkgYSQQixIu/uagk2/0Q/rcCyNjuqikA41mNg=,tag:PxLpevb3Ziqp9VwqHu0Sxg==,type:str]
 frigate:
+    control-token: ENC[AES256_GCM,data:dEhrEPEI6x2lupr31/nvUWHmDTpIY3uqb1uVfTL8myrc9kebMtbK6MyI,iv:RtkbqYFhORwRO0IePLNdSTFrsD1cRmBx0LJXcVLYE4k=,tag:8lCDQCKtZCxJcxLSoqvaPA==,type:str]
     mqtt-password: ENC[AES256_GCM,data:DsKKl5TZnYYzHW2+SBJ87HTsbM2/+X8qLFue7TO8cjfyL6v90GH7jGTga5Y=,iv:MRcCeCjR2J6tB2DpaXI5XQluKElKvcWHb0kJWLaGfvA=,tag:6HFBgiCtGjuQ62UffwDVcg==,type:str]
     front-door-rtsp: ENC[AES256_GCM,data:I8febl2KgneygHYJ0yyetgyNLKyIPFNqzLFDAk8=,iv:QHHkzW5ehI4aOHBoROuwyoSVmKKcedx+v9w4JVWHQfU=,tag:4svRNfR443oPREFagZTqvg==,type:str]
     garage-rtsp: ENC[AES256_GCM,data:5xxQvfLMvXIo18fg46j9LEZm0IoX/LSMF0VRb0U=,iv:11P6JPf8jgT34MFQVTZHO9gXSizLLiDoBUARb8UzSgQ=,tag:POdaHosqLKh3dH0iL6eZJw==,type:str]
@@ -140,7 +141,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-10-16T00:34:15Z"
-    mac: ENC[AES256_GCM,data:/S8zwDEXsflgtreW+S/qCrnmxE2FeXmAUCUwrP4znsTDS/7Wbe0nuS2EnfTzpMcoPGDktPojpflwHDPHOx/niVO2zj6ySWLowHIXTLreegp8HAK10v+RV3P2L1yjpQaT5ob9m2xSL1Pg/+hW5eJtQI8MeMYkp4HpPioQ+W9Og5g=,iv:kX6erbRClvYAAShJMJIYXpJLdMTEOpBSPrDKVCxpliw=,tag:iASfMmuxZQ2on3Q+kKErFA==,type:str]
+    lastmodified: "2026-10-19T03:05:53Z"
+    mac: ENC[AES256_GCM,data:8ksUXMW8F7ovcaXiKwnFO3UfyiPQp1zNtw/AN1nPKTzEvxFy9suRN12EFYYUkw0N+0ZKHe/HFXeZMi0+nOTP5cEGs26WffUmXDaP50uIbz/8zqpA+qHjkw4X8RJtR1zMhwr5ba0UOqnN1OnIkjhMv2/RtWwYA6O0Oq7gGqF1jCk=,iv:kLFWQrPi14518UJN5SyrGfXNsKfkPlMLeyn+p9naZLo=,tag:gPQeBhZgEf4PpJS60MxnPA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
