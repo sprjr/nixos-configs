@@ -202,6 +202,57 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
         return False
 
 
+    def yes_no(value):
+        return "yes" if value else "no"
+
+
+    def event_markdown(event, analysis, vehicles):
+        # One feed entry: header, Q/A, summary as paragraphs; details as bullets
+        stamp = datetime.fromisoformat(event["local_time"]).strftime("%m-%d %H:%M")
+        header = f"**{stamp} · {event['camera']} · {event['source']}**"
+        if event["package_state"]:
+            header += f" (package {event['package_state']})"
+        paragraphs = [header]
+        if analysis.get("question"):
+            answer = analysis.get("answer") or "-"
+            paragraphs += ["Q: " + analysis["question"], "A: " + answer]
+        if event["summary"]:
+            paragraphs.append(event["summary"])
+
+        bullets = []
+        for person in analysis.get("people", []):
+            parts = [
+                person.get("apparent_purpose", "unknown"),
+                "approaching door: " + yes_no(person.get("approaching_door")),
+                "package: " + yes_no(person.get("carrying_package")),
+            ]
+            uniform = (person.get("uniform_or_logo") or "").strip()
+            if uniform and uniform.lower() not in ("none", "no", "n/a", "unknown"):
+                parts.append(uniform)
+            bullets.append("Person: " + ", ".join(parts))
+        for vehicle in vehicles:
+            name = vehicle.get("vehicle_id") or vehicle.get("description") or "unknown vehicle"
+            how = vehicle.get("match_method", "unmatched")
+            if vehicle.get("plate"):
+                how += ", plate " + vehicle["plate"]
+            bullets.append(f"Vehicle: {name} ({how})")
+        if "packages_visible" in analysis:
+            count = analysis.get("package_count", 0) if analysis["packages_visible"] else 0
+            detail = f"Packages visible: {count}"
+            if analysis.get("lighting"):
+                detail += " · lighting: " + analysis["lighting"]
+            bullets.append(detail)
+        if event["rules"]:
+            bullets.append("Rules: " + ", ".join(event["rules"]))
+        if event["error"]:
+            bullets.append("Error: " + event["error"])
+
+        text = "\n\n".join(paragraphs)
+        if bullets:
+            text += "\n\n" + "\n".join("- " + b for b in bullets)
+        return text
+
+
     def multipart(fields, files):
         boundary = uuid.uuid4().hex
         parts = []
@@ -446,6 +497,8 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                         "required": REVIEW_SCHEMA["required"] + ["answer"],
                     }
                 analysis, error, ms = self.analyze(camera, prompt, [image], schema)
+                if analysis is not None and question:
+                    analysis["question"] = question
                 found = analysis or {}
                 labels = [label for label, present in (
                     ("person", found.get("people")),
@@ -671,6 +724,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
             try:
                 sql = (
                     "SELECT e.id, e.local_time, e.camera, e.source, e.labels, e.summary, e.error, "
+                    "e.analysis, e.vehicles, e.package_state, "
                     "(SELECT json_group_array(rule_id) FROM findings f WHERE f.event_id = e.id) AS rules "
                     "FROM events e"
                 )
@@ -683,16 +737,25 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
                 conn.close()
             events = []
             lines = []
+            blocks = []
             for row in rows:
                 event = dict(row)
                 event["labels"] = json.loads(event["labels"])
                 event["rules"] = json.loads(event["rules"])
+                analysis = json.loads(event.pop("analysis") or "{}")
+                vehicles = json.loads(event.pop("vehicles") or "[]")
+                blocks.append(event_markdown(event, analysis, vehicles))
+                event.pop("package_state")
                 events.append(event)
                 stamp = datetime.fromisoformat(event["local_time"]).strftime("%m-%d %H:%M")
                 what = ", ".join(event["labels"]) or event["source"]
                 hits = f" [{', '.join(event['rules'])}]" if event["rules"] else ""
                 lines.append(f"{stamp} {event['camera']} {what}{hits}: {event['summary'] or event['error'] or '-'}")
-            return {"events": events, "text": "\n".join(lines) or "No events stored yet."}
+            return {
+                "events": events,
+                "text": "\n".join(lines) or "No events stored yet.",
+                "markdown": "\n\n***\n\n".join(blocks) or "No events stored yet.",
+            }
 
         def control_server(self):
             analyzer = self
