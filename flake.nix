@@ -483,6 +483,7 @@
               ./darwin/modules/sops.nix
               ./darwin/hosts/seair.nix
               ./darwin/modules/node-exporter.nix
+              ./darwin/modules/stylix.nix
               {
                 networking.hostName = "seair";
               }
@@ -497,6 +498,7 @@
               ./darwin/modules/sops.nix
               ./darwin/hosts/defiant.nix
               ./darwin/modules/node-exporter.nix
+              ./darwin/modules/stylix.nix
               {
                 networking.hostName = "defiant";
                 ids.gids.nixbld = 350;
