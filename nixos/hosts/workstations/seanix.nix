@@ -213,6 +213,9 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
+  # claude-config sync; see docs/GUIDE-claude-sync.md
+  services.syncthing-client.claudeConfig.enable = true;
+
   nixpkgs.overlays = [
     (final: prev: {
       python3Packages = prev.python3Packages.overrideScope (
