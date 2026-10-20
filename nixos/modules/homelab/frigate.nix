@@ -83,14 +83,15 @@
           enabled = true;
           ffmpeg.inputs = [{
             path = "rtsp://127.0.0.1:8554/front_door";
-            roles = [ "detect" ];
+            roles = [ "detect" "record" ];
           }];
           detect = {
             enabled = true;
             width = 1280;
             height = 720;
           };
-          record.enabled = false;
+          # Review items (frigate/reviews) are only generated with recording enabled
+          record.enabled = true;
           # Placeholder polygons (relative x,y pairs); replace with output from the Frigate UI zone editor
           zones = {
             porch.coordinates = "0.35,0.55,0.65,0.55,0.65,1,0.35,1";
@@ -106,14 +107,14 @@
           enabled = true;
           ffmpeg.inputs = [{
             path = "rtsp://127.0.0.1:8554/garage";
-            roles = [ "detect" ];
+            roles = [ "detect" "record" ];
           }];
           detect = {
             enabled = true;
             width = 1280;
             height = 720;
           };
-          record.enabled = false;
+          record.enabled = true;
         };
       };
     };
