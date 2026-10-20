@@ -605,6 +605,9 @@ pkgs.writers.writePython3Bin "frigate-analyzer"
             elif not self.rules and facts["frigate_severity"] == "alert":
                 title = f"{', '.join(facts['labels']) or 'activity'} at {camera}"
                 severity = "medium"
+            elif not self.rules and facts["package_state"] == "arrived":
+                title = f"Package delivered at {camera}"
+                severity = "medium"
             elif error and facts["frigate_severity"] == "alert":
                 title = f"Frigate alert at {camera} (analysis failed)"
                 severity = "medium"
