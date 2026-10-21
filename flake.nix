@@ -172,6 +172,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/nx-01.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/hosts/workstations/nx-01.nix
               ./nixos/modules/desktop/hyprland.nix
@@ -200,6 +201,7 @@
               #lanzaboote.nixosModules.lanzaboote
               ./nixos/hardware-configuration/seanix.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/workstations/seanix.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
@@ -235,6 +237,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/shikisha.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/servers/shikisha.nix
               ./nixos/modules/disks/unraid-docker.nix
               ./nixos/modules/disks/unraid-gitea.nix
@@ -286,6 +289,7 @@
               sops-nix.nixosModules.sops
               ./nixos/hardware-configuration/voyager.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/workstations/voyager.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/hyprland.nix
@@ -324,6 +328,7 @@
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/kiosks/whale.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -353,6 +358,7 @@
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-btrfs-luks.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/servers/badgey.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -394,6 +400,7 @@
               comin.nixosModules.comin
               sops-nix.nixosModules.sops
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/vms/cerritos.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/network/resolved-dns.nix
@@ -410,6 +417,7 @@
               sops-nix.nixosModules.sops
               ./nixos/modules/disks/disko-linode.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/vms/ds9.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
@@ -443,6 +451,7 @@
               ./nixos/modules/disks/disko-stargazer.nix
               ./nixos/modules/system/tpm2-luks-enroll.nix
               ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/workstations/stargazer.nix
               ./nixos/modules/desktop/greetd.nix
               ./nixos/modules/desktop/memtly-kiosk.nix
