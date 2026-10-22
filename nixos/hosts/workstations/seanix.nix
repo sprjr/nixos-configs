@@ -255,7 +255,6 @@ in
     # AV utilities
     alsa-plugins
     alsa-utils
-    audacity
     obs-studio
     pavucontrol
     pulseaudio
