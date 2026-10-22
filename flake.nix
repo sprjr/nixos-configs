@@ -454,7 +454,6 @@
               ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/workstations/stargazer.nix
               ./nixos/modules/desktop/greetd.nix
-              ./nixos/modules/desktop/memtly-kiosk.nix
               ./nixos/modules/desktop/hyprland.nix
               ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix

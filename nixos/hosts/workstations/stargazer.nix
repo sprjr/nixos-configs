@@ -227,8 +227,6 @@ in
   # Needed this to run bash scripts
   services.envfs.enable = true;
 
-  services.memtly-kiosk.enable = true;
-
   # Canonical host for claude-config; see docs/GUIDE-claude-sync.md
   services.syncthing-client.claudeConfig.enable = true;
 
