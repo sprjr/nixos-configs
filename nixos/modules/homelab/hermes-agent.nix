@@ -29,6 +29,66 @@ let
         context_length: ${toString context_length}${keyLine}
     '';
 
+  # Same toolset list on every platform the profile is reachable from
+  mkToolsets =
+    toolsets:
+    let
+      list = "[${lib.concatStringsSep ", " toolsets}]";
+    in
+    ''
+      platform_toolsets:
+        api_server: ${list}
+        telegram: ${list}
+        cli: ${list}
+    '';
+
+  triageToolsets = mkToolsets [
+    "terminal"
+    "file"
+    "web"
+    "code_execution"
+    "vision"
+    "skills"
+    "todo"
+    "memory"
+    "session_search"
+    "delegation"
+    "cronjob"
+    "frigate"
+  ];
+  coderToolsets = mkToolsets [
+    "terminal"
+    "file"
+    "web"
+    "code_execution"
+    "skills"
+    "todo"
+    "memory"
+    "session_search"
+    "delegation"
+  ];
+  researcherToolsets = mkToolsets [
+    "web"
+    "browser"
+    "file"
+    "code_execution"
+    "skills"
+    "todo"
+    "memory"
+    "session_search"
+    "delegation"
+  ];
+  homeToolsets = mkToolsets [
+    "terminal"
+    "file"
+    "vision"
+    "skills"
+    "todo"
+    "memory"
+    "session_search"
+    "frigate"
+  ];
+
   # Per-profile model assignments
   triageModel = mkModelBlock {
     model = "deepseek-v4.1-flash";
@@ -65,6 +125,12 @@ let
   hermesConfigYaml = pkgs.writeText "hermes-config.yaml" ''
     ${triageModel}
     ${frigateMcp}
+    ${triageToolsets}
+    delegation:
+      max_iterations: 60
+      max_concurrent_children: 3
+      max_spawn_depth: 1
+      subagent_auto_approve: false
     terminal:
       env: local
     dashboard:
@@ -93,17 +159,20 @@ let
 
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
     ${coderModel}
+    ${coderToolsets}
     terminal:
       env: local
   '';
 
   researcherConfigYaml = pkgs.writeText "hermes-researcher-config.yaml" ''
     ${researcherModel}
+    ${researcherToolsets}
   '';
 
   homeConfigYaml = pkgs.writeText "hermes-home-config.yaml" ''
     ${homeModel}
     ${frigateMcp}
+    ${homeToolsets}
     terminal:
       env: local
   '';
