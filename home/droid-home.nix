@@ -107,7 +107,7 @@
       enable = true;
       interactiveShellInit = ''
         set fish_greeting
-        eval (${pkgs.direnv}/bin/direnv hook fish)
+        ${pkgs.direnv}/bin/direnv hook fish | source
         if status is-interactive; and not set -q ZELLIJ
             if test -n "$SSH_CONNECTION"
                 zellij --layout remote

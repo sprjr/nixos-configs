@@ -74,7 +74,7 @@
         ${pkgs.starship}/bin/starship init fish | source
 
         # Direnv
-        eval (${pkgs.direnv}/bin/direnv hook fish)
+        ${pkgs.direnv}/bin/direnv hook fish | source
 
         # Use 1password SSH agent if it exists (not over SSH/headless environment)
         if test -z $SSH_CONNECTION
