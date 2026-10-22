@@ -1,5 +1,18 @@
 { pkgs, ... }:
 {
+  # Qt 6.12 uic rejects widget class names with a leading "::"; upstream fixed it
+  # in google/mozc@29c082a, not yet in 2.30.5544.102.
+  nixpkgs.overlays = [
+    (final: prev: {
+      mozc = prev.mozc.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace src/gui/dictionary_tool/dictionary_tool.ui \
+            --replace-fail "::mozc::gui::DictionaryContentTableWidget" "mozc::gui::DictionaryContentTableWidget"
+        '';
+      });
+    })
+  ];
+
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
