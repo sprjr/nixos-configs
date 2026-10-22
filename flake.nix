@@ -383,7 +383,6 @@
               ./nixos/modules/homelab/hermes-fileshare.nix
               ./nixos/modules/homelab/frigate-analyzer
               ./nixos/modules/homelab/ha-events.nix
-              ./nixos/modules/gaming/pumpkin.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
