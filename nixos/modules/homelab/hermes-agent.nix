@@ -110,68 +110,304 @@ let
 
   delegateScript = pkgs.writeText "hermes-delegate.py" ''
     #!/usr/bin/env python3
-    import json, os, sys, time, urllib.request
+    import json, os, socket, subprocess, sys, time, urllib.error, urllib.request
 
-    TIMEOUT_DEFAULT = 1800
+    SCRIPT_PATH = os.path.realpath(os.path.abspath(__file__))
+    SYNC_TIMEOUT_DEFAULT = 1800
+    WORKER_TIMEOUT_DEFAULT = 0
+    JOB_DIR_DEFAULT = "/opt/data/cache/delegate-jobs"
+    LOCK_DIR_DEFAULT = "/opt/data/cache/delegate-locks"
 
-    if len(sys.argv) < 3:
-        print("Usage: delegate.py <profile> <task|@taskfile>")
-        sys.exit(1)
-
-    profile = sys.argv[1]
-    arg = " ".join(sys.argv[2:])
-    task = open(arg[1:]).read() if arg.startswith("@") else arg
-
-    api_key = os.environ.get("API_SERVER_KEY", "")
-    if not api_key:
-        print("DELEGATION_ERROR: API_SERVER_KEY not set")
-        sys.exit(1)
-
-    timeout = int(os.environ.get("DELEGATE_TIMEOUT", str(TIMEOUT_DEFAULT)))
-    url = os.environ.get(
-        "DELEGATE_URL", f"http://127.0.0.1:8642/p/{profile}/v1/chat/completions"
-    )
-
-    # Serialize per profile so concurrent runs cannot share one worktree.
-    try:
-        import fcntl
-        lock_dir = os.environ.get("DELEGATE_LOCK_DIR", "/opt/data/cache/delegate-locks")
-        os.makedirs(lock_dir, exist_ok=True)
-        lock = open(os.path.join(lock_dir, f"{profile}.lock"), "a+")
+    def _int_env(name, default):
         try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError:
-            print(f"[waiting: another {profile} delegation holds the lock]", file=sys.stderr)
-            fcntl.flock(lock, fcntl.LOCK_EX)
-    except Exception as e:
-        print(f"[lock unavailable: {e}]", file=sys.stderr)
+            v = os.environ.get(name, str(default))
+            return int(v) if v.strip() != "" else default
+        except Exception:
+            return default
 
-    session_key = f"delegation:{int(time.time())}:{os.getpid()}"
+    def _api_key():
+        key = os.environ.get("API_SERVER_KEY", "")
+        if not key:
+            fail("API_SERVER_KEY not set")
+        return key
 
-    payload = json.dumps({
-        "model": "hermes-agent",
-        "messages": [{"role": "user", "content": task}],
-    }).encode()
+    def _url(profile):
+        return os.environ.get(
+            "DELEGATE_URL", f"http://127.0.0.1:8642/p/{profile}/v1/chat/completions"
+        )
 
-    req = urllib.request.Request(
-        url,
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "X-Hermes-Session-Key": session_key,
-        },
-    )
+    def _read_task(arg):
+        return open(arg[1:]).read() if arg.startswith("@") else arg
 
-    t0 = time.time()
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            data = json.loads(resp.read())
-        print(data["choices"][0]["message"]["content"])
-        print(f"[delegation completed in {time.time()-t0:.0f}s]", file=sys.stderr)
-    except Exception as e:
-        print(f"DELEGATION_ERROR: {e}")
-        sys.exit(1)
+    def fail(msg, code=1):
+        print(f"DELEGATION_ERROR: {msg}")
+        sys.exit(code)
+
+    def _set_status(job_dir, status):
+        tmp = os.path.join(job_dir, ".status.tmp")
+        with open(tmp, "w") as f:
+            f.write(status)
+        os.replace(tmp, os.path.join(job_dir, "status"))
+
+    def _acquire_profile_lock(profile, stderr=sys.stderr):
+        try:
+            import fcntl
+            lock_dir = os.environ.get("DELEGATE_LOCK_DIR", LOCK_DIR_DEFAULT)
+            os.makedirs(lock_dir, exist_ok=True)
+            lock = open(os.path.join(lock_dir, f"{profile}.lock"), "a+")
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError:
+                print(f"[waiting: another {profile} delegation holds the lock]", file=stderr)
+                fcntl.flock(lock, fcntl.LOCK_EX)
+            return lock
+        except Exception as e:
+            print(f"[lock unavailable: {e}]", file=stderr)
+            return None
+
+    def _http_post(profile, task, timeout, stderr=sys.stderr):
+        api_key = _api_key()
+        url = _url(profile)
+        session_key = f"delegation:{int(time.time())}:{os.getpid()}"
+        payload = json.dumps({
+            "model": "hermes-agent",
+            "messages": [{"role": "user", "content": task}],
+        }).encode()
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "X-Hermes-Session-Key": session_key,
+            },
+        )
+        t0 = time.time()
+        try:
+            with urllib.request.urlopen(req, timeout=timeout or None) as resp:
+                data = json.loads(resp.read())
+            content = data["choices"][0]["message"]["content"]
+            print(f"[delegation completed in {time.time()-t0:.0f}s]", file=stderr)
+            return content
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", "replace")[:4096]
+            raise RuntimeError(f"HTTP {e.code}: {body}")
+        except Exception as e:
+            raise RuntimeError(str(e))
+
+    def do_sync(profile, task):
+        lock = _acquire_profile_lock(profile)
+        try:
+            print(_http_post(profile, task, _int_env("DELEGATE_TIMEOUT", SYNC_TIMEOUT_DEFAULT)))
+        except Exception as e:
+            fail(e)
+        finally:
+            try:
+                lock.close()
+            except Exception:
+                pass
+
+    def _resolve_job_dir(token):
+        if os.path.isdir(token):
+            return token
+        base = os.environ.get("DELEGATE_JOB_DIR", JOB_DIR_DEFAULT)
+        path = os.path.join(base, token)
+        if os.path.isdir(path):
+            return path
+        return None
+
+    def _parse_meta(job_dir):
+        try:
+            with open(os.path.join(job_dir, "meta.json")) as f:
+                return json.load(f)
+        except Exception:
+            return None
+
+    def _read_status(job_dir):
+        try:
+            with open(os.path.join(job_dir, "status")) as f:
+                return f.read().strip()
+        except Exception:
+            return "unknown"
+
+    def _job_age(meta):
+        try:
+            return int(time.time() - meta.get("started_at_epoch", time.time()))
+        except Exception:
+            return 0
+
+    def _profile(meta):
+        try:
+            return meta.get("profile", "")
+        except Exception:
+            return ""
+
+    def _job_id(job_dir):
+        return os.path.basename(os.path.normpath(job_dir))
+
+    def do_worker(job_dir):
+        meta = _parse_meta(job_dir)
+        if not meta:
+            fail(f"worker: cannot read meta.json in {job_dir}")
+        profile = _profile(meta)
+        if not profile:
+            fail("worker: missing profile in meta.json")
+        task = open(os.path.join(job_dir, "task.txt")).read()
+        lock = _acquire_profile_lock(profile)
+        try:
+            timeout = _int_env("DELEGATE_WORKER_TIMEOUT", WORKER_TIMEOUT_DEFAULT)
+            content = _http_post(profile, task, timeout)
+            with open(os.path.join(job_dir, "result.txt"), "w") as f:
+                f.write(content)
+            _set_status(job_dir, "done")
+        except Exception as e:
+            with open(os.path.join(job_dir, "error.txt"), "w") as f:
+                f.write(str(e))
+            _set_status(job_dir, "error")
+        finally:
+            try:
+                lock.close()
+            except Exception:
+                pass
+
+    def do_async(profile, task):
+        base = os.environ.get("DELEGATE_JOB_DIR", JOB_DIR_DEFAULT)
+        os.makedirs(base, exist_ok=True)
+        host = socket.gethostname()
+        pid = os.getpid()
+        now = time.time()
+        stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime(now))
+        job_id = f"{stamp}-{profile}-{pid}"
+        job_dir = os.path.join(base, job_id)
+        os.makedirs(job_dir, exist_ok=True)
+        with open(os.path.join(job_dir, "task.txt"), "w") as f:
+            f.write(task)
+        meta = {
+            "profile": profile,
+            "started_at": time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime(now)),
+            "started_at_epoch": now,
+            "pid": pid,
+            "host": host,
+        }
+        with open(os.path.join(job_dir, "meta.json"), "w") as f:
+            json.dump(meta, f)
+        _set_status(job_dir, "running")
+        cmd = [sys.executable, SCRIPT_PATH, "--worker", job_dir]
+        log_path = os.path.join(job_dir, "worker.log")
+        with open(log_path, "w") as log:
+            subprocess.Popen(
+                cmd,
+                start_new_session=True,
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                cwd="/",
+            )
+        print(f"DELEGATION_JOB {job_dir}")
+
+    def do_status(token):
+        job_dir = _resolve_job_dir(token)
+        if not job_dir:
+            fail(f"unknown job: {token}")
+        meta = _parse_meta(job_dir) or {}
+        status = _read_status(job_dir)
+        age = _job_age(meta)
+        print(f"STATUS {status} {age}s {_profile(meta)}")
+
+    def do_wait(token, limit=None):
+        job_dir = _resolve_job_dir(token)
+        if not job_dir:
+            fail(f"unknown job: {token}")
+        t0 = time.time()
+        while True:
+            status = _read_status(job_dir)
+            if status == "done":
+                print(open(os.path.join(job_dir, "result.txt")).read())
+                return 0
+            if status == "error":
+                err = ""
+                try:
+                    err = open(os.path.join(job_dir, "error.txt")).read().strip()
+                except Exception:
+                    pass
+                print(f"DELEGATION_ERROR: {err}" if err else "DELEGATION_ERROR: worker failed")
+                return 1
+            if limit is not None and time.time() - t0 >= limit:
+                print("DELEGATION_ERROR: wait timeout", file=sys.stderr)
+                return 2
+            time.sleep(0.5)
+
+    def do_jobs():
+        base = os.environ.get("DELEGATE_JOB_DIR", JOB_DIR_DEFAULT)
+        try:
+            entries = os.listdir(base)
+        except Exception:
+            return
+        job_dirs = []
+        for e in entries:
+            path = os.path.join(base, e)
+            if os.path.isdir(path) and os.path.isfile(os.path.join(path, "meta.json")):
+                job_dirs.append(path)
+        job_dirs.sort(key=lambda p: os.path.basename(p), reverse=True)
+        for path in job_dirs:
+            meta = _parse_meta(path) or {}
+            status = _read_status(path)
+            age = _job_age(meta)
+            task = ""
+            try:
+                task = open(os.path.join(path, "task.txt")).read()
+            except Exception:
+                pass
+            preview = task.replace("\n", " ")[:60]
+            print(f"{_job_id(path)} {status} {age}s {_profile(meta)} {preview}")
+
+    def main():
+        args = sys.argv[1:]
+        if not args:
+            print("Usage: delegate.py [--async|--status|--wait|--jobs] <profile> <task|@taskfile>")
+            sys.exit(1)
+
+        if args[0] == "--worker" and len(args) == 2:
+            do_worker(args[1])
+            return
+
+        if args[0] == "--async":
+            if len(args) < 3:
+                fail("Usage: delegate.py --async <profile> <task|@taskfile>")
+            profile = args[1]
+            task = _read_task(" ".join(args[2:]))
+            do_async(profile, task)
+            return
+
+        if args[0] == "--status":
+            if len(args) != 2:
+                fail("Usage: delegate.py --status <jobdir|id>")
+            do_status(args[1])
+            return
+
+        if args[0] == "--wait":
+            if len(args) < 2:
+                fail("Usage: delegate.py --wait <jobdir|id> [seconds]")
+            limit = None
+            if len(args) >= 3:
+                try:
+                    limit = int(args[2])
+                except Exception:
+                    fail("seconds must be an integer")
+            sys.exit(do_wait(args[1], limit))
+
+        if args[0] == "--jobs":
+            do_jobs()
+            return
+
+        if len(args) < 2:
+            fail("Usage: delegate.py <profile> <task|@taskfile>")
+        profile = args[0]
+        task = _read_task(" ".join(args[1:]))
+        do_sync(profile, task)
+
+    if __name__ == "__main__":
+        main()
   '';
 in
 {
