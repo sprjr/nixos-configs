@@ -86,6 +86,7 @@ in
       "pdf.rawliyosh.com" = proxyAuthRoute "${shikisha}:38080";
       "vikunja.rawliyosh.com" = proxy "${shikisha}:3456";
       "loc.rawliyosh.com" = proxy "http://${shikisha}:31122";
+      "paperless.rawliyosh.com" = proxy "${shikisha}:28981";
       "esphome.rawliyosh.com" = proxy "http://${shikisha}:6052";
       "grafana.rawliyosh.com" = proxy "${shikisha}:3000";
 
