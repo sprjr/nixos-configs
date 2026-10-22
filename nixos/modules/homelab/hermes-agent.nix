@@ -110,8 +110,9 @@ let
 
   delegateScript = pkgs.writeText "hermes-delegate.py" ''
     #!/usr/bin/env python3
-    import json, os, shutil, socket, subprocess, sys, time, urllib.request
+    import json, os, socket, subprocess, sys, time, urllib.error, urllib.request
 
+    SCRIPT_PATH = os.path.realpath(os.path.abspath(__file__))
     SYNC_TIMEOUT_DEFAULT = 1800
     WORKER_TIMEOUT_DEFAULT = 0
     JOB_DIR_DEFAULT = "/opt/data/cache/delegate-jobs"
@@ -138,12 +139,9 @@ let
     def _read_task(arg):
         return open(arg[1:]).read() if arg.startswith("@") else arg
 
-    def _fail(msg, code=1):
+    def fail(msg, code=1):
         print(f"DELEGATION_ERROR: {msg}")
         sys.exit(code)
-
-    def fail(msg, code=1):
-        _fail(msg, code)
 
     def _set_status(job_dir, status):
         tmp = os.path.join(job_dir, ".status.tmp")
@@ -294,7 +292,7 @@ let
         with open(os.path.join(job_dir, "meta.json"), "w") as f:
             json.dump(meta, f)
         _set_status(job_dir, "running")
-        cmd = [sys.executable, __file__, "--worker", job_dir]
+        cmd = [sys.executable, SCRIPT_PATH, "--worker", job_dir]
         log_path = os.path.join(job_dir, "worker.log")
         with open(log_path, "w") as log:
             subprocess.Popen(
