@@ -130,6 +130,8 @@ vikunja:
     service-secret: ENC[AES256_GCM,data:+H2ku+6svh2mAYKrRBDE7vceusbnLMmLkwaGEjre2sSIGPiA7Lfo1rY=,iv:qPr8E2t7nVdZDI9Oemq/QmBFJLhvAIfa0gFbkP343T0=,tag:JD7L6FzqmJsQ7M3wdhPeJg==,type:str]
     oidc-client-id: ENC[AES256_GCM,data:zH523OcqBFgvIWAAxhVagRq1jzSDTSvYsC097VUi1rZ1O37R/gUUGw==,iv:jhQKOrm4iNCDwMclf29YrSKJSBElRQLtncbDNpfHPF0=,tag:SdSZM4hRPnyce5GwEALveg==,type:str]
     oidc-client-secret: ENC[AES256_GCM,data:NBxfB6z69MfcY8UAR7mQB0LUSL0SUqo6pHB9sNb27/O8d/VRxwyVfkywWu9J/K9gbjByf4e+j0iCeV4OfTf+Qx8QQ63ivZtf4Ls07m8GjZf/7PrEbw/+WZPNQkVImZfeNq4wfCh0puO/6seOluVzf1t0WldRYzi2VRILJacFJOo=,iv:NgnkrSQFvMwBJdwrjO4Z9zzfS4pnV05imYcLVi5BPzQ=,tag:bKx0yaBvHJDGL5fMHhAk6A==,type:str]
+paperless:
+    admin-password: ENC[AES256_GCM,data:goGbPBmhzGFJcE5LHBHHmtDfBV892yhi5l3WXKIC9oG9ByXO1sTumbnPaw==,iv:BHMH1CtVFoxv0Y0c0yd1Ub5rN0P9uOjBSxglf6xUbEI=,tag:/bbPU/4R+PMhqbGAqmT8bg==,type:str]
 sops:
     age:
         - enc: |
@@ -141,7 +143,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-10-19T03:05:53Z"
-    mac: ENC[AES256_GCM,data:8ksUXMW8F7ovcaXiKwnFO3UfyiPQp1zNtw/AN1nPKTzEvxFy9suRN12EFYYUkw0N+0ZKHe/HFXeZMi0+nOTP5cEGs26WffUmXDaP50uIbz/8zqpA+qHjkw4X8RJtR1zMhwr5ba0UOqnN1OnIkjhMv2/RtWwYA6O0Oq7gGqF1jCk=,iv:kLFWQrPi14518UJN5SyrGfXNsKfkPlMLeyn+p9naZLo=,tag:gPQeBhZgEf4PpJS60MxnPA==,type:str]
+    lastmodified: "2026-10-22T04:13:08Z"
+    mac: ENC[AES256_GCM,data:J3JZZB2nHa1/saWi8HZ5tJ1R8cHbthH8sUmNjV9kNXe9GQFYOVt+JnELSCP+5EZ97ivPpFMojNS0bK2eOp5X7EuGzjLkBO4a0zbbT9f+meMQTrrgE7sbPLilX+b2+esXaejwLujMPvNmxy1ROSmxxhiPJRcC94Yy0U/Yhyy58CE=,iv:oEoyOgUnjdyT5N5FK2nB2iS7DJB968sNt32WcZ8tm+M=,tag:UQXci8mcd5qEKqO++0dUwg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
