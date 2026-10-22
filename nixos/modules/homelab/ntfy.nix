@@ -9,6 +9,7 @@ in
     settings = {
       base-url = "http://${config.networking.hostName}:${toString port}";
       listen-http = ":${toString port}";
+      attachment-cache-dir = "/var/lib/ntfy-sh/attachments";
     };
   };
 
