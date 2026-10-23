@@ -6,7 +6,7 @@
 }:
 
 let
-  ageKeyFile = "/home/patrick/.config/sops/age/keys.txt";
+  ageKeyFile = "/var/lib/sops-nix/key.txt";
 in
 {
   sops = {
@@ -16,6 +16,10 @@ in
 
     secrets."kubernetes/kubernetes-homelab-node-key" = { };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/sops-nix 0700 root root -"
+  ];
 
   # Fixing a sops race condition discovered on `badgey`
   systemd.services.sops-secrets-rendered = {
@@ -31,7 +35,7 @@ in
         if [ "$elapsed" -ge 120 ]; then
           echo "SOPS secrets not available after 120 s" >&2
           if [ ! -f ${ageKeyFile} ]; then
-            echo "No age key at ${ageKeyFile} — push it via --extra-files at deploy time" >&2
+            echo "No age key at ${ageKeyFile} — place it root-owned 0400 at deploy time" >&2
           fi
           exit 1
         fi
