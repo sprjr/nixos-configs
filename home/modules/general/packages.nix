@@ -10,5 +10,6 @@
   imports = [
     ./cli-packages.nix
     ./desktop-packages.nix
+    ./nuclei.nix
   ];
 }
