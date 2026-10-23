@@ -106,6 +106,10 @@ let
       name = "frigate-analyzer.json";
       path = pkgs.writeText "frigate-analyzer.json" (builtins.toJSON (import ./dashboards/frigate-analyzer.nix));
     }
+    {
+      name = "unifi-syslog.json";
+      path = ./dashboards/unifi-syslog.json;
+    }
   ];
 
   # One sops-rendered file per $__file{} substitution; Grafana trims whitespace on read.
