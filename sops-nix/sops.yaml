@@ -84,6 +84,7 @@ frigate:
     mqtt-password: ENC[AES256_GCM,data:DsKKl5TZnYYzHW2+SBJ87HTsbM2/+X8qLFue7TO8cjfyL6v90GH7jGTga5Y=,iv:MRcCeCjR2J6tB2DpaXI5XQluKElKvcWHb0kJWLaGfvA=,tag:6HFBgiCtGjuQ62UffwDVcg==,type:str]
     front-door-rtsp: ENC[AES256_GCM,data:I8febl2KgneygHYJ0yyetgyNLKyIPFNqzLFDAk8=,iv:QHHkzW5ehI4aOHBoROuwyoSVmKKcedx+v9w4JVWHQfU=,tag:4svRNfR443oPREFagZTqvg==,type:str]
     garage-rtsp: ENC[AES256_GCM,data:5xxQvfLMvXIo18fg46j9LEZm0IoX/LSMF0VRb0U=,iv:11P6JPf8jgT34MFQVTZHO9gXSizLLiDoBUARb8UzSgQ=,tag:POdaHosqLKh3dH0iL6eZJw==,type:str]
+    g4-0: ENC[AES256_GCM,data:wX/CTW2N9cN9Q9NAAXqzegvmmkFdRIvWF0JWYuQMr/FYKkGjwr65HsmLR7pdaIW75Jk3Vg==,iv:WZboXTxH96IJIAmmYoYgrrLOn4d/EW1An9WUa/SXzk8=,tag:cDJgwQIByLP9FcnD8TbcGw==,type:str]
 hermes-agent:
     telegram-bot-token: ENC[AES256_GCM,data:77mw4ANwl0eoJIDDMdyO4Pna/MyRsfrjF5S/OHKAALtPLQ2wLuFQIQGVBk7Qkw==,iv:ApMrl29R7snbJVsea98JkvQf0uzQ6EYZFVouzUhTKP4=,tag:7hm9ymbNaE481Synrw+lBg==,type:str]
     telegram-allowed-users: ENC[AES256_GCM,data:5jd3iqM6AwkgNA==,iv:LR0Dwov7N9EG2krUhoMyQ88dHtPiV3L8pp+2FlP7Vyc=,tag:f3uD3Y0hE5j20hpmmj6+Bg==,type:str]
@@ -145,7 +146,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-10-22T17:07:15Z"
-    mac: ENC[AES256_GCM,data:BQdJbyfRLuxPGRAsuMfdBw3QGyoqS4S6q4RCfr06WNOeTJ1Sy93iGcY5j870/tz8rqZkWwd7j46nX7Ul977NUu+N0yECkNdL/0utJ0y6E04/cLiYpUnj38HtYbG1+YiOJHS2ClBMlZpAIRbJzQwW6P1H7fUoPvrAPqYB92p8ruA=,iv:murAbscOjuYWVczaByhM7uxZseCTmFu69KrstPZ1orU=,tag:0x4aP/4AXrLwh1kjNX9+xg==,type:str]
+    lastmodified: "2026-10-23T14:50:48Z"
+    mac: ENC[AES256_GCM,data:UNyJQvycezWzgWhKScrJbD/f7E5iQeKIzv67v5yj/cE5XMf7//UxN6TV485TM7FM+k00ERcCVDy/6P2O0S/6Ckn08brwfEmGDn0hfFRirCgNx9+NOo6IT7UxomV3x5/6+cQ035rv2OmwX2FlcH7WCQTvcD+2jaOBD3KiTMoKCkU=,iv:MDDixLmyB1OMEr2u189AhG0W+PQ0zatjRpCPo7cTxPs=,tag:qCRzhUsXHZfxe/OD5hwDHw==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
