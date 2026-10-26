@@ -472,6 +472,15 @@ in
           };
         };
 
+        # Magic Trackpad: override the desktop flat/-0.6 mouse profile.
+        device = [
+          {
+            name = "apple-inc.-magic-trackpad";
+            accel_profile = "adaptive";
+            sensitivity = 0.3;
+          }
+        ];
+
         dwindle = {
           preserve_split = true;
         };
