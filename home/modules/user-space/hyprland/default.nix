@@ -477,7 +477,7 @@ in
           {
             name = "apple-inc.-magic-trackpad";
             accel_profile = "adaptive";
-            sensitivity = 0.3;
+            sensitivity = 0.24;
           }
         ];
 
