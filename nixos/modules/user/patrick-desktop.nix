@@ -6,6 +6,7 @@
   ags,
   caelestia-shell,
   sops-nix,
+  spicetify-nix,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
   dark-wallpaper-3,
@@ -46,7 +47,7 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit dark-wallpaper-laptop ags;
+      inherit dark-wallpaper-laptop ags spicetify-nix;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
         dark-wallpaper-2
