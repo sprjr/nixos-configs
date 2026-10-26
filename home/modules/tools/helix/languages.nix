@@ -1,4 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, configRoot ? null, osConfig ? null, ... }:
+
+let
+  haveCheckout = configRoot != null && builtins.pathExists configRoot;
+  hostName = if osConfig != null && osConfig ? networking then osConfig.networking.hostName else null;
+  useNixosOptions = haveCheckout && hostName != null && pkgs.stdenv.hostPlatform.isLinux;
+in
 
 {
   home.packages = with pkgs; [
@@ -17,12 +23,27 @@
     marksman # markdown
     terraform-ls # hcl / terraform / opentofu
     shfmt # bash/shell formatter
-    prettier # markdown formatter
+    typescript-language-server # typescript / tsx
+    prettier # markdown + typescript formatter
   ];
 
   programs.helix.languages = {
     language-server = {
-      nixd = { command = "nixd"; };
+      nixd = {
+        command = "nixd";
+        config.nixd =
+          lib.optionalAttrs haveCheckout {
+            nixpkgs.expr = "import (builtins.getFlake \"${configRoot}\").inputs.nixpkgs { }";
+          }
+          // lib.optionalAttrs useNixosOptions {
+            options.nixos.expr = "(builtins.getFlake \"${configRoot}\").packages.${pkgs.stdenv.hostPlatform.system}.nixosConfigurations.${hostName}.options";
+          };
+      };
+
+      typescript-language-server = {
+        command = "typescript-language-server";
+        args = [ "--stdio" ];
+      };
 
       pyright = {
         command = "pyright-langserver";
@@ -203,6 +224,21 @@
           args = [ "--parser" "markdown" ];
         };
         auto-format = true;
+      }
+      {
+        name = "typescript";
+        language-servers = [ "typescript-language-server" ];
+        formatter = {
+          command = "prettier";
+          args = [ "--parser" "typescript" ];
+        };
+        auto-format = true;
+        file-types = [
+          "ts"
+          "tsx"
+          "mts"
+          "cts"
+        ];
       }
       {
         name = "hcl";
