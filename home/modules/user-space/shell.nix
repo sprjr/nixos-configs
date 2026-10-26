@@ -136,6 +136,7 @@
         pw = "openssl rand -base64 33 | tr -d \"=+/\"";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
+        cdn = "cd ~/.nixos/nixos-configs/";
         # Monitor switching: Hyprland via hyprctl (mon-*), KDE via kscreen fallback.
         remon = "mon-remote";
         lomon = "mon-local";
