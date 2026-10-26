@@ -3,7 +3,7 @@
 let
   # Tailnet upstreams by MagicDNS name
   shikisha = "shikisha";
-  wopr = "wopr-0";
+  wopr = "wopr";
   macnnix = "macnnix";
   trixos = "trixos";
   stargazer = "stargazer";

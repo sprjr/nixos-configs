@@ -722,7 +722,7 @@ in
       "--ip=10.89.0.2"
       "--add-host=host.containers.internal:host-gateway"
       "--add-host=shikisha:100.67.20.13"
-      "--add-host=wopr-0:100.100.21.96"
+      "--add-host=wopr:100.100.21.96"
       "-p"
       "127.0.0.1:9119:9119"
       "-p"
@@ -752,7 +752,7 @@ in
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
       HA_URL = "http://shikisha:8123";
-      HA_URL_WOPR = "http://wopr-0:8123";
+      HA_URL_WOPR = "http://wopr:8123";
       CALDAV_URL = "http://shikisha:5232";
       CALDAV_USER = "patrick";
       LUBELOGGER_URL = "http://shikisha:18080";
