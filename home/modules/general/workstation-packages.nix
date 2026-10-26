@@ -18,7 +18,6 @@ let
     ]
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       rustnet
-      spotify-player
     ]
     ++ spicetify;
 in
