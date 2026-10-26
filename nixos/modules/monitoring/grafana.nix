@@ -110,6 +110,10 @@ let
       name = "unifi-syslog.json";
       path = ./dashboards/unifi-syslog.json;
     }
+    {
+      name = "nuclei.json";
+      path = pkgs.writeText "nuclei.json" (builtins.toJSON (import ./dashboards/nuclei.nix));
+    }
   ];
 
   # One sops-rendered file per $__file{} substitution; Grafana trims whitespace on read.
@@ -574,6 +578,24 @@ in
               group_wait = "30s";
               group_interval = "5m";
               repeat_interval = "6h";
+              # Findings persist until the next weekly scan; notify once per scan, not every 6h.
+              routes = [
+                {
+                  receiver = "ntfy";
+                  object_matchers = [
+                    [
+                      "category"
+                      "="
+                      "nuclei"
+                    ]
+                  ];
+                  group_by = [
+                    "alertname"
+                    "target"
+                  ];
+                  repeat_interval = "7d";
+                }
+              ];
             }
           ];
         };
@@ -1123,6 +1145,72 @@ in
                   execErrState = "Error";
                   labels.severity = "warning";
                   annotations.summary = "Seleya textfile metrics have not updated in over 2 hours";
+                }
+              ];
+            }
+            {
+              orgId = 1;
+              name = "security";
+              folder = "Alerts";
+              interval = "5m";
+              rules = [
+                {
+                  uid = "nuclei-high-critical";
+                  title = "Nuclei high/critical finding";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      # 8d: one weekly scan plus schedule jitter, so a persisting finding stays firing.
+                      relativeTimeRange = {
+                        from = 691200;
+                        to = 0;
+                      };
+                      datasourceUid = "loki";
+                      model = {
+                        refId = "A";
+                        expr = ''sum by (target) (count_over_time({job="nuclei", severity=~"high|critical"}[8d]))'';
+                        queryType = "instant";
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "0s";
+                  # No findings returns no series; that is the healthy state.
+                  noDataState = "OK";
+                  execErrState = "Error";
+                  labels = {
+                    severity = "critical";
+                    category = "nuclei";
+                  };
+                  annotations.summary = "{{ $labels.target }} has {{ $values.B }} high/critical nuclei findings";
                 }
               ];
             }

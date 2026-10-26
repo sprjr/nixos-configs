@@ -96,6 +96,11 @@ in
       owner = "root";
       mode = "0400";
     };
+    # One homelab host or IP per line for nuclei-scan.
+    "monitoring/nuclei/targets" = {
+      owner = "nuclei-scan";
+      mode = "0400";
+    };
   };
 
   # Bluetooth
@@ -173,6 +178,12 @@ in
   services.unit-failure-notify = {
     enable = true;
     ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
+  };
+
+  # Weekly vulnerability scan of homelab hosts; findings ship to Loki via Alloy.
+  services.nuclei-scan = {
+    enable = true;
+    targetsFile = config.sops.secrets."monitoring/nuclei/targets".path;
   };
 
   networking.iproute2.enable = true;
