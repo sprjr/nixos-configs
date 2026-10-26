@@ -125,7 +125,7 @@ in {
 
       rsync -a --mkpath \
         "${downloadDir}/" \
-        "sean@wopr-0:/media/qnap/Podcasts/LinuxUnplugged/"
+        "sean@wopr:/media/qnap/Podcasts/LinuxUnplugged/"
     '';
     serviceConfig = {
       Type           = "oneshot";
