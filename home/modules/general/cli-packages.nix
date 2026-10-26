@@ -34,7 +34,6 @@
       himalaya
       htop
       jq
-      khal
       kubernetes-helm
       kubectx
       lazydocker
