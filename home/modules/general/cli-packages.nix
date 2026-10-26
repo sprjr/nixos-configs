@@ -18,6 +18,7 @@
       caligula
       chafa
       direnv
+      discordo
       docker
       docker-compose
       dua
@@ -30,8 +31,10 @@
       gocheat
       harper
       helix
+      himalaya
       htop
       jq
+      khal
       kubernetes-helm
       kubectx
       lazydocker
@@ -53,6 +56,7 @@
       russ
       syncthing
       terraformer
+      termshark
       tldr
       tmux
       todoist
@@ -91,6 +95,7 @@
       (pkgs.callPackage ../../../pkgs/spacescan { })
       wireguard-tools
       wireguard-ui
+      (pkgs.callPackage ../../../pkgs/xurl { })
     ];
 
   xdg.configFile."glow/glow.yml".text = ''
