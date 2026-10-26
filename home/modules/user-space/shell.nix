@@ -53,7 +53,7 @@
         ls = "lsd -l";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
-        cdn = "cd ~/.nixos-configuration/nixos-configs/";
+        cdn = "cd ~/.nixos/nixos-configs/";
         # Monitor switching: Hyprland via hyprctl (mon-*), KDE via kscreen fallback.
         remon = "mon-remote";
         lomon = "mon-local";
@@ -87,7 +87,7 @@
         tree = "tree -C";
         weather = "curl -s v2.wttr.in/saratoga+springs+utah";
         yt-dl = "nix-shell -p yt-dlp";
-        cdn = "cd ~/.nixos-configuration/nixos-configs/";
+        cdn = "cd ~/.nixos/nixos-configs/";
         # Monitor switching: Hyprland via hyprctl (mon-*), KDE via kscreen fallback.
         remon = "mon-remote";
         lomon = "mon-local";
