@@ -1,9 +1,11 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = [ pkgs.nuclei ];
 
-  imports =
-    lib.optional pkgs.stdenv.hostPlatform.isLinux ./nuclei-systemd.nix
-    ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin ./nuclei-launchd.nix;
+  # Static imports: gating on pkgs here queries config and recurses under NixOS-embedded home-manager.
+  imports = [
+    ./nuclei-systemd.nix
+    ./nuclei-launchd.nix
+  ];
 }
