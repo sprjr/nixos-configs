@@ -56,9 +56,7 @@
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
-    # `mon-remote` (remon): DPMS off DP-1/2/3, migrate workspaces 1-3 to a persistent
-    # headless output. `mon-local` (lomon) reverses both. Replaces the old enable/disable
-    # mechanism under test for the aquamarine SEGV (see monitors.nix).
+    # mon-remote: headless streaming workspace; mon-local: restore DPMS + focus.
     streaming = {
       enable = true;
       resolution = "1920x1080@60";
@@ -67,11 +65,8 @@
         "DP-2"
         "DP-3"
       ];
-      workspaces = [
-        1
-        2
-        3
-      ];
+      workspace = 11;
+      bigPicture = true;
       primaryOutput = "DP-1";
     };
   };
