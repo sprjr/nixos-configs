@@ -380,6 +380,7 @@
               ./nixos/modules/homelab/hermes-agent.nix
               ./nixos/modules/homelab/hermes-router.nix
               ./nixos/modules/virtualisation/vm/cerritos-vm.nix
+              ./nixos/modules/virtualisation/vm/win-test.nix
               ./nixos/modules/homelab/hermes-backup.nix
               ./nixos/modules/homelab/hermes-fileshare.nix
               ./nixos/modules/homelab/frigate-analyzer

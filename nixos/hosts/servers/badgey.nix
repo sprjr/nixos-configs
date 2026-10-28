@@ -91,5 +91,10 @@
     fileSystems = [ "/" ];
   };
 
+  homelab.winTest = {
+    enable = true;
+    isoPath = "/var/lib/libvirt/isos/win11.iso";
+  };
+
   system.stateVersion = "25.11";
 }

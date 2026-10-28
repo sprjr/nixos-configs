@@ -1,29 +1,22 @@
-{config, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
-  programs.dconf.enable = true;
+  security.polkit.enable = true;
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.swtpm.enable = true;
+    onBoot = "ignore";
+    onShutdown = "shutdown";
+  };
+
+  virtualisation.spiceUSBRedirection.enable = true;
 
   environment.systemPackages = with pkgs; [
+    virtio-win
+    win-spice
     virt-manager
     virt-viewer
-    spice
-    spice-gtk
-    spice-protocol
-    win-virtio
-    win-spice
-    adwaita-icon-theme
+    qemu-utils
   ];
-
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemu = {
-        swtpm.enable = true;
-        ovmf.enable = true;
-        ovmf.packages = [ pkgs.OVMFFull.fd ];
-      };
-    };
-    spiceUSBRedirection.enable = true;
-  };
-  services.spice-vdagentd.enable = true;
 }
