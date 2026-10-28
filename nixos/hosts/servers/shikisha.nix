@@ -97,7 +97,7 @@ in
       mode = "0400";
     };
     # One homelab host or IP per line for nuclei-scan.
-    "monitoring/nuclei/targets" = {
+    "nuclei/targets" = {
       owner = "nuclei-scan";
       mode = "0400";
     };
@@ -183,7 +183,7 @@ in
   # Weekly vulnerability scan of homelab hosts; findings ship to Loki via Alloy.
   services.nuclei-scan = {
     enable = true;
-    targetsFile = config.sops.secrets."monitoring/nuclei/targets".path;
+    targetsFile = config.sops.secrets."nuclei/targets".path;
   };
 
   networking.iproute2.enable = true;
