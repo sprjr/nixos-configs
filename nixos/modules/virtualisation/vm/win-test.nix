@@ -166,12 +166,20 @@ in
         if ! ${pkgs.libvirt}/bin/virsh net-info win-test-net >/dev/null 2>&1; then
           ${pkgs.libvirt}/bin/virsh net-define ${networkXml}
         fi
-        if [ "$(${pkgs.libvirt}/bin/virsh net-info win-test-net 2>/dev/null | ${pkgs.gnugrep}/bin/grep -i '^Active:' | ${pkgs.gawk}/bin/awk '{print $2}')" != "yes" ]; then
-          ${pkgs.libvirt}/bin/virsh net-start win-test-net 2>/dev/null || true
-        fi
         ${pkgs.libvirt}/bin/virsh net-autostart win-test-net
+        if [ "$(${pkgs.libvirt}/bin/virsh net-info win-test-net 2>/dev/null | ${pkgs.gnugrep}/bin/grep -i '^Active:' | ${pkgs.gawk}/bin/awk '{print $2}')" != "yes" ]; then
+          # dnsmasq orphaned by an interrupted net-destroy keeps the gateway address bound
+          ${pkgs.procps}/bin/pkill -f 'dnsmasq.*win-test-net.conf' 2>/dev/null || true
+          ${pkgs.libvirt}/bin/virsh net-start win-test-net
+        fi
 
-        ${pkgs.libvirt}/bin/virsh define ${domainXml}
+        # Redefine only when the domain is absent or shut off; never disturb a running VM
+        if ! ${pkgs.libvirt}/bin/virsh dominfo win-test >/dev/null 2>&1; then
+          ${pkgs.libvirt}/bin/virsh define ${domainXml}
+        elif [ "$(${pkgs.libvirt}/bin/virsh domstate win-test)" != "running" ]; then
+          ${pkgs.libvirt}/bin/virsh undefine win-test --keep-nvram
+          ${pkgs.libvirt}/bin/virsh define ${domainXml}
+        fi
       '';
     };
 
