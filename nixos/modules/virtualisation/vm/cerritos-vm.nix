@@ -93,6 +93,8 @@ in
       fi
       ${pkgs.libvirt}/bin/virsh net-autostart cerritos-net
       if [ "$(${pkgs.libvirt}/bin/virsh net-info cerritos-net | ${pkgs.gnugrep}/bin/grep -i '^Active:' | ${pkgs.gawk}/bin/awk '{print $2}')" != "yes" ]; then
+        # dnsmasq orphaned by an interrupted net-destroy keeps the gateway address bound
+        ${pkgs.procps}/bin/pkill -f 'dnsmasq.*cerritos-net.conf' 2>/dev/null || true
         ${pkgs.libvirt}/bin/virsh net-start cerritos-net
       fi
 
