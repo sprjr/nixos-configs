@@ -110,10 +110,72 @@ in
       "ld.rawliyosh.com" = proxy "localhost:9091";
       "status.rawliyosh.com" = proxyAuthRoute "localhost:3551";
 
+      # static
+      "test.rawliyosh.com".extraConfig = ''
+        encode gzip zstd
+        root * /etc/test-site
+        file_server
+      '';
+
       # external
       "talk.rawlinson.xyz" = proxy "66.29.186.74";
     };
   };
+
+  environment.etc."test-site/index.html".text = ''
+    <!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hi dad</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 30% 15%, #1e40af 0%, #0f172a 55%, #020617 100%);
+        color: #e0f2fe;
+      }
+      main {
+        text-align: center;
+        padding: 3rem 4rem;
+        border-radius: 20px;
+        background: rgba(15, 42, 90, 0.55);
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        box-shadow: 0 24px 60px -20px rgba(2, 6, 23, 0.9);
+        backdrop-filter: blur(6px);
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        letter-spacing: -0.02em;
+        background: linear-gradient(180deg, #ffffff, #7dd3fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      p {
+        margin: 1rem 0 0;
+        color: #93c5fd;
+        font-size: 0.9rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+    </style>
+    </head>
+    <body>
+    <main>
+    <h1>Hi dad</h1>
+    <p>test.rawliyosh.com</p>
+    </main>
+    </body>
+    </html>
+  '';
 
   networking.firewall.allowedTCPPorts = [
     80
