@@ -167,6 +167,10 @@ let
   researcherConfigYaml = pkgs.writeText "hermes-researcher-config.yaml" ''
     ${researcherModel}
     ${researcherToolsets}
+    delegation:
+      model: deepseek-v4.1-flash
+      max_iterations: 150
+      max_concurrent_children: 6
   '';
 
   homeConfigYaml = pkgs.writeText "hermes-home-config.yaml" ''
