@@ -95,6 +95,7 @@
     enable = true;
     isoPath = "/var/lib/libvirt/isos/win11.iso";
     firmwareFeatures = [ ];
+    tpm = false;
   };
 
   system.stateVersion = "25.11";

@@ -79,9 +79,11 @@ let
           <source network='win-test-net'/>
           <model type='virtio'/>
         </interface>
-        <tpm model='tpm-crb'>
-          <backend type='emulator' version='2.0'/>
-        </tpm>
+        ${lib.optionalString cfg.tpm ''
+          <tpm model='tpm-crb'>
+            <backend type='emulator' version='2.0'/>
+          </tpm>
+        ''}
         <controller type='usb' index='0' model='qemu-xhci'/>
         <controller type='sata' index='0'/>
         <input type='tablet' bus='usb'/>
@@ -132,6 +134,11 @@ in
       type = lib.types.listOf lib.types.str;
       default = [ "secure-boot" "enrolled-keys" ];
       description = "UEFI firmware features to enable";
+    };
+    tpm = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Attach an emulated TPM 2.0 device";
     };
   };
 
