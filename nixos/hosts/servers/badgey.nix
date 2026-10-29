@@ -94,6 +94,7 @@
   homelab.winTest = {
     enable = true;
     isoPath = "/var/lib/libvirt/isos/win11.iso";
+    firmwareFeatures = [ ];
   };
 
   system.stateVersion = "25.11";
