@@ -88,11 +88,13 @@ in
     };
     script = ''
       # Segmented NAT network (idempotent)
-      ${pkgs.libvirt}/bin/virsh net-destroy cerritos-net 2>/dev/null || true
-      ${pkgs.libvirt}/bin/virsh net-undefine cerritos-net 2>/dev/null || true
-      ${pkgs.libvirt}/bin/virsh net-define ${networkXml}
-      ${pkgs.libvirt}/bin/virsh net-start cerritos-net 2>/dev/null || true
+      if ! ${pkgs.libvirt}/bin/virsh net-info cerritos-net >/dev/null 2>&1; then
+        ${pkgs.libvirt}/bin/virsh net-define ${networkXml}
+      fi
       ${pkgs.libvirt}/bin/virsh net-autostart cerritos-net
+      if [ "$(${pkgs.libvirt}/bin/virsh net-info cerritos-net | ${pkgs.gnugrep}/bin/grep -i '^Active:' | ${pkgs.gawk}/bin/awk '{print $2}')" != "yes" ]; then
+        ${pkgs.libvirt}/bin/virsh net-start cerritos-net
+      fi
 
       # Stop the domain first so we can safely refresh the disk image.
       ${pkgs.libvirt}/bin/virsh destroy cerritos 2>/dev/null || true
