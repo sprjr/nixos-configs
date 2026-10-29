@@ -7,9 +7,7 @@
 
 with lib;
 
-# Per-host monitor descriptors, plus (when cfg.streaming.enable) a persistent headless
-# output and DPMS/workspace-migration mon-remote/mon-local, in place of enabling/disabling
-# outputs -- testing whether that avoids the aquamarine SEGV cfg.debugLogging chases.
+# Per-host monitor descriptors, plus the persistent headless output and mon-remote/mon-local.
 let
   cfg = config.patrick.home.hyprland;
   streamCfg = cfg.streaming;
@@ -80,7 +78,10 @@ let
 
   monRemoteStreaming = pkgs.writeShellApplication {
     name = "mon-remote";
-    runtimeInputs = [ hyprPkg ];
+    runtimeInputs = [
+      hyprPkg
+      pkgs.jq
+    ];
     text = ''
       ${findInstance}
       headless=$(cat ${runtimeNameFile} 2>/dev/null || true)
@@ -88,9 +89,18 @@ let
         echo "mon-remote: no headless output recorded -- is hyprland-headless-output.service running?" >&2
         exit 1
       fi
-      ${concatMapStringsSep "\n      " (
-        ws: ''hyprctl dispatch moveworkspacetomonitor ${toString ws} "$headless"''
-      ) streamCfg.workspaces}
+      hyprctl dispatch dpms on "$headless" || true
+      hyprctl dispatch focusmonitor "$headless"
+      hyprctl dispatch workspace ${toString streamCfg.workspace}
+      ${optionalString streamCfg.bigPicture ''
+        # Re-home Big Picture off the workspace-1 steam rule.
+        hyprctl dispatch exec -- steam -bigpicture
+        for _ in $(seq 1 60); do
+          hyprctl dispatch movetoworkspacesilent "${toString streamCfg.workspace},class:^(steam)$" >/dev/null 2>&1 || true
+          hyprctl clients -j | jq -e '.[] | select(.class == "steam" and .workspace.id == ${toString streamCfg.workspace})' >/dev/null && break
+          sleep 0.25
+        done
+      ''}
       ${concatMapStringsSep "\n      " (o: "hyprctl dispatch dpms off ${o}") streamCfg.physicalOutputs}
     '';
   };
@@ -100,10 +110,14 @@ let
     runtimeInputs = [ hyprPkg ];
     text = ''
       ${findInstance}
+      headless=$(cat ${runtimeNameFile} 2>/dev/null || true)
       ${concatMapStringsSep "\n      " (o: "hyprctl dispatch dpms on ${o}") streamCfg.physicalOutputs}
-      ${concatMapStringsSep "\n      " (
-        ws: "hyprctl dispatch moveworkspacetomonitor ${toString ws} ${streamCfg.primaryOutput}"
-      ) streamCfg.workspaces}
+      ${optionalString (
+        streamCfg.primaryOutput != ""
+      ) "hyprctl dispatch focusmonitor ${streamCfg.primaryOutput}"}
+      if [ -n "$headless" ]; then
+        hyprctl dispatch dpms off "$headless" || true
+      fi
     '';
   };
 in

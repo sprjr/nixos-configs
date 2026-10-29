@@ -116,7 +116,7 @@ in
     };
 
     streaming = {
-      enable = mkEnableOption "persistent headless output + DPMS/workspace-migration mon-remote/mon-local";
+      enable = mkEnableOption "persistent headless output + dedicated streaming workspace";
 
       resolution = mkOption {
         type = types.str;
@@ -139,24 +139,26 @@ in
         ];
       };
 
-      workspaces = mkOption {
-        type = types.listOf types.int;
-        default = [ ];
+      workspace = mkOption {
+        type = types.int;
+        default = 0;
         description = ''
-          Workspace numbers moved onto the headless output by `mon-remote` and back onto
-          `primaryOutput` by `mon-local`.
+          Workspace `mon-remote` moves onto the headless output and focuses while streaming.
+          Must not collide with `windowPlacement` workspaces or keybind targets.
         '';
-        example = [
-          1
-          2
-          3
-        ];
+        example = 11;
+      };
+
+      bigPicture = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Launch Steam Big Picture on the streaming workspace from `mon-remote`.";
       };
 
       primaryOutput = mkOption {
         type = types.str;
         default = "";
-        description = "Physical output `workspaces` are moved back onto by `mon-local`.";
+        description = "Physical output focused by `mon-local` when leaving streaming mode.";
         example = "DP-1";
       };
     };
