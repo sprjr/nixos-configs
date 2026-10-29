@@ -99,7 +99,7 @@ let
     api_key = true;
   };
   researcherModel = mkModelBlock {
-    model = "glm-5.3";
+    model = "kimi-k3";
     context_length = 1000000;
     api_key = true;
   };
