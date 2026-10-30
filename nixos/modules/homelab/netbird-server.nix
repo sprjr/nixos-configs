@@ -4,6 +4,7 @@ let
   cfg = config.homelab.netbird;
   domain = "nb.rawliyosh.com";
   version = "0.82.0";
+  ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
   dataDir = "/var/lib/netbird";
 in
 {
@@ -102,7 +103,7 @@ in
 
     systemd.services.netbird-version-watch = {
       description = "Record NetBird upstream release cadence";
-      path = with pkgs; [ curl jq coreutils gnugrep ];
+      path = with pkgs; [ curl jq coreutils gnugrep ntfy-sh ];
       serviceConfig = {
         Type = "oneshot";
         StateDirectory = "netbird-version-watch";
@@ -144,6 +145,12 @@ in
         printf '%s\t%s\n' "$today" "$latest" >> "$state"
         echo "netbird: upstream $latest, $gap days after $last (pinned $pinned)"
         [ "$latest" = "$pinned" ] || echo "netbird: update available, bump version to $latest"
+
+        if [ -r "${ntfyUrlFile}" ]; then
+          ntfy publish --title "NetBird $latest released" "$(cat "${ntfyUrlFile}")" \
+            "upstream $latest, $gap days after $last (pinned $pinned)" \
+            || echo "netbird: ntfy publish failed" >&2
+        fi
       '';
     };
 
