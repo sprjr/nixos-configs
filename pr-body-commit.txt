@@ -1,0 +1,20 @@
+feat(ds9): self-hosted NetBird server behind Caddy
+
+Replace the unevaluable services.netbird.server module with an
+OCI-container deployment of the upstream netbird-server + dashboard
+images on ds9, behind the existing Caddy reverse proxy.
+
+Port/host map:
+- nb.rawliyosh.com:443     -> netbird-server (gRPC h2c + relay/signal/api/oauth2)
+- nb-admin.rawliyosh.com:443 -> netbird-dashboard (Authentik forward-auth)
+- UDP 3478                  -> NetBird embedded STUN server
+
+Tailscale is intentionally left enabled on ds9 and all other hosts;
+removing it is a follow-up that first requires enrolling every peer in
+NetBird, because ds9 currently resolves all upstream services and SSH
+over the tailnet.
+
+The change is unevaluated locally: this container has no Nix binary,
+so the flake cannot be instantiated. Option names were cross-checked
+against the upstream NetBird docs (combined-container external reverse
+proxy config and environment-variable reference).

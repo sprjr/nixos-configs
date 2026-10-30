@@ -434,6 +434,7 @@
               ./nixos/modules/homelab/ntfy.nix
               ./nixos/modules/homelab/linkding.nix
               ./nixos/modules/homelab/uptime-kuma.nix
+              ./nixos/modules/homelab/netbird-server.nix
             ];
           };
           # stargazer — ThinkPad P1 Gen 3 (NVIDIA T1000), disko+facter, TPM2 LUKS
