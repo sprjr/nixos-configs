@@ -1,8 +1,9 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.homelab.netbird;
   domain = "nb.rawliyosh.com";
+  version = "0.82.0";
   dataDir = "/var/lib/netbird";
 in
 {
@@ -21,7 +22,7 @@ in
 
     virtualisation.oci-containers.containers = {
       netbird-server = {
-        image = "docker.io/netbirdio/netbird-server:0.82.0";
+        image = "docker.io/netbirdio/netbird-server:${version}";
         cmd = [ "--config" "/etc/netbird/config.yaml" ];
         # Caddy proxies in from localhost; STUN must be reachable directly
         ports = [
@@ -98,6 +99,61 @@ in
         reverse_proxy 127.0.0.1:8080
       }
     '';
+
+    systemd.services.netbird-version-watch = {
+      description = "Record NetBird upstream release cadence";
+      path = with pkgs; [ curl jq coreutils gnugrep ];
+      serviceConfig = {
+        Type = "oneshot";
+        StateDirectory = "netbird-version-watch";
+      };
+      script = ''
+        set -euo pipefail
+        state="$STATE_DIRECTORY/versions.tsv"
+        pinned="${version}"
+        touch "$state"
+
+        recorded() { cut -f2 "$state" | grep -qxF "$1"; }
+
+        latest=$(curl -fsSL "https://hub.docker.com/v2/repositories/netbirdio/netbird-server/tags?page_size=50&ordering=last_updated" \
+          | jq -r '.results[].name' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)
+
+        if [ -z "$latest" ]; then
+          echo "netbird: could not read upstream tags" >&2
+          exit 1
+        fi
+
+        if recorded "$latest"; then
+          echo "netbird: upstream $latest, pinned $pinned, unchanged (last recorded $(tail -n1 "$state" | cut -f1))"
+          exit 0
+        fi
+
+        if [ ! -s "$state" ]; then
+          curl -fsSL "https://api.github.com/repos/netbirdio/netbird/releases?per_page=20" \
+            | jq -r '.[] | select(.prerelease | not) | "\(.published_at[0:10])\t\(.tag_name | ltrimstr("v"))"' \
+            | sort -u > "$state"
+          if recorded "$latest"; then
+            echo "netbird: seeded history, upstream $latest already recorded"
+            exit 0
+          fi
+        fi
+
+        today=$(date -u +%F)
+        last=$(tail -n1 "$state" | cut -f1)
+        gap=$(( ( $(date -u -d "$today" +%s) - $(date -u -d "$last" +%s) ) / 86400 ))
+        printf '%s\t%s\n' "$today" "$latest" >> "$state"
+        echo "netbird: upstream $latest, $gap days after $last (pinned $pinned)"
+        [ "$latest" = "$pinned" ] || echo "netbird: update available, bump version to $latest"
+      '';
+    };
+
+    systemd.timers.netbird-version-watch = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "*-*-* 12:00:00 UTC";
+        Persistent = "true";
+      };
+    };
 
     networking.firewall.allowedUDPPorts = [ 3478 ];
   };
