@@ -137,6 +137,10 @@ shodan:
     sxr-api-key: ENC[AES256_GCM,data:KO/i/xAjoRlv67PY/Onrb+HoCn5axAvhvDrCe2eINN8=,iv:YKndmzh3l0OFqUGraopwGwZEJh2NJVf6+Jc8eKxmqHE=,tag:1uIRif4zWTodeixGuWIKWw==,type:str]
 nuclei:
     targets: ENC[AES256_GCM,data:hblcHs7lLwRU/xeXaAmH46E28iD2gcTbnSEtBmQ5vz4d,iv:qOCCF46c7CpXdYTmMwJ4V9XSh2rvdSWkUZBOEEwoEx0=,tag:iHfBA0qjL2UdeG1JNfEsLw==,type:str]
+netbird:
+    server-auth-secret: ENC[AES256_GCM,data:Pj7uFsOGIGYdVmNGFVMdpKhix2o/4lWpwDibn/KUCz6UMorrhn+xl2CnI+6fQdG4gQvu1P3cYL2vOLVR8DJ8zQ==,iv:vCYg4E2L91Jp2tnABr/BxDQnUfK8OhJL1v8caJ057OQ=,tag:iaUeBRrnBMePkQc6kBxoog==,type:str]
+    store-encryption-key: ENC[AES256_GCM,data:w9T0F+CBC0WWD3cnZ2fR6yz6v9sH6+LQecCFDKwPVH1Vnj4BfjTrI6njQMo=,iv:V4TE/82yV2gLu7xubjFVP16AqXVf2mRyXq8iaVwZ6U0=,tag:1VPSZRdw67e+mB5n/jVyfg==,type:str]
+    admin-password: ENC[AES256_GCM,data:GWbo15omG+MSUe+Vte/h2kPkbBCVZ7fsSEQD3EMKUF7/dB23bXcvOu8y7Q==,iv:Pe9Wtvzp3WCn+ITviB6N163PoYXkeTVUNtXHHR7t5mc=,tag:lQ7KGJ55wS7ECqCVPZdEZQ==,type:str]
 sops:
     age:
         - enc: |
@@ -148,7 +152,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-10-26T21:19:53Z"
-    mac: ENC[AES256_GCM,data:TYGahzipN0LfDy1DlKeQMnsftvsLJNmjLtcGra1g+QVBoj3qTKBFWGXBUCq/B7k9YIfgEmlm219t5ehJlJQ172GPWfCoxsRYZxORk2H4QSfSJV50BC0n+LFIYb94NMqmBLHe2LU82XodpMUHCny08VEFizhDsb7OPGBdXFIFpDI=,iv:NGD4KfCsnMmws2keA1c8PaDRYwxbVFhqCXpRv7GfuFM=,tag:ffXpUPU2127M7QAU27c/aw==,type:str]
+    lastmodified: "2026-10-31T19:25:13Z"
+    mac: ENC[AES256_GCM,data:AsYlVz8hPyVD0BOXIG4UIXPBbvVRKQITOUXd5g8D8uxxCcQkcuT2Xi7S57VB2yxF9CwFIgvHkeY49njaguKRaZpI4r5b5yh/hB5NSnmo0v4RF1DerZpqClSvFXBPlo2bqrq+wDqDsl5Rui9eTLzEHoxDEAXn7L2D0Tu0tgJtz5E=,iv:LquTqb7hFcDPAAf3/JwOnIbJA/B+r8BIZYt0CtaGwH4=,tag:snaYh2nmZPTOA/12Gb8gtg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
