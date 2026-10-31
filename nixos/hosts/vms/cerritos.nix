@@ -14,6 +14,8 @@
 
   networking.hostName = "cerritos";
 
+  homelab.netbird-client.setupKey = "netbird/setup-key-servers";
+
   # Static IP on the libvirt default NAT network (192.168.122.0/24).
   # Isolated from the LAN; outbound internet via Badgey's NAT.
   networking.useDHCP = false;

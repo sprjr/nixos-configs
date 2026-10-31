@@ -186,6 +186,8 @@ in
     targetsFile = config.sops.secrets."nuclei/targets".path;
   };
 
+  homelab.netbird-client.setupKey = "netbird/setup-key-servers";
+
   networking.iproute2.enable = true;
 
   # Wireguard
