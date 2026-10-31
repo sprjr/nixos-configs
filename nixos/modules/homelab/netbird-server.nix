@@ -17,6 +17,7 @@ in
   config = {
     sops.secrets."netbird/server-auth-secret" = { };
     sops.secrets."netbird/store-encryption-key" = { };
+    # bcrypt hash of the admin password, not plaintext
     sops.secrets."netbird/admin-password" = { };
 
     systemd.tmpfiles.rules = [ "d ${dataDir} 0700 root root -" ];
