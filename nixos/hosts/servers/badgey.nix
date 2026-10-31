@@ -17,6 +17,8 @@
 
   networking.hostName = "badgey";
 
+  homelab.netbird-client.setupKey = "netbird/setup-key-servers";
+
   nix.settings = {
     experimental-features = [
       "nix-command"

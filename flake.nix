@@ -183,6 +183,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
@@ -209,6 +210,7 @@
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
@@ -272,6 +274,7 @@
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/sops.nix
@@ -303,6 +306,7 @@
               ./nixos/modules/system/fprintd.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/user/whale.nix
               ./nixos/modules/user/seagull.nix
@@ -335,6 +339,7 @@
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/user/whale.nix
               ./nixos/modules/user/seagull.nix
@@ -367,6 +372,7 @@
               ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick-server.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/monitoring/alloy.nix
@@ -406,6 +412,7 @@
               ./nixos/hosts/vms/cerritos.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
             ];
           };
           # ds9 — Linode VPS: public Caddy reverse proxy, ntfy, linkding, uptime-kuma
@@ -466,6 +473,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/homelab/memtly.nix

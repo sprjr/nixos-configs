@@ -43,6 +43,8 @@ in {
   # General Networking Options
   networking.hostName = "whale";
 
+  homelab.netbird-client.setupKey = "netbird/setup-key-kiosks";
+
   # Disable NetworkManager-wait-online.service
   systemd.services.NetworkManager-wait-online.enable = false;
 
