@@ -58,8 +58,19 @@ in
       pkgs.gcc
       pkgs.git
       pkgs.gnupg
+      pkgs.netbird
       pkgs.sops
     ];
+  };
+
+  launchd.daemons.netbird = {
+    serviceConfig = {
+      ProgramArguments = [ "${pkgs.netbird}/bin/netbird" "service" "run" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "/var/log/netbird.log";
+      StandardErrorPath = "/var/log/netbird.err.log";
+    };
   };
 
   # Homebrew configuration
