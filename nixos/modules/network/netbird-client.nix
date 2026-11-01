@@ -20,7 +20,7 @@ in
       interface = "netbird0";
       login.enable = true;
       login.setupKeyFile = config.sops.secrets."${cfg.setupKey}".path;
-      login.systemdDependencies = [ "sops-install-secrets.service" ];
+      login.systemdDependencies = [ "sops-secrets-rendered.service" ];
       config.ManagementURL = {
         Scheme = "https";
         Host = "nb.rawliyosh.com:443";
