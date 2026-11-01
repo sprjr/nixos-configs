@@ -265,6 +265,7 @@
               ./nixos/modules/homelab/paperless.nix
               ./nixos/modules/homelab/forgejo.nix
               ./nixos/modules/homelab/zipline.nix
+              ./nixos/modules/homelab/miniflux.nix
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix

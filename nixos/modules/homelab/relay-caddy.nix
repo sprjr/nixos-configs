@@ -87,6 +87,7 @@ in
       "vikunja.rawliyosh.com" = proxy "${shikisha}:3456";
       "loc.rawliyosh.com" = proxy "http://${shikisha}:31122";
       "paperless.rawliyosh.com" = proxy "${shikisha}:28981";
+      "rss.rawliyosh.com" = proxy "${shikisha}:8989";
       "esphome.rawliyosh.com" = proxy "http://${shikisha}:6052";
       "grafana.rawliyosh.com" = proxy "${shikisha}:3000";
 
