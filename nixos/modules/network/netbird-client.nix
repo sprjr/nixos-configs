@@ -21,7 +21,10 @@ in
       login.enable = true;
       login.setupKeyFile = config.sops.secrets."${cfg.setupKey}".path;
       login.systemdDependencies = [ "sops-install-secrets.service" ];
-      config.ManagementURL = "https://nb.rawliyosh.com";
+      config.ManagementURL = {
+        Scheme = "https";
+        Host = "nb.rawliyosh.com";
+      };
     };
   };
 }
