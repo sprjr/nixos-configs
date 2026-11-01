@@ -30,9 +30,14 @@ in
 
   # SSH over the tailnet only; LISH is the fallback
   services.openssh.openFirewall = false;
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+  networking.firewall.interfaces = {
+    tailscale0.allowedTCPPorts = [ 22 ];
+    netbird0.allowedTCPPorts = [ 22 ];
+  };
 
   services.tailscale.enable = true;
+
+  homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
   # Host-only age key; the primary key is never placed on this machine
   sops = {

@@ -433,6 +433,7 @@
               ./nixos/modules/system/comin-notify.nix
               ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick-server.nix
               ./nixos/modules/virtualisation/podman.nix
               ./nixos/modules/monitoring/alloy.nix
