@@ -207,6 +207,7 @@ in
               "defiant:9100"
               "badgey:9100"
               "stargazer:9100"
+              "ds9:9100"
             ];
           }
         ];
@@ -677,7 +678,7 @@ in
                       model = {
                         refId = "A";
                         # Only always-on hosts; workstations sleep and would false-alarm.
-                        expr = ''up{job="node", instance=~"shikisha:9100|wopr:9100|badgey:9100"}'';
+                        expr = ''up{job="node", instance=~"shikisha:9100|wopr:9100|badgey:9100|ds9:9100"}'';
                         instant = true;
                       };
                     }
