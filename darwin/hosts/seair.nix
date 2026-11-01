@@ -34,6 +34,14 @@ in
           "/Applications/Signal.app"
         ];
       };
+      NSGlobalDomain = {
+        _HIHideMenuBar = true;
+      };
+      controlcenter = {
+        BatteryShowPercentage = true;
+        Bluetooth = true;
+        NowPlaying = true;
+      };
     };
   };
 
@@ -50,8 +58,19 @@ in
       pkgs.gcc
       pkgs.git
       pkgs.gnupg
+      pkgs.netbird
       pkgs.sops
     ];
+  };
+
+  launchd.daemons.netbird = {
+    serviceConfig = {
+      ProgramArguments = [ "${pkgs.netbird}/bin/netbird" "service" "run" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "/var/log/netbird.log";
+      StandardErrorPath = "/var/log/netbird.err.log";
+    };
   };
 
   # Homebrew configuration
@@ -113,21 +132,8 @@ in
   };
 
   # Home-Manager configuration
+  home-manager.extraSpecialArgs = { spicetify-nix = null; configRoot = null; };
   home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
-
-  # Hide the top bar
-  system = {
-    defaults = {
-      NSGlobalDomain = {
-        _HIHideMenuBar = true;
-      };
-      controlcenter = {
-        BatteryShowPercentage = true;
-        Bluetooth = true;
-        NowPlaying = true;
-      };
-    };
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

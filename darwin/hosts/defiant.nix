@@ -33,6 +33,15 @@ in
           "/Applications/1Password.app"
           "/Applications/Signal.app"
         ];
+        autohide = true;
+      };
+      NSGlobalDomain = {
+        _HIHideMenuBar = true;
+      };
+      controlcenter = {
+        BatteryShowPercentage = true;
+        Bluetooth = true;
+        NowPlaying = true;
       };
     };
   };
@@ -120,22 +129,8 @@ in
   };
 
   # Home-Manager configuration
+  home-manager.extraSpecialArgs = { spicetify-nix = null; configRoot = null; };
   home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
-
-  # Preferences
-  system = {
-    defaults = {
-      NSGlobalDomain = {
-        _HIHideMenuBar = true;
-      };
-      controlcenter = {
-        BatteryShowPercentage = true;
-        Bluetooth = true;
-        NowPlaying = true;
-      };
-      dock.autohide = true;
-    };
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
