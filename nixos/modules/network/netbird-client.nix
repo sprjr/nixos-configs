@@ -26,5 +26,9 @@ in
         Host = "nb.rawliyosh.com:443";
       };
     };
+
+    systemd.services.netbird-default.restartTriggers = [
+      config.environment.etc."netbird-default/config.d/50-nixos.json".source
+    ];
   };
 }
