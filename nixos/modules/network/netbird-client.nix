@@ -30,5 +30,7 @@ in
     systemd.services.netbird-default.restartTriggers = [
       config.environment.etc."netbird-default/config.d/50-nixos.json".source
     ];
+
+    systemd.services.netbird-default-login.wantedBy = [ "multi-user.target" ];
   };
 }
