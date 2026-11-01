@@ -23,7 +23,7 @@ in
       login.systemdDependencies = [ "sops-install-secrets.service" ];
       config.ManagementURL = {
         Scheme = "https";
-        Host = "nb.rawliyosh.com";
+        Host = "nb.rawliyosh.com:443";
       };
     };
   };
