@@ -11,7 +11,9 @@ in
   };
 
   config = {
-    sops.secrets."${cfg.setupKey}" = { };
+    sops.secrets."${cfg.setupKey}" = {
+      sopsFile = ../../../sops-nix/relay.yaml;
+    };
 
     services.netbird.clients.default = {
       port = 51820;
