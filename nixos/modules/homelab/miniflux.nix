@@ -28,7 +28,7 @@ in
     createDatabaseLocally = true;
     adminCredentialsFile = config.sops.templates."miniflux-admin".path;
     config = {
-      LISTEN_ADDR = "127.0.0.1:${toString port}";
+      LISTEN_ADDR = "0.0.0.0:${toString port}";
       BASE_URL = "https://${domain}";
       CREATE_ADMIN = 1;
       ADMIN_USERNAME = "admin";
