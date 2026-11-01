@@ -28,7 +28,7 @@ in
   networking.interfaces.eth0.useDHCP = true;
   networking.firewall.enable = true;
 
-  # SSH over the tailnet only; LISH is the fallback
+  # SSH over the overlays only; LISH is the fallback
   services.openssh.openFirewall = false;
   networking.firewall.interfaces = {
     tailscale0.allowedTCPPorts = [ 22 ];
