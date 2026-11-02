@@ -118,9 +118,6 @@ let
   haModules = optionals ha.enable [
     "custom/ha-fan"
     "custom/ha-lamp"
-    "custom/ha-office-fan"
-    "custom/ha-motion"
-    "custom/ha-cameras"
   ];
 
   modulesLeft = [
@@ -130,7 +127,6 @@ let
   ++ [
     "custom/timer"
     "custom/weather"
-    "custom/calendar"
     "custom/public-ip"
   ];
 
@@ -142,6 +138,7 @@ let
     "tray"
     "custom/budslink"
     "network"
+    "custom/vpn"
     "pulseaudio"
     "bluetooth"
     #"cpu"
@@ -196,7 +193,6 @@ in
         /* Reserve each variable-content module's widest state (tune to font size). */
         #custom-timer,
         #custom-weather { min-width: 56px; }
-        #custom-ha-motion { min-width: 48px; }
         #custom-hwmon { min-width: 88px; }
         #workspaces button {
           padding: 0 8px;
@@ -225,15 +221,12 @@ in
         #systemd-failed-units,
         #language,
         #custom-weather,
-        #custom-calendar,
         #custom-public-ip,
         #custom-hwmon,
         #custom-budslink,
+        #custom-vpn,
         #custom-ha-fan,
         #custom-ha-lamp,
-        #custom-ha-office-fan,
-        #custom-ha-motion,
-        #custom-ha-cameras,
         #custom-timer,
         #custom-notification,
         #custom-app-launcher,
@@ -260,8 +253,9 @@ in
         #custom-hwmon.warning { color: ${c.base0A}; }
         #custom-hwmon.critical { color: ${c.base08}; }
         #custom-weather { color: ${c.base0D}; }
-        #custom-calendar { color: ${c.base0C}; }
         #custom-budslink { color: ${c.base0E}; }
+        #custom-vpn.active { color: ${c.base0B}; }
+        #custom-vpn.off { color: ${c.base04}; }
         #mpris { color: ${c.base0E}; }
         #disk { color: ${c.base0F}; }
         #privacy { color: ${c.base08}; }
@@ -291,19 +285,12 @@ in
         #custom-keybinds { color: ${c.base0D}; }
         #clock { color: ${c.base05}; font-weight: bold; }
         #clock.tokyo { color: ${c.base04}; font-size: 11px; }
-        #custom-ha-office-fan,
-        #custom-ha-cameras { color: ${c.base0D}; }
         #custom-ha-fan.on,
         #custom-ha-lamp.on { color: ${c.base0B}; }
         #custom-ha-fan.off,
         #custom-ha-lamp.off { color: ${c.base04}; }
         #custom-ha-fan.unavailable,
-        #custom-ha-lamp.unavailable,
-        #custom-ha-motion.unavailable { color: ${c.base03}; }
-        #custom-ha-motion.active,
-        #custom-ha-motion.recent { color: ${c.base0B}; }
-        #custom-ha-motion.idle { color: ${c.base05}; }
-        #custom-ha-motion.stale { color: ${c.base04}; }
+        #custom-ha-lamp.unavailable { color: ${c.base03}; }
         #custom-timer.running { color: ${c.base0A}; }
         #custom-timer.idle { color: ${c.base05}; }
         #temperature.critical,
@@ -403,6 +390,12 @@ in
           interval = 30;
         };
 
+        "custom/vpn" = {
+          exec = "waybar-vpn";
+          return-type = "json";
+          interval = 5;
+        };
+
         battery = {
           states = {
             warning = 30;
@@ -438,6 +431,8 @@ in
             paused = "⏸";
           };
           dynamic-len = 35;
+          # Hard cap on the whole rendered label (icon + markup included).
+          max-length = 40;
         };
 
         privacy = {
@@ -489,12 +484,6 @@ in
           on-click = "waybar-weather-toggle";
         };
 
-        "custom/calendar" = {
-          exec = "waybar-calendar";
-          return-type = "json";
-          interval = 300;
-        };
-
         "custom/public-ip" = {
           exec = "waybar-public-ip";
           return-type = "json";
@@ -521,24 +510,6 @@ in
           return-type = "json";
           interval = 30;
           on-click = "ha-toggle switch.s40lite_0";
-        };
-
-        "custom/ha-office-fan" = {
-          format = "󰐊";
-          tooltip-format = "Office fan (Super O)";
-          on-click = "ha-run-script script.turn_on_office_fan_for_5m";
-        };
-
-        "custom/ha-motion" = {
-          exec = "waybar-ha-motion";
-          return-type = "json";
-          interval = 30;
-        };
-
-        "custom/ha-cameras" = {
-          format = "󰄀";
-          tooltip-format = "Cameras (Super Shift C)";
-          on-click = "ha-cameras";
         };
 
         "custom/timer" = {

@@ -35,6 +35,7 @@ in
     ./widgets/stats.nix
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
+    ./widgets/vpn.nix
   ];
 
   options.patrick.home.niri = {

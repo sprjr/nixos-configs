@@ -56,9 +56,6 @@ let
   haModules = optionals ha.enable [
     "custom/ha-fan"
     "custom/ha-lamp"
-    "custom/ha-office-fan"
-    "custom/ha-motion"
-    "custom/ha-cameras"
   ];
 
   modulesLeft =
@@ -74,6 +71,7 @@ let
 
   modulesRight =
     [
+      "custom/vpn"
       "pulseaudio"
       "bluetooth"
       "cpu"
@@ -253,6 +251,12 @@ in
           format = "󰩠 {}";
         };
 
+        "custom/vpn" = {
+          exec = "waybar-vpn";
+          return-type = "json";
+          interval = 5;
+        };
+
         "custom/gpu" = {
           exec = "waybar-gpu";
           return-type = "json";
@@ -271,24 +275,6 @@ in
           return-type = "json";
           interval = 30;
           on-click = "ha-toggle switch.s40lite_0";
-        };
-
-        "custom/ha-office-fan" = {
-          format = "󰐊";
-          tooltip = false;
-          on-click = "ha-run-script script.turn_on_office_fan_for_5m";
-        };
-
-        "custom/ha-motion" = {
-          exec = "waybar-ha-motion";
-          return-type = "json";
-          interval = 30;
-        };
-
-        "custom/ha-cameras" = {
-          format = "󰄀";
-          tooltip = false;
-          on-click = "ha-cameras";
         };
 
         "custom/timer" = {
@@ -376,11 +362,9 @@ in
         #custom-weather,
         #custom-public-ip,
         #custom-gpu,
+        #custom-vpn,
         #custom-ha-fan,
         #custom-ha-lamp,
-        #custom-ha-office-fan,
-        #custom-ha-motion,
-        #custom-ha-cameras,
         #custom-timer,
         #custom-notification,
         #custom-power-menu,
@@ -397,6 +381,8 @@ in
         #bluetooth.off { color: #6c7086; }
         #battery { color: #a6e3a1; }
         #custom-gpu { color: #cba6f7; }
+        #custom-vpn.active { color: #a6e3a1; }
+        #custom-vpn.off { color: #6c7086; }
         #custom-weather { color: #74c7ec; }
         #mpris { color: #cba6f7; }
         #disk { color: #f2cdcd; }
@@ -411,19 +397,12 @@ in
         #custom-power-menu { color: #f38ba8; }
         #clock { color: #cdd6f4; font-weight: bold; }
         #clock-tokyo { color: #6c7086; font-size: 11px; }
-        #custom-ha-office-fan,
-        #custom-ha-cameras { color: #89b4fa; }
         #custom-ha-fan.on,
         #custom-ha-lamp.on { color: #a6e3a1; }
         #custom-ha-fan.off,
         #custom-ha-lamp.off { color: #6c7086; }
         #custom-ha-fan.unavailable,
-        #custom-ha-lamp.unavailable,
-        #custom-ha-motion.unavailable { color: #45475a; }
-        #custom-ha-motion.active,
-        #custom-ha-motion.recent { color: #a6e3a1; }
-        #custom-ha-motion.idle { color: #cdd6f4; }
-        #custom-ha-motion.stale { color: #6c7086; }
+        #custom-ha-lamp.unavailable { color: #45475a; }
         #custom-timer.running { color: #f9e2af; }
         #custom-timer.idle { color: #cdd6f4; }
         #temperature.critical,

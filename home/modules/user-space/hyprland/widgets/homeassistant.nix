@@ -71,39 +71,6 @@ let
   waybar-ha-fan = mkSwitchWidget "waybar-ha-fan" "switch.s40lite_0_2" "󰈐";
   waybar-ha-lamp = mkSwitchWidget "waybar-ha-lamp" "switch.s40lite_0" "󰌵";
 
-  # Motion sensor: active / "Nm ago" with recency class.
-  waybar-ha-motion = pkgs.writeShellApplication {
-    name = "waybar-ha-motion";
-    runtimeInputs = with pkgs; [
-      curl
-      jq
-      coreutils
-    ];
-    text = ''
-      entity="binary_sensor.lumi_lumi_motion_ac02_occupancy"
-      token=$(cat ${tokenPath})
-      resp=$(curl -sf -H "Authorization: Bearer $token" "${ha.url}/api/states/$entity" || true)
-      if [ -z "$resp" ]; then
-        printf '{"text":"","class":"unavailable","tooltip":"motion: unavailable"}\n'
-        exit 0
-      fi
-      state=$(printf '%s' "$resp" | jq -r '.state')
-      changed=$(printf '%s' "$resp" | jq -r '.last_changed')
-      if [ "$state" = "on" ]; then
-        printf '{"text":" active","class":"active","tooltip":"motion active"}\n'
-      elif [ "$state" = "unavailable" ]; then
-        printf '{"text":"","class":"unavailable","tooltip":"motion: unavailable"}\n'
-      else
-        secs=$(( $(date +%s) - $(date -d "$changed" +%s) ))
-        if [ "$secs" -lt 60 ]; then label="''${secs}s ago"; cls="recent"
-        elif [ "$secs" -lt 3600 ]; then label="$(( secs / 60 ))m ago"; cls="idle"
-        else label="$(( secs / 3600 ))h ago"; cls="stale"
-        fi
-        printf '{"text":" %s","class":"%s","tooltip":"last motion %s"}\n' "$label" "$cls" "$label"
-      fi
-    '';
-  };
-
   # Camera feeds via a fuzzel menu (opens the HA proxy stream in the default browser).
   ha-cameras = pkgs.writeShellApplication {
     name = "ha-cameras";
@@ -130,7 +97,6 @@ in
       ha-run-script
       waybar-ha-fan
       waybar-ha-lamp
-      waybar-ha-motion
       ha-cameras
     ];
   };

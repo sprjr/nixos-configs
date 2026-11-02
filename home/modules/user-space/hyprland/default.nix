@@ -80,7 +80,7 @@ in
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
-    ./widgets/calendar.nix
+    ./widgets/vpn.nix
     ./widgets/caffeine.nix
     ./control-center
   ];

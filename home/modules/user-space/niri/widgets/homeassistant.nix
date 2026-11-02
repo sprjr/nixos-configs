@@ -38,14 +38,6 @@ let
     '';
   };
 
-  ha-run-script = pkgs.writeShellApplication {
-    name = "ha-run-script";
-    runtimeInputs = [ ha-call ];
-    text = ''
-      ha-call "script/turn_on" "{\"entity_id\":\"$1\"}"
-    '';
-  };
-
   mkSwitchWidget =
     name: entity: icon:
     pkgs.writeShellApplication {
@@ -68,53 +60,6 @@ let
 
   waybar-ha-fan = mkSwitchWidget "waybar-ha-fan" "switch.s40lite_0_2" "󰈐";
   waybar-ha-lamp = mkSwitchWidget "waybar-ha-lamp" "switch.s40lite_0" "󰌵";
-
-  waybar-ha-motion = pkgs.writeShellApplication {
-    name = "waybar-ha-motion";
-    runtimeInputs = with pkgs; [
-      curl
-      jq
-      coreutils
-    ];
-    text = ''
-      entity="binary_sensor.lumi_lumi_motion_ac02_occupancy"
-      token=$(cat ${tokenPath})
-      resp=$(curl -sf -H "Authorization: Bearer $token" "${ha.url}/api/states/$entity" || true)
-      if [ -z "$resp" ]; then
-        printf '{"text":"","class":"unavailable","tooltip":"motion: unavailable"}\n'
-        exit 0
-      fi
-      state=$(printf '%s' "$resp" | jq -r '.state')
-      changed=$(printf '%s' "$resp" | jq -r '.last_changed')
-      if [ "$state" = "on" ]; then
-        printf '{"text":" active","class":"active","tooltip":"motion active"}\n'
-      elif [ "$state" = "unavailable" ]; then
-        printf '{"text":"","class":"unavailable","tooltip":"motion: unavailable"}\n'
-      else
-        secs=$(( $(date +%s) - $(date -d "$changed" +%s) ))
-        if [ "$secs" -lt 60 ]; then label="''${secs}s ago"; cls="recent"
-        elif [ "$secs" -lt 3600 ]; then label="$(( secs / 60 ))m ago"; cls="idle"
-        else label="$(( secs / 3600 ))h ago"; cls="stale"
-        fi
-        printf '{"text":" %s","class":"%s","tooltip":"last motion %s"}\n' "$label" "$cls" "$label"
-      fi
-    '';
-  };
-
-  ha-cameras = pkgs.writeShellApplication {
-    name = "ha-cameras";
-    runtimeInputs = with pkgs; [
-      fuzzel
-      xdg-utils
-    ];
-    text = ''
-      choice=$(printf 'Camera 1 (4.6)\nCamera 2 (4.7)\n' | fuzzel --dmenu --prompt "Camera: " || true)
-      case "$choice" in
-        "Camera 1 (4.6)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_6" ;;
-        "Camera 2 (4.7)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_7" ;;
-      esac
-    '';
-  };
 in
 {
   config = mkIf (cfg.enable && ha.enable) {
@@ -123,11 +68,8 @@ in
     home.packages = [
       ha-call
       ha-toggle
-      ha-run-script
       waybar-ha-fan
       waybar-ha-lamp
-      waybar-ha-motion
-      ha-cameras
     ];
   };
 }
