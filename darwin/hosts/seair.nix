@@ -65,7 +65,11 @@ in
 
   launchd.daemons.netbird = {
     serviceConfig = {
-      ProgramArguments = [ "${pkgs.netbird}/bin/netbird" "service" "run" ];
+      ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        "mkdir -p /var/run/netbird && exec ${pkgs.netbird}/bin/netbird service run"
+      ];
       RunAtLoad = true;
       KeepAlive = true;
       StandardOutPath = "/var/log/netbird.log";
