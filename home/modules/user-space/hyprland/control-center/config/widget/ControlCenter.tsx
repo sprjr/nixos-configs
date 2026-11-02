@@ -37,8 +37,10 @@ export default function ControlCenter() {
           return false
         }}
       />
+      {/* GTK4 windows keep their largest size; START keeps the panel at its content height */}
       <box
         orientation={Gtk.Orientation.VERTICAL}
+        valign={Gtk.Align.START}
         spacing={8}
         css="padding: 16px;"
         widthRequest={400}

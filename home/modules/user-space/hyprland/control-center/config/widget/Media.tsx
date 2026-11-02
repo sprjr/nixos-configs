@@ -1,6 +1,6 @@
 import Gtk from "gi://Gtk?version=4.0"
 import AstalMpris from "gi://AstalMpris"
-import { For, createBinding } from "ags"
+import { For, createBinding, createState } from "ags"
 
 function PlayerRow({ player }: { player: AstalMpris.Player }) {
   const title = createBinding(player, "title")
@@ -43,9 +43,39 @@ function PlayerRow({ player }: { player: AstalMpris.Player }) {
   )
 }
 
+// One row per source: the same title and artist on several buses is a duplicate
+function unique(players: AstalMpris.Player[]) {
+  const seen = new Set<string>()
+  return players.filter((p) => {
+    const key = p.title ? `${p.title}\n${p.artist ?? ""}` : p.busName
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
 export default function Media() {
   const mpris = AstalMpris.get_default()
-  const players = createBinding(mpris, "players")
+  const [players, setPlayers] = createState<AstalMpris.Player[]>([])
+  const watched = new Map<AstalMpris.Player, number[]>()
+
+  // Re-dedupe on player add/remove and on track changes
+  const refresh = () => {
+    const all = mpris.players
+    for (const [p, ids] of watched) {
+      if (all.includes(p)) continue
+      ids.forEach((id) => p.disconnect(id))
+      watched.delete(p)
+    }
+    for (const p of all) {
+      if (watched.has(p)) continue
+      watched.set(p, [p.connect("notify::title", refresh), p.connect("notify::artist", refresh)])
+    }
+    setPlayers(unique(all))
+  }
+  mpris.connect("notify::players", refresh)
+  refresh()
+
   const hasPlayers = players((p: AstalMpris.Player[]) => p.length > 0)
 
   return (

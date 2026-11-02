@@ -11,7 +11,7 @@ import urllib.request
 URL = "http://shikisha:9090"
 TIMEOUT = 3
 # A host that reported comin state within this window is still a fleet member while down
-WINDOW = "1d"
+WINDOW = "7d"
 
 STATES = {0: "failed", 1: "pending", 2: "in-sync"}
 
