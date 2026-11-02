@@ -6,6 +6,8 @@ let
 in
 {
   sops.secrets."donetick/jwt-secret" = { };
+  sops.secrets."donetick/oidc-client-id" = { };
+  sops.secrets."donetick/oidc-client-secret" = { };
 
   sops.templates."donetick-config" = {
     mode = "0400";
@@ -29,6 +31,14 @@ in
       realtime:
         enabled: true
         sse_enabled: true
+      oauth2:
+        client_id: "${config.sops.placeholder."donetick/oidc-client-id"}"
+        client_secret: "${config.sops.placeholder."donetick/oidc-client-secret"}"
+        auth_url: "https://auth0.rawliyosh.com/application/o/authorize/"
+        token_url: "https://auth0.rawliyosh.com/application/o/token/"
+        user_info_url: "https://auth0.rawliyosh.com/application/o/userinfo/"
+        redirect_url: "https://donetick.rawliyosh.com/auth/oauth2"
+        name: "Authentik"
     '';
   };
 
