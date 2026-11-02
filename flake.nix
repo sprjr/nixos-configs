@@ -211,6 +211,7 @@
               ./nixos/modules/system/sops.nix
               ./nixos/modules/network/wifi.nix
               ./nixos/modules/network/netbird-client.nix
+              ./nixos/modules/network/resolved-dns.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
               ./nixos/modules/gaming/sunshine.nix
               ./nixos/modules/gaming/cachyos-gaming.nix
