@@ -11,6 +11,7 @@
   imports = [
     ./modules/user-space/colors.nix
     ./modules/tools/claude.nix
+    ./modules/tools/t3code.nix
     ./modules/tools/helix/config.nix
     ./modules/tools/helix/languages.nix
     ./modules/user-space/bat.nix

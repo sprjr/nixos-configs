@@ -15,6 +15,7 @@
     ./modules/tools/alacritty.nix
     ./modules/tools/claude.nix
     ./modules/tools/opencode.nix
+    ./modules/tools/t3code.nix
     ./modules/tools/ghostty.nix
     ./modules/tools/neovim.nix
     ./modules/tools/helix/config.nix
