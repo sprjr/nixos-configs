@@ -16,6 +16,7 @@ in
     home-manager.nixosModules.home-manager
     ../../modules/homelab/syncthing-hub.nix
     ../../modules/homelab/vikunja.nix
+    ../../modules/homelab/donetick.nix
     # Systemd Timers
     ../../hosts/shikisha/cron/docker-findmy-restart.nix
     ../../modules/system/esp-tooling.nix
