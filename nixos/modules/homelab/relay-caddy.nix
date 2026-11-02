@@ -85,6 +85,7 @@ in
       "snippets.rawliyosh.com" = proxy "${shikisha}:25151";
       "pdf.rawliyosh.com" = proxyAuthRoute "${shikisha}:38080";
       "vikunja.rawliyosh.com" = proxy "${shikisha}:3456";
+      "donetick.rawliyosh.com" = proxy "${shikisha}:2021";
       "loc.rawliyosh.com" = proxy "http://${shikisha}:31122";
       "paperless.rawliyosh.com" = proxy "${shikisha}:28981";
       "rss.rawliyosh.com" = proxy "${shikisha}:8989";
