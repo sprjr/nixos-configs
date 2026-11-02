@@ -34,8 +34,8 @@ in
       ADMIN_USERNAME = "admin";
       OAUTH2_PROVIDER = "oidc";
       OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://auth.rawliyosh.com/application/o/miniflux/";
-      OAUTH2_CLIENT_ID_FILE = config.sops.secrets."miniflux/oauth-client-id".path;
-      OAUTH2_CLIENT_SECRET_FILE = config.sops.secrets."miniflux/oauth-client-secret".path;
+      OAUTH2_CLIENT_ID_FILE = "/run/credentials/miniflux.service/oauth-client-id";
+      OAUTH2_CLIENT_SECRET_FILE = "/run/credentials/miniflux.service/oauth-client-secret";
       OAUTH2_REDIRECT_URL = "https://${domain}/oauth2/callback";
       OAUTH2_USER_CREATION = 1;
       OAUTH2_OIDC_PROVIDER_NAME = "Authentik";
@@ -46,6 +46,10 @@ in
     after = [ "sops-secrets-rendered.service" ];
     requires = [ "sops-secrets-rendered.service" ];
     serviceConfig = {
+      LoadCredential = [
+        "oauth-client-id:${config.sops.secrets."miniflux/oauth-client-id".path}"
+        "oauth-client-secret:${config.sops.secrets."miniflux/oauth-client-secret".path}"
+      ];
       StateDirectory = "miniflux";
       WorkingDirectory = dataDir;
     };
