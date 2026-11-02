@@ -143,6 +143,7 @@ miniflux:
     oauth-client-secret: ENC[AES256_GCM,data:LCFCwrTDl0Np7Fbu5YWfbfGybCa48UmPG98AqNBw4QdHezW4HqSePHtnKMZ6LseNMKrqfH1vtj3l+sN/uuATm25R1Jc4um6oJLb4aT+HPwzgK38g8pXxkLxa2OA/ojJpbnAbZJeBMsx8Epuy2V/wGMkZl9BDRVRp/rGktpHH4uU=,iv:eNUPWKSs9mdl2673JAF2vqPAwWiPrDu0rKPpG5Pl8nM=,tag:K1VjUdanH+aY+ZVJY84wZA==,type:str]
 donetick:
     jwt-secret: ENC[AES256_GCM,data:DskD1sSFJicn7DuQFMMbS1oDuDEh6ANqgDkLJBILksKJESnjwCFeossVJ8k=,iv:LrKXbbPc3XXbAsU80TafDaPs1PkNinpPOxgCTNZrbaA=,tag:gmp82g3t4JE0U0qFVN1ueg==,type:str]
+    oidc-client-secret: ENC[AES256_GCM,data:G0QbBxOwcOJbh/IPy2j7yJYekdyIaJOXLLBBf9H3Tx9FWC6XdPk+n9x3UR4l4AqOzB/UzhARiKd4tsXo7hhN3F4ZBvnCMat/qnRiO6ktYpCJypXcDS3nYAaw00deyssm0GGueEuTdzV9ejvPetGRkYXYnCMaVgJ4j0I85d2xg1E=,iv:5wCn/X82adVSP2TdZWIYXN1jOHOrHm3CWBCij56oYZU=,tag:yLjhTT5W18piPeXr/zoEwg==,type:str]
 sops:
     age:
         - enc: |
@@ -154,7 +155,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-11-02T23:01:31Z"
-    mac: ENC[AES256_GCM,data:6T7EJbJLPZ/R5p9w8zcWnV7Ke3DqRvHze9oAcPzmw2Yj+Ez/hwJtLcKprMRihjafAYPWvNPUg1E+cL3IwXoHaGxw2y0Xxz7kQIi9io8oC2u7eX1dtNZBlZCu+8/k1kijpN3RrbQo80qJz5s363yLGYvSHwHJCWLrdUdKYVgntFQ=,iv:RMqZFjRW2T/nrMM3bdi5sA+yqtGxUmdLFjeVeDIqYAE=,tag:JWarRLmdEVDQOUmULGkfgg==,type:str]
+    lastmodified: "2026-11-02T23:11:18Z"
+    mac: ENC[AES256_GCM,data:f3ZCrisB5FGL/iG4s5apwM2DLIWDruGpgbSYGQeN836cQG+ZcAp4484rOmjPsAwVT0oYzmkii54zbutdLTV2J8i1xf34046w+dxkEzk+ckuHQkO4ytLV7JgCcNI7egJI+ooPAfCrY/Y4xrv4jequgBCsaW6b5ihPDD1ik6bl2gE=,iv:F7Se1Iw/JMH6Zsl7Eml0lLu+IkKNkE9RVBUhz0nZo8Y=,tag:5kBBMOXo9T0hYa4ShjlRwg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
