@@ -144,6 +144,7 @@ miniflux:
 donetick:
     jwt-secret: ENC[AES256_GCM,data:DskD1sSFJicn7DuQFMMbS1oDuDEh6ANqgDkLJBILksKJESnjwCFeossVJ8k=,iv:LrKXbbPc3XXbAsU80TafDaPs1PkNinpPOxgCTNZrbaA=,tag:gmp82g3t4JE0U0qFVN1ueg==,type:str]
     oidc-client-secret: ENC[AES256_GCM,data:G0QbBxOwcOJbh/IPy2j7yJYekdyIaJOXLLBBf9H3Tx9FWC6XdPk+n9x3UR4l4AqOzB/UzhARiKd4tsXo7hhN3F4ZBvnCMat/qnRiO6ktYpCJypXcDS3nYAaw00deyssm0GGueEuTdzV9ejvPetGRkYXYnCMaVgJ4j0I85d2xg1E=,iv:5wCn/X82adVSP2TdZWIYXN1jOHOrHm3CWBCij56oYZU=,tag:yLjhTT5W18piPeXr/zoEwg==,type:str]
+    oidc-client-id: ENC[AES256_GCM,data:V61rEY+yusOvtfOuRseq4lxckdrPgWih7ibMfTsRFpMtuZB9+D5+AA==,iv:rJqvVmTAcd2Ffr8evyJ5Fu2ahQZCglHZk6g2WnucDpc=,tag:Ahvlr5xWH3eLD+fKkLjKaQ==,type:str]
 sops:
     age:
         - enc: |
@@ -155,7 +156,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-11-02T23:11:18Z"
-    mac: ENC[AES256_GCM,data:f3ZCrisB5FGL/iG4s5apwM2DLIWDruGpgbSYGQeN836cQG+ZcAp4484rOmjPsAwVT0oYzmkii54zbutdLTV2J8i1xf34046w+dxkEzk+ckuHQkO4ytLV7JgCcNI7egJI+ooPAfCrY/Y4xrv4jequgBCsaW6b5ihPDD1ik6bl2gE=,iv:F7Se1Iw/JMH6Zsl7Eml0lLu+IkKNkE9RVBUhz0nZo8Y=,tag:5kBBMOXo9T0hYa4ShjlRwg==,type:str]
+    lastmodified: "2026-11-02T23:12:33Z"
+    mac: ENC[AES256_GCM,data:/D1ModOUGRGL1YdrFQ/WVpL/ne6PnRnpZT3y7I0AMYMLXK1EHvtzKv6D0pWR2X2uF9si7CBMw8wGun+Vn8O2b4AdwDG30STswpY3TcvUKINKVLnWTZAGn+pDakMYaBF4wgz1ALHq+733ytGGhQtdRYbyMSL0JlVIApO19c1iifQ=,iv:7XZZfW9gFo3TtMW98LoFbFsvtkpd5qf9ngLHUOxgXow=,tag:OZhDH5vmxUkfnaFgsoENRg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
