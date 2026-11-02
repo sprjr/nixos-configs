@@ -2,6 +2,7 @@
 
 let
   dataDir = "/var/lib/donetick";
+  configFile = config.sops.templates."donetick-config".path;
 in
 {
   sops.secrets."donetick/jwt-secret" = { };
@@ -33,7 +34,6 @@ in
 
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0750 root root -"
-    "d ${dataDir}/config 0750 root root -"
   ];
 
   virtualisation.oci-containers = {
@@ -43,13 +43,13 @@ in
       ports = [ "2021:2021" ];
       volumes = [
         "${dataDir}:/donetick-data"
-        "${dataDir}/config:/config"
+        "${configFile}:/config/selfhosted.yaml"
       ];
       environment = {
         DT_ENV = "selfhosted";
-        DT_SQLITE_PATH = "${dataDir}/donetick.db";
+        DT_SQLITE_PATH = "/donetick-data/donetick.db";
+        TZ = "America/Denver";
       };
-      environmentFiles = [ config.sops.templates."donetick-config".path ];
       extraOptions = [
         "--health-cmd=wget --no-verbose --tries=1 --spider http://localhost:2021/api/v1/health || exit 1"
         "--health-start-period=1m"
@@ -60,7 +60,12 @@ in
     };
   };
 
-  systemd.services."docker-donetick".restartTriggers = [ config.sops.templates."donetick-config".path ];
+  systemd.services."docker-donetick" = {
+    wants = [ "sops-secrets-rendered.service" ];
+    after = [ "sops-secrets-rendered.service" ];
+    restartTriggers = [ configFile ];
+  };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 2021 ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ 2021 ];
 }
