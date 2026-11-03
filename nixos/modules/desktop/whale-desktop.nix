@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   # GNOME as an available session (display manager handled by host)
   services.xserver.enable = true;
@@ -10,11 +10,13 @@
     program = "${pkgs.gcompris}/bin/gcompris";
     user = "kiosk";
   };
-  systemd.services."cage-tty1".after = [
-    "network-online.target"
-    "systemd-resolved.service"
-  ];
-  systemd.services."cage-tty1".wants = [ "network-online.target" ];
+  systemd.services."cage-tty1" = lib.mkIf config.services.cage.enable {
+    after = [
+      "network-online.target"
+      "systemd-resolved.service"
+    ];
+    wants = [ "network-online.target" ];
+  };
 
   # Kiosk user for cage
   users.users.kiosk = {

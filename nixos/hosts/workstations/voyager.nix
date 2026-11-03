@@ -141,6 +141,8 @@ in
 
   services.thermald.enable = true;
 
+  services.cage.enable = lib.mkForce false;
+
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
