@@ -184,4 +184,5 @@ in {
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8643 ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ 8643 ];
 }

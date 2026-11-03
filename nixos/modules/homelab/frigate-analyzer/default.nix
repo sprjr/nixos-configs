@@ -134,7 +134,7 @@ in
     metricsPort = lib.mkOption {
       type = lib.types.port;
       default = 9465;
-      description = "Prometheus metrics port (opened on tailscale0).";
+      description = "Prometheus metrics port (opened on tailscale0 and netbird0).";
     };
 
     controlPort = lib.mkOption {
@@ -148,7 +148,7 @@ in
       enable = lib.mkEnableOption "bearer-token access to the control endpoint from other hosts";
       interfaces = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ "tailscale0" ];
+        default = [ "tailscale0" "netbird0" ];
         description = "Interfaces on which the control port is opened.";
       };
     };
@@ -286,6 +286,7 @@ in
     networking.firewall.interfaces = lib.mkMerge [
       {
         tailscale0.allowedTCPPorts = [ cfg.metricsPort ];
+        netbird0.allowedTCPPorts = [ cfg.metricsPort ];
         ${cfg.mcpInterface}.allowedTCPPorts = [ cfg.mcpPort ];
       }
       (lib.mkIf cfg.remoteControl.enable (

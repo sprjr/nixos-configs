@@ -25,6 +25,8 @@ in
         Scheme = "https";
         Host = "nb.rawliyosh.com:443";
       };
+      # Keep port 22 on netbird0 for OpenSSH instead of NetBird's built-in server
+      config.ServerSSHAllowed = false;
     };
 
     systemd.services.netbird-default.restartTriggers = [

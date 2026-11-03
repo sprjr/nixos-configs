@@ -13,6 +13,7 @@ in
     };
   };
 
-  # Tailnet only; publishers use plain HTTP on this port.
+  # VPN only; publishers use plain HTTP on this port.
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ port ];
 }

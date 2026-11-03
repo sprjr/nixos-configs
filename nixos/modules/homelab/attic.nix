@@ -18,8 +18,8 @@
     mode = "0400";
   };
 
-  # Allow all Tailscale peers to reach the cache without a port-level rule.
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  # Allow all VPN peers to reach the cache without a port-level rule.
+  networking.firewall.trustedInterfaces = [ "tailscale0" "netbird0" ];
 
   services.atticd = {
     enable = true;

@@ -25,4 +25,5 @@
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 5232 ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ 5232 ];
 }

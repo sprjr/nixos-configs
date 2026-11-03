@@ -20,4 +20,5 @@
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 28981 ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ 28981 ];
 }

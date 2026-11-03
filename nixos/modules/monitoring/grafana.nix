@@ -1221,10 +1221,12 @@ in
     };
   };
 
-  # Tailscale-only: Grafana, Loki, Prometheus.
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    3000
-    3100
-    9090
-  ];
+  # VPN-only: Grafana, Loki, Prometheus.
+  networking.firewall.interfaces = lib.genAttrs [ "tailscale0" "netbird0" ] (_: {
+    allowedTCPPorts = [
+      3000
+      3100
+      9090
+    ];
+  });
 }

@@ -111,5 +111,6 @@ in
     };
 
     networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ cfg.port ];
+    networking.firewall.interfaces.netbird0.allowedTCPPorts = [ cfg.port ];
   };
 }

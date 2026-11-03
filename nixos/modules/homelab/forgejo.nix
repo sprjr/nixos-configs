@@ -58,7 +58,7 @@ in
       server = {
         DOMAIN = domain;
         ROOT_URL = "https://${domain}/";
-        # Tailscale-only (Caddy proxies in); 3002 as Grafana owns 3000.
+        # VPN-only (Caddy proxies in); 3002 as Grafana owns 3000.
         HTTP_ADDR = "0.0.0.0";
         HTTP_PORT = 3002;
         # 2222; system openssh owns 22.
@@ -89,16 +89,18 @@ in
     };
   };
 
-  # Reachable over tailscale only; the external Caddy host proxies public traffic in.
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    3002
-    2222
-  ];
+  # Reachable over VPN only; the external Caddy host proxies public traffic in.
+  networking.firewall.interfaces = lib.genAttrs [ "tailscale0" "netbird0" ] (_: {
+    allowedTCPPorts = [
+      3002
+      2222
+    ];
+  });
 
   # Wait for the store mount before migrate; nixpkgs runs preStart ahead of ExecStartPre.
   systemd.services.forgejo = {
-    after = [ "tailscaled.service" ];
-    wants = [ "tailscaled.service" ];
+    after = [ "tailscaled.service" "netbird-default.service" ];
+    wants = [ "tailscaled.service" "netbird-default.service" ];
     serviceConfig.TimeoutStartSec = 300;
   };
 

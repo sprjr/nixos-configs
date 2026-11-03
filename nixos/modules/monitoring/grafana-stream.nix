@@ -234,4 +234,5 @@ in
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ hlsPort ];
+  networking.firewall.interfaces.netbird0.allowedTCPPorts = [ hlsPort ];
 }
