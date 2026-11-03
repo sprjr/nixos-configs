@@ -12,8 +12,8 @@
     };
     services."authentik-backup" = {
       path = [ pkgs.docker pkgs.util-linux pkgs.coreutils ];
-      after = [ "tailscaled.service" ];
-      wants = [ "tailscaled.service" ];
+      after = [ "tailscaled.service" "netbird-default.service" ];
+      wants = [ "tailscaled.service" "netbird-default.service" ];
       # Fail rather than mkdir into the empty automount point if the NFS share
       # is not up yet; touching the path is what triggers the automount.
       serviceConfig.ExecStartPre = [

@@ -673,22 +673,28 @@ in
   };
 
   systemd.services.hermes-dashboard-proxy = {
-    description = "Proxy Hermes dashboard to Tailscale interface";
+    description = "Proxy Hermes dashboard to VPN interfaces";
     after = [
       "network-online.target"
       "tailscaled.service"
+      "netbird-default.service"
       "podman-hermes-agent.service"
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     path = [
       pkgs.socat
-      pkgs.tailscale
+      pkgs.iproute2
+      pkgs.jq
     ];
     serviceConfig = {
+      # One listener per VPN interface that has an address; exit when any dies so systemd restarts all.
       ExecStart = pkgs.writeShellScript "hermes-dashboard-proxy" ''
-        TS_IP=$(tailscale ip -4)
-        exec socat TCP-LISTEN:9119,bind="$TS_IP",reuseaddr,fork TCP:127.0.0.1:9119
+        for dev in netbird0 tailscale0; do
+          ip4=$(ip -4 -j addr show dev "$dev" 2>/dev/null | jq -r '.[0].addr_info[0].local // empty')
+          [ -n "$ip4" ] && socat TCP-LISTEN:9119,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:9119 &
+        done
+        wait -n
       '';
       Restart = "on-failure";
       RestartSec = 5;
@@ -696,22 +702,27 @@ in
   };
 
   systemd.services.hermes-api-proxy = {
-    description = "Proxy Hermes API to Tailscale interface";
+    description = "Proxy Hermes API to VPN interfaces";
     after = [
       "network-online.target"
       "tailscaled.service"
+      "netbird-default.service"
       "podman-hermes-agent.service"
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     path = [
       pkgs.socat
-      pkgs.tailscale
+      pkgs.iproute2
+      pkgs.jq
     ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
-        TS_IP=$(tailscale ip -4)
-        exec socat TCP-LISTEN:8642,bind="$TS_IP",reuseaddr,fork TCP:127.0.0.1:8642
+        for dev in netbird0 tailscale0; do
+          ip4=$(ip -4 -j addr show dev "$dev" 2>/dev/null | jq -r '.[0].addr_info[0].local // empty')
+          [ -n "$ip4" ] && socat TCP-LISTEN:8642,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:8642 &
+        done
+        wait -n
       '';
       Restart = "on-failure";
       RestartSec = 5;
@@ -775,8 +786,10 @@ in
     requires = [ "sops-secrets-rendered.service" ];
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    8642
-    9119
-  ];
+  networking.firewall.interfaces = lib.genAttrs [ "tailscale0" "netbird0" ] (_: {
+    allowedTCPPorts = [
+      8642
+      9119
+    ];
+  });
 }

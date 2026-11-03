@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  # shikisha runs Loki locally; every other host reaches it over Tailscale.
+  # shikisha runs Loki locally; every other host reaches it over the VPN.
   lokiUrl =
     if config.networking.hostName == "shikisha" then
       "http://127.0.0.1:3100/loki/api/v1/push"

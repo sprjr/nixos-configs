@@ -99,8 +99,8 @@ in {
 
   systemd.services.podcast-downloader = {
     description = "Download new Linux Unplugged podcast episodes";
-    after       = [ "network-online.target" "tailscaled.service" "mnt-unraid-Other.mount" ];
-    wants       = [ "network-online.target" "tailscaled.service" ];
+    after       = [ "network-online.target" "tailscaled.service" "netbird-default.service" "mnt-unraid-Other.mount" ];
+    wants       = [ "network-online.target" "tailscaled.service" "netbird-default.service" ];
     path   = [ pkgs.rsync pkgs.openssh pkgs.gnugrep pkgs.coreutils ];
     # Fail rather than makedirs into the empty automount point if the NFS share
     # is not up yet; touching the path is what triggers the automount.

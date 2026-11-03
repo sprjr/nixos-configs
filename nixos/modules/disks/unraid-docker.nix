@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  # dauntless resolves over MagicDNS, which is not up during early boot; retry on access.
+  # dauntless resolves over VPN DNS, which is not up during early boot; retry on access.
   fileSystems."/mnt/unraid/Docker" = {
     device = "dauntless:/mnt/user/Docker";
     fsType = "nfs";
@@ -10,6 +10,7 @@
       "defaults"
       "x-systemd.automount"
       "x-systemd.after=tailscaled.service"
+      "x-systemd.after=netbird-default.service"
     ];
   };
   boot.supportedFilesystems = [ "nfs" ];

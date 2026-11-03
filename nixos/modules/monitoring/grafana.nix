@@ -489,7 +489,7 @@ in
         http_port = 3000;
         domain = "$__file{${config.sops.secrets."grafana/domain".path}}";
         root_url = "$__file{${config.sops.templates."grafana-root-url".path}}";
-        # false: enforce_domain would break direct Tailscale access.
+        # false: enforce_domain would break direct VPN access.
         enforce_domain = false;
       };
       security = {

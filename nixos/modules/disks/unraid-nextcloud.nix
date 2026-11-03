@@ -15,7 +15,7 @@ let
 in
 {
   # Only Nextcloud's user-data directory lives on NFS; config stays local.
-  # dauntless resolves over MagicDNS, which is not up during early boot; retry on access.
+  # dauntless resolves over VPN DNS, which is not up during early boot; retry on access.
   fileSystems."/var/lib/nextcloud/data" = {
     device = "dauntless:/mnt/user/Nextcloud/data";
     fsType = "nfs";
@@ -24,6 +24,7 @@ in
       "defaults"
       "x-systemd.automount"
       "x-systemd.after=tailscaled.service"
+      "x-systemd.after=netbird-default.service"
     ];
   };
   boot.supportedFilesystems = [ "nfs" ];

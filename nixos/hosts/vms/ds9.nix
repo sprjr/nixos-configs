@@ -59,6 +59,7 @@ in
     after = [
       "network-online.target"
       "tailscaled.service"
+      "netbird-default.service"
       "ntfy-sh.service"
     ];
     wants = [ "network-online.target" ];

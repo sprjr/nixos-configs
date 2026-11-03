@@ -9,8 +9,8 @@ with lib;
 
 # Radicale (CalDAV) "next events" waybar widget. Available to ANY host running the
 # Hyprland session (laptop-home / desktop-home both import ./hyprland), not gated
-# by host. Reaches Radicale on shikisha over tailscale (radicale.nix opens 5232 on
-# interfaces.tailscale0). Requires the `radicale/password` sops secret to be
+# by host. Reaches Radicale on shikisha over the VPN (radicale.nix opens 5232 on
+# netbird0 and tailscale0). Requires the `radicale/password` sops secret to be
 # decryptable on the host (same pattern as the ha_token widget).
 let
   cfg = config.patrick.home.hyprland;

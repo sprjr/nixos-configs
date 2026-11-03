@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  # Tailnet upstreams by MagicDNS name
+  # VPN upstreams by bare hostname (NetBird DNS, MagicDNS fallback)
   shikisha = "shikisha";
   wopr = "wopr";
   macnnix = "macnnix";
