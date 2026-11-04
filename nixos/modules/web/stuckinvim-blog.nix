@@ -5,11 +5,12 @@ let
     pname = "stuckinvim-site";
     version = "0.1.0";
     src = ../../../sites/stuckinvim;
-    nativeBuildInputs = [ pkgs.zola ];
+    nativeBuildInputs = [ pkgs.zola pkgs.cacert ];
 
     buildPhase = ''
       runHook preBuild
       cp -r $src/. .
+      export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
       zola build
       runHook postBuild
     '';
