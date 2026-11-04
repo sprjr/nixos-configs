@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "macros.html" as macros %}
 
 {% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
 
@@ -8,8 +7,10 @@
   <header class="post-header">
     <h1>{{ page.title }}</h1>
     <div class="post-meta">
+      {% if page.date %}
       <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(format='%Y-%m-%d') }}</time>
-      <span class="reading-time">{{ macros::reading_time(word_count=page.word_count) }}</span>
+      {% endif %}
+      <span class="reading-time">{% if page.word_count < 200 %}1{% else %}{{ page.reading_time }}{% endif %} min read</span>
       {% if page.taxonomies.tags %}
         <span class="post-tags">
           {% for tag in page.taxonomies.tags %}

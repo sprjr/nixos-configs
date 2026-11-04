@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}{{ section.title }} — {{ config.title }}{% endblock title %}
+{% block title %}{{ config.title }}{% endblock title %}
 
 {% block content %}
 <article class="intro">
   {{ section.content | safe }}
 </article>
 
+{% set posts = get_section(path="posts/_index.md") %}
 <h1>Posts</h1>
 
-{% if section.pages %}
+{% if posts.pages %}
   <ul class="post-list">
-    {% for post in section.pages %}
+    {% for post in posts.pages %}
       <li class="post-item">
         <a href="{{ post.permalink }}" class="post-title">{{ post.title }}</a>
         <span class="post-meta">

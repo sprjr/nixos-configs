@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 let
   site = pkgs.stdenvNoCC.mkDerivation {
@@ -9,14 +9,15 @@ let
 
     buildPhase = ''
       runHook preBuild
-      mkdir -p .cache/zola
-      zola build --root $src --base-url https://stuckinvim.io
+      cp -r $src/. .
+      zola build
       runHook postBuild
     '';
 
     installPhase = ''
       runHook preInstall
-      cp -r public $out
+      mkdir -p $out
+      cp -r public/. $out/
       runHook postInstall
     '';
   };

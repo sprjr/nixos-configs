@@ -2,24 +2,22 @@ base_url = "https://stuckinvim.io"
 title = "stuck in vim"
 description = "Notes from a terminal-centric homelab."
 default_language = "en"
-
 author = "stuck in vim"
 generate_feeds = true
-feed_filename = "atom.xml"
-
+feed_filenames = ["atom.xml"]
+generate_sitemap = true
 build_search_index = false
-minify_html = false
-
-highlight_code = true
-highlight_theme = "base16-ocean-dark"
-
-[extra]
-author = "stuck in vim"
 
 [markdown]
-highlight_code = true
-highlight_theme = "base16-ocean-dark"
 render_emoji = false
+
+[markdown.highlighting]
+style = "inline"
+extra_themes = ["themes/catppuccin-mocha.sublime-color-scheme"]
+theme = "Catppuccin Mocha"
+
+[[taxonomies]]
+name = "tags"
 
 [slugify]
 paths = "safe"
