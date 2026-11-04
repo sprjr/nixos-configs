@@ -2,6 +2,7 @@
 title = "Recovering from a bad NixOS rollback"
 date = 2026-10-15
 [taxonomies]
+topic = ["technical"]
 tags = ["nix", "homelab"]
 +++
 

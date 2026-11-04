@@ -2,6 +2,7 @@
 title = "Deploying this site with Nix + Zola"
 date = 2026-10-30
 [taxonomies]
+topic = ["technical"]
 tags = ["nix", "homelab"]
 +++
 
