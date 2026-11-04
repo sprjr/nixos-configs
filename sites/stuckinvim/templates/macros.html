@@ -1,0 +1,4 @@
+{% macro reading_time(word_count) %}
+{% set minutes = (word_count / 200) | round(method="ceil") | int %}
+{{ minutes }} min read
+{% endmacro reading_time %}

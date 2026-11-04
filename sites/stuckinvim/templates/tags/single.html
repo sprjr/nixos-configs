@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}#{{ term.name }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<h1>#{{ term.name }}</h1>
+
+{% if term.pages %}
+  <ul class="post-list">
+    {% for post in term.pages %}
+      <li class="post-item">
+        <a href="{{ post.permalink }}" class="post-title">{{ post.title }}</a>
+        <span class="post-meta">
+          <time datetime="{{ post.date | date(format='%Y-%m-%d') }}">{{ post.date | date(format='%Y-%m-%d') }}</time>
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No posts tagged #{{ term.name }}.</p>
+{% endif %}
+
+<p><a href="{{ get_url(path='@/tags/_index.md') }}">all tags</a></p>
+{% endblock content %}
