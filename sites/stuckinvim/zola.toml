@@ -19,6 +19,10 @@ theme = "Catppuccin Mocha"
 [[taxonomies]]
 name = "tags"
 
+[[taxonomies]]
+name = "topic"
+render = false
+
 [slugify]
 paths = "safe"
 taxonomies = "safe"

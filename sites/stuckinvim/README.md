@@ -11,6 +11,7 @@ Create a new file in `content/posts/` with front matter:
 title = "My post title"
 date = 2026-11-03
 [taxonomies]
+topic = ["technical"]
 tags = ["nix", "homelab"]
 +++
 ```
@@ -23,6 +24,7 @@ Then write Markdown below the closing `+++`.
 |---------|----------|--------------------------------------------|
 | `title` | yes      | Post title                                 |
 | `date`  | yes      | `YYYY-MM-DD` used for sorting              |
+| `topic` | yes      | `["technical"]` or `["personal"]`; drives /technical/ and /personal/ |
 | `tags`  | no       | Array of taxonomy tags                       |
 
 ## Preview locally
