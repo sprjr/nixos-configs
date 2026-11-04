@@ -1,5 +1,5 @@
 base_url = "https://stuckinvim.io"
-title = "stuck in vim"
+title = "StuckInVim"
 description = "Notes from a terminal-centric homelab."
 default_language = "en"
 author = "stuck in vim"
