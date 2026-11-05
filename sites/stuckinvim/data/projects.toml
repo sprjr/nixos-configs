@@ -1,0 +1,6 @@
+[[projects]]
+name = "nixos-configs"
+url = "https://github.com/sprjr/nixos-configs"
+host = "GitHub"
+role = "maintained"
+description = "flake-based NixOS and nix-darwin configuration for a homelab fleet."
