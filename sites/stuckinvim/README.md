@@ -34,3 +34,5 @@ nix shell nixpkgs#zola --command zola serve
 ```
 
 Zola will serve the site at `http://127.0.0.1:1111`.
+
+See also: [STYLEGUIDE.md](STYLEGUIDE.md).
