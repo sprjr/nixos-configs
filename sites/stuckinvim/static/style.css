@@ -239,6 +239,16 @@ th {
   color: var(--overlay1);
 }
 
+.project-profiles {
+  margin: 0.5rem 0 1.5rem;
+  color: var(--overlay1);
+  font-size: 0.9rem;
+}
+
+.project-profiles a {
+  color: var(--mauve);
+}
+
 .project-list {
   margin-top: 1rem;
 }
