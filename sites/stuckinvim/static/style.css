@@ -239,6 +239,39 @@ th {
   color: var(--overlay1);
 }
 
+.project-profiles {
+  margin: 0.5rem 0 1.5rem;
+  color: var(--overlay1);
+  font-size: 0.9rem;
+}
+
+.project-profiles a {
+  color: var(--mauve);
+}
+
+.project-list {
+  margin-top: 1rem;
+}
+
+.project-item {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 0.75rem 0;
+}
+
+.project-host {
+  color: var(--overlay1);
+  font-size: 0.8rem;
+  text-transform: lowercase;
+}
+
+.project-description {
+  color: var(--subtext1);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 .post-pager {
   display: flex;
   flex-wrap: wrap;
