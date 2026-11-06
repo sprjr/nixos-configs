@@ -98,6 +98,10 @@ let
     model = "kimi-k2.7-code";
     api_key = true;
   };
+  coderProModel = mkModelBlock {
+    model = "kimi-k3.1-pro";
+    api_key = true;
+  };
   researcherModel = mkModelBlock {
     model = "glm-5.3";
     context_length = 1000000;
@@ -160,6 +164,17 @@ let
   coderConfigYaml = pkgs.writeText "hermes-coder-config.yaml" ''
     ${coderModel}
     ${coderToolsets}
+    delegation:
+      model: deepseek-v4.1-flash
+    terminal:
+      env: local
+  '';
+
+  coderProConfigYaml = pkgs.writeText "hermes-coder-pro-config.yaml" ''
+    ${coderProModel}
+    ${coderToolsets}
+    delegation:
+      model: deepseek-v4.1-flash
     terminal:
       env: local
   '';
@@ -577,6 +592,7 @@ in
     "d /var/lib/hermes-agent 0755 root root -"
     "d /var/lib/hermes-agent/profiles 0755 root root -"
     "d /var/lib/hermes-agent/profiles/coder 0755 root root -"
+    "d /var/lib/hermes-agent/profiles/coder-pro 0755 root root -"
     "d /var/lib/hermes-agent/profiles/researcher 0755 root root -"
     "d /var/lib/hermes-agent/profiles/home 0755 root root -"
     "d /var/lib/hermes-agent/references 0755 root root -"
@@ -651,6 +667,16 @@ in
       chmod 644 /var/lib/hermes-agent/profiles/coder/SOUL.md
       cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/coder/.env
       chmod 644 /var/lib/hermes-agent/profiles/coder/.env
+
+      # Coder-pro profile
+      cp ${coderProConfigYaml} /var/lib/hermes-agent/profiles/coder-pro/config.yaml
+      chmod 600 /var/lib/hermes-agent/profiles/coder-pro/config.yaml
+      cp ${
+        config.sops.secrets."hermes-agent/soul-coder".path
+      } /var/lib/hermes-agent/profiles/coder-pro/SOUL.md
+      chmod 644 /var/lib/hermes-agent/profiles/coder-pro/SOUL.md
+      cp ${config.sops.templates."hermes-profile-env".path} /var/lib/hermes-agent/profiles/coder-pro/.env
+      chmod 644 /var/lib/hermes-agent/profiles/coder-pro/.env
 
       # Researcher profile
       cp ${researcherConfigYaml} /var/lib/hermes-agent/profiles/researcher/config.yaml
