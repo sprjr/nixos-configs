@@ -189,8 +189,11 @@ in
       ];
 
       # 15.6" 3840x2160 panel: 1.2 leaves 3200x1800 logical, too dense to use.
+      # Samsung LS27A800U over DisplayLink sits left; matched by desc because evdi's DVI-I-N
+      # numbering can shift across replugs. Its logical width (3840/1.5 = 2560) is eDP-1's x offset.
       patrick.home.hyprland.monitors = lib.mkForce [
-        "eDP-1,preferred,auto,2.0"
+        "desc:Samsung Electric Company LS27A800U HCJW300193,3840x2160@60,0x0,1.5"
+        "eDP-1,preferred,2560x0,2.0"
         ",preferred,auto,auto"
       ];
 
