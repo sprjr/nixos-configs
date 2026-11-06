@@ -472,6 +472,7 @@
               ./nixos/modules/desktop/stylix.nix
               ./nixos/modules/i18n/japanese-input.nix
               ./nixos/modules/hardware/nvidia-t1000.nix
+              ./nixos/modules/hardware/displaylink.nix
               ./nixos/modules/gaming/mcpelauncher.nix
               ./nixos/modules/system/comin.nix
               ./nixos/modules/system/comin-notify.nix
