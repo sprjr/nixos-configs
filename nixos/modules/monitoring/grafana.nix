@@ -579,7 +579,7 @@ in
               group_wait = "30s";
               group_interval = "5m";
               repeat_interval = "6h";
-              # Findings persist until the next weekly scan; notify once per scan, not every 6h.
+              # Findings stay open until the target's next scan; new and resolved findings notify via group_interval.
               routes = [
                 {
                   receiver = "ntfy";
@@ -1156,22 +1156,22 @@ in
               interval = "5m";
               rules = [
                 {
-                  uid = "nuclei-high-critical";
-                  title = "Nuclei high/critical finding";
+                  uid = "nuclei-open-finding";
+                  title = "Nuclei open high/critical finding";
                   condition = "C";
                   data = [
                     {
                       refId = "A";
-                      # 8d: one weekly scan plus schedule jitter, so a persisting finding stays firing.
                       relativeTimeRange = {
-                        from = 691200;
+                        from = 600;
                         to = 0;
                       };
-                      datasourceUid = "loki";
+                      datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        expr = ''sum by (target) (count_over_time({job="nuclei", severity=~"high|critical"}[8d]))'';
-                        queryType = "instant";
+                        # One series per finding from the target's latest scan; resolves when a rescan no longer matches.
+                        expr = ''max by (target, template_id, finding_severity, name, matched_at) (nuclei_finding{finding_severity=~"high|critical"})'';
+                        instant = true;
                       };
                     }
                     {
@@ -1204,14 +1204,127 @@ in
                     }
                   ];
                   for = "0s";
-                  # No findings returns no series; that is the healthy state.
+                  # No open findings returns no series; that is the healthy state.
                   noDataState = "OK";
                   execErrState = "Error";
                   labels = {
                     severity = "critical";
                     category = "nuclei";
                   };
-                  annotations.summary = "{{ $labels.target }} has {{ $values.B }} high/critical nuclei findings";
+                  annotations.summary = "{{ $labels.target }}: [{{ $labels.finding_severity }}] {{ $labels.name }} at {{ $labels.matched_at }} ({{ $labels.template_id }})";
+                }
+                {
+                  uid = "nuclei-scan-unhealthy";
+                  title = "Nuclei scan failing or stale";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        # Failed last run, weekly run missing past 8.5d, or daily poller missing past 2h.
+                        expr = ''
+                          (1 - nuclei_scan_last_run_success) > 0
+                          or (time() - nuclei_scan_last_run_timestamp_seconds{mode="weekly"}) > 734400
+                          or (time() - nuclei_scan_last_run_timestamp_seconds{mode="daily"}) > 7200
+                        '';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  for = "0s";
+                  # Healthy runs return no series; a missing metric file is covered by the "Nuclei scan metrics missing" rule.
+                  noDataState = "OK";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "nuclei {{ $labels.mode }} scan has failed or not run on schedule";
+                }
+                {
+                  uid = "nuclei-scan-metrics-missing";
+                  title = "Nuclei scan metrics missing";
+                  condition = "C";
+                  data = [
+                    {
+                      refId = "A";
+                      relativeTimeRange = {
+                        from = 600;
+                        to = 0;
+                      };
+                      datasourceUid = "prometheus";
+                      model = {
+                        refId = "A";
+                        expr = ''absent(nuclei_scan_last_run_timestamp_seconds{mode="weekly"}) or absent(nuclei_scan_last_run_timestamp_seconds{mode="daily"})'';
+                        instant = true;
+                      };
+                    }
+                    {
+                      refId = "B";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "B";
+                        type = "reduce";
+                        reducer = "last";
+                        expression = "A";
+                      };
+                    }
+                    {
+                      refId = "C";
+                      datasourceUid = "__expr__";
+                      model = {
+                        refId = "C";
+                        type = "threshold";
+                        expression = "B";
+                        conditions = [
+                          {
+                            type = "query";
+                            evaluator = {
+                              type = "gt";
+                              params = [ 0 ];
+                            };
+                          }
+                        ];
+                      };
+                    }
+                  ];
+                  # Covers a fresh deploy until both modes have completed once.
+                  for = "1h";
+                  noDataState = "OK";
+                  execErrState = "Error";
+                  labels.severity = "warning";
+                  annotations.summary = "nuclei {{ $labels.mode }} scan has never reported metrics";
                 }
               ];
             }

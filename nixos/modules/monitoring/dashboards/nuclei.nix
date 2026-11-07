@@ -1,12 +1,17 @@
-# Grafana dashboard for nuclei-scan findings (Loki, job="nuclei")
+# Grafana dashboard for nuclei-scan: current state (Prometheus textfile metrics) and finding history (Loki, job="nuclei")
 let
-  ds = {
+  loki = {
     type = "loki";
     uid = "loki";
   };
 
+  prom = {
+    type = "prometheus";
+    uid = "prometheus";
+  };
+
   panel =
-    id: type: title: gridPos: targets: extra:
+    ds: id: type: title: gridPos: targets: extra:
     {
       inherit
         id
@@ -42,14 +47,93 @@ in
   version = 1;
   editable = false;
   refresh = "5m";
-  # One weekly scan plus schedule jitter.
+  # Covers one weekly scan plus schedule jitter.
   time = {
     from = "now-8d";
     to = "now";
   };
   timezone = "browser";
   panels = [
-    (panel 1 "stat" "Findings by severity (range)" { h = 5; w = 24; x = 0; y = 0; }
+    (panel prom 4 "table" "Open findings (latest scan per target)" { h = 9; w = 24; x = 0; y = 0; }
+      [
+        ((instant (target "A" "nuclei_finding" "")) // {
+          format = "table";
+        })
+      ]
+      {
+        transformations = [
+          {
+            id = "organize";
+            options = {
+              excludeByName = {
+                Time = true;
+                Value = true;
+                __name__ = true;
+                instance = true;
+                job = true;
+              };
+              indexByName = {
+                target = 0;
+                finding_severity = 1;
+                name = 2;
+                matched_at = 3;
+                template_id = 4;
+              };
+            };
+          }
+        ];
+      }
+    )
+    (panel prom 5 "table" "Targets" { h = 7; w = 24; x = 0; y = 9; }
+      [
+        ((instant (target "A" "time() - nuclei_scan_last_success_timestamp_seconds" "")) // {
+          format = "table";
+        })
+        ((instant (target "B" "nuclei_scan_open_ports" "")) // {
+          format = "table";
+        })
+      ]
+      {
+        transformations = [
+          {
+            id = "merge";
+            options = { };
+          }
+          {
+            id = "organize";
+            options = {
+              excludeByName = {
+                Time = true;
+                instance = true;
+                job = true;
+              };
+              renameByName = {
+                "Value #A" = "Since last scan";
+                "Value #B" = "Open ports";
+              };
+            };
+          }
+        ];
+        fieldConfig = {
+          defaults = { };
+          overrides = [
+            {
+              matcher = {
+                id = "byName";
+                options = "Since last scan";
+              };
+              properties = [
+                {
+                  id = "unit";
+                  value = "s";
+                }
+              ];
+            }
+          ];
+        };
+      }
+    )
+    (panel loki 1 "stat" "Findings by severity (range)" { h = 5; w = 24; x = 0; y = 16; }
       [ (instant (target "A" ''sum by (severity) (count_over_time({job="nuclei"}[$__range]))'' "{{severity}}")) ]
       {
         fieldConfig = {
@@ -74,7 +158,7 @@ in
         };
       }
     )
-    (panel 2 "barchart" "Findings by target (range)" { h = 9; w = 24; x = 0; y = 5; }
+    (panel loki 2 "barchart" "Findings by target (range)" { h = 9; w = 24; x = 0; y = 21; }
       [
         ((instant (target "A" ''sum by (target) (count_over_time({job="nuclei"}[$__range]))'' "{{target}}")) // {
           format = "table";
@@ -82,9 +166,9 @@ in
       ]
       { }
     )
-    (panel 3 "logs" "Findings" { h = 16; w = 24; x = 0; y = 14; }
+    (panel loki 3 "logs" "Findings" { h = 16; w = 24; x = 0; y = 30; }
       [
-        (target "A" ''{job="nuclei"} | json | line_format "[{{.info_severity}}] {{.info_name}} - {{.matched_at}} ({{.template_id}})"'' "")
+        (target "A" ''{job="nuclei"} | json | line_format `[{{.info_severity}}] {{.scan_target}}: {{.info_name}} - {{.matched_at}} ({{.template_id}}){{if eq .accepted "true"}} [accepted]{{end}}`'' "")
       ]
       {
         options = {

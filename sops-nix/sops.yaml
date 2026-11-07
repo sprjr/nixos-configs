@@ -136,7 +136,7 @@ paperless:
 shodan:
     sxr-api-key: ENC[AES256_GCM,data:KO/i/xAjoRlv67PY/Onrb+HoCn5axAvhvDrCe2eINN8=,iv:YKndmzh3l0OFqUGraopwGwZEJh2NJVf6+Jc8eKxmqHE=,tag:1uIRif4zWTodeixGuWIKWw==,type:str]
 nuclei:
-    targets: ENC[AES256_GCM,data:hblcHs7lLwRU/xeXaAmH46E28iD2gcTbnSEtBmQ5vz4d,iv:qOCCF46c7CpXdYTmMwJ4V9XSh2rvdSWkUZBOEEwoEx0=,tag:iHfBA0qjL2UdeG1JNfEsLw==,type:str]
+    targets: ENC[AES256_GCM,data:qOZCb7OBtePyFvCISbllhQ==,iv:+1fl/rTnGDamJTz1/5ZdgulK6xGK2DjLBfFqpt9VPcI=,tag:JVRYaoW1YDov64z9HwUryQ==,type:str]
 miniflux:
     admin-password: ENC[AES256_GCM,data:yCSC37/N+elzBB3o5TI+hIuq/8ASFHZw8WavjPSJEzm48DwymsicbMCn,iv:b3SJY+9MBNJTTqjBtoiZOwXLNIM4LezxT2dzBVVgz28=,tag:sybxFfVUqgEdxb1oVN/1kQ==,type:str]
     oauth-client-id: ENC[AES256_GCM,data:kx0a1XUoCm3XB5SBBbaBF3bJuCxVtJw8lO4csTFoqIWQjLIxtFZf3g==,iv:Bdqd4GoCoUmYKp6ntg/y6uUvm23RlTAGBvlft0dnI8M=,tag:jNwc16VEZFRosvEAVsKDFA==,type:str]
@@ -156,7 +156,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-11-02T23:12:33Z"
-    mac: ENC[AES256_GCM,data:/D1ModOUGRGL1YdrFQ/WVpL/ne6PnRnpZT3y7I0AMYMLXK1EHvtzKv6D0pWR2X2uF9si7CBMw8wGun+Vn8O2b4AdwDG30STswpY3TcvUKINKVLnWTZAGn+pDakMYaBF4wgz1ALHq+733ytGGhQtdRYbyMSL0JlVIApO19c1iifQ=,iv:7XZZfW9gFo3TtMW98LoFbFsvtkpd5qf9ngLHUOxgXow=,tag:OZhDH5vmxUkfnaFgsoENRg==,type:str]
+    lastmodified: "2026-11-07T04:33:01Z"
+    mac: ENC[AES256_GCM,data:XnKRwgxqKvNGXcB8UDYRWwe0bSm2fSNFI2gIUlIrKukXMJwV0N3SLzBanaGowKzV5K0yQC0YOJp7tm1A6ruDn2oKUsFI/DM+J4tLjcWoBeZJo1DZY0brd5kzfUXYm5nHYmmSDqbDnFh3vxtF7m1ZryY9BlcXL4BSGVa6pVnvfKA=,iv:YnQ855LFXsluEu2Uo7D4/EafF1MsnkqeA4TGIghD4gQ=,tag:Xgd+el8vh8H70vzhXL762Q==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3

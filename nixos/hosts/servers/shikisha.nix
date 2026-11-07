@@ -181,10 +181,28 @@ in
     ntfyUrlFile = config.sops.secrets."monitoring/ntfy/comin-url".path;
   };
 
-  # Weekly vulnerability scan of homelab hosts; findings ship to Loki via Alloy.
+  # Weekly scan of always-on hosts, daily scan of workstations once they come up; findings ship to Loki via Alloy.
   services.nuclei-scan = {
     enable = true;
     targetsFile = config.sops.secrets."nuclei/targets".path;
+    dailyTargets = [
+      "nx-01"
+      "seanix"
+      "stargazer"
+      "voyager"
+      "seair"
+      "defiant"
+    ];
+    # Templates for products not in the fleet that match generic /metrics endpoints.
+    excludeTemplateIds = [
+      "kubernetes-metrics"
+      "postgres-exporter-metrics"
+    ];
+    # CVE-2019-11248 is a kubelet CVE; these are Prometheus and node-exporter pprof endpoints.
+    acceptedFindings = [
+      "CVE-2019-11248 http://shikisha:9090/debug/pprof/"
+      "CVE-2019-11248 http://shikisha:9100/debug/pprof/"
+    ];
   };
 
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
