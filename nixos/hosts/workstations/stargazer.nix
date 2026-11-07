@@ -115,8 +115,6 @@ in
     };
   };
 
-  services.thermald.enable = true;
-
   services.thinkfan = {
     enable = true;
     sensors = [
