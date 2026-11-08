@@ -14,21 +14,6 @@ let
   '';
 in
 {
-  # Only Nextcloud's user-data directory lives on NFS; config stays local.
-  # dauntless resolves over VPN DNS, which is not up during early boot; retry on access.
-  fileSystems."/var/lib/nextcloud/data" = {
-    device = "dauntless:/mnt/user/Nextcloud/data";
-    fsType = "nfs";
-    options = [
-      "nofail"
-      "defaults"
-      "x-systemd.automount"
-      "x-systemd.after=tailscaled.service"
-      "x-systemd.after=netbird-default.service"
-    ];
-  };
-  boot.supportedFilesystems = [ "nfs" ];
-
   # Match the local nextcloud UID to the unraid export owner so NFS files
   # appear owned by nextcloud. 99 = unraid `nobody`; adjust if the share
   # `stat`s to a different UID. The group is set to the same value the

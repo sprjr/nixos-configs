@@ -22,6 +22,15 @@ in
     ../../modules/system/esp-tooling.nix
   ];
 
+  homelab.nfs-shares.shares = [
+    { share = "Docker"; }
+    { share = "Gitea"; extraOptions = [ "sync" ]; }
+    { share = "Kubernetes"; }
+    { share = "Media"; workloadClass = "read-mostly"; }
+    { share = "Other"; }
+    { share = "Nextcloud/data"; mountPoint = "/var/lib/nextcloud/data"; }
+  ];
+
   services.syncthing-hub = {
     enable = true;
     clientDevices = [
