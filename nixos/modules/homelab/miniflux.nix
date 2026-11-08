@@ -36,7 +36,7 @@ in
       OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://auth.rawliyosh.com/application/o/miniflux/";
       OAUTH2_CLIENT_ID_FILE = "/run/credentials/miniflux.service/oauth-client-id";
       OAUTH2_CLIENT_SECRET_FILE = "/run/credentials/miniflux.service/oauth-client-secret";
-      OAUTH2_REDIRECT_URL = "https://${domain}/oauth2/callback";
+      OAUTH2_REDIRECT_URL = "https://${domain}/oauth2/oidc/callback";
       OAUTH2_USER_CREATION = 1;
       OAUTH2_OIDC_PROVIDER_NAME = "Authentik";
     };
