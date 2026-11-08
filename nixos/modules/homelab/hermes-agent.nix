@@ -509,6 +509,7 @@ in
   sops.secrets."hermes-agent/forgejo-pat" = { };
   sops.secrets."hermes-agent/github-pat" = { };
   sops.secrets."hermes-agent/windows-mcp-token" = { };
+  sops.secrets."hermes-agent/rss-api-key" = { };
   sops.secrets.ha_token = { };
   sops.secrets.ha_token_wopr = { };
   sops.secrets."radicale/password" = { };
@@ -562,6 +563,7 @@ in
       FORGEJO_PAT=${config.sops.placeholder."hermes-agent/forgejo-pat"}
       GITHUB_PAT=${config.sops.placeholder."hermes-agent/github-pat"}
       WINDOWS_MCP_TOKEN=${config.sops.placeholder."hermes-agent/windows-mcp-token"}
+      RSS_API_KEY=${config.sops.placeholder."hermes-agent/rss-api-key"}
       CALDAV_PASSWORD=${config.sops.placeholder."radicale/password"}
       LUBELOGGER_API_KEY=${config.sops.placeholder."lubelogger/api-key"}
       DAWARICH_API_KEY=${config.sops.placeholder."dawarich/api-key"}
