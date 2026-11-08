@@ -205,6 +205,12 @@ in
     ];
   };
 
+  # Daily CISA KEV diff watcher: alerts only when the catalog gains new entries.
+  services.kev-watch = {
+    enable = true;
+    ntfyUrlFile = config.sops.secrets."monitoring/ntfy/grafana-alerts-url".path;
+  };
+
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
   networking.iproute2.enable = true;
