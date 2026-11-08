@@ -1,0 +1,97 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+let
+  agentPermissions = {
+    read = "allow";
+    edit = "ask";
+    glob = "allow";
+    grep = "allow";
+    list = "allow";
+    bash = "ask";
+    webfetch = "ask";
+    websearch = "ask";
+    todowrite = "ask";
+    task = "ask";
+    external_directory = "ask";
+  };
+
+  opencodeSettings = builtins.toJSON {
+    "$schema" = "https://opencode.ai/config.json";
+    default_agent = "general";
+    autoupdate = false;
+    share = "disabled";
+    model = "ollama/qwen3:8b";
+    mcpServers = {
+      nixos = {
+        command = "${pkgs.nix}/bin/nix";
+        args = [
+          "run"
+          "github:utensils/mcp-nixos"
+        ];
+      };
+    };
+    provider = {
+      ollama = {
+        name = "Ollama";
+        npm = "@ai-sdk/openai-compatible";
+        options = {
+          baseURL = "http://badgey:11434/v1";
+        };
+        models = {
+          "qwen3:8b" = {
+            _launch = false;
+            name = "qwen3:8b";
+          };
+          "qwen3.5:4b" = {
+            _launch = false;
+            name = "qwen3.5:4b";
+          };
+          "deepseek-r1:7b" = {
+            _launch = false;
+            name = "deepseek-r1:7b";
+          };
+          "gemma3:4b" = {
+            _launch = false;
+            name = "gemma3:4b";
+          };
+          "moondream:1.8b" = {
+            _launch = false;
+            name = "moondream:1.8b";
+          };
+          "hf.co/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF:latest" = {
+            _launch = false;
+            name = "DeepSeek-R1-Distill-Qwen-7B-GGUF";
+          };
+          "hf.co/Jackrong/Qwen3.5-9B-Claude-4.6-Opus-Reasoning-Distilled-GGUF:latest" = {
+            _launch = false;
+            name = "Qwen3.5-9B-Claude-Distilled";
+          };
+        };
+      };
+    };
+    agent = {
+      build = {
+        permission = agentPermissions;
+      };
+      general = {
+        permission = agentPermissions;
+      };
+    };
+  };
+in
+
+{
+  home.packages = with pkgs; [
+    opencode
+    opencode-desktop
+  ];
+
+  xdg.configFile."opencode/opencode.json".source = pkgs.runCommand "opencode-config.json" { } ''
+    ${pkgs.jq}/bin/jq '.' ${pkgs.writeText "opencode-config-raw.json" opencodeSettings} > $out
+  '';
+}

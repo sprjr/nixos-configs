@@ -1,0 +1,39 @@
+# debian-12.yaml
+images:
+- location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
+  arch: "x86_64"
+
+mounts:
+- location: "~"
+  writable: true
+
+containerd:
+  system: false
+  user: false
+
+provision:
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    export DEBIAN_FRONTEND=noninteractive
+    apt update -y
+    apt upgrade -y
+    apt install -y curl wget sudo ca-certificates lsb-release gnupg vim git
+
+ports:
+  - local: 8080   # host port
+    guest: 80     # FreePBX web
+  - local: 8443
+    guest: 443
+  - local: 2525
+    guest: 25     # optional SMTP
+
+message: |
+  ===================
+  Debian 12 VM ready.
+  Access FreePBX at http://localhost:8080 or https://localhost:8443
+  ---
+  To enter the vm:
+    limactl shell {{.Name}}
+  ===================

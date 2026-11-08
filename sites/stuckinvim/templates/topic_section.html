@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+{{ section.content | safe }}
+{% set tax = get_taxonomy(kind="topic") %}
+{% set_global hits = [] %}
+{% for term in tax.items %}{% if term.name == section.extra.topic %}{% set_global hits = term.pages %}{% endif %}{% endfor %}
+{% if hits %}
+  <ul class="post-list">
+    {% for post in hits %}
+      <li class="post-item">
+        <a href="{{ post.permalink }}" class="post-title">{{ post.title }}</a>
+        <span class="post-meta">
+          <time datetime="{{ post.date | date(format='%Y-%m-%d') }}">{{ post.date | date(format='%Y-%m-%d') }}</time>
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nothing here yet.</p>
+{% endif %}
+{% endblock content %}

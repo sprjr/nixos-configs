@@ -1,0 +1,103 @@
+{
+  config,
+  pkgs,
+  home-manager,
+  ...
+}:
+
+{
+  # Modules
+  imports = [
+    #   ./linux/desktop_environments/gnome.nix
+    ./modules/general/packages.nix
+    ./modules/general/workstation-packages.nix
+    ./modules/tools/alacritty.nix
+    ./modules/tools/claude.nix
+    ./modules/tools/opencode.nix
+    ./modules/tools/t3code.nix
+    ./modules/tools/ghostty.nix
+    ./modules/tools/neovim.nix
+    ./modules/user-space/bat.nix
+    ./modules/user-space/colors.nix
+    ./modules/user-space/themes/gtk.nix
+    ./modules/user-space/cosmic/cosmic.nix
+    ./modules/user-space/hyprland
+    ./modules/tools/helix/config.nix
+    ./modules/tools/helix/languages.nix
+    ./modules/user-space/shell.nix
+    ./modules/user-space/zellij/zellij-layout.nix
+    ./modules/user-space/zellij/zellij-config.nix
+  ];
+
+  # Enable Cosmic
+  patrick.home.cosmic = true;
+
+  # Independent, login-selectable Hyprland session (additive to COSMIC). Session daemons
+  # only run inside Hyprland, so this stays dormant under COSMIC. Selectable only on hosts
+  # whose flake entry also imports nixos/modules/desktop/hyprland.nix.
+  patrick.home.hyprland = {
+    enable = true;
+    battery = true;
+    formFactor = "laptop";
+    # Internal panel at exact 1.2 scale (240/200 — no fractional-scale snapping). External
+    # outputs stay auto (~1.0) via the fallback line, so docking is unaffected.
+    monitors = [
+      "eDP-1,preferred,auto,1.2"
+      ",preferred,auto,auto"
+    ];
+    # Single-monitor layout; steam is dropped so it never autostarts.
+    windowPlacement = {
+      ghostty = {
+        class = "^(com\\.mitchellh\\.ghostty)$";
+        workspace = 1;
+        command = "ghostty";
+      };
+      firefox = {
+        class = "^(firefox)$";
+        workspace = 2;
+        command = "firefox";
+      };
+      signal = {
+        class = "^(signal)$";
+        workspace = 3;
+        command = "signal-desktop";
+      };
+      legcord = {
+        class = "^(legcord)$";
+        workspace = 3;
+        command = "legcord";
+      };
+      # Not autostarted — placed only if opened by hand.
+      "1password" = {
+        class = "^(com\\.onepassword\\.OnePassword)$";
+        workspace = 4;
+      };
+    };
+  };
+
+  # Git configuration
+  programs.git = {
+    signing.format = null;
+    enable = true;
+    settings = {
+      user = {
+        name = "sprjr";
+        email = "patrick@rawlinson.ws";
+      };
+    };
+  };
+
+  home = {
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
+    username = "patrick";
+  };
+
+  nix = {
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  home.stateVersion = "24.05";
+}

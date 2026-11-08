@@ -1,0 +1,103 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+with lib;
+
+# Home Assistant waybar widgets (mirrors darwin/modules/sketchybar.nix).
+let
+  cfg = config.patrick.home.hyprland;
+  ha = cfg.homeAssistant;
+  tokenPath = config.sops.secrets."ha_token".path;
+
+  # POST a service call: ha-call <domain>/<service> <json-body>
+  ha-call = pkgs.writeShellApplication {
+    name = "ha-call";
+    runtimeInputs = [ pkgs.curl ];
+    text = ''
+      endpoint="$1"
+      body="$2"
+      token=$(cat ${tokenPath})
+      curl -sf -X POST \
+        -H "Authorization: Bearer $token" \
+        -H "Content-Type: application/json" \
+        "${ha.url}/api/services/$endpoint" \
+        -d "$body" >/dev/null || true
+    '';
+  };
+
+  ha-toggle = pkgs.writeShellApplication {
+    name = "ha-toggle";
+    runtimeInputs = [ ha-call ];
+    text = ''
+      entity="$1"
+      domain="''${entity%%.*}"
+      ha-call "$domain/toggle" "{\"entity_id\":\"$entity\"}"
+    '';
+  };
+
+  ha-run-script = pkgs.writeShellApplication {
+    name = "ha-run-script";
+    runtimeInputs = [ ha-call ];
+    text = ''
+      ha-call "script/turn_on" "{\"entity_id\":\"$1\"}"
+    '';
+  };
+
+  # waybar switch state poller -> JSON {text, class} for a switch.* entity.
+  mkSwitchWidget =
+    name: entity: icon:
+    pkgs.writeShellApplication {
+      inherit name;
+      runtimeInputs = with pkgs; [
+        curl
+        jq
+      ];
+      text = ''
+        token=$(cat ${tokenPath})
+        state=$(curl -sf -H "Authorization: Bearer $token" \
+          "${ha.url}/api/states/${entity}" 2>/dev/null | jq -r '.state' 2>/dev/null || true)
+        case "$state" in
+          on)  printf '{"text":"${icon}","class":"on","tooltip":"${entity}: on"}\n' ;;
+          off) printf '{"text":"${icon}","class":"off","tooltip":"${entity}: off"}\n' ;;
+          *)   printf '{"text":"${icon}","class":"unavailable","tooltip":"${entity}: unavailable"}\n' ;;
+        esac
+      '';
+    };
+
+  waybar-ha-fan = mkSwitchWidget "waybar-ha-fan" "switch.s40lite_0_2" "󰈐";
+  waybar-ha-lamp = mkSwitchWidget "waybar-ha-lamp" "switch.s40lite_0" "󰌵";
+
+  # Camera feeds via a fuzzel menu (opens the HA proxy stream in the default browser).
+  ha-cameras = pkgs.writeShellApplication {
+    name = "ha-cameras";
+    runtimeInputs = with pkgs; [
+      fuzzel
+      xdg-utils
+    ];
+    text = ''
+      choice=$(printf 'Camera 1 (4.6)\nCamera 2 (4.7)\n' | fuzzel --dmenu --prompt "Camera: " || true)
+      case "$choice" in
+        "Camera 1 (4.6)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_6" ;;
+        "Camera 2 (4.7)") xdg-open "${ha.url}/api/camera_proxy_stream/camera.192_168_4_7" ;;
+      esac
+    '';
+  };
+in
+{
+  config = mkIf (cfg.enable && cfg.shell == "native" && ha.enable) {
+    sops.secrets."ha_token" = { };
+
+    home.packages = [
+      ha-call
+      ha-toggle
+      ha-run-script
+      waybar-ha-fan
+      waybar-ha-lamp
+      ha-cameras
+    ];
+  };
+}

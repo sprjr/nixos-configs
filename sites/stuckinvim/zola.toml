@@ -1,0 +1,29 @@
+base_url = "https://stuckinvim.io"
+title = "StuckInVim"
+description = "Notes from a terminal-centric homelab."
+default_language = "en"
+author = "stuck in vim"
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+generate_sitemap = true
+build_search_index = false
+
+[markdown]
+render_emoji = false
+
+[markdown.highlighting]
+style = "inline"
+extra_themes = ["themes/catppuccin-mocha.sublime-color-scheme"]
+theme = "Catppuccin Mocha"
+
+[[taxonomies]]
+name = "tags"
+
+[[taxonomies]]
+name = "topic"
+render = false
+
+[slugify]
+paths = "safe"
+taxonomies = "safe"
+anchors = "safe"

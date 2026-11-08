@@ -1,0 +1,43 @@
+# Ignore all potential secrets files
+*secrets*
+
+# Never commit sops/age decryption keys
+keys.txt
+**/sops/age/
+
+# Ignore backup disk config
+*hetzner*
+
+# Ignore cert stuff
+#*cert*
+
+# Tests
+tests/
+scripts/
+sandbox/
+
+# Ignore all environment files
+*.env
+.direnv
+
+# Ignore backup files
+*bak*
+
+# Personal docs
+docs/
+commands/
+
+# Ignore home-manager results
+result
+
+# Agent reference
+CLAUDE.md
+CODEBASE_INDEX.md
+GUIDE.md
+memory/
+TASKS.md
+.claude/
+systems-reference.md
+
+# Agent handoff context
+HANDOFF.md

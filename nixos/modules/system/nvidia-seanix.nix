@@ -1,0 +1,43 @@
+{ pkgs, config, lib, nvidia-patch, nixpkgs, ... }:
+
+let
+  system = pkgs.stdenv.hostPlatform.system;
+  pkgs-nvidia = import nixpkgs {
+    inherit system;
+    config.allowUnfree = true;
+    overlays = [ nvidia-patch.overlays.default ];
+  };
+  # possible versions for the package here: https://github.com/NixOS/nixpkgs/blob/master/pkgs/os-specific/linux/nvidia-x11/default.nix
+  targetPkg = config.boot.kernelPackages.nvidiaPackages.stable;
+  pkgAfterFbc = if builtins.hasAttr targetPkg.version pkgs-nvidia.nvidia-patch-list.fbc
+                then pkgs-nvidia.nvidia-patch.patch-fbc targetPkg
+                else targetPkg;
+  finalPkg   = if builtins.hasAttr targetPkg.version pkgs-nvidia.nvidia-patch-list.nvenc
+                then pkgs-nvidia.nvidia-patch.patch-nvenc pkgAfterFbc
+                else pkgAfterFbc;
+in {
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+  services.xserver.videoDrivers = ["nvidia"];
+  boot.kernelPackages = lib.mkDefault pkgs-nvidia.linuxKernel.packages.linux_zen;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    package = finalPkg;
+    open = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = false;
+    nvidiaSettings = true;
+  };
+
+  services.xserver.deviceSection = ''
+    Option         "TripleBuffer" "on"
+    Option         "Coolbits" "28"
+  '';
+
+  services.xserver.screenSection = ''
+    Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+    Option         "AllowIndirectGLXProtocol" "off"
+  '';
+}

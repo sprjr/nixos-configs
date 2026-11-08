@@ -1,0 +1,4 @@
+themes {
+  nord {
+    styling {
+      

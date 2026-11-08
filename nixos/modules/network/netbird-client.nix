@@ -1,0 +1,38 @@
+{ config, lib, ... }:
+
+let
+  cfg = config.homelab.netbird-client;
+in
+{
+  options.homelab.netbird-client.setupKey = lib.mkOption {
+    type = lib.types.str;
+    default = "netbird/setup-key-workstations";
+    description = "SOPS key path holding the reusable NetBird setup key.";
+  };
+
+  config = {
+    sops.secrets."${cfg.setupKey}" = {
+      sopsFile = ../../../sops-nix/relay.yaml;
+    };
+
+    services.netbird.clients.default = {
+      port = 51820;
+      interface = "netbird0";
+      login.enable = true;
+      login.setupKeyFile = config.sops.secrets."${cfg.setupKey}".path;
+      login.systemdDependencies = lib.optional (config.systemd.services ? sops-secrets-rendered) "sops-secrets-rendered.service";
+      config.ManagementURL = {
+        Scheme = "https";
+        Host = "nb.rawliyosh.com:443";
+      };
+      # Keep port 22 on netbird0 for OpenSSH instead of NetBird's built-in server
+      config.ServerSSHAllowed = false;
+    };
+
+    systemd.services.netbird-default.restartTriggers = [
+      config.environment.etc."netbird-default/config.d/50-nixos.json".source
+    ];
+
+    systemd.services.netbird-default-login.wantedBy = [ "multi-user.target" ];
+  };
+}

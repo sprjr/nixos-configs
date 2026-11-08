@@ -1,0 +1,573 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+with lib;
+
+let
+  cfg = config.patrick.home.hyprland;
+
+  isLaptop = cfg.formFactor == "laptop";
+
+  # Border colors are the Stylix palette (base0D active, base03 inactive).
+
+  # Nvidia compositor env (seanix).
+  nvidiaEnv = optionals (cfg.gpu == "nvidia") [
+    "LIBVA_DRIVER_NAME,nvidia"
+    "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+    "GBM_BACKEND,nvidia-drm"
+    "NVD_BACKEND,direct"
+    "WLR_NO_HARDWARE_CURSORS,1"
+  ];
+
+  ghosttyDropdownConf = pkgs.writeText "ghostty-dropdown.conf" ''
+    class = com.patrick.dropdown
+    gtk-single-instance = false
+  '';
+
+  # Startup workspace rule per configured app class.
+  placementRules = listToAttrs (
+    mapAttrsToList (
+      name: v:
+      nameValuePair "windowrule[${name}]" {
+        "match:class" = v.class;
+        workspace = "${toString v.workspace} silent";
+      }
+    ) cfg.windowPlacement
+  );
+
+  # command = null opts an app out of autostart.
+  autostartCommands = concatLists (
+    mapAttrsToList (_: v: optional (v.command != null) v.command) cfg.windowPlacement
+  );
+
+  # Archive Hyprland log off tmpfs for crash investigation.
+  logArchiver = pkgs.writeShellApplication {
+    name = "hyprland-log-archive";
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+    ];
+    text = ''
+      src="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/hyprland.log"
+      dest="''${XDG_STATE_HOME:-$HOME/.local/state}/hyprland"
+      mkdir -p "$dest"
+      # Prune before writing so a night of crash-looping can't accumulate indefinitely.
+      find "$dest" -maxdepth 1 -name 'session-*.log' -mtime +14 -delete
+      # Cap at 512M to bound runaway scan storms.
+      tail -n +1 -F "$src" | head -c 512M > "$dest/session-$(date +%Y%m%d-%H%M%S).log"
+    '';
+  };
+in
+{
+  imports = [
+    ./keybinds.nix
+    ./monitors.nix
+    ./fuzzel.nix
+    ./waybar.nix
+    ./hyprlock.nix
+    ./hypridle.nix
+    ./wallpaper.nix
+    ./notifications.nix
+    ./keyring.nix
+    ./widgets/weather.nix
+    #./widgets/ip.nix
+    ./widgets/hwmon.nix
+    ./widgets/comin-state.nix
+    ./widgets/homeassistant.nix
+    ./widgets/timer.nix
+    ./widgets/budslink.nix
+    ./widgets/vpn.nix
+    ./widgets/caffeine.nix
+    ./control-center
+  ];
+
+  options.patrick.home.hyprland = {
+    enable = mkEnableOption "Patrick's independent Hyprland session";
+
+    shell = mkOption {
+      type = types.enum [
+        "native"
+        "caelestia"
+      ];
+      default = "native";
+      description = ''
+        Shell layer for the Hyprland session. "native" uses waybar, fuzzel, hyprlock,
+        hypridle, and swaync (wallpaper via Stylix). "caelestia" uses caelestia-shell
+        (Quickshell-based unified shell).
+      '';
+    };
+
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [ ",preferred,auto,auto" ];
+      description = ''
+        Hyprland monitor descriptors. Default is a single auto-fallback line that adapts to
+        any laptop/hotplugged output. Multi-monitor hosts (seanix) pass explicit descriptors
+        and should keep ",preferred,auto,auto" last for hotplug.
+      '';
+      example = [
+        "DP-2,3840x2160@60,1920x1080,1.7"
+        ",preferred,auto,auto"
+      ];
+    };
+
+    streaming = {
+      enable = mkEnableOption "persistent headless output + dedicated streaming workspace";
+
+      resolution = mkOption {
+        type = types.str;
+        default = "1920x1080@60";
+        description = "Mode applied to the persistent headless streaming output.";
+      };
+
+      physicalOutputs = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = ''
+          Physical output names DPMS'd off by `mon-remote` (entering streaming mode) and
+          DPMS'd on by `mon-local` (leaving it). The outputs stay in Hyprland's live output
+          list throughout -- only their power state changes.
+        '';
+        example = [
+          "DP-1"
+          "DP-2"
+          "DP-3"
+        ];
+      };
+
+      workspace = mkOption {
+        type = types.int;
+        default = 0;
+        description = ''
+          Workspace `mon-remote` moves onto the headless output and focuses while streaming.
+          Must not collide with `windowPlacement` workspaces or keybind targets.
+        '';
+        example = 11;
+      };
+
+      bigPicture = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Launch Steam Big Picture on the streaming workspace from `mon-remote`.";
+      };
+
+      primaryOutput = mkOption {
+        type = types.str;
+        default = "";
+        description = "Physical output focused by `mon-local` when leaving streaming mode.";
+        example = "DP-1";
+      };
+    };
+
+    windowPlacement = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            class = mkOption {
+              type = types.str;
+              description = "Hyprland window class regex the rule matches.";
+              example = "^(firefox)$";
+            };
+            workspace = mkOption {
+              type = types.int;
+              description = "Workspace the app opens on at startup.";
+            };
+            command = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "Command autostarted at login. null leaves the app to be launched by hand.";
+            };
+          };
+        }
+      );
+      default = {
+        steam = {
+          class = "^(steam)$";
+          workspace = 1;
+          command = "steam";
+        };
+        ghostty = {
+          class = "^(com\\.mitchellh\\.ghostty)$";
+          workspace = 2;
+          command = "ghostty";
+        };
+        signal = {
+          class = "^(signal)$";
+          workspace = 3;
+          command = "signal-desktop";
+        };
+        legcord = {
+          class = "^(legcord)$";
+          workspace = 3;
+          command = "legcord";
+        };
+        firefox = {
+          class = "^(firefox)$";
+          workspace = 3;
+          command = "firefox";
+        };
+      };
+      description = ''
+        Startup workspace per app class, plus the login autostart command.
+
+        A single-monitor host lays its apps out over workspaces 1-?; the default is the
+        three-monitor desktop layout and is overridden per host. The default renders
+        byte-identical to the previous hardcoded rules. The ghostty-dropdown rule is not
+        here: it is float/size/move onto special:dropdown rather than a workspace
+        assignment, so it stays shared.
+      '';
+    };
+
+    battery = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Show the waybar battery module (laptops only).";
+    };
+
+    formFactor = mkOption {
+      type = types.enum [
+        "laptop"
+        "desktop"
+      ];
+      default = "desktop";
+      description = ''
+        Pointer-input tuning. "desktop" keeps the flat accel profile at sensitivity -0.6
+        (gaming-mouse / KDE parity, seanix). "laptop" uses the adaptive accel profile at
+        sensitivity 0 so the trackpad tracks at normal speed.
+      '';
+    };
+
+    gpu = mkOption {
+      type = types.nullOr (
+        types.enum [
+          "nvidia"
+          "amd"
+        ]
+      );
+      default = null;
+      description = ''
+        GPU vendor for the hardware panel (hwstat) and Nvidia session env. null omits the
+        panel's GPU section and adds no GPU env.
+      '';
+    };
+
+    waybarExtra = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Extra waybar module names appended to modules-right.";
+    };
+
+    homeAssistant = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Home Assistant waybar buttons (office fan/lamp toggles, office-fan-5m script, motion
+          sensor, camera feeds) mirroring the Darwin sketchybar. Requires the sops `ha_token`
+          secret to be decryptable on the host.
+        '';
+      };
+      url = mkOption {
+        type = types.str;
+        default = "http://shikisha:8123";
+        description = "Base URL of the Home Assistant instance.";
+      };
+    };
+
+    signalGnomeKeyring = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Wrap signal-desktop with --password-store=gnome-libsecret (all launch paths) and pin its
+        desktop entry so Signal uses the freedesktop Secret Service (gnome-keyring under Hyprland).
+        Enable only on hosts where Signal is installed — it pulls signal-desktop into the closure.
+        Requires a one-time Signal re-link off the old kwallet6 key.
+      '';
+    };
+
+    gaming = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Gaming accommodations for a dedicated gaming host: fullscreen VRR (misc:vrr = 2) and direct
+          scanout for fullscreen games (lower latency). Off elsewhere.
+        '';
+      };
+      tearing = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Allow tearing for lower latency on fixed-refresh/competitive play (adds allow_tearing and
+          direct_scanout = 2). Redundant with VRR on a G-Sync/FreeSync panel — leave off if you
+          rely on VRR.
+        '';
+      };
+    };
+
+    debugLogging = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Temporary instrumentation for the aquamarine SEGV in CBackend::dispatchIdle (seanix,
+        Jul 21 / Jul 27 2026). Turns off debug:disable_logs and archives the session log off
+        tmpfs to ~/.local/state/hyprland/session-<timestamp>.log, which is what the crash
+        report's fixed-size tail cannot give — the tail is entirely saturated by the connector
+        rescan loop, so the triggering event is pushed out of it.
+
+        TEARDOWN: set back to false once the trigger is identified. That reverts disable_logs to
+        the upstream default and drops the archiver unit; the archives under
+        ~/.local/state/hyprland/ are not garbage-collected by Nix and must be deleted by hand.
+        journald persistence is NOT part of this — Storage=persistent is already the NixOS
+        default and stays on regardless.
+      '';
+    };
+  };
+
+  config = mkIf cfg.enable {
+    # mkDefault: coexists with cosmic.nix sops declarations.
+    sops = {
+      defaultSopsFile = lib.mkDefault ../../../../sops-nix/sops.yaml;
+      defaultSopsFormat = lib.mkDefault "yaml";
+      age.keyFile = lib.mkDefault "/home/patrick/.config/sops/age/keys.txt";
+      secrets."cosmic/latitude" = { };
+      secrets."cosmic/longitude" = { };
+    };
+
+    services.kdeconnect.enable = true;
+
+    home.packages = with pkgs; [
+      grimblast
+      grim
+      slurp
+      wl-clipboard
+      brightnessctl
+      playerctl
+      # polkit_gnome omitted: its XDG autostart races polkit-gnome-agent.service below.
+      cosmic-files
+    ];
+
+    # Suppress XDG autostart for apps already launched by exec-once. UWSM activates
+    # xdg-desktop-autostart.target, which would double-launch anything that also
+    # has an in-app "start on login" entry in ~/.config/autostart/. Keys are the exact
+    # filenames the apps write. blueman-applet is suppressed because its tray icon
+    # duplicates the waybar bluetooth module.
+    xdg.configFile =
+      mapAttrs'
+        (
+          file: name:
+          nameValuePair "autostart/${file}.desktop" {
+            force = true;
+            text = ''
+              [Desktop Entry]
+              Type=Application
+              Name=${name}
+              Hidden=true
+            '';
+          }
+        )
+        {
+          steam = "Steam";
+          signal = "Signal";
+          signal-desktop = "Signal";
+          legcord = "Legcord";
+          blueman = "Blueman Applet";
+        };
+
+    wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      systemd.enable = false;
+      # Pin the config format so it doesn't silently switch to "lua" at stateVersion 26.05.
+      configType = "hyprlang";
+
+      settings = {
+        "$terminal" = "ghostty";
+        "$fileManager" = "cosmic-files";
+        "$mainMod" = "SUPER";
+
+        # Cursor env is home.pointerCursor's (Stylix sets XCURSOR_THEME; the old
+        # HYPRCURSOR_THEME override went with the Frappe theme). Only the
+        # compositor-specific Nvidia env is declared here.
+        env = nvidiaEnv;
+
+        cursor = mkIf (cfg.gpu == "nvidia") {
+          no_hardware_cursors = true;
+        };
+
+        # Session daemons: scoped to hyprland-session.target, not graphical-session.target.
+        exec-once = [
+          # uwsm finalize exports env, then start target. `;` sequences (exec-once is concurrent);
+          # --no-block avoids deadlock. Bare uwsm from PATH to match system uwsm.
+          "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
+          # Start Secret Service for Electron apps (no kwallet under Hyprland).
+          "gnome-keyring-daemon --start --components=secrets"
+          "wl-paste --watch cliphist store"
+          "fcitx5 -d --replace"
+          "caffeine on"
+        ]
+        ++ autostartCommands;
+
+        general = {
+          gaps_in = 5;
+          gaps_out = 10;
+          border_size = 0;
+          layout = "dwindle";
+          allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
+          resize_on_border = true;
+        };
+
+        decoration = {
+          rounding = 10;
+          active_opacity = 1.0;
+          inactive_opacity = 1.0;
+          blur = {
+            enabled = true;
+            size = 3;
+            passes = 1;
+            vibrancy = 0.1696;
+          };
+        };
+
+        animations = {
+          enabled = true;
+          bezier = [
+            "easeOutQuint,0.23,1,0.32,1"
+            "almostLinear,0.5,0.5,0.75,1.0"
+            "quick,0.15,0,0.1,1"
+          ];
+          animation = [
+            "global,1,10,default"
+            "border,1,5.39,easeOutQuint"
+            "windows,1,4.79,easeOutQuint"
+            "windowsIn,1,4.1,easeOutQuint,popin 87%"
+            "windowsOut,1,1.49,linear,popin 87%"
+            "fadeIn,1,1.73,almostLinear"
+            "fadeOut,1,1.46,almostLinear"
+            "fade,1,3.03,quick"
+            "layers,1,3.81,easeOutQuint"
+            "layersIn,1,4,easeOutQuint,fade"
+            "layersOut,1,1.5,linear,fade"
+            "workspaces,1,1.94,almostLinear,fade"
+            "workspacesIn,1,1.21,almostLinear,fade"
+            "workspacesOut,1,1.94,almostLinear,fade"
+            "specialWorkspace,1,3,easeOutQuint,slidevert"
+          ];
+        };
+
+        input = {
+          kb_layout = "us";
+          follow_mouse = 1;
+          # Desktop: flat/-0.6 for gaming mice. Laptop: adaptive/0 for trackpad.
+          sensitivity = if isLaptop then 0 else -0.6;
+          accel_profile = if isLaptop then "adaptive" else "flat";
+          repeat_delay = 200;
+          repeat_rate = 50;
+          touchpad = {
+            natural_scroll = true;
+            clickfinger_behavior = true;
+            disable_while_typing = true;
+          };
+        };
+
+        # Magic Trackpad: override the desktop flat/-0.6 mouse profile.
+        device = [
+          {
+            name = "apple-inc.-magic-trackpad";
+            accel_profile = "adaptive";
+            sensitivity = 0.18;
+          }
+        ];
+
+        dwindle = {
+          preserve_split = true;
+        };
+
+        # Hyprland 0.51+ gesture syntax (replaces the removed gestures:workspace_swipe).
+        gesture = [ "3, horizontal, workspace" ];
+
+        misc = {
+          force_default_wallpaper = 0;
+          disable_hyprland_logo = true;
+        }
+        // optionalAttrs cfg.gaming.enable { vrr = 2; };
+
+        # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
+        render = optionalAttrs cfg.gaming.enable {
+          direct_scanout = if cfg.gaming.tearing then 2 else 1;
+        };
+
+        # Full logging only useful with the log archiver; crash tail gets saturated by scan spam.
+        debug = {
+          disable_logs = !cfg.debugLogging;
+        };
+
+        "windowrule[ghostty-dropdown]" = {
+          "match:class" = "^(com.patrick.dropdown)$";
+          float = true;
+          size = "100% 40%";
+          move = "0 0";
+          workspace = "special:dropdown silent";
+        };
+      }
+      // placementRules;
+    };
+
+    # Hyprland-only target; PartOf stops daemons on logout.
+    systemd.user.targets.hyprland-session = {
+      Unit = {
+        Description = "Hyprland session (user services scoped to Hyprland only)";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+    };
+
+    # Unit for cgroup isolation and crash restart; only one polkit agent may hold the subject.
+    systemd.user.services.polkit-gnome-agent = {
+      Unit = {
+        Description = "polkit-gnome authentication agent";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    # Unit so the dropdown terminal respawns after its shell exits.
+    systemd.user.services.ghostty-dropdown = {
+      Unit = {
+        Description = "Ghostty dropdown terminal";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.ghostty}/bin/ghostty --config-file=${ghosttyDropdownConf}";
+        Restart = "always";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    systemd.user.services.hyprland-log-archive = mkIf cfg.debugLogging {
+      Unit = {
+        Description = "Archive the Hyprland session log off tmpfs (crash instrumentation)";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = getExe logArchiver;
+        # No restart: each start opens a new file; failure after 512M cap is expected.
+        Restart = "no";
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+  };
+}

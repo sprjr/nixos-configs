@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<article class="post">
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      {% if page.date %}
+      <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(format='%Y-%m-%d') }}</time>
+      {% endif %}
+      <span class="reading-time">{% if page.word_count < 200 %}1{% else %}{{ page.reading_time }}{% endif %} min read</span>
+      {% if page.taxonomies.tags %}
+        <span class="post-tags">
+          {% for tag in page.taxonomies.tags %}
+            <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>
+          {% endfor %}
+        </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-body">
+    {{ page.content | safe }}
+  </div>
+
+  <nav class="post-pager">
+    {% if page.earlier %}
+      <div class="prev">
+        <span class="pager-label">← previous</span>
+        <a href="{{ page.earlier.permalink }}">{{ page.earlier.title }}</a>
+      </div>
+    {% endif %}
+    {% if page.later %}
+      <div class="next">
+        <span class="pager-label">next →</span>
+        <a href="{{ page.later.permalink }}">{{ page.later.title }}</a>
+      </div>
+    {% endif %}
+  </nav>
+</article>
+{% endblock content %}
