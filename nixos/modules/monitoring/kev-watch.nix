@@ -14,7 +14,7 @@ let
     text = ''
       STATE=${stateDir}
       metrics=${metricsFile}
-      ntfyUrlFile=${lib.escapeShellArg cfg.ntfyUrlFile}
+      ntfyUrlFile=''${CREDENTIALS_DIRECTORY}/ntfy-url
 
       write_prom() {
         cat > "$1.tmp"
@@ -71,7 +71,7 @@ let
         fi
 
         body=$(
-          printf '%s\n' "$new_ids" | head -20 | while read -r cve; do
+          printf '%s\n' "$new_ids" | sed -n '1,20p' | while read -r cve; do
             jq -r --arg cve "$cve" '.vulnerabilities[] | select(.cveID == $cve) | "\(.cveID)  \(.vendorProject)  \(.product)  (added \(.dateAdded))"' "$STATE/kev.prev.json"
           done
         )
@@ -134,6 +134,7 @@ in
         Type = "oneshot";
         User = "kev-watch";
         Group = "kev-watch";
+        LoadCredential = "ntfy-url:${cfg.ntfyUrlFile}";
         StateDirectory = "kev-watch";
         StateDirectoryMode = "0750";
         UMask = "0027";
