@@ -15,7 +15,7 @@ Below is all you need (customized to preference, of course) to deploy [Comin](ht
 {
   services.comin = {
     enable = true;
-    hostname = config.networking.hostName;
+    hostname = config.networking.hostName; # hostname of 'this' device
     remotes = [{
       name = "origin";
       url = "https://github.com/sprjr/nixos-configs.git";
