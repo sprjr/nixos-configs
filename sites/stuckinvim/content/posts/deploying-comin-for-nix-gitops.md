@@ -4,7 +4,7 @@ date = 2026-11-07
 
 [taxonomies]
 topic = ["technical"]
-tags = ["nix", "nixos", "comin", "ntfy"]
+tags = ["nix", "nixos", "comin", "ntfy", "gitops"]
 +++
 
 Below is all you need (customized to preference, of course) to deploy [Comin](https://github.com/nlewo/comin) for handling NixOS gitops. It's worth noting that you should employ proper controls around your git repo that you build from, as this configuration doesn't do anything except deploy what it sees.
