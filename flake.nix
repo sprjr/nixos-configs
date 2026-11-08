@@ -272,6 +272,7 @@
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/alloy-syslog.nix
               ./nixos/modules/monitoring/nuclei-scan.nix
+              ./nixos/modules/monitoring/kev-watch.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
