@@ -26,18 +26,18 @@ Below is all you need (customized to preference, of course) to deploy [Comin](ht
 }
 ```
 
-## Visibility
+## | Visibility
 
 Comin is a wonderful, if fairly straightforward and simple, way to manage gitops and build automation for Nix resources.
 
 I found that visibility into the build state of my systems managed by comin were not very great by default. So, I wrote a nix-managed Python script that gets and pushes build states to a ntfy url/topic for me to get notification on build failures. It even incorporates a bit of sops, just for fun. I also created a Grafana dashboard, and created a widget for my hyprland + waybar config.
 
-## Grafana stack
+## | Grafana stack
 
 Instead of putting the entire json file for the Grafana dashboard here, I'll just link the file:
 [Grafana Nix State Dashboard](https://github.com/sprjr/nixos-configs/nixos/modules/monitoring/dashboards/nix-state.json)
 
-## Ntfy
+## | Ntfy
 
 ```nix
 { config, pkgs, ... }:
@@ -152,6 +152,6 @@ in {
 }
 ```
 
-## Hyprland widget
+## | Hyprland widget
 
 Comin as a systemd service exposes a lot of great data, including the direct build logs (which I also pipe to a logging server) -- I found that grabbing the build state allowed me to write a custom widget in my hyprland config that informed me as to the build state of different hosts. This can all be found in [my home-manager settings](https://github.com/sprjr/nixos-configs/tree/main/home/modules/user-space/hyprland/control-center).
