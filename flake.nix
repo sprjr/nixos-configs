@@ -242,12 +242,7 @@
               ./nixos/modules/system/ssh.nix
               ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/servers/shikisha.nix
-              ./nixos/modules/disks/unraid-docker.nix
-              ./nixos/modules/disks/unraid-gitea.nix
-              ./nixos/modules/disks/unraid-media.nix
-              ./nixos/modules/disks/unraid-other.nix
-              ./nixos/modules/disks/unraid-kubernetes.nix
-              ./nixos/modules/disks/unraid-nextcloud.nix
+              ./nixos/modules/disks/nfs-shares.nix
               ./nixos/modules/gaming/palworld-server.nix
               ./nixos/modules/monitoring/satisfactory-exporter.nix
               ./nixos/modules/monitoring/ha-exporter.nix
