@@ -17,6 +17,7 @@ in
     ../../modules/homelab/syncthing-hub.nix
     ../../modules/homelab/vikunja.nix
     ../../modules/homelab/donetick.nix
+    ../../modules/homelab/kiwix.nix
     # Systemd Timers
     ../../hosts/shikisha/cron/docker-findmy-restart.nix
     ../../modules/system/esp-tooling.nix
@@ -30,6 +31,8 @@ in
     { share = "Other"; }
     { share = "Nextcloud/data"; mountPoint = "/var/lib/nextcloud/data"; }
   ];
+
+  homelab.kiwix.enable = true;
 
   services.syncthing-hub = {
     enable = true;

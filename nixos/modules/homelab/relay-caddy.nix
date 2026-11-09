@@ -82,6 +82,7 @@ in
       "chat.rawliyosh.com" = proxy "${shikisha}:443";
       "gitea.rawliyosh.com" = proxy "${shikisha}:30300";
       "git.rawliyosh.com" = proxy "http://${shikisha}:3002";
+      "kiwix.rawliyosh.com" = proxyAuth "http://${shikisha}:8083";
       "snippets.rawliyosh.com" = proxy "${shikisha}:25151";
       "pdf.rawliyosh.com" = proxyAuthRoute "${shikisha}:38080";
       "vikunja.rawliyosh.com" = proxy "${shikisha}:3456";
