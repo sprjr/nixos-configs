@@ -85,6 +85,7 @@ frigate:
     front-door-rtsp: ENC[AES256_GCM,data:I8febl2KgneygHYJ0yyetgyNLKyIPFNqzLFDAk8=,iv:QHHkzW5ehI4aOHBoROuwyoSVmKKcedx+v9w4JVWHQfU=,tag:4svRNfR443oPREFagZTqvg==,type:str]
     garage-rtsp: ENC[AES256_GCM,data:5xxQvfLMvXIo18fg46j9LEZm0IoX/LSMF0VRb0U=,iv:11P6JPf8jgT34MFQVTZHO9gXSizLLiDoBUARb8UzSgQ=,tag:POdaHosqLKh3dH0iL6eZJw==,type:str]
     g4-0: ENC[AES256_GCM,data:wX/CTW2N9cN9Q9NAAXqzegvmmkFdRIvWF0JWYuQMr/FYKkGjwr65HsmLR7pdaIW75Jk3Vg==,iv:WZboXTxH96IJIAmmYoYgrrLOn4d/EW1An9WUa/SXzk8=,tag:cDJgwQIByLP9FcnD8TbcGw==,type:str]
+    g4-1: ENC[AES256_GCM,data:ByK6wWRhvKvBHdl2FQOpO1GYE/DC33j6jpWnyWlhvPOKog/OAHTNU+/jxZosA2nWc3mRmA==,iv:wEWOEgqhpo9Ddp0VcX29q1UOennOfzI/03t9geTXqHE=,tag:wuHrT8gxSMSe2h96jJD+uw==,type:str]
 hermes-agent:
     telegram-bot-token: ENC[AES256_GCM,data:77mw4ANwl0eoJIDDMdyO4Pna/MyRsfrjF5S/OHKAALtPLQ2wLuFQIQGVBk7Qkw==,iv:ApMrl29R7snbJVsea98JkvQf0uzQ6EYZFVouzUhTKP4=,tag:7hm9ymbNaE481Synrw+lBg==,type:str]
     telegram-allowed-users: ENC[AES256_GCM,data:5jd3iqM6AwkgNA==,iv:LR0Dwov7N9EG2krUhoMyQ88dHtPiV3L8pp+2FlP7Vyc=,tag:f3uD3Y0hE5j20hpmmj6+Bg==,type:str]
@@ -158,7 +159,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-11-09T02:33:41Z"
-    mac: ENC[AES256_GCM,data:+8h6XbXlngxpOWCqLILfs0FyLy+V7C3DSZ9G0pEgJwqA39PrESPIG3DqOJd1GczjDerKKOaA/fqNJQrOk9CDvcoifRiq2pbOyjTWcKPV0zd5qoXpQqzkVvgcI1HMfYLoRqo2ueln1uwH0lyQ3u0+PHw4tyhiE5Qc/UjB3QrUiHQ=,iv:QPg//SHbVG9KUnFc05fB0swGm7DYmC0ODgOToDrCNDw=,tag:1vygbVLEBFdrCvroOKHxww==,type:str]
+    lastmodified: "2026-11-09T03:08:53Z"
+    mac: ENC[AES256_GCM,data:rINIelt277vcc5UlWJHFdf0WzJzlc+Cp1YMK7efmRfnUcCHigjtKKBSpur6uahmTKHt8d7C98Fa1B/h01feKxeJdggMQFHY5NX8Li556hEFGTtQh5mGkAI4xw9RahrJZQJw0bZEBDzr0c0GO5Hipt6rHlt/bSJUhZQvwhiL+4JM=,iv:DDR+7Jdrj78TBOPJ59FHcrVvy4/ZHPprzcSVh1YT7X0=,tag:4o5Va+UD82mV4xRJ7eHtcQ==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
