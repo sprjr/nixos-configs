@@ -206,9 +206,6 @@ in
       };
     };
 
-    networking.firewall.interfaces = {
-      tailscale0.allowedTCPPorts = [ cfg.port ];
-      netbird0.allowedTCPPorts = [ cfg.port ];
-    };
+    networking.firewall.allowedTCPPorts = [ cfg.port ];
   };
 }
