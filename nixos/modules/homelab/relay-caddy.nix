@@ -5,7 +5,6 @@ let
   shikisha = "shikisha";
   wopr = "wopr";
   macnnix = "macnnix";
-  trixos = "trixos";
   stargazer = "stargazer";
 
   authentik = ''
@@ -100,10 +99,6 @@ in
       "snipeit.rawliyosh.com" = proxyAuthPort macnnix 11234;
       "tools.rawliyosh.com" = proxyAuthRoute "${macnnix}:40001";
       "pdf.rawlinson.xyz" = proxyAuthRoute "${macnnix}:38080";
-
-      # trixos
-      "save.rawliyosh.com" = proxy "http://${trixos}:54545";
-      "vault.rawliyosh.com" = proxyAuthRoute "http://${trixos}:36580";
 
       # stargazer
       "memtly.rawliyosh.com" = proxy "http://${stargazer}:8080";
