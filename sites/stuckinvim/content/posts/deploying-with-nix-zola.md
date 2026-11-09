@@ -12,34 +12,46 @@ This site is built by Zola inside a Nix derivation and served by Caddy on a Lino
 
 Zola is a single static binary. It needs no runtime dependencies beyond the HTML it produces.
 
-## A sample table
+## How I deployed it
 
-| Tool   | Role                     |
-|--------|--------------------------|
-| Zola   | Static site generator    |
-| Nix    | Reproducible build       |
-| Caddy  | HTTPS + file server      |
+```
+  { pkgs, ... }:
 
-## A sample code block
+let
+  site = pkgs.stdenvNoCC.mkDerivation {
+    pname = "stuckinvim-site";
+    version = "0.1.0";
+    src = ../../../sites/stuckinvim;
+    nativeBuildInputs = [ pkgs.zola pkgs.cacert ];
 
-```nix
-{ pkgs, ... }:
+    buildPhase = ''
+      runHook preBuild
+      cp -r $src/. .
+      export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
+      zola build
+      runHook postBuild
+    '';
 
-pkgs.stdenvNoCC.mkDerivation {
-  name = "stuckinvim-site";
-  src = ./.;
-  nativeBuildInputs = [ pkgs.zola ];
-  buildPhase = ''
-    zola build --root $src --base-url https://stuckinvim.io
-  '';
-  installPhase = ''
-    cp -r public $out
-  '';
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
+      cp -r public/. $out/
+      runHook postInstall
+    '';
+  };
+in
+{
+  services.caddy.virtualHosts = {
+    "stuckinvim.io".extraConfig = ''
+      encode gzip zstd
+      root * ${site}
+      file_server
+      tls acme@rawliyosh.com
+    '';
+
+    "www.stuckinvim.io".extraConfig = ''
+      redir https://stuckinvim.io{uri} permanent
+    '';
+  };
 }
 ```
-
-## A blockquote
-
-> The best build is the one that finishes the same way every time.
-
-That is the point of pinning the source and the builder in one Nix flake.
