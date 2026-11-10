@@ -90,9 +90,8 @@
   home = {
     homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
     username = "patrick";
-    packages = with pkgs; [
-      hokum.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
+    packages = lib.optional (config.patrick.home.hyprland.notifications.daemon == "hokum")
+      hokum.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
   nix = {
