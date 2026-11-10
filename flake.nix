@@ -29,6 +29,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
     hyprsession = {
       url = "github:tiecia/hyprsession";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -133,6 +140,7 @@
       flake-utils,
       ghostty,
       heywoodlh-configs,
+      hex,
       home-manager,
       hyprsession,
       #lanzaboote,
