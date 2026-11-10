@@ -15,7 +15,7 @@ stdenvNoCC.mkDerivation {
     owner = "MoshiurRahmanAdib";
     repo = "Conflux-Icon-Theme";
     rev = "c175e0e550c8970fe9cb8484afe44188a8ea589f";
-    hash = lib.fakeHash;
+    hash = "sha256-x0Qujirth74a9w2xeLoOpNx1tZppx2hLH7o+RZ9onSQ=";
   };
 
   nativeBuildInputs = [ gtk3 ];
