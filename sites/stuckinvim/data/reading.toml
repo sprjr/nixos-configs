@@ -1,92 +1,97 @@
 [[groups]]
 name = "Tech News"
 
-  [[groups.items]]
-  title = "Hacker News: Front Page"
-  url = "https://news.ycombinator.com"
-  feed = "https://hnrss.org/frontpage"
+[[groups.items]]
+title = "Hacker News: Front Page"
+url = "https://news.ycombinator.com"
+feed = "https://hnrss.org/frontpage"
 
-  [[groups.items]]
-  title = "Lobsters"
-  url = "https://lobste.rs"
-  feed = "https://lobste.rs/rss"
+[[groups.items]]
+title = "Lobsters"
+url = "https://lobste.rs"
+feed = "https://lobste.rs/rss"
 
 [[groups]]
 name = "Linux & BSD"
 
-  [[groups.items]]
-  title = "Asahi Linux Blog"
-  url = "https://asahilinux.org/blog"
-  feed = "https://asahilinux.org/blog/index.xml"
+[[groups.items]]
+title = "Asahi Linux Blog"
+url = "https://asahilinux.org/blog"
+feed = "https://asahilinux.org/blog/index.xml"
 
-  [[groups.items]]
-  title = "Solene'%"
-  url = "https://dataswamp.org/~solene"
-  feed = "https://dataswamp.org/~solene/rss-html.xml"
+[[groups.items]]
+title = "Solene'%"
+url = "https://dataswamp.org/~solene"
+feed = "https://dataswamp.org/~solene/rss-html.xml"
 
 [[groups]]
 name = "Apple"
 
-  [[groups.items]]
-  title = "The Eclectic Light Company"
-  url = "https://eclecticlight.co"
-  feed = "https://eclecticlight.co/feed/"
+[[groups.items]]
+title = "The Eclectic Light Company"
+url = "https://eclecticlight.co"
+feed = "https://eclecticlight.co/feed/"
 
 [[groups]]
 name = "Blogs"
 
-  [[groups.items]]
-  title = "Aaron Honeycutt"
-  url = "https://ahoneybun.net"
-  feed = "https://ahoneybun.net/feed.xml"
+[[groups.items]]
+title = "Aaron Honeycutt"
+url = "https://ahoneybun.net"
+feed = "https://ahoneybun.net/feed.xml"
 
-  [[groups.items]]
-  title = "Cerise Norling"
-  url = "https://norling.io"
-  feed = "https://norling.io/index.xml"
+[[groups.items]]
+title = "Cerise Norling"
+url = "https://norling.io"
+feed = "https://norling.io/index.xml"
 
-  [[groups.items]]
-  title = "Jeff Geerling"
-  url = "https://www.jeffgeerling.com"
-  feed = "https://www.jeffgeerling.com/blog.xml"
+[[groups.items]]
+title = "Jeff Geerling"
+url = "https://www.jeffgeerling.com"
+feed = "https://www.jeffgeerling.com/blog.xml"
 
-  [[groups.items]]
-  title = "Xe Iaso"
-  url = "https://xeiaso.net"
-  feed = "https://xeiaso.net/blog.rss"
+[[groups.items]]
+title = "Xe Iaso"
+url = "https://xeiaso.net"
+feed = "https://xeiaso.net/blog.rss"
 
 [[groups]]
 name = "Security"
 
-  [[groups.items]]
-  title = "Samy Security Blog"
-  url = "https://samy.link"
-  feed = "https://samy.link/blog/feed"
+[[groups.items]]
+title = "Samy Security Blog"
+url = "https://samy.link"
+feed = "https://samy.link/blog/feed"
 
-  [[groups.items]]
-  title = "All CISA Advisories"
-  url = "https://www.cisa.gov"
-  feed = "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+[[groups.items]]
+title = "All CISA Advisories"
+url = "https://www.cisa.gov"
+feed = "https://www.cisa.gov/cybersecurity-advisories/all.xml"
 
-  [[groups.items]]
-  title = "Exploit-DB"
-  url = "https://www.exploit-db.com"
-  feed = "https://www.exploit-db.com/rss.xml"
+[[groups.items]]
+title = "Exploit-DB"
+url = "https://www.exploit-db.com"
+feed = "https://www.exploit-db.com/rss.xml"
 
 [[groups]]
 name = "Watch & Listen"
 
-  [[groups.items]]
-  title = "Vimjoyer"
-  url = "https://www.youtube.com/@Vimjoyer"
-  feed = ""
+[[groups.items]]
+title = "Vimjoyer"
+url = "https://www.youtube.com/@Vimjoyer"
+feed = ""
 
-  [[groups.items]]
-  title = "Philipp Lackner"
-  url = "https://www.youtube.com/@PhilippLackner"
-  feed = ""
+[[groups.items]]
+title = "Philipp Lackner"
+url = "https://www.youtube.com/@PhilippLackner"
+feed = ""
 
-  [[groups.items]]
-  title = "Linux Unplugged"
-  url = "https://linuxunplugged.com"
-  feed = ""
+[[groups.items]]
+title = "Linux Unplugged"
+url = "https://linuxunplugged.com"
+feed = ""
+
+[[groups.items]]
+title = "Anthony Sistilli"
+url = "https://www.youtube.com/@AnthonySistilli"
+feed = ""
