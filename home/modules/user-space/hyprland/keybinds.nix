@@ -103,8 +103,13 @@ in
         "$mainMod SHIFT, D, exec, jp-lookup --selection"
         "$mainMod, C, exec, waybar-clipboard"
         "$mainMod, P, exec, hyprpicker -a"
+      ] ++ optionals (cfg.shell == "native" && cfg.notifications.daemon == "swaync") [
         "$mainMod, N, exec, swaync-client -t -sw"
         "$mainMod SHIFT, N, exec, swaync-client -d -sw"
+      ] ++ optionals (cfg.shell == "native" && cfg.notifications.daemon == "hokum") [
+        "$mainMod, N, exec, hokum"
+        "$mainMod SHIFT, N, exec, hokum dnd toggle"
+      ] ++ optionals (cfg.shell == "native") [
         "$mainMod, I, exec, caffeine toggle"
       ] ++ optionals (cfg.shell == "native" && cfg.homeAssistant.enable) [
         "$mainMod, O, exec, ha-run-script script.turn_on_office_fan_for_5m"

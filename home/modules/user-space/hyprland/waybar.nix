@@ -161,7 +161,9 @@ let
     "custom/clipboard"
     "custom/color-picker"
     "custom/screenshot"
-    "custom/notification"
+  ]
+  ++ optional (cfg.notifications.daemon == "swaync") "custom/notification"
+  ++ [
     "custom/control-center"
   ]
   ++ cfg.waybarExtra;

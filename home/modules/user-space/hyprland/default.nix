@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hokum,
   ...
 }:
 
@@ -9,6 +10,8 @@ with lib;
 
 let
   cfg = config.patrick.home.hyprland;
+
+  hokumPkg = hokum.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   isLaptop = cfg.formFactor == "laptop";
 
@@ -287,6 +290,14 @@ in
         Enable only on hosts where Signal is installed — it pulls signal-desktop into the closure.
         Requires a one-time Signal re-link off the old kwallet6 key.
       '';
+    };
+
+    notifications = {
+      daemon = mkOption {
+        type = types.enum [ "swaync" "hokum" ];
+        default = "swaync";
+        description = "Notification daemon for the Hyprland session.";
+      };
     };
 
     gaming = {
