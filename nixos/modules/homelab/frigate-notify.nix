@@ -10,11 +10,12 @@ let
 
   frigateNotify = pkgs.writeScript "frigate-notify.py" ''
     #!${pkgs.python3}/bin/python3
-    import subprocess, json, sys, signal
+    import subprocess, json, sys, signal, os
 
-    with open("''${CREDENTIALS_DIRECTORY}/ntfy-url") as f:
+    cred_dir = os.environ["CREDENTIALS_DIRECTORY"]
+    with open(os.path.join(cred_dir, "ntfy-url")) as f:
         ntfy_url = f.read().strip()
-    with open("''${CREDENTIALS_DIRECTORY}/mqtt-password") as f:
+    with open(os.path.join(cred_dir, "mqtt-password")) as f:
         mqtt_password = f.read().strip()
 
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
@@ -51,9 +52,9 @@ let
     sys.exit(proc.wait())
   '';
 in {
-  sops.secrets."monitoring/ntfy/frigate-events-url" = lib.mkIf frigateEnabled { };
-
   config = lib.mkIf frigateEnabled {
+    sops.secrets."monitoring/ntfy/frigate-events-url" = { };
+
     systemd.services.frigate-notify = {
       description = "Forward Frigate detection events to ntfy";
       after = [ "network-online.target" "sops-secrets-rendered.service" ];
