@@ -1,9 +1,19 @@
 import app from "ags/gtk4/app"
 import Gtk from "gi://Gtk?version=4.0"
 import { createState } from "ags"
-import { execAsync, subprocess } from "ags/process"
+import { exec, execAsync, subprocess } from "ags/process"
 import { timeout } from "ags/time"
 import AstalIO from "gi://AstalIO"
+
+let daemon: "hokum" | "swaync" = "swaync"
+try { exec("pgrep -x hokum"); daemon = "hokum" } catch {}
+
+const watch = daemon === "hokum"
+  ? ["hokum", "dnd", "--json", "--watch"]
+  : ["swaync-client", "-s"]
+const toggle = daemon === "hokum"
+  ? ["hokum", "dnd", "toggle"]
+  : ["swaync-client", "-d", "-sw"]
 
 function dismiss() {
   const cc = app.get_window("control-center")
@@ -15,10 +25,8 @@ function dismiss() {
 function DndToggle() {
   const [dnd, setDnd] = createState(false)
 
-  // swaync-client -s streams {"count", "dnd", "visible", "inhibited"} on every change,
-  // so DND toggled from waybar or swaync's own panel is reflected here too
   subprocess(
-    ["swaync-client", "-s"],
+    watch,
     (line) => {
       try {
         setDnd(!!JSON.parse(line).dnd)
@@ -33,7 +41,7 @@ function DndToggle() {
     <button
       class={dnd((on) => (on ? "header-btn active" : "header-btn"))}
       tooltipText={dnd((on) => (on ? "Do Not Disturb: on" : "Do Not Disturb: off"))}
-      onClicked={() => execAsync(["swaync-client", "-d", "-sw"]).catch(console.error)}
+      onClicked={() => execAsync(toggle).catch(console.error)}
     >
       <image
         iconName={dnd((on) =>
