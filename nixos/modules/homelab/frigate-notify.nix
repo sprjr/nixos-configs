@@ -65,8 +65,8 @@ in {
       serviceConfig = {
         ExecStart = "${frigateNotify}";
         LoadCredential = [
-          "ntfy-url:${config.sops.secrets.\"monitoring/ntfy/frigate-events-url\".path}"
-          "mqtt-password:${config.sops.secrets.\"frigate/mqtt-password\".path}"
+          "ntfy-url:${config.sops.secrets."monitoring/ntfy/frigate-events-url".path}"
+          "mqtt-password:${config.sops.secrets."frigate/mqtt-password".path}"
         ];
         Restart = "on-failure";
         RestartSec = 10;
