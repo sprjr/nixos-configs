@@ -3,4 +3,4 @@ title = "Reading"
 template = "reading.html"
 +++
 
-Subscriptions in my Miniflux instance, plus three channels I keep up with.
+Different sites I read from (usually through RSS) as well as channels I watch. All of them are mostly focused on technology, tech news, and privacy.
