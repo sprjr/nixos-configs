@@ -34,6 +34,8 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/share/icons/Conflux
     cp -r index.theme apps* devices* emblems* mimes* places* preferences* status* \
       $out/share/icons/Conflux/
+    # upstream helper scripts symlink into the uncopied Workspace dir
+    find $out/share/icons/Conflux -name '*.sh' -delete
     gtk-update-icon-cache --force $out/share/icons/Conflux
     runHook postInstall
   '';
