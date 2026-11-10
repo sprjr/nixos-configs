@@ -109,7 +109,7 @@ in
     certs."rawliyosh.com" = {
       domain = "*.rawliyosh.com";
       dnsProvider = "cloudflare";
-      credentialsFile = config.sops.secrets."cloudflare/acme-env".path;
+      environmentFile = config.sops.secrets."cloudflare/acme-env".path;
     };
   };
 
