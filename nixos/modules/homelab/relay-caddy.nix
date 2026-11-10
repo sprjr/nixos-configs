@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, config, ... }:
 
 let
   # VPN upstreams by bare hostname (NetBird DNS, MagicDNS fallback)
@@ -54,6 +54,17 @@ in
 {
   services.caddy = {
     enable = true;
+
+    # Caddy 2.11+ cuts idle stream bodies at 60s; NetBird gRPC streams live on that path.
+    globalConfig = lib.optionalString (
+      lib.versionAtLeast config.services.caddy.package.version "2.11"
+    ) ''
+      servers {
+        timeouts {
+          read_body_idle -1s
+        }
+      }
+    '';
 
     virtualHosts = {
       # wopr
