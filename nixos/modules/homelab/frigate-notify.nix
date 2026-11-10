@@ -1,20 +1,21 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 
 let
-  ntfyUrlFile = config.sops.secrets."monitoring/ntfy/frigate-events-url".path;
-  mqttPasswordFile = config.sops.secrets."frigate/mqtt-password".path;
+  frigateEnabled = config.homelab.frigate.enable;
 
   frigateNotify = pkgs.writeScript "frigate-notify.py" ''
     #!${pkgs.python3}/bin/python3
-    import subprocess, json, sys, signal
+    import subprocess, json, sys, signal, os
 
-    with open("${ntfyUrlFile}") as f:
+    cred_dir = os.environ["CREDENTIALS_DIRECTORY"]
+    with open(os.path.join(cred_dir, "ntfy-url")) as f:
         ntfy_url = f.read().strip()
-    with open("${mqttPasswordFile}") as f:
+    with open(os.path.join(cred_dir, "mqtt-password")) as f:
         mqtt_password = f.read().strip()
 
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
@@ -51,19 +52,25 @@ let
     sys.exit(proc.wait())
   '';
 in {
-  sops.secrets."monitoring/ntfy/frigate-events-url" = { };
+  config = lib.mkIf frigateEnabled {
+    sops.secrets."monitoring/ntfy/frigate-events-url" = { };
 
-  systemd.services.frigate-notify = {
-    description = "Forward Frigate detection events to ntfy";
-    after = [ "network-online.target" "sops-secrets-rendered.service" ];
-    wants = [ "network-online.target" ];
-    requires = [ "sops-secrets-rendered.service" ];
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.mosquitto pkgs.ntfy-sh ];
-    serviceConfig = {
-      ExecStart = "${frigateNotify}";
-      Restart = "on-failure";
-      RestartSec = 10;
+    systemd.services.frigate-notify = {
+      description = "Forward Frigate detection events to ntfy";
+      after = [ "network-online.target" "sops-secrets-rendered.service" ];
+      wants = [ "network-online.target" ];
+      requires = [ "sops-secrets-rendered.service" ];
+      wantedBy = [ "multi-user.target" ];
+      path = [ pkgs.mosquitto pkgs.ntfy-sh ];
+      serviceConfig = {
+        ExecStart = "${frigateNotify}";
+        LoadCredential = [
+          "ntfy-url:${config.sops.secrets.\"monitoring/ntfy/frigate-events-url\".path}"
+          "mqtt-password:${config.sops.secrets.\"frigate/mqtt-password\".path}"
+        ];
+        Restart = "on-failure";
+        RestartSec = 10;
+      };
     };
   };
 }
