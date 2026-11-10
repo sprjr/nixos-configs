@@ -70,6 +70,8 @@
       bigPicture = true;
       primaryOutput = "DP-1";
     };
+
+    notifications.daemon = "hokum";
   };
 
   # Git configuration
