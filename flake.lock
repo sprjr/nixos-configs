@@ -6040,6 +6040,29 @@
         "type": "gitlab"
       }
     },
+    "hex": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794281831,
+        "narHash": "sha256-79v1s4Bom0p+104QNekMva008Uj8MgvJBEc3k+Y9QjM=",
+        "owner": "anomalyco",
+        "repo": "hex",
+        "rev": "4ac1a79dbf3a3aa6488579164dbf235607965589",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anomalyco",
+        "repo": "hex",
+        "type": "github"
+      }
+    },
     "heywoodlh-configs": {
       "inputs": {
         "attic": "attic",
@@ -12874,6 +12897,7 @@
         "disko": "disko",
         "flake-utils": "flake-utils",
         "ghostty": "ghostty",
+        "hex": "hex",
         "heywoodlh-configs": "heywoodlh-configs",
         "home-manager": "home-manager_14",
         "hyprsession": "hyprsession",
