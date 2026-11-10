@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  hex,
   home-manager,
   heywoodlh-configs,
   ...
@@ -136,7 +137,7 @@ in
   };
 
   # Home-Manager configuration
-  home-manager.extraSpecialArgs = { spicetify-nix = null; configRoot = null; };
+  home-manager.extraSpecialArgs = { inherit hex; spicetify-nix = null; configRoot = null; };
   home-manager.users.patrick.imports = [ ../../home/darwin-home.nix ];
 
   # Allow unfree packages
