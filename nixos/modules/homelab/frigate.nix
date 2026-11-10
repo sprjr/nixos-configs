@@ -20,15 +20,15 @@ in
     description = "Enable Frigate NVR, go2rtc restreaming and camera capture.";
   };
 
-  sops.secrets = {
-    "frigate/mqtt-password" = { };
-  };
-
-  config = lib.mkIf config.homelab.frigate.enable {
-    sops.secrets = {
-      "frigate/front-door-rtsp" = { };
-      "frigate/garage-rtsp" = { };
-    } // lib.genAttrs (map (name: "frigate/${name}") g4Cameras) (_: { });
+  config = lib.mkMerge [
+    {
+      sops.secrets."frigate/mqtt-password" = { };
+    }
+    (lib.mkIf config.homelab.frigate.enable {
+      sops.secrets = {
+        "frigate/front-door-rtsp" = { };
+        "frigate/garage-rtsp" = { };
+      } // lib.genAttrs (map (name: "frigate/${name}") g4Cameras) (_: { });
 
     sops.templates."frigate-env" = {
       owner = "frigate";
@@ -184,5 +184,5 @@ in
       ];
       allowedUDPPorts = [ 8555 ];
     };
-  };
+  })];
 }
