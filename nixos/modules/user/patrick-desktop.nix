@@ -8,7 +8,6 @@
   hex,
   sops-nix,
   spicetify-nix,
-  hokum,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
   dark-wallpaper-3,
