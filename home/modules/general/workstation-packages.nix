@@ -3,6 +3,7 @@
   osConfig ? { },
   lib,
   spicetify-nix ? null,
+  hex,
   ...
 }:
 
@@ -18,6 +19,7 @@ let
     ]
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       rustnet
+      hex.packages.${stdenv.hostPlatform.system}.hex
     ]
     ++ spicetify;
 in
