@@ -19,6 +19,7 @@ let
   # Host features the widgets can't detect themselves.
   features = builtins.toJSON {
     comin = osConfig.services.comin.enable or false;
+    notifications = cfg.notifications.daemon;
   };
 
   agsConfig = pkgs.stdenv.mkDerivation {

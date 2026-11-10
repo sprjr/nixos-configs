@@ -1,12 +1,18 @@
 import app from "ags/gtk4/app"
+import GLib from "gi://GLib"
 import Gtk from "gi://Gtk?version=4.0"
 import { createState } from "ags"
-import { exec, execAsync, subprocess } from "ags/process"
+import { readFile } from "ags/file"
+import { execAsync, subprocess } from "ags/process"
 import { timeout } from "ags/time"
 import AstalIO from "gi://AstalIO"
 
+// Daemon choice comes from Nix (features.json); runtime detection races hokum startup.
 let daemon: "hokum" | "swaync" = "swaync"
-try { exec("pgrep -x hokum"); daemon = "hokum" } catch {}
+try {
+  const path = GLib.get_user_config_dir() + "/ags/features.json"
+  if (JSON.parse(readFile(path)).notifications === "hokum") daemon = "hokum"
+} catch {}
 
 const watch = daemon === "hokum"
   ? ["hokum", "dnd", "--json", "--watch"]
