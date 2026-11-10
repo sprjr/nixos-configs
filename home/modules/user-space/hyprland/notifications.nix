@@ -44,6 +44,8 @@ in
           After = [ "graphical-session.target" ];
         };
         Service = {
+          Type = "dbus";
+          BusName = "org.freedesktop.Notifications";
           ExecStart = "${hokumPkg}/bin/hokum service";
           Restart = "on-failure";
           RestartSec = 2;

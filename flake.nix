@@ -36,6 +36,10 @@
         home-manager.follows = "home-manager";
       };
     };
+    hokum = {
+      url = "github:anomalyco/hokum";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprsession = {
       url = "github:tiecia/hyprsession";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -142,6 +146,7 @@
       heywoodlh-configs,
       hex,
       home-manager,
+      hokum,
       hyprsession,
       #lanzaboote,
       nix-cachyos-kernel,
