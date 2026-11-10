@@ -5,10 +5,20 @@
   ...
 }:
 
+let
+  g4Cameras = [
+    "g4-0"
+  ];
+
+  streamName = name: lib.replaceStrings [ "-" ] [ "_" ] name;
+  envName = name: "FRIGATE_${lib.toUpper (streamName name)}_RTSP";
+in
 {
-  sops.secrets."frigate/mqtt-password" = { };
-  sops.secrets."frigate/front-door-rtsp" = { };
-  sops.secrets."frigate/garage-rtsp" = { };
+  sops.secrets = {
+    "frigate/mqtt-password" = { };
+    "frigate/front-door-rtsp" = { };
+    "frigate/garage-rtsp" = { };
+  } // lib.genAttrs (map (name: "frigate/${name}") g4Cameras) (_: { });
 
   sops.templates."frigate-env" = {
     owner = "frigate";
@@ -17,7 +27,9 @@
       FRIGATE_MQTT_PASSWORD=${config.sops.placeholder."frigate/mqtt-password"}
       FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
       FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
-    '';
+    '' + lib.concatMapStrings (name: ''
+      ${envName name}=${config.sops.placeholder."frigate/${name}"}
+    '') g4Cameras;
   };
 
   # go2rtc runs as its own unit and expands ${VAR} env refs from the template below.
@@ -26,7 +38,9 @@
     content = ''
       FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
       FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
-    '';
+    '' + lib.concatMapStrings (name: ''
+      ${envName name}=${config.sops.placeholder."frigate/${name}"}
+    '') g4Cameras;
   };
 
   services.go2rtc = {
@@ -34,7 +48,7 @@
     settings.streams = {
       front_door = "\${FRIGATE_FRONT_DOOR_RTSP}";
       garage = "\${FRIGATE_GARAGE_RTSP}";
-    };
+    } // lib.genAttrs (map streamName g4Cameras) (name: "\${" + envName name + "}");
   };
 
   services.frigate = {
@@ -116,7 +130,19 @@
           };
           record.enabled = true;
         };
-      };
+      } // lib.genAttrs (map streamName g4Cameras) (name: {
+        enabled = true;
+        ffmpeg.inputs = [{
+          path = "rtsp://127.0.0.1:8554/${streamName name}";
+          roles = [ "detect" "record" ];
+        }];
+        detect = {
+          enabled = true;
+          width = 1280;
+          height = 720;
+        };
+        record.enabled = true;
+      });
     };
   };
 

@@ -5,7 +5,6 @@ let
   shikisha = "shikisha";
   wopr = "wopr";
   macnnix = "macnnix";
-  trixos = "trixos";
   stargazer = "stargazer";
 
   authentik = ''
@@ -93,7 +92,6 @@ in
       "grafana.rawliyosh.com" = proxy "${shikisha}:3000";
 
       # macnnix
-      "honoka.rawliyosh.com" = proxy "http://${macnnix}:28182";
       "mealie.rawliyosh.com" = proxyAuth "${macnnix}:9925";
       "remote.rawliyosh.com" = proxy "${macnnix}:8086";
       "search.rawliyosh.com" = proxy "${macnnix}:8080";
@@ -101,19 +99,9 @@ in
       "tools.rawliyosh.com" = proxyAuthRoute "${macnnix}:40001";
       "pdf.rawlinson.xyz" = proxyAuthRoute "${macnnix}:38080";
 
-      # trixos
-      "save.rawliyosh.com" = proxy "http://${trixos}:54545";
-      "vault.rawliyosh.com" = proxyAuthRoute "http://${trixos}:36580";
-
-      # stargazer
-      "memtly.rawliyosh.com" = proxy "http://${stargazer}:8080";
-
       # local
       "ld.rawliyosh.com" = proxy "localhost:9091";
       "status.rawliyosh.com" = proxyAuthRoute "localhost:3551";
-
-      # external
-      "talk.rawlinson.xyz" = proxy "66.29.186.74";
     };
   };
 
