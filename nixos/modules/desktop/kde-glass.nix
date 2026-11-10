@@ -85,6 +85,8 @@ in
   environment.systemPackages = [
     kwin-effects-glass
     glass-theme
+    # Installed only; upstream considers KDE unsupported.
+    (pkgs.callPackage ../../../pkgs/conflux-icon-theme { })
   ];
 
   home-manager.users.patrick = {

@@ -21,9 +21,9 @@
 
     icons = {
       enable = true;
-      package = pkgs.papirus-icon-theme;
-      dark = "Papirus-Dark";
-      light = "Papirus-Dark";
+      package = pkgs.callPackage ../../../pkgs/conflux-icon-theme { };
+      dark = "Conflux";
+      light = "Conflux";
     };
 
     cursor = {
