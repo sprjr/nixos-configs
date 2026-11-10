@@ -9,8 +9,10 @@
   imports = [ ../../modules/system/sops.nix ];
 
   services.hermes-fileshare.enable = true;
+  homelab.frigate.enable = false;
+
   services.frigate-analyzer = {
-    enable = true;
+    enable = false;
     # Needs frigate/control-token in sops-nix/sops.yaml
     remoteControl.enable = true;
   };
