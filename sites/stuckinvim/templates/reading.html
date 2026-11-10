@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ page.title }}</h1>
+{{ page.content | safe }}
+{% set reading = load_data(path="data/reading.toml") %}
+
+{% for group in reading.groups %}
+<h2>{{ group.name }}</h2>
+<ul class="post-list">
+  {% for item in group.items %}
+    <li class="post-item">
+      <a href="{{ item.url }}" class="post-title">{{ item.title }}</a>
+      <span class="post-meta">{{ item.url }}{% if item.feed %} · <a href="{{ item.feed }}">feed</a>{% endif %}</span>
+    </li>
+  {% endfor %}
+</ul>
+{% endfor %}
+{% endblock content %}
