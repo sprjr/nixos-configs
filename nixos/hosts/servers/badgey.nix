@@ -9,7 +9,7 @@
   imports = [ ../../modules/system/sops.nix ];
 
   services.hermes-fileshare.enable = true;
-  homelab.frigate.enable = true;
+  homelab.frigate.enable = false;
 
   services.frigate-analyzer = {
     enable = false;
