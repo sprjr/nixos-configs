@@ -473,13 +473,13 @@ in
         "custom/dict" = {
           format = "";
           tooltip-format = "Dictionary (Super D)";
-          on-click = "kotoba en --selection";
+          on-click = "ghostty --class=kotoba -e kotoba en --selection";
         };
 
         "custom/jp-dict" = {
           format = "󰗊";
           tooltip-format = "Japanese dictionary (Super Shift D)";
-          on-click = "kotoba jp --selection";
+          on-click = "ghostty --class=kotoba -e kotoba jp --selection";
         };
 
         "custom/color-picker" = {
