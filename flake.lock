@@ -3942,6 +3942,24 @@
         "type": "github"
       }
     },
+    "flake-utils_195": {
+      "inputs": {
+        "systems": "systems_186"
+      },
+      "locked": {
+        "lastModified": 1791914995,
+        "narHash": "sha256-Zf/xfQEAasnwnmEfHqW/4hjDE/s44yn2hD4RuVIZRjA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "b7a79d3fea1e214f6d668d521cecec0c01e26544",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "flake-utils_2": {
       "locked": {
         "lastModified": 1667395993,
@@ -7183,6 +7201,27 @@
         "ref": "development",
         "type": "git",
         "url": "https://github.com/Jovian-Experiments/Jovian-NixOS"
+      }
+    },
+    "kotoba": {
+      "inputs": {
+        "flake-utils": "flake-utils_195",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794374601,
+        "narHash": "sha256-iTHUeFKzGutDKntJS6vRj4/SlV7bw2+dq1akfO7qdN4=",
+        "owner": "sprjr-bot",
+        "repo": "kotoba",
+        "rev": "8dffaccadab8eae2aa074d08b0ccb16c4c667a6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sprjr-bot",
+        "repo": "kotoba",
+        "type": "github"
       }
     },
     "lacros": {
@@ -12922,6 +12961,7 @@
         "hokum": "hokum",
         "home-manager": "home-manager_14",
         "hyprsession": "hyprsession",
+        "kotoba": "kotoba",
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-flatpak": "nix-flatpak",
         "nix-on-droid": "nix-on-droid_4",
@@ -12935,8 +12975,7 @@
         "stylix": "stylix",
         "thyx": "thyx",
         "weathr": "weathr",
-        "whale-wallpaper": "whale-wallpaper",
-        "kotoba": "kotoba"
+        "whale-wallpaper": "whale-wallpaper"
       }
     },
     "rust-analyzer-src": {
@@ -14107,7 +14146,7 @@
           "nixpkgs"
         ],
         "nur": "nur_10",
-        "systems": "systems_187",
+        "systems": "systems_188",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
         "tinted-tmux": "tinted-tmux",
@@ -15583,6 +15622,21 @@
       }
     },
     "systems_187": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_188": {
       "locked": {
         "lastModified": 1774449309,
         "narHash": "sha256-brhZ8DmuGtzkCYHJg4HEd602amKm89Y9ytsFZ5uWD1w=",
@@ -17519,7 +17573,7 @@
     },
     "utils_7": {
       "inputs": {
-        "systems": "systems_186"
+        "systems": "systems_187"
       },
       "locked": {
         "lastModified": 1710146030,
@@ -19192,27 +19246,6 @@
       "original": {
         "owner": "jcollie",
         "repo": "zon2nix",
-        "type": "github"
-      }
-    },
-    "kotoba": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1794374601,
-        "narHash": "sha256-iTHUeFKzGutDKntJS6vRj4/SlV7bw2+dq1akfO7qdN4=",
-        "owner": "sprjr-bot",
-        "repo": "kotoba",
-        "rev": "8dffaccadab8eae2aa074d08b0ccb16c4c667a6c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sprjr-bot",
-        "repo": "kotoba",
         "type": "github"
       }
     }
