@@ -58,8 +58,8 @@ let
       title = "Lookup";
       icon = "accessories-dictionary-symbolic";
       binds = optionals native [
-        { keys = "Super D"; desc = "English dictionary (selection or prompt)"; bind = [ "$mainMod, D, exec, dict-lookup --selection" ]; }
-        { keys = "Super Shift D"; desc = "Japanese dictionary (selection or prompt)"; bind = [ "$mainMod SHIFT, D, exec, jp-lookup --selection" ]; }
+        { keys = "Super D"; desc = "English dictionary (selection or prompt)"; bind = [ "$mainMod, D, exec, ghostty --class=kotoba -e kotoba en --selection" ]; }
+        { keys = "Super Shift D"; desc = "Japanese dictionary (selection or prompt)"; bind = [ "$mainMod SHIFT, D, exec, ghostty --class=kotoba -e kotoba jp --selection" ]; }
       ] ++ [
         # Bound by Fcitx5 itself.
         { keys = "Ctrl Space"; desc = "toggle Japanese IME (Fcitx5)"; }

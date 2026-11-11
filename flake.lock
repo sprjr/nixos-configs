@@ -12935,7 +12935,8 @@
         "stylix": "stylix",
         "thyx": "thyx",
         "weathr": "weathr",
-        "whale-wallpaper": "whale-wallpaper"
+        "whale-wallpaper": "whale-wallpaper",
+        "kotoba": "kotoba"
       }
     },
     "rust-analyzer-src": {
@@ -19191,6 +19192,27 @@
       "original": {
         "owner": "jcollie",
         "repo": "zon2nix",
+        "type": "github"
+      }
+    },
+    "kotoba": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794374601,
+        "narHash": "sha256-iTHUeFKzGutDKntJS6vRj4/SlV7bw2+dq1akfO7qdN4=",
+        "owner": "sprjr-bot",
+        "repo": "kotoba",
+        "rev": "8dffaccadab8eae2aa074d08b0ccb16c4c667a6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sprjr-bot",
+        "repo": "kotoba",
         "type": "github"
       }
     }

@@ -43,75 +43,6 @@ let
     '';
   };
 
-  dictLookup = pkgs.writeShellApplication {
-    name = "dict-lookup";
-    runtimeInputs = with pkgs; [
-      wordnet
-      fuzzel
-      libnotify
-      wl-clipboard
-    ];
-    text = ''
-      if [ "''${1:-}" = "--selection" ]; then
-        word=$(wl-paste --primary 2>/dev/null || wl-paste 2>/dev/null || true)
-      else
-        word="''${1:-}"
-      fi
-      if [ -z "$word" ]; then
-        word=$(fuzzel --dmenu --prompt "Define  " || true)
-      fi
-      if [ -z "$word" ]; then
-        exit 0
-      fi
-      result=$(wn "$word" -over 2>&1 || true)
-      if [ -z "$result" ]; then
-        notify-send -t 5000 "Dictionary" "No definition found for: $word"
-      else
-        notify-send -t 0 "Dictionary: $word" "$result"
-      fi
-    '';
-  };
-
-  jpLookup = pkgs.writeShellApplication {
-    name = "jp-lookup";
-    runtimeInputs = with pkgs; [
-      curl
-      jq
-      fuzzel
-      libnotify
-      wl-clipboard
-    ];
-    text = ''
-      if [ "''${1:-}" = "--selection" ]; then
-        word=$(wl-paste --primary 2>/dev/null || wl-paste 2>/dev/null || true)
-      else
-        word="''${1:-}"
-      fi
-      if [ -z "$word" ]; then
-        word=$(fuzzel --dmenu --prompt "日本語  " || true)
-      fi
-      if [ -z "$word" ]; then
-        exit 0
-      fi
-      encoded=$(printf '%s' "$word" | jq -sRr @uri)
-      response=$(curl -sf "https://jisho.org/api/v1/search/words?keyword=$encoded" || true)
-      if [ -z "$response" ]; then
-        notify-send -t 5000 "Jisho" "Network error looking up: $word"
-        exit 1
-      fi
-      result=$(printf '%s' "$response" | jq -r '
-        .data[0:3][] |
-        "【\(.japanese[0].word // .japanese[0].reading // "?")】\(.japanese[0].reading // "")\n" +
-        (.senses[0:2][] | "  • \(.english_definitions | join(", "))")
-      ' 2>/dev/null || true)
-      if [ -z "$result" ]; then
-        notify-send -t 5000 "Jisho" "No results for: $word"
-      else
-        notify-send -t 0 "Jisho: $word" "$(printf '%b' "$result")"
-      fi
-    '';
-  };
-
   ha = cfg.homeAssistant;
 
   # Home Assistant control cluster + timer, placed left to mirror the Darwin sketchybar layout.
@@ -176,8 +107,6 @@ in
       pkgs.hyprpicker
       btToggle
       clipboardBrowse
-      dictLookup
-      jpLookup
     ];
 
     programs.waybar = {
@@ -544,13 +473,13 @@ in
         "custom/dict" = {
           format = "";
           tooltip-format = "Dictionary (Super D)";
-          on-click = "dict-lookup";
+          on-click = "ghostty --class=kotoba -e kotoba en --selection";
         };
 
         "custom/jp-dict" = {
           format = "󰗊";
           tooltip-format = "Japanese dictionary (Super Shift D)";
-          on-click = "jp-lookup";
+          on-click = "ghostty --class=kotoba -e kotoba jp --selection";
         };
 
         "custom/color-picker" = {

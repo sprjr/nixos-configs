@@ -524,6 +524,13 @@ in
           move = "0 0";
           workspace = "special:dropdown silent";
         };
+
+        "windowrule[kotoba]" = {
+          "match:class" = "^(kotoba)$";
+          float = true;
+          size = "1100 800";
+          center = true;
+        };
       }
       // placementRules;
     };

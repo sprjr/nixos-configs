@@ -12,6 +12,10 @@
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kotoba = {
+      url = "github:sprjr-bot/kotoba";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -149,6 +153,7 @@
       hokum,
       hyprsession,
       #lanzaboote,
+      kotoba,
       nix-cachyos-kernel,
       nix-flatpak,
       nixos-facter-modules,
