@@ -77,7 +77,7 @@ in
         };
 
         ffmpeg = {
-          hwaccel_args = "preset-vaapi";
+          hwaccel_args = "";
         };
 
         detectors = {
