@@ -12,7 +12,7 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
   c = config.lib.stylix.colors.withHashtag;
-  data = import ../keybind-data.nix { inherit pkgs; ha = cfg.homeAssistant.enable; };
+  data = import ../keybind-data.nix { inherit pkgs cfg; };
 
   isLaptop = cfg.formFactor == "laptop";
 

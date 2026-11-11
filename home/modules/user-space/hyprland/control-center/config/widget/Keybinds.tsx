@@ -6,8 +6,21 @@ import { dismiss } from "./Overlay"
 import groups, { type Group } from "../keybind-data"
 
 // Two columns keep the panel inside one screen; the split is by row count.
-const half = Math.ceil(groups.length / 2)
-const columns = [groups.slice(0, half), groups.slice(half)]
+// A group's height is its rows plus the header; pick the cut closest to half.
+const height = (g: Group) => g.binds.length + 1
+const total = groups.reduce((n, g) => n + height(g), 0)
+let split = 0
+let best = total
+let acc = 0
+groups.forEach((g, i) => {
+  acc += height(g)
+  const diff = Math.abs(total - 2 * acc)
+  if (diff < best) {
+    best = diff
+    split = i + 1
+  }
+})
+const columns = [groups.slice(0, split), groups.slice(split)]
 
 function Column({ groups }: { groups: Group[] }) {
   return (
