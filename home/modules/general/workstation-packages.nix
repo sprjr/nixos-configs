@@ -4,6 +4,7 @@
   lib,
   spicetify-nix ? null,
   hex,
+  kotoba,
   ...
 }:
 
@@ -20,6 +21,7 @@ let
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       rustnet
       hex.packages.${stdenv.hostPlatform.system}.hex
+      kotoba.packages.${stdenv.hostPlatform.system}.default
     ]
     ++ spicetify;
 in
