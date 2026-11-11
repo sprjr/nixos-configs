@@ -33,6 +33,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.tpm2.enable = true;
+  boot.initrd.availableKernelModules = [
+    "tpm_tis"
+    "tpm_crb"
+  ];
 
   time.timeZone = "America/Denver";
   i18n.defaultLocale = "en_US.UTF-8";
