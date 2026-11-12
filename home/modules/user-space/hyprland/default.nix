@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  hokum,
   ...
 }:
 
@@ -10,8 +9,6 @@ with lib;
 
 let
   cfg = config.patrick.home.hyprland;
-
-  hokumPkg = hokum.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   isLaptop = cfg.formFactor == "laptop";
 
