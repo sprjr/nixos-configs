@@ -123,7 +123,6 @@ in
           font-feature-settings: "tnum";
         }
         /* Reserve each variable-content module's widest state (tune to font size). */
-        #custom-timer,
         #custom-weather { min-width: 56px; }
         #custom-hwmon { min-width: 88px; }
         .modules-left { margin-left: 8px; }

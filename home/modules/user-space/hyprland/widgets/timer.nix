@@ -83,9 +83,9 @@ let
     text = ''
       state="''${XDG_RUNTIME_DIR:-/tmp}/waybar-timer"
       if [ -s "$state" ]; then
-        printf '{"text":"󱎫 %s","class":"running","tooltip":"timer"}\n' "$(cat "$state")"
+        printf '{"text":"󱎫 %s","class":"running","tooltip":"Timer (Super T)"}\n' "$(cat "$state")"
       else
-        printf '{"text":"󱎫","class":"idle","tooltip":"timer"}\n'
+        printf '{"text":"󱎫","class":"idle","tooltip":"Timer (Super T)"}\n'
       fi
     '';
   };

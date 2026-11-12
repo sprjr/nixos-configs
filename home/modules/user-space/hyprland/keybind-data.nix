@@ -49,6 +49,7 @@ let
       binds = optionals native [
         { keys = "Super C"; desc = "clipboard history (fuzzel)"; bind = [ "$mainMod, C, exec, waybar-clipboard" ]; }
         { keys = "Super P"; desc = "pick screen color"; bind = [ "$mainMod, P, exec, hyprpicker -a" ]; }
+        { keys = "Super T"; desc = "start countdown timer (fuzzel)"; bind = [ "$mainMod, T, exec, timer-start" ]; }
       ] ++ optionals (native && notify != null) [
         { keys = "Super N"; desc = "notification center"; bind = [ "$mainMod, N, exec, ${notify.toggle}" ]; }
         { keys = "Super Shift N"; desc = "do-not-disturb toggle"; bind = [ "$mainMod SHIFT, N, exec, ${notify.dnd}" ]; }
