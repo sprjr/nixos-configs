@@ -9,6 +9,7 @@
   sops-nix,
   spicetify-nix,
   hokum,
+  kotoba,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
   dark-wallpaper-3,
@@ -55,6 +56,7 @@
         spicetify-nix
         hex
         hokum
+        kotoba
         ;
       hyprlandWallpapers = [
         dark-wallpaper-laptop

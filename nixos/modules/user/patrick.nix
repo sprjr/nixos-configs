@@ -8,6 +8,7 @@
   sops-nix,
   spicetify-nix,
   hokum,
+  kotoba,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
   dark-wallpaper-3,
@@ -51,7 +52,7 @@
   # Home-Manager
   home-manager = {
     extraSpecialArgs = {
-      inherit dark-wallpaper-laptop ags spicetify-nix hex hokum;
+      inherit dark-wallpaper-laptop ags spicetify-nix hex hokum kotoba;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
         dark-wallpaper-2
