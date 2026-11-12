@@ -70,12 +70,13 @@ monitoring:
         media: ENC[AES256_GCM,data:NtfdBzqTpg3VPGIP/pNc1KoV3gzeR1I1tEA=,iv:bEgPPsx0YdpXV8IiLnnQh2/iZACAfDu/rJGE+h0Ww1k=,tag:OHwlQDzJFPVQNK3A/OciHA==,type:str]
         ike: ENC[AES256_GCM,data:QiNGTy/kjjdtg8vzvXDinUmPNizgWgwXhyM=,iv:O7qAQIR4dtbXa7X9kzyMl39MJ6/E8FiM9TtNWUfALwk=,tag:UvUAE2/6d6e5mWEhwRmkrQ==,type:str]
     ntfy:
-        comin-url: ENC[AES256_GCM,data:+sh/rbQjRlMtXeecoVqPxh1uQjp6SXsuOLmOYwIPhjBd1Cwfict97U7Nb+BUI3NCwtQccunzg1EZ9pSwxs1kVcr3AB+eWelh,iv:RmLb0DyoYUtEuSN8b5TcTo8VEAQk6GpTCiA/ZydBZM4=,tag:LGvkPYi3a+zn63kswkB7rw==,type:str]
-        grafana-alerts-url: ENC[AES256_GCM,data:a4bPkrS4TiuilgmluNG6fMow8jqL1WTf/cvphnFH4pWN5KJw3JhFvyGfoQ==,iv:ZszaAVrF4PzCTQOsYPP8XRb5wmg9L5g3rvHSKJVU/Dk=,tag:M0DkRHcoK1NVY019YYSMcw==,type:str]
-        frigate-events-url: ENC[AES256_GCM,data:iYJO+oPvSL6sBeOhGJ7+Sh9dERULxSk3aFq9J00NKr5Q2WI0PPoNgrD+jQ==,iv:Hq5f5ISo8LLaZea3cEAei3v4cBd2UNgitreOP2Yz3k0=,tag:TKoq+6zbrIxaa04Y685NcA==,type:str]
-        admin-notifications-url: ENC[AES256_GCM,data:DL9ECqquczZGEcC8Ck5TiamQoz2TX8l4+qBo11i36kXdk/oR0LaQ0aC70nxTmdpjdyhfnJrx6XTifzyRhAbgc/IEs1T4XHkXU5Imifu6,iv:y5t7+URqHrWf2VOZ0TTggZFkOJp6iGcHovxtz0oLJYc=,tag:TX7qhxdWB+wTaTZXpG8BBw==,type:str]
+        comin-url: ENC[AES256_GCM,data:zOB6iFxrDK9bF/8oMyatpjrebeP2NMgKWQfRo0ndJcZRMZxD3/U6aro0sP/ukU9KOSwC+W8/g/1GoVaX,iv:ZQ0A09b66g+4rjKxTQIo6fvUucH/kN7LDUFtGCWEUcI=,tag:MirnJCurhRzljkPAhsUtzQ==,type:str]
+        grafana-alerts-url: ENC[AES256_GCM,data:8Xk2gmRxFjPRBRg/R1SFq5TPp85F5QVMySLpPl3cfg==,iv:6UBeisjOBMI7TAm3CH3vxi/TU+A3FJ62dAq/Ac++yE4=,tag:1F9BwQO3PZUpxwZSHUXzuw==,type:str]
+        frigate-events-url: ENC[AES256_GCM,data:iIuPJiq9y3jedwEIT7pc8InwiKIaxOhcKHmeFB/pEA==,iv:dGNd6oY6SqFguRBfikQk2AyCD/0bI7A+LM7J2hZuO7I=,tag:PpuSa8do1iK6abAa+EoHFg==,type:str]
+        admin-notifications-url: ENC[AES256_GCM,data:RZT0me6On0YY6NxgDrPrHdKcZU685I94EEgmJCpmH7B5E1umW2lTWMe5J1Thakuy4sRLla6CCJgZWG4/jbgiErA7,iv:DussHt5tE4HqtMuMK8g7G0tOtiEfAXmvjbDnG/6STys=,tag:SfJI/x/TwCJBRrX9CAffDg==,type:str]
     ha-webhook:
         grafana-alerts-url: ENC[AES256_GCM,data:MhdskB9EpwHi+qPu2GJZe0fSIUj6cTwXr6q1JPTlzzqR+3Rv4z+BlhT0FSsmYX+AdN2wmfPI,iv:sT4T2SyHOp4qqHayEsR9wbnkBfeO+jd+60lMx+nH6+U=,tag:LOWoRsOc21yakPBRLj9uTQ==,type:str]
+        cloud-resource-url: ENC[AES256_GCM,data:ptVFWOe+GMgdUkQm4BUF6kKyED+2nL1W+md/ATda7js7MmM=,iv:wNJz65AiXo91DaV88xFXJ0KBQo9uPJrX69RAsp4ekVI=,tag:YtsW0BIIhlMe9cnSIEHXbw==,type:str]
 palworld:
     admin-password: ENC[AES256_GCM,data:S6GzzwFXA9SBCyNcBvsAVCtNgXhbPKPuyFB/QwyIzO+rtkqU0Idd9SUhPe4=,iv:AFHcoJgVVjgjfRfx+KN8wfzanacm/Ax2MbEQIZZhJe4=,tag:N8p4dpAL3hens8HRyTPJmQ==,type:str]
     server-password: ENC[AES256_GCM,data:Rg62ct23/+msHIEThfziKoO6Z1sLhV+jHfVsSAKLB8qHsRt4ToB9xeluSPM=,iv:O6Alk0fkgYSQQixIu/uagk2/0Q/rcCyNjuqikA41mNg=,tag:PxLpevb3Ziqp9VwqHu0Sxg==,type:str]
@@ -159,7 +160,7 @@ sops:
             fIfVvdGyekq0x1CAjsk0GETHwhhZnSE14WCpDdnEZV1QntkU6xrLxw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1rnmr3ua5cvmyjxa0uf5htvc572338erplr52h54edgy67m9cx9dqcgedfw
-    lastmodified: "2026-11-09T03:08:53Z"
-    mac: ENC[AES256_GCM,data:rINIelt277vcc5UlWJHFdf0WzJzlc+Cp1YMK7efmRfnUcCHigjtKKBSpur6uahmTKHt8d7C98Fa1B/h01feKxeJdggMQFHY5NX8Li556hEFGTtQh5mGkAI4xw9RahrJZQJw0bZEBDzr0c0GO5Hipt6rHlt/bSJUhZQvwhiL+4JM=,iv:DDR+7Jdrj78TBOPJ59FHcrVvy4/ZHPprzcSVh1YT7X0=,tag:4o5Va+UD82mV4xRJ7eHtcQ==,type:str]
+    lastmodified: "2026-11-12T17:19:41Z"
+    mac: ENC[AES256_GCM,data:QkTkngVzFqZeLmVbcd2zd8PTWFQvMUXlHemWgnGuAqWYk+XV1YqBD3Z6MkoyFZI9/R3m+hNpSUKYj+WRijbvJYcwrTCr2OoJK0ATe2QmdoPserzqg7gGftUtzIj+P7WHFd0RPF2RBrO6KnamHg9xQadRyQHQn6lXvr0odYmIWUY=,iv:LorH6VG9qnACePstKc0NDP3M9zg1uJdy3aUspUPCld8=,tag:PBBL0yivDLpEmHpASUlPBg==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3
