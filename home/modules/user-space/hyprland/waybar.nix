@@ -51,18 +51,16 @@ let
     "custom/ha-lamp"
   ];
 
-  modulesLeft = [
-    "hyprland/workspaces"
-  ]
-  ++ haModules
-  ++ [
-    "custom/timer"
-    "custom/weather"
-  ]
-  ++ optional cfg.ollamaUsage.enable "custom/ollama"
-  ++ [
-    "custom/public-ip"
-  ];
+  modulesLeft =
+    haModules
+    ++ [
+      "custom/timer"
+      "custom/weather"
+    ]
+    ++ optional cfg.ollamaUsage.enable "custom/ollama"
+    ++ [
+      "custom/public-ip"
+    ];
 
   # Modules that appear/disappear or change item count sit at the outer (left) edge so
   # toggling them never shifts the fixed-width modules to their right.
@@ -128,16 +126,8 @@ in
         #custom-timer,
         #custom-weather { min-width: 56px; }
         #custom-hwmon { min-width: 88px; }
-        #workspaces button {
-          padding: 0 8px;
-          color: ${c.base04};
-          background: transparent;
-        }
-        #workspaces button.active {
-          color: ${c.base00};
-          background: ${c.base07};
-          border-radius: 8px;
-        }
+        .modules-left { margin-left: 8px; }
+        .modules-left > widget > * { margin: 0; }
         #cpu,
         #memory,
         #temperature,
@@ -251,11 +241,6 @@ in
           "clock#tokyo"
         ];
         modules-right = modulesRight;
-
-        "hyprland/workspaces" = {
-          on-click = "activate";
-          format = "{id}";
-        };
 
         clock = {
           format = "{:%a %d %b  %H:%M}";

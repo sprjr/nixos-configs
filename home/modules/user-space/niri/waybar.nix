@@ -59,10 +59,7 @@ let
   ];
 
   modulesLeft =
-    [
-      "niri/workspaces"
-    ]
-    ++ haModules
+    haModules
     ++ [
       "custom/timer"
       "custom/weather"
@@ -121,11 +118,6 @@ in
         modules-left = modulesLeft;
         modules-center = [ "mpris" "clock" "clock#tokyo" ];
         modules-right = modulesRight;
-
-        "niri/workspaces" = {
-          on-click = "activate";
-          format = "{id}";
-        };
 
         clock = {
           format = "{:%a %d %b  %H:%M}";
@@ -333,16 +325,8 @@ in
           background: #1e1e2e;
           color: #cdd6f4;
         }
-        #workspaces button {
-          padding: 0 8px;
-          color: #a6adc8;
-          background: transparent;
-        }
-        #workspaces button.active {
-          color: #1e1e2e;
-          background: #b4befe;
-          border-radius: 8px;
-        }
+        .modules-left { margin-left: 8px; }
+        .modules-left > widget > * { margin: 0; }
         #cpu,
         #memory,
         #temperature,
