@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     kotoba = {
-      url = "github:sprjr-bot/kotoba";
+      url = "github:sprjr/kotoba";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
