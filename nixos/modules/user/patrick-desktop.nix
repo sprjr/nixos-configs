@@ -55,6 +55,7 @@
         spicetify-nix
         hex
         hokum
+        kotoba
         ;
       hyprlandWallpapers = [
         dark-wallpaper-laptop
