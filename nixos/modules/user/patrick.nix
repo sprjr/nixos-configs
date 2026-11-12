@@ -8,6 +8,7 @@
   sops-nix,
   spicetify-nix,
   hokum,
+  kotoba,
   dark-wallpaper-laptop,
   dark-wallpaper-2,
   dark-wallpaper-3,
