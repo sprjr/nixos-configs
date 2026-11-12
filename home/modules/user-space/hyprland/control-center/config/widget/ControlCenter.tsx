@@ -11,6 +11,7 @@ import PowerProfile from "./PowerProfile"
 import Battery from "./Battery"
 import Media from "./Media"
 import Comin from "./Comin"
+import Ollama from "./Ollama"
 import { dismiss } from "./Overlay"
 import { createState } from "ags"
 
@@ -47,6 +48,7 @@ export default function ControlCenter() {
       >
         <Header />
         <Comin shown={shown} />
+        <Ollama shown={shown} />
         <Network />
         <Audio />
         <Brightness />

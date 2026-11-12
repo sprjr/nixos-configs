@@ -43,6 +43,7 @@
     gpu = "nvidia";
     signalGnomeKeyring = true;
     gaming.enable = true;
+    ollamaUsage.enable = true;
     # Temporary: instrumentation for the CBackend::dispatchIdle SEGV. Set back to false once the
     # DP-1/DP-3 disconnect trigger is identified, then delete ~/.local/state/hyprland/.
     debugLogging = true;

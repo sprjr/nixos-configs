@@ -319,6 +319,35 @@ window.control-center > box {
   font-feature-settings: "tnum";
 }
 
+// Ollama
+.ollama-meta {
+  color: var(--fg-dim);
+  font-size: 11px;
+  font-feature-settings: "tnum";
+
+  &.stale { color: var(--yellow); }
+}
+
+.ollama-bar {
+  min-height: 6px;
+  border-radius: 3px;
+
+  trough {
+    background: var(--border);
+    border-radius: 3px;
+    min-height: 6px;
+  }
+
+  block.filled {
+    background: var(--cyan);
+    border-radius: 3px;
+  }
+
+  &.tight block.filled { background: var(--yellow); }
+  &.over block.filled,
+  &.exhausted block.filled { background: var(--red); }
+}
+
 // Hardware monitor
 window.hw-monitor {
   background: transparent;

@@ -77,10 +77,9 @@ let
     #"disk"
     #"temperature"
   ]
-  ++ [
-    "custom/hwmon"
-    "power-profiles-daemon"
-  ]
+  ++ [ "custom/hwmon" ]
+  ++ optional cfg.ollamaUsage.enable "custom/ollama"
+  ++ [ "power-profiles-daemon" ]
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
@@ -125,6 +124,7 @@ in
         #custom-timer,
         #custom-weather { min-width: 56px; }
         #custom-hwmon { min-width: 88px; }
+        #custom-ollama { min-width: 150px; }
         #workspaces button {
           padding: 0 8px;
           color: ${c.base04};
@@ -154,6 +154,7 @@ in
         #custom-weather,
         #custom-public-ip,
         #custom-hwmon,
+        #custom-ollama,
         #custom-budslink,
         #custom-vpn,
         #custom-ha-fan,
@@ -183,6 +184,12 @@ in
         #custom-hwmon { color: ${c.base0E}; }
         #custom-hwmon.warning { color: ${c.base0A}; }
         #custom-hwmon.critical { color: ${c.base08}; }
+        #custom-ollama { color: ${c.base0C}; }
+        #custom-ollama.tight { color: ${c.base0A}; }
+        #custom-ollama.over,
+        #custom-ollama.exhausted { color: ${c.base08}; }
+        #custom-ollama.stale,
+        #custom-ollama.unavailable { color: ${c.base04}; }
         #custom-weather { color: ${c.base0D}; }
         #custom-budslink { color: ${c.base0E}; }
         #custom-vpn.active { color: ${c.base0B}; }
@@ -427,6 +434,14 @@ in
           exec = "hwstat --bar";
           return-type = "json";
           on-click = "hw-monitor-toggle";
+        };
+
+        # Reads the cache written by the ollama-usage-poll timer; no API call here.
+        "custom/ollama" = {
+          exec = "ollama-usage --waybar";
+          return-type = "json";
+          interval = 30;
+          on-click = "control-center-toggle";
         };
 
         "custom/ha-fan" = {

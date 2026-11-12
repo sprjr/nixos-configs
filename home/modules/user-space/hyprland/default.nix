@@ -85,6 +85,7 @@ in
     ./widgets/budslink.nix
     ./widgets/vpn.nix
     ./widgets/caffeine.nix
+    ./widgets/ollama-usage.nix
     ./control-center
   ];
 
@@ -280,6 +281,11 @@ in
         description = "Base URL of the Home Assistant instance.";
       };
     };
+
+    ollamaUsage.enable = mkEnableOption ''
+      Ollama Cloud session/weekly usage in waybar and the control center. Requires the sops
+      `hermes-agent/cloud-api-key` secret to be decryptable on the host
+    '';
 
     signalGnomeKeyring = mkOption {
       type = types.bool;

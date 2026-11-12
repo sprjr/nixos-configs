@@ -9,7 +9,7 @@ import { interval } from "ags/time"
 
 type Phase = "eval" | "build" | "switch"
 
-// Output of widgets/comin-state.py
+// Output of comin-state (widgets/comin-state.nix)
 type CominState = {
   state: "in-sync" | "pending" | "in-progress" | "failed" | "unknown"
   label: string
@@ -25,7 +25,7 @@ type FleetHost = {
   commit: string
 }
 
-// Output of widgets/comin-fleet.py
+// Output of comin-fleet (widgets/comin-state.nix)
 type FleetState = {
   ok: boolean
   total: number

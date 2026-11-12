@@ -10,7 +10,7 @@ import { subprocess } from "ags/process"
 import Sparkline, { HISTORY } from "./Sparkline"
 import { dismiss } from "./Overlay"
 
-// Shape of one `hwstat --panel` line (widgets/hwstat.py)
+// Shape of one `hwstat --panel` line (widgets/hwmon.nix)
 type Stats = {
   cpu: {
     percent: number

@@ -20,6 +20,7 @@ let
   features = builtins.toJSON {
     comin = osConfig.services.comin.enable or false;
     notifications = cfg.notifications.daemon;
+    ollamaUsage = cfg.ollamaUsage.enable;
   };
 
   agsConfig = pkgs.stdenv.mkDerivation {
