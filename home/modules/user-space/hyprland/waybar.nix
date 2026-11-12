@@ -58,6 +58,9 @@ let
   ++ [
     "custom/timer"
     "custom/weather"
+  ]
+  ++ optional cfg.ollamaUsage.enable "custom/ollama"
+  ++ [
     "custom/public-ip"
   ];
 
@@ -77,9 +80,10 @@ let
     #"disk"
     #"temperature"
   ]
-  ++ [ "custom/hwmon" ]
-  ++ optional cfg.ollamaUsage.enable "custom/ollama"
-  ++ [ "power-profiles-daemon" ]
+  ++ [
+    "custom/hwmon"
+    "power-profiles-daemon"
+  ]
   ++ optional cfg.battery "battery"
   ++ [
     "hyprland/language"
@@ -124,7 +128,6 @@ in
         #custom-timer,
         #custom-weather { min-width: 56px; }
         #custom-hwmon { min-width: 88px; }
-        #custom-ollama { min-width: 150px; }
         #workspaces button {
           padding: 0 8px;
           color: ${c.base04};
