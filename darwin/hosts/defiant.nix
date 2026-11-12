@@ -89,6 +89,7 @@ in
       "ollama"
       "opentofu"
       "podman"
+      "stunnel"
       "tldr"
       "wireguard-go"
       "wireguard-tools"
