@@ -4,6 +4,8 @@ let
   textfileDir = "/var/lib/prometheus-node-exporter/textfile";
 in
 {
+  users.groups.promtext = { };
+
   services.prometheus = {
     exporters = {
       node = {
@@ -18,7 +20,7 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d ${textfileDir} 0755 root root -"
+    "d ${textfileDir} 0775 root promtext -"
   ];
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 9100 ];

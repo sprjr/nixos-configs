@@ -117,12 +117,12 @@ in
       isSystemUser = true;
       group = "kev-watch";
       home = stateDir;
+      extraGroups = [ "promtext" ];
     };
     users.groups.kev-watch = { };
 
     systemd.tmpfiles.rules = [
       "d ${stateDir} 0750 kev-watch kev-watch -"
-      "a+ ${textfileDir} - - - - u:kev-watch:rwx"
     ];
 
     systemd.services.kev-watch = {

@@ -127,12 +127,9 @@ in {
           add_device ${lib.escapeShellArg name} ${lib.escapeShellArg (idFile name)}
         '') allDevices}
 
-        # Build device lists from IDs that are actually registered in Syncthing.
-        # This guards against invalid IDs in secrets (wrong length, empty, etc.)
-        # that would cause Syncthing to reject the entire folder PUT with 400.
+        # Build device lists only from IDs already accepted by Syncthing.
         REGISTERED=$(curl -sf -H "X-API-Key: $APIKEY" http://127.0.0.1:8384/rest/config/devices)
 
-        # Usage: device_ids_for <id-file>...
         device_ids_for() {
           local targets='[]' _id f
           for f in "$@"; do
@@ -144,7 +141,6 @@ in {
             '[.[] | select(.deviceID as $id | $targets | index($id) != null) | {deviceID: .deviceID}]'
         }
 
-        # Create the folder with staggered versioning, or reset its device list if it exists
         # Usage: ensure_folder <id> <label> <path> <ignorePerms> <devices-json>
         ensure_folder() {
           local id="$1" label="$2" path="$3" ignore_perms="$4" devices="$5"
@@ -188,8 +184,7 @@ in {
           "$(device_ids_for ${idFiles cfg.clientDevices})"
       '' + lib.optionalString (cfg.claudeDevices != []) ''
 
-        # Ignore patterns must be in place before the folder exists, or the first scan
-        # would pick up credentials and transcripts relayed from a misconfigured client.
+        # Install ignore patterns before creating the claude-config folder.
         install -m 0644 ${claudeStignore} ${lib.escapeShellArg cfg.claudePath}/.stignore
 
         ensure_folder claude-config "Claude Config" ${lib.escapeShellArg cfg.claudePath} false \

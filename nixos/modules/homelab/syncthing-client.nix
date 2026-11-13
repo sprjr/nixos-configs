@@ -39,9 +39,7 @@ in {
 
     systemd.services.syncthing-configure = {
       description = "Configure Syncthing hub device, obsidian-vaults and shared folders";
-      # Ordered after multi-user.target as well as pulled in by it: WantedBy alone makes the
-      # target wait for this unit, so a slow poke here delays multi-user.target ->
-      # graphical.target -> the uwsm login handoff. Ordering it after the target decouples them.
+      # Ensure a slow probe does not delay graphical.target.
       after = [ "syncthing.service" "multi-user.target" "sops-secrets-rendered.service" ];
       requires = [ "syncthing.service" ];
       wants = [ "syncthing.service" "sops-secrets-rendered.service" ];
@@ -55,9 +53,7 @@ in {
       };
       path = with pkgs; [ curl libxml2 jq ];
       script = ''
-        # Syncthing 2.x answers /rest/system/ping with 403 unless the API key is sent, so an
-        # unauthenticated probe never succeeds and the loop burns its full 120s timeout. The key
-        # is read inside the loop because syncthing writes config.xml on its own first start.
+        # Re-read the API key each iteration until config.xml exists.
         for i in $(seq 1 60); do
           if APIKEY=$(xmllint --xpath "string(//configuration/gui/apikey)" \
                ${config.services.syncthing.configDir}/config.xml 2>/dev/null) &&
@@ -151,8 +147,7 @@ in {
         fi
       '' + lib.optionalString cfg.claudeConfig.enable ''
 
-        # Ignore patterns must be in place before the folder exists, or the first scan
-        # would share credentials, history, and transcripts.
+        # Install ignore patterns before creating the claude-config folder.
         install -m 0644 ${claudeStignore} ${claudeDir}/.stignore
 
         existing_claude=$(curl -sf -H "X-API-Key: $APIKEY" \

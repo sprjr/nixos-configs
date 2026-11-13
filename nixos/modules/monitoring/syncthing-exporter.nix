@@ -33,7 +33,6 @@ let
 
     lines = []
 
-    # Extract API key from Syncthing config.xml
     try:
         r = subprocess.run(
             ["xmllint", "--xpath", "string(//configuration/gui/apikey)", CONFIG_XML],
@@ -48,7 +47,6 @@ let
         lines.append("syncthing_up 0")
         write_and_exit(lines)
 
-    # Service status
     try:
         status = api_get("/rest/system/status", api_key)
     except (URLError, Exception):
@@ -67,7 +65,6 @@ let
 
     my_id = status.get("myID", "")
 
-    # Device connectivity
     try:
         devices_config = api_get("/rest/config/devices", api_key)
         connections = api_get("/rest/system/connections", api_key)
@@ -100,7 +97,6 @@ let
     except Exception:
         pass
 
-    # Folder sync state
     STATE_MAP = {
         "idle": 1,
         "scanning": 2,
