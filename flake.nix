@@ -495,7 +495,6 @@
               ./nixos/modules/network/netbird-client.nix
               ./nixos/modules/user/patrick.nix
               ./nixos/modules/homelab/syncthing-client-preset.nix
-              ./nixos/modules/homelab/memtly.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
