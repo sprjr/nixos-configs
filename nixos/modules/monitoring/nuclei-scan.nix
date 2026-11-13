@@ -273,13 +273,12 @@ in
         isSystemUser = true;
         group = "nuclei-scan";
         home = stateDir;
+        extraGroups = [ "promtext" ];
       };
       users.groups.nuclei-scan = { };
 
       systemd.tmpfiles.rules = [
         "d ${resultsDir} 0750 nuclei-scan nuclei-scan ${toString cfg.retentionDays}d"
-        # Metrics go to node-exporter's textfile collector, owned by root.
-        "a+ ${textfileDir} - - - - u:nuclei-scan:rwx"
       ];
 
       systemd.services.nuclei-scan = {
