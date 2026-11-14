@@ -41,8 +41,9 @@ let
       }
 
       write_run_metric() {
-        printf 'nuclei_scan_last_run_timestamp_seconds{mode="%s"} %s\nnuclei_scan_last_run_success{mode="%s"} %s\n' \
-          "$mode" "$(date +%s)" "$mode" "$1" | write_prom "${textfileDir}/nuclei-run-$mode.prom"
+        local success=$1 scanned=$2
+        printf 'nuclei_scan_last_run_timestamp_seconds{mode="%s"} %s\nnuclei_scan_last_run_success{mode="%s"} %s\nnuclei_scan_targets_scanned{mode="%s"} %s\n' \
+          "$mode" "$(date +%s)" "$mode" "$success" "$mode" "$scanned" | write_prom "${textfileDir}/nuclei-run-$mode.prom"
       }
 
       # Once per day at most; refresh failure falls back to the existing set
@@ -118,15 +119,15 @@ let
 
         if [ "$scanned" -eq 0 ] || [ "$failed" -gt 0 ]; then
           echo "weekly: $scanned scanned, $failed failed" >&2
-          write_run_metric 0
+          write_run_metric 0 "$scanned"
           exit 1
         fi
-        write_run_metric 1
+        write_run_metric 1 "$scanned"
       }
 
       # First successful scan of each target per local day; down hosts are retried next poll.
       daily() {
-        local target rc failed=0
+        local target rc scanned=0 failed=0
         for target in ${lib.escapeShellArgs cfg.dailyTargets}; do
           if [ "$(cat "${stateDir}/daily/$target" 2>/dev/null)" = "$today" ]; then
             continue
@@ -134,17 +135,17 @@ let
           rc=0
           scan_target "$target" || rc=$?
           case $rc in
-            0) echo "$today" > "${stateDir}/daily/$target" ;;
+            0) scanned=$((scanned + 1)); echo "$today" > "${stateDir}/daily/$target" ;;
             1) ;;
             *) failed=$((failed + 1)); echo "$target: scan failed" >&2 ;;
           esac
         done
 
         if [ "$failed" -gt 0 ]; then
-          write_run_metric 0
+          write_run_metric 0 "$scanned"
           exit 1
         fi
-        write_run_metric 1
+        write_run_metric 1 "$scanned"
       }
 
       # Weekly and daily runs share templates and state; the poller yields to a running scan.
@@ -157,7 +158,7 @@ let
         daily)
           if ! flock -n 9; then
             echo "another scan is running; retrying next poll"
-            write_run_metric 1
+            write_run_metric 1 0
             exit 0
           fi
           daily

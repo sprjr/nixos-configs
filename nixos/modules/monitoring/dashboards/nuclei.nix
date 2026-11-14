@@ -133,7 +133,25 @@ in
         };
       }
     )
-    (panel loki 1 "stat" "Findings by severity (range)" { h = 5; w = 24; x = 0; y = 16; }
+    (panel prom 6 "stat" "Targets scanned (last run)" { h = 4; w = 12; x = 0; y = 16; }
+      [ (instant (target "A" "nuclei_scan_targets_scanned" "{{mode}}")) ]
+      { }
+    )
+    (panel prom 7 "stat" "Targets with a successful scan" { h = 4; w = 12; x = 12; y = 16; }
+      [ (instant (target "A" "count(nuclei_scan_last_success_timestamp_seconds) or vector(0)" "")) ]
+      {
+        fieldConfig = {
+          defaults.thresholds = {
+            mode = "absolute";
+            steps = [
+              { color = "dark-red"; value = 0; }
+              { color = "green"; value = 1; }
+            ];
+          };
+        };
+      }
+    )
+    (panel loki 1 "stat" "Findings by severity (range)" { h = 5; w = 24; x = 0; y = 20; }
       [ (instant (target "A" ''sum by (severity) (count_over_time({job="nuclei"}[$__range]))'' "{{severity}}")) ]
       {
         fieldConfig = {
@@ -158,7 +176,7 @@ in
         };
       }
     )
-    (panel loki 2 "barchart" "Findings by target (range)" { h = 9; w = 24; x = 0; y = 21; }
+    (panel loki 2 "barchart" "Findings by target (range)" { h = 9; w = 24; x = 0; y = 25; }
       [
         ((instant (target "A" ''sum by (target) (count_over_time({job="nuclei"}[$__range]))'' "{{target}}")) // {
           format = "table";
@@ -166,7 +184,7 @@ in
       ]
       { }
     )
-    (panel loki 3 "logs" "Findings" { h = 16; w = 24; x = 0; y = 30; }
+    (panel loki 3 "logs" "Findings" { h = 16; w = 24; x = 0; y = 34; }
       [
         (target "A" ''{job="nuclei"} | json | line_format `[{{.info_severity}}] {{.scan_target}}: {{.info_name}} - {{.matched_at}} ({{.template_id}}){{if eq .accepted "true"}} [accepted]{{end}}`'' "")
       ]
