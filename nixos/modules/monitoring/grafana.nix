@@ -1227,10 +1227,11 @@ in
                       datasourceUid = "prometheus";
                       model = {
                         refId = "A";
-                        # Failed last run, weekly run missing past 8.5d, or daily poller missing past 2h.
+                        # Failed run, missing run metric, no target scanned in 9d, or daily poller stale.
                         expr = ''
                           (1 - nuclei_scan_last_run_success) > 0
-                          or (time() - nuclei_scan_last_run_timestamp_seconds{mode="weekly"}) > 734400
+                          or absent(nuclei_scan_last_run_success)
+                          or absent_over_time(nuclei_scan_last_success_timestamp_seconds[9d])
                           or (time() - nuclei_scan_last_run_timestamp_seconds{mode="daily"}) > 7200
                         '';
                         instant = true;
@@ -1266,11 +1267,11 @@ in
                     }
                   ];
                   for = "0s";
-                  # Healthy runs return no series; a missing metric file is covered by the "Nuclei scan metrics missing" rule.
+                  # Healthy expression can return no series; align with sibling metrics-missing rule.
                   noDataState = "OK";
                   execErrState = "Error";
                   labels.severity = "warning";
-                  annotations.summary = "nuclei {{ $labels.mode }} scan has failed or not run on schedule";
+                  annotations.summary = "nuclei scan: failed run, missing run metric, no target success in 9d, or daily poller stale";
                 }
                 {
                   uid = "nuclei-scan-metrics-missing";
