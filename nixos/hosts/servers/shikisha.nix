@@ -17,6 +17,7 @@ in
     ../../modules/homelab/syncthing-hub.nix
     ../../modules/homelab/vikunja.nix
     ../../modules/homelab/donetick.nix
+    ../../modules/homelab/kiwix-server.nix
     # Systemd Timers
     ../../hosts/shikisha/cron/docker-findmy-restart.nix
     ../../modules/system/esp-tooling.nix
@@ -222,6 +223,10 @@ in
 
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
+  homelab.kiwix-server = {
+    enable = true;
+  };
+
   networking.iproute2.enable = true;
 
   # Wireguard
@@ -290,8 +295,6 @@ in
     argocd
     gnumake
     kind
-    kiwix
-    kiwix-tools
     kubeseal
   ];
 
