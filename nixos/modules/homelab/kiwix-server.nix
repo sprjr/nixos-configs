@@ -24,7 +24,7 @@ let
       pkgs.zim-tools
     ];
     text = ''
-      urls_file="${zimFile}"
+      urls_file="${toString zimFile}"
       dest_root="${dataDir}"
       lock_file="${lockFile}"
       failed=0
@@ -38,7 +38,7 @@ let
       remote_size() {
         local url="$1"
         local total
-        total=$(curl -fsSL -D - -o /dev/null -r 0-0 --retry 3 --connect-timeout 30 "$url" | tr -d '\r' | awk -F '(/|:|[[:space:]])' 'tolower($1) == "content-range:" { print $4 } tolower($1) == "content-length:" && !seen_cr { size = $2 } END { if (total != "") print total; else print size }')
+        total=$(curl -fsSL -D - -o /dev/null -r 0-0 --retry 3 --connect-timeout 30 --max-time 60 "$url" | tr -d '\r' | awk 'tolower($1)=="content-range:" {split($3,a,"/"); t=a[2]} tolower($1)=="content-length:" && t=="" {size=$2} END { if (t!="") print t; else print size }')
         printf '%s' "$total"
       }
 
@@ -137,8 +137,8 @@ in
       description = "Directory where ZIM files are stored and served from.";
     };
     zimFile = lib.mkOption {
-      type = lib.types.str;
-      default = "${config.users.users.patrick.home or "/home/patrick"}/nixos-configs/data/kiwix-zims.txt";
+      type = lib.types.path;
+      default = ../../../data/kiwix-zims.txt;
       description = "Path to the file listing ZIM categories and URLs.";
     };
     port = lib.mkOption {
@@ -163,11 +163,25 @@ in
       description = "Download Kiwix ZIM files";
       after = [ "network-online.target" "tailscaled.service" "netbird-default.service" "mnt-unraid-Other.mount" ];
       wants = [ "network-online.target" "tailscaled.service" "netbird-default.service" ];
+      # Fail rather than makedirs into the empty automount point if the NFS share
+      # is not up yet; touching the path is what triggers the automount.
       serviceConfig = {
         Type = "oneshot";
         User = cfg.packageUser;
-        Group = "root";
         ExecStart = "${downloadScript}/bin/kiwix-download";
+        ExecStartPre = [
+          (pkgs.writeShellScript "require-unraid-other" ''
+            for _ in $(seq 1 24); do
+              ls "/mnt/unraid/Other" >/dev/null 2>&1 || true
+              if grep -qs " /mnt/unraid/Other nfs" /proc/mounts; then
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "/mnt/unraid/Other is not an nfs mount after 120s" >&2
+            exit 1
+          '')
+        ];
         Nice = 19;
         IOSchedulingClass = "idle";
         RequiresMountsFor = [ dataDir ];
