@@ -277,6 +277,7 @@ in
     opencode
     opencv
     orthanc
+    pinta
     python313
     python313Packages.pip
     terraform
