@@ -91,7 +91,7 @@ let
 
   # Per-profile model assignments
   triageModel = mkModelBlock {
-    model = "deepseek-v4.1-flash";
+    model = "deepseek-v4.1-flash:1017";
     api_key = true;
   };
   coderModel = mkModelBlock {
@@ -147,7 +147,7 @@ let
       failure_nudge_threshold: 3
       allow_agent_scheduling: true
       wrap_response: true
-      model: deepseek-v4.1-flash
+      model: deepseek-v4.1-flash:1017
       model_provider: custom
     platforms:
       telegram:
