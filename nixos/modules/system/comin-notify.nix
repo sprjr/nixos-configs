@@ -7,7 +7,7 @@ let
 
   cominNotify = pkgs.writeScript "comin-notify.py" ''
     #!${pkgs.python3}/bin/python3
-    import subprocess, json, os, sys
+    import subprocess, json, os, sys, datetime
 
     hostname = "${config.networking.hostName}"
     with open("${ntfyUrlFile}") as f:
@@ -65,11 +65,73 @@ let
             return git_field(dep.get("generation"), "selected_commit_id"), "switch failed"
         return None, None
 
+    def get_remotes(status):
+        fetcher = status.get("fetcher") or {}
+        repo = fetcher.get("git_repository_status") or fetcher.get("repository_status") or {}
+        remotes = repo.get("remotes")
+        if remotes is None and repo.get("error_msg"):
+            return [{"name": "fetcher", "url": "", "fetch_error_msg": repo.get("error_msg", ""), "fetched_at": "", "fetched": False}]
+        return remotes or []
+
+    def get_journal_lines():
+        try:
+            r = subprocess.run(
+                ["journalctl", "-u", "comin", "--since", "-15 min", "--no-pager", "-o", "cat"],
+                capture_output=True, text=True, timeout=10,
+            )
+            if r.returncode != 0:
+                return []
+            seen = set()
+            lines = []
+            for line in r.stdout.splitlines():
+                lower = line.lower()
+                if any(k in lower for k in ("fail", "error", "timeout", "deadline", "resolve", "refused", "unreachable")):
+                    stripped = line.strip()
+                    if stripped and stripped not in seen:
+                        seen.add(stripped)
+                        lines.append(stripped)
+            return ["  " + line[:300] for line in lines[-5:]]
+        except Exception:
+            return []
+
     status = get_status()
     if status is None:
         sys.exit(1)
 
     state = load_state()
+
+    try:
+        remotes = get_remotes(status)
+        failing = [r for r in remotes if r.get("fetch_error_msg")]
+
+        if failing and state.get("fetch_state", "ok") != "down":
+            last_fetch = max(
+                (r.get("fetched_at") or "" for r in remotes if r.get("fetched_at")),
+                default=""
+            )
+            remote = failing[0]
+            body = [
+                hostname,
+                f"{remote.get("name", "")} {remote.get("url", "")}",
+                remote.get("fetch_error_msg", ""),
+                f"last successful fetch: {last_fetch}",
+            ] + get_journal_lines()
+            publish("\n".join(body), priority="max", tags="rotating_light")
+            state["fetch_state"] = "down"
+            state["fetch_since"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        elif not failing and state.get("fetch_state", "ok") == "down":
+            since = state.get("fetch_since", "")
+            try:
+                dt = datetime.datetime.fromisoformat(since)
+                down_for = str(datetime.datetime.now(datetime.timezone.utc) - dt)
+            except Exception:
+                down_for = "unknown"
+            publish(f"[{hostname}] comin can reach the remote again (was down for {down_for})", priority="low", tags="white_check_mark")
+            state["fetch_state"] = "ok"
+            state.pop("fetch_since", None)
+    except Exception:
+        import traceback
+        traceback.print_exc()
 
     fetcher_commit = fetched_commit(status)
     if fetcher_commit and fetcher_commit != state["last_commit_id"]:
