@@ -73,14 +73,23 @@ let
             build_val = 0 if build_status == "failed" else 1
             deploy_val = 0 if deploy_status == "failed" else 1
 
+            try:
+                running_system_path = os.readlink("/run/current-system")
+            except OSError:
+                running_system_path = ""
+            built_out_path = gen.get("out_path", "")
+
             if eval_status == "failed" or build_status == "failed" or deploy_status == "failed":
                 sync_val = 0
             elif not fetcher_commit_id or not deployed_commit_id:
                 sync_val = 1
-            elif fetcher_commit_id != deployed_commit_id:
-                sync_val = 1
-            else:
+            elif fetcher_commit_id == deployed_commit_id:
                 sync_val = 2
+            elif built_out_path and built_out_path == running_system_path:
+                # comin skips switching when this store path is already deployed
+                sync_val = 2
+            else:
+                sync_val = 1
 
             lines.append("# HELP comin_eval_success Whether the last comin eval succeeded")
             lines.append("# TYPE comin_eval_success gauge")
@@ -103,7 +112,7 @@ let
                 f'comin_deployed_commit_info{{commit="{prom_escape(deployed_commit)}",'
                 f'message="{prom_escape(deployed_msg)}"}} 1'
             )
-            lines.append("# HELP comin_sync_state Sync state (0=failed 1=pending 2=in-sync)")
+            lines.append("# HELP comin_sync_state Sync state (0=failed 1=pending 2=in-sync; a build identical to the running system counts as in-sync)")
             lines.append("# TYPE comin_sync_state gauge")
             lines.append(f"comin_sync_state {sync_val}")
     except Exception:
