@@ -11,6 +11,20 @@ let
   zimFile = cfg.zimFile;
   port = cfg.port;
   lockFile = "${dataDir}/.download.lock";
+  currentDir = "${dataDir}/current";
+
+  # Touch the path first: that is what triggers the automount.
+  mountGuard = pkgs.writeShellScript "require-unraid-other" ''
+    for _ in $(seq 1 24); do
+      ls "/mnt/unraid/Other" >/dev/null 2>&1 || true
+      if grep -qs " /mnt/unraid/Other nfs" /proc/mounts; then
+        exit 0
+      fi
+      sleep 5
+    done
+    echo "/mnt/unraid/Other is not an nfs mount after 120s" >&2
+    exit 1
+  '';
 
   downloadScript = pkgs.writeShellApplication {
     name = "kiwix-download";
@@ -20,20 +34,17 @@ let
       pkgs.findutils
       pkgs.gawk
       pkgs.gnugrep
+      pkgs.systemd
       pkgs.util-linux
       pkgs.zim-tools
     ];
     text = ''
       urls_file="${toString zimFile}"
       dest_root="${dataDir}"
+      current="${currentDir}"
       lock_file="${lockFile}"
       failed=0
-
-      exec 200>"$lock_file"
-      if ! flock -n 200; then
-        echo "Another kiwix-download is already running; exiting"
-        exit 0
-      fi
+      changed=0
 
       remote_size() {
         local url="$1"
@@ -47,6 +58,22 @@ let
           [0-9][0-9][0-9][0-9]-[0-9][0-9].zim | [0-9][0-9][0-9][0-9]-[0-9][0-9][a-z].zim) return 0 ;;
           *) return 1 ;;
         esac
+      }
+
+      alias_name() {
+        local base="''${1%.zim}"
+        if [[ "$base" =~ ^(.*)_[0-9]{4}-[0-9]{2}[a-z]?$ ]]; then
+          printf '%s.zim' "''${BASH_REMATCH[1]}"
+        fi
+      }
+
+      link_alias() {
+        local category="$1"
+        local name="$2"
+        local link
+        link=$(alias_name "$name")
+        [ -n "$link" ] || return 0
+        ln -sfn "../$category/$name" "$current/$link"
       }
 
       prune_superseded() {
@@ -67,7 +94,13 @@ let
       }
 
       umask 022
-      mkdir -p "$dest_root"
+      mkdir -p "$dest_root" "$current"
+
+      exec 200>"$lock_file"
+      if ! flock -n 200; then
+        echo "Another kiwix-download is already running; exiting"
+        exit 0
+      fi
 
       while read -r category url _; do
         case "$category" in
@@ -90,6 +123,7 @@ let
 
         if [ -f "$dest" ] && [ "$(wc -c < "$dest")" = "$size" ]; then
           echo "Up to date: $category/$name"
+          link_alias "$category" "$name"
           prune_superseded "$dir" "$name"
           continue
         fi
@@ -113,18 +147,40 @@ let
             continue
           fi
           mv -f "$part" "$dest"
+          link_alias "$category" "$name"
           prune_superseded "$dir" "$name"
+          changed=$((changed + 1))
         else
           echo "ERROR: failed to download $url"
           failed=$((failed + 1))
         fi
       done < "$urls_file"
 
+      if [ "$changed" -gt 0 ]; then
+        systemctl try-restart kiwix-serve.service || true
+      fi
+
       if [ "$failed" -gt 0 ]; then
         echo "$failed download(s) failed"
         exit 1
       fi
       echo "All ZIM files are up to date"
+    '';
+  };
+
+  serveScript = pkgs.writeShellApplication {
+    name = "kiwix-serve-all";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.findutils
+    ];
+    text = ''
+      mapfile -t zims < <(find "${dataDir}" -mindepth 2 -maxdepth 2 -name '*.zim' -not -path "${currentDir}/*" | sort)
+      if [ "''${#zims[@]}" -eq 0 ]; then
+        echo "no ZIM files under ${dataDir}" >&2
+        exit 1
+      fi
+      exec ${pkgs.kiwix-tools}/bin/kiwix-serve --port ${toString port} --skipInvalid "''${zims[@]}"
     '';
   };
 in
@@ -163,25 +219,11 @@ in
       description = "Download Kiwix ZIM files";
       after = [ "network-online.target" "tailscaled.service" "netbird-default.service" "mnt-unraid-Other.mount" ];
       wants = [ "network-online.target" "tailscaled.service" "netbird-default.service" ];
-      # Fail rather than makedirs into the empty automount point if the NFS share
-      # is not up yet; touching the path is what triggers the automount.
       serviceConfig = {
         Type = "oneshot";
         User = cfg.packageUser;
+        ExecStartPre = mountGuard;
         ExecStart = "${downloadScript}/bin/kiwix-download";
-        ExecStartPre = [
-          (pkgs.writeShellScript "require-unraid-other" ''
-            for _ in $(seq 1 24); do
-              ls "/mnt/unraid/Other" >/dev/null 2>&1 || true
-              if grep -qs " /mnt/unraid/Other nfs" /proc/mounts; then
-                exit 0
-              fi
-              sleep 5
-            done
-            echo "/mnt/unraid/Other is not an nfs mount after 120s" >&2
-            exit 1
-          '')
-        ];
         Nice = 19;
         IOSchedulingClass = "idle";
         RequiresMountsFor = [ dataDir ];
@@ -198,15 +240,42 @@ in
       };
     };
 
-    systemd.services.kiwix-http = {
+    systemd.services.kiwix-serve = {
       description = "Kiwix ZIM HTTP server";
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" "mnt-unraid-Other.mount" ];
       wants = [ "network-online.target" ];
       serviceConfig = {
-        ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd ${dataDir} --port ${toString port} --addr 0.0.0.0 --no-listing";
-        Restart = "always";
+        Type = "exec";
+        ExecStartPre = mountGuard;
+        ExecStart = "${serveScript}/bin/kiwix-serve-all";
+        Restart = "on-failure";
+        RestartSec = "10s";
         RequiresMountsFor = [ dataDir ];
+        DynamicUser = true;
+        UMask = "0077";
+        CapabilityBoundingSet = "";
+        DeviceAllow = "";
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectSystem = "strict";
+        RemoveIPC = true;
+        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
+        SystemCallFilter = [ "@system-service" "~@privileged" "~@resources" ];
       };
     };
 
