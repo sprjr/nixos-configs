@@ -41,8 +41,6 @@ in
   #  pkiBundle = "/var/lib/sbctl";
   #  autoGenerateKeys.enable = true;
   #};
-
-  boot.initrd.systemd.enable = true;
   boot.initrd.systemd.tpm2.enable = true;
   boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
 
