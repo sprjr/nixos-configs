@@ -47,6 +47,8 @@ in
     };
   };
 
+  environment.systemPackages = [ pkgs.weasis ];
+
   # Define user settings
   users.users.patrick = {
     description = "Patrick Rawlinson";
