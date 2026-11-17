@@ -60,6 +60,7 @@ in
       pkgs.git
       pkgs.gnupg
       pkgs.netbird
+      pkgs.pinta
       pkgs.sops
     ];
   };
