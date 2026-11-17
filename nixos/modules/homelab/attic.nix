@@ -13,7 +13,6 @@
     mode = "0400";
   };
 
-  # Scoped to VPN and LAN interfaces only; trustedInterfaces would disable the firewall.
   networking.firewall.interfaces = {
     tailscale0.allowedTCPPorts = [ 8089 ];
     netbird0.allowedTCPPorts = [ 8089 ];
