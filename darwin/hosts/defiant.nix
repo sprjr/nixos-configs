@@ -63,6 +63,7 @@ in
       pkgs.git
       pkgs.gnupg
       pkgs.sops
+      pkgs.pinta
     ];
   };
 

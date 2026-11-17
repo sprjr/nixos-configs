@@ -172,6 +172,7 @@ in
       home-manager
       iproute2
       lshw
+      pinta
       pciutils
       pipewire
       pkgs-stable.tailscale
