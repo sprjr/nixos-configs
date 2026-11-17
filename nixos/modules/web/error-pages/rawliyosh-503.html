@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="20">
+  <title>Rebuilding</title>
+  <style>
+    :root { color-scheme: dark; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      display: grid;
+      place-content: center;
+      background: #121212;
+      color: #c8c8c8;
+      font: 16px/1.6 ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    }
+    main { padding: 3rem 1.5rem; max-width: 44rem; }
+    .cmd { margin: 0 0 2rem; color: #6a9955; }
+    .msg { margin: 0; font-size: 1.05rem; }
+    code { color: #e0e0e0; }
+    .bar {
+      position: relative;
+      overflow: hidden;
+      width: 18rem;
+      max-width: 60vw;
+      height: .35rem;
+      margin: 2.5rem 0 1rem;
+      background: #262626;
+    }
+    .bar span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 40%;
+      background: #8a8a8a;
+      animation: slide 1.6s ease-in-out infinite;
+    }
+    @keyframes slide {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(250%); }
+    }
+    .sub { margin: 0; color: #8a8a8a; }
+    @media (prefers-reduced-motion: reduce) { .bar span { animation: none; width: 100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="cmd">$ sudo nixos-rebuild switch --flake .#homelab</p>
+    <p class="msg">The homelab is mid <code>nixos-rebuild</code>. Retry in a minute.</p>
+    <div class="bar" role="progressbar" aria-label="rebuild in progress"><span></span></div>
+    <p class="sub">Retrying automatically…</p>
+  </main>
+</body>
+</html>
