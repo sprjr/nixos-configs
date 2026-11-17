@@ -1,5 +1,6 @@
 import Gtk from "gi://Gtk?version=4.0"
 import AstalNetwork from "gi://AstalNetwork"
+import NM from "gi://NM"
 import { For, With, createBinding, createState } from "ags"
 import { execAsync } from "ags/process"
 import ExpandButton from "./ExpandButton"
@@ -38,6 +39,14 @@ function AccessPointRow({
 export default function Network() {
   const network = AstalNetwork.get_default()
   const wifi = createBinding(network, "wifi")
+
+  // AstalNetwork resolves the Wi-Fi device once at startup; restart ags when one is added or removed
+  const onHotplug = (_: NM.Client, device: NM.Device) => {
+    if (device.get_device_type() === NM.DeviceType.WIFI)
+      execAsync(["systemctl", "--user", "--no-block", "restart", "ags"])
+  }
+  network.client.connect("device-added", onHotplug)
+  network.client.connect("device-removed", onHotplug)
 
   const [expanded, setExpanded] = createState(false)
   const [attempt, setAttempt] = createState<Attempt | null>(null)

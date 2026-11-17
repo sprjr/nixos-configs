@@ -26,7 +26,12 @@ export default function PowerProfile() {
   const degraded = createBinding(pp, "performanceDegraded")
 
   return (
-    <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+    <box
+      class="section"
+      orientation={Gtk.Orientation.VERTICAL}
+      spacing={4}
+      visible={profiles((list: AstalPowerProfiles.Profile[]) => list.length > 0)}
+    >
       <box class="section-header" spacing={8}>
         <image
           iconName={activeProfile((p: string) => PROFILE_ICONS[p] ?? "power-profile-balanced-symbolic")}
@@ -38,28 +43,24 @@ export default function PowerProfile() {
         />
       </box>
       <With value={profiles}>
-        {(list: AstalPowerProfiles.Profile[]) =>
-          list.length === 0 ? (
-            <label class="profile-note" xalign={0} label="power-profiles-daemon unavailable" />
-          ) : (
-            <box class="profile-buttons" spacing={4} homogeneous>
-              {list.map(({ profile, driver }) => (
-                <button
-                  class={activeProfile((active: string) =>
-                    active === profile ? "profile-btn active" : "profile-btn"
-                  )}
-                  onClicked={() => pp.set_active_profile(profile)}
-                  tooltipText={driver ? `Driver: ${driver}` : profile}
-                >
-                  <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-                    <image iconName={PROFILE_ICONS[profile] ?? "power-profile-balanced-symbolic"} />
-                    <label label={PROFILE_LABELS[profile] ?? profile} />
-                  </box>
-                </button>
-              ))}
-            </box>
-          )
-        }
+        {(list: AstalPowerProfiles.Profile[]) => (
+          <box class="profile-buttons" spacing={4} homogeneous>
+            {list.map(({ profile, driver }) => (
+              <button
+                class={activeProfile((active: string) =>
+                  active === profile ? "profile-btn active" : "profile-btn"
+                )}
+                onClicked={() => pp.set_active_profile(profile)}
+                tooltipText={driver ? `Driver: ${driver}` : profile}
+              >
+                <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+                  <image iconName={PROFILE_ICONS[profile] ?? "power-profile-balanced-symbolic"} />
+                  <label label={PROFILE_LABELS[profile] ?? profile} />
+                </box>
+              </button>
+            ))}
+          </box>
+        )}
       </With>
       <label
         class="profile-note"

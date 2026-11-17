@@ -1,6 +1,6 @@
 import Gtk from "gi://Gtk?version=4.0"
 import AstalBluetooth from "gi://AstalBluetooth"
-import { For, createBinding, createState } from "ags"
+import { For, With, createBinding, createState } from "ags"
 import ExpandButton from "./ExpandButton"
 
 function DeviceRow({ device }: { device: AstalBluetooth.Device }) {
@@ -28,8 +28,8 @@ function DeviceRow({ device }: { device: AstalBluetooth.Device }) {
 
 export default function Bluetooth() {
   const bt = AstalBluetooth.get_default()
-  const adapter = bt.adapter
-  const isPowered = createBinding(adapter, "powered")
+  // `adapter` has no notify of its own; `adapters` fires on hotplug
+  const adapter = createBinding(bt, "adapters")((list: AstalBluetooth.Adapter[]) => list[0] ?? null)
   const devices = createBinding(bt, "devices")
 
   const [expanded, setExpanded] = createState(false)
@@ -39,32 +39,43 @@ export default function Bluetooth() {
   )
 
   return (
-    <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-      <box class="section-header" spacing={8}>
-        <image iconName="bluetooth-active-symbolic" />
-        <label label="Bluetooth" hexpand xalign={0} class="section-title" />
-        <switch
-          active={isPowered}
-          onNotifyActive={({ active }) => {
-            if (adapter.powered !== active) adapter.powered = active
-          }}
-        />
-        <ExpandButton expanded={expanded} setExpanded={setExpanded} />
-      </box>
-      <revealer revealChild={expanded}>
-        <scrolledwindow
-          hscrollbarPolicy={Gtk.PolicyType.NEVER}
-          propagateNaturalHeight
-          maxContentHeight={200}
-          visible={isPowered}
-        >
-          <box class="bt-device-list" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-            <For each={pairedDevices}>
-              {(device: AstalBluetooth.Device) => <DeviceRow device={device} />}
-            </For>
-          </box>
-        </scrolledwindow>
-      </revealer>
+    <box class="section" orientation={Gtk.Orientation.VERTICAL} spacing={4} visible={adapter(Boolean)}>
+      <With value={adapter}>
+        {(adapter) => {
+          if (!adapter) return <box visible={false} />
+          const isPowered = createBinding(adapter, "powered")
+
+          return (
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              <box class="section-header" spacing={8}>
+                <image iconName="bluetooth-active-symbolic" />
+                <label label="Bluetooth" hexpand xalign={0} class="section-title" />
+                <switch
+                  active={isPowered}
+                  onNotifyActive={({ active }) => {
+                    if (adapter.powered !== active) adapter.powered = active
+                  }}
+                />
+                <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+              </box>
+              <revealer revealChild={expanded}>
+                <scrolledwindow
+                  hscrollbarPolicy={Gtk.PolicyType.NEVER}
+                  propagateNaturalHeight
+                  maxContentHeight={200}
+                  visible={isPowered}
+                >
+                  <box class="bt-device-list" orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+                    <For each={pairedDevices}>
+                      {(device: AstalBluetooth.Device) => <DeviceRow device={device} />}
+                    </For>
+                  </box>
+                </scrolledwindow>
+              </revealer>
+            </box>
+          )
+        }}
+      </With>
     </box>
   )
 }

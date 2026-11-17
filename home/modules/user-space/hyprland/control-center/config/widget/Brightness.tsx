@@ -11,9 +11,10 @@ function run(cmd: string): string | null {
   }
 }
 
+// Backlight class only; brightnessctl otherwise falls back to keyboard LEDs on desktops
 function getBrightness(): number {
-  const cur = run("brightnessctl get")
-  const max = run("brightnessctl max")
+  const cur = run("brightnessctl -c backlight get")
+  const max = run("brightnessctl -c backlight max")
   if (!cur || !max) return -1
   return parseInt(cur) / parseInt(max)
 }
@@ -43,7 +44,7 @@ export default function Brightness() {
           onChangeValue={(self: { value: number }) => {
             const pct = Math.round(self.value * 100)
             pctLabel.label = `${pct}%`
-            GLib.spawn_command_line_async(`brightnessctl set ${pct}%`)
+            GLib.spawn_command_line_async(`brightnessctl -c backlight set ${pct}%`)
           }}
         />
         {pctLabel}
