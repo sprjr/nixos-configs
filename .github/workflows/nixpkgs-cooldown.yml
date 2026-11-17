@@ -1,0 +1,67 @@
+# Weekly PR pinning nixpkgs in flake.lock to the nixpkgs-unstable HEAD from 7 days prior.
+# Fires Sunday 00:00 Mountain Time (06:00 UTC) to land outside business hours.
+name: nixpkgs-cooldown
+
+on:
+  schedule:
+    - cron: "0 6 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: nixpkgs-cooldown
+  cancel-in-progress: false
+
+jobs:
+  lag:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: nixpkgs-cooldown
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+
+      - name: Lock nixpkgs to 7-day lag
+        run: |
+          set -euo pipefail
+
+          UNTIL=$(date -u -d '7 days ago' --iso-8601=seconds)
+          COMMIT=$(gh api "repos/NixOS/nixpkgs/commits?sha=nixpkgs-unstable&until=$UNTIL&per_page=1" --jq '.[0].sha')
+
+          if [[ ! "$COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "ERROR: failed to resolve nixpkgs-unstable commit from 7 days ago: '$COMMIT'" >&2
+            exit 1
+          fi
+
+          echo "Target nixpkgs commit (7-day lag): $COMMIT"
+
+          CURRENT=$(jq -r '.nodes.nixpkgs.locked.rev // empty' flake.lock)
+          if [ "$CURRENT" = "$COMMIT" ]; then
+            echo "nixpkgs already pinned to $COMMIT, no update needed"
+            exit 0
+          fi
+
+          nix flake lock --override-input nixpkgs "github:NixOS/nixpkgs/$COMMIT"
+
+          TITLE="chore(nixpkgs): lag to $(date -u -d '7 days ago' '+%Y-%m-%d') [${COMMIT:0:8}]"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add flake.lock
+          git commit -m "$TITLE"
+          git push --force origin "$BRANCH"
+
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --base main --head "$BRANCH" --title "$TITLE" \
+              --body "Pins nixpkgs to nixpkgs-unstable as of $UNTIL ($COMMIT)."
+          else
+            gh pr edit "$BRANCH" --title "$TITLE"
+          fi
