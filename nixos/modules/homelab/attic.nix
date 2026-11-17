@@ -2,11 +2,6 @@
 
 {
   sops.secrets."atticd/env-file" = {
-    owner = "atticd";
-    restartUnits = [ "atticd.service" ];
-  };
-  sops.secrets."atticd/signing-key" = {
-    owner = "atticd";
     restartUnits = [ "atticd.service" ];
   };
   # SSH deploy key with write access to sprjr/nixos-configs.
@@ -18,16 +13,30 @@
     mode = "0400";
   };
 
-  # Allow all VPN peers to reach the cache without a port-level rule.
-  networking.firewall.trustedInterfaces = [ "tailscale0" "netbird0" ];
+  # Scoped to VPN and LAN interfaces only; trustedInterfaces would disable the firewall.
+  networking.firewall.interfaces = {
+    tailscale0.allowedTCPPorts = [ 8089 ];
+    netbird0.allowedTCPPorts = [ 8089 ];
+    br0.allowedTCPPorts = [ 8089 ];
+    enp1s0.allowedTCPPorts = [ 8089 ];
+  };
 
   services.atticd = {
     enable = true;
     environmentFile = config.sops.secrets."atticd/env-file".path;
     settings = {
       listen = "[::]:8089";
+      api-endpoint = "http://shikisha:8089/";
+      database.url = "sqlite:///var/lib/atticd/server.db?mode=rwc";
+      storage = {
+        type = "local";
+        path = "/var/lib/atticd/storage";
+      };
+      garbage-collection = {
+        interval = "12 hours";
+        default-retention-period = "90 days";
+      };
       jwt = { };
-      signing-key-path = config.sops.secrets."atticd/signing-key".path;
       # Warning: changing chunking values breaks deduplication for existing NARs.
       chunking = {
         nar-size-threshold = 64 * 1024;
