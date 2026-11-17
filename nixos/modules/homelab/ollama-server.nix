@@ -5,6 +5,7 @@
   ...
 }:
 
+# GPU backend (services.ollama.package + backend env) is set by the host.
 let
   warmupModel = "gemma3:4b";
   warmupScript = pkgs.writeShellScript "ollama-warmup" ''
@@ -38,7 +39,6 @@ let
 in
 {
   services.ollama = {
-    package = pkgs.ollama-rocm;
     enable = true;
     host = "0.0.0.0";
     loadModels = [
@@ -49,8 +49,6 @@ in
       OLLAMA_NUM_GPU = "999";
       OLLAMA_NEW_ENGINE = "1";
       OLLAMA_CONTEXT_LENGTH = "16384";
-      # Navi 10 (gfx1010) — verified with rocminfo
-      HSA_OVERRIDE_GFX_VERSION = "10.1.0";
     };
   };
 
