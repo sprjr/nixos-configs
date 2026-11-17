@@ -395,7 +395,7 @@
               ./nixos/modules/monitoring/node-exporter.nix
               ./nixos/modules/monitoring/nix-state-exporter.nix
               ./nixos/modules/monitoring/syncthing-exporter.nix
-              ./nixos/modules/homelab/ollama-amd.nix
+              ./nixos/modules/homelab/ollama-server.nix
               ./nixos/modules/homelab/frigate.nix
               ./nixos/modules/homelab/frigate-notify.nix
               ./nixos/modules/virtualisation/podman.nix
@@ -411,6 +411,44 @@
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {
                   facter.reportPath = ./nixos/hosts/badgey/facter.json;
+                }
+              )
+            ];
+          };
+          # badgey-next — temporary: new badgey hardware (NVIDIA) until cutover
+          badgey-next = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // {
+              # TODO: set from `ls -l /dev/disk/by-id` in the installer
+              diskDevice = "/dev/disk/by-id/REPLACE-ME";
+            };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              ./nixos/modules/disks/disko-btrfs-luks.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
+              ./nixos/hosts/servers/badgey-next.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/system/unit-failure-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
+              ./nixos/modules/user/patrick-server.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/hardware/nvidia-headless.nix
+              ./nixos/modules/homelab/ollama-server.nix
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/badgey-next/facter.json) {
+                  facter.reportPath = ./nixos/hosts/badgey-next/facter.json;
                 }
               )
             ];

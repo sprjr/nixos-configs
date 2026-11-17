@@ -49,6 +49,12 @@
     ];
   };
 
+  services.ollama = {
+    package = pkgs.ollama-rocm;
+    # Navi 10 (gfx1010) — verified with rocminfo
+    environmentVariables.HSA_OVERRIDE_GFX_VERSION = "10.1.0";
+  };
+
   nix = {
     optimise.automatic = true;
     gc = {
