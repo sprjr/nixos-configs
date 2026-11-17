@@ -1,6 +1,8 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
 let
+  caddyPages = import ../web/404-caddy.nix { inherit lib pkgs; };
+
   # VPN upstreams by bare hostname (NetBird DNS, MagicDNS fallback)
   shikisha = "shikisha";
   wopr = "wopr";
@@ -67,6 +69,9 @@ in
     '';
 
     virtualHosts = {
+      # apex
+      "rawliyosh.com" = caddyPages.vhost { name = "rawliyosh-503"; tls = "acme@rawliyosh.com"; };
+
       # wopr
       "audiobooks.rawliyosh.com".extraConfig = ''
         encode gzip zstd

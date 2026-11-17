@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
+  caddyPages = import ./404-caddy.nix { inherit lib pkgs; };
+
   site = pkgs.stdenvNoCC.mkDerivation {
     pname = "stuckinvim-site";
     version = "0.1.0";
@@ -30,6 +32,7 @@ in
       root * ${site}
       file_server
       tls acme@rawliyosh.com
+      ${caddyPages.notFound "stuckinvim-404"}
     '';
 
     "www.stuckinvim.io".extraConfig = ''

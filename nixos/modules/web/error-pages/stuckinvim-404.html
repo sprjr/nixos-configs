@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>E484: Can't open file</title>
+  <style>
+    :root { color-scheme: dark; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      display: grid;
+      place-content: center;
+      background: #121212;
+      color: #c8c8c8;
+      font: 16px/1.6 ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    }
+    main { padding: 3rem 1.5rem; }
+    .err { margin: 0; color: #ff5f5f; }
+    .status { margin: 3rem 0 0; color: #8a8a8a; }
+    a { color: inherit; text-underline-offset: .2em; }
+    a:hover { color: #fff; }
+    .cursor {
+      display: inline-block;
+      width: .58em;
+      height: 1.05em;
+      margin-left: .15em;
+      background: #c8c8c8;
+      vertical-align: -.15em;
+      animation: blink 1.06s steps(1, end) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="err">E484: Can't open file "<span id="path">/that-page</span>"</p>
+    <p class="status">Press <a href="/">ENTER</a> or type command to continue<span class="cursor"></span></p>
+  </main>
+  <script>document.getElementById("path").textContent = location.pathname;</script>
+</body>
+</html>
