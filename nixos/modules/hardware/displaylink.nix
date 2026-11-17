@@ -13,7 +13,7 @@ let
     '';
   });
 
-  displaylink = pkgs.displaylink.override { linuxPackages = config.boot.kernelPackages // { inherit evdi; }; };
+  displaylink = pkgs.displaylink.override { inherit evdi; };
 in
 {
   boot.extraModulePackages = [ evdi ];
