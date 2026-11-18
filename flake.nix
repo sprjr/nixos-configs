@@ -261,7 +261,7 @@
               ./nixos/modules/system/ca-trust.nix
               ./nixos/hosts/servers/shikisha.nix
               ./nixos/modules/disks/nfs-shares.nix
-              ./nixos/modules/gaming/palworld-server.nix
+              #./nixos/modules/gaming/palworld-server.nix
               ./nixos/modules/monitoring/satisfactory-exporter.nix
               ./nixos/modules/monitoring/ha-exporter.nix
               ./nixos/hosts/shikisha/cron/authentik-backup.nix

@@ -46,7 +46,7 @@ in
   };
 
   services.vikunja.oidc = {
-    enable = true;
+    enable = false;
     providerKey = "authentik";
     baseUrl = "https://auth0.rawliyosh.com";
     publicHost = "vikunja.rawliyosh.com";
@@ -121,7 +121,7 @@ in
   # Home Assistant OS VM. Bridged onto the house LAN so the guest takes its own
   # lease from the UniFi DHCP server rather than a shikisha-local NAT address.
   homelab.haosVm = {
-    enable = true;
+    enable = false;
     hostInterface = "enp1s0";
     bridgeMac = "c8:d3:ff:a3:a7:3a";
     # Zigbee coordinator stays on the host until the HAOS migration.
