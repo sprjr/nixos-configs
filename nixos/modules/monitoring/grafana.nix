@@ -188,7 +188,7 @@ in
   services.prometheus = {
     enable = true;
     port = 9090;
-    listenAddress = "0.0.0.0";
+    listenAddress = "127.0.0.1";
     retentionTime = "30d";
     globalConfig.scrape_interval = "15s";
     scrapeConfigs = [
@@ -1340,7 +1340,7 @@ in
     allowedTCPPorts = [
       3000
       3100
-      9090
+      8443
     ];
   });
 }
