@@ -1,11 +1,10 @@
 {
-  lib,
   config,
   ...
 }:
 
 {
-  sops.secrets."glap/api-token" = {
+  sops.secrets."glap/env-file" = {
     owner = "root";
     mode = "0400";
   };
@@ -21,7 +20,7 @@
           handle_path /prometheus/* {
             reverse_proxy 127.0.0.1:9090
           }
-          handle_path /loki/* {
+          handle /loki/* {
             reverse_proxy 127.0.0.1:3100
           }
         }
@@ -30,5 +29,5 @@
     '';
   };
 
-  systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets."glap/api-token".path;
+  systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets."glap/env-file".path;
 }
