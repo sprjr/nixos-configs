@@ -281,6 +281,7 @@
               ./nixos/modules/homelab/zipline.nix
               ./nixos/modules/homelab/miniflux.nix
               ./nixos/modules/monitoring/grafana.nix
+              ./nixos/modules/monitoring/glap-auth.nix
               ./nixos/modules/monitoring/grafana-stream.nix
               ./nixos/modules/monitoring/alloy.nix
               ./nixos/modules/monitoring/alloy-syslog.nix
