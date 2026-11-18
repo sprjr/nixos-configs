@@ -224,7 +224,7 @@ in
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
   homelab.kiwix-server = {
-    enable = false;
+    enable = true;
   };
 
   networking.iproute2.enable = true;

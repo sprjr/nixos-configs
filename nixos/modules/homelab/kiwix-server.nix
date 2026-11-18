@@ -157,7 +157,7 @@ let
       done < "$urls_file"
 
       if [ "$changed" -gt 0 ]; then
-        systemctl try-restart kiwix-serve.service || true
+        systemctl restart kiwix-serve.service || true
       fi
 
       if [ "$failed" -gt 0 ]; then
@@ -175,10 +175,14 @@ let
       pkgs.findutils
     ];
     text = ''
+      if [ ! -d "${dataDir}" ]; then
+        echo "ZIM library ${dataDir} does not exist yet" >&2
+        exit 0
+      fi
       mapfile -t zims < <(find "${dataDir}" -mindepth 2 -maxdepth 2 -name '*.zim' -not -path "${currentDir}/*" | sort)
       if [ "''${#zims[@]}" -eq 0 ]; then
         echo "no ZIM files under ${dataDir}" >&2
-        exit 1
+        exit 0
       fi
       exec ${pkgs.kiwix-tools}/bin/kiwix-serve --port ${toString port} --skipInvalid "''${zims[@]}"
     '';
