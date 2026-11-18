@@ -19,8 +19,6 @@
     main { padding: 3rem 1.5rem; }
     .err { margin: 0; color: #ff5f5f; }
     .status { margin: 3rem 0 0; color: #8a8a8a; }
-    a { color: inherit; text-underline-offset: .2em; }
-    a:hover { color: #fff; }
     .out { margin: 1.5rem 0 0; white-space: pre-wrap; }
     .out:empty { display: none; }
     .prompt { display: flex; align-items: baseline; gap: .5ch; margin: 1.5rem 0 0; }
@@ -40,12 +38,13 @@
 <body>
   <main>
     <p class="err">E484: Can't open file "<span id="path">/that-page</span>"</p>
-    <p class="status">Press <a href="/">ENTER</a> or type command to continue</p>
+    <p class="status" id="status">Press ENTER or type command to continue</p>
     <p class="out" id="out" role="status" aria-live="polite"></p>
     <label class="prompt"><span aria-hidden="true">:</span><input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Vim command"></label>
   </main>
   <script>
     const out = document.getElementById("out");
+    const status = document.getElementById("status");
     const cmd = document.getElementById("cmd");
 
     document.getElementById("path").textContent = location.pathname;
@@ -68,7 +67,12 @@
       const value = cmd.value.trim();
       cmd.value = "";
 
-      if (value === "" || quitCommands.has(value)) {
+      if (value === "") {
+        status.textContent = "Press :q to quit";
+        return;
+      }
+
+      if (quitCommands.has(value)) {
         home();
         return;
       }
