@@ -21,24 +21,65 @@
     .status { margin: 3rem 0 0; color: #8a8a8a; }
     a { color: inherit; text-underline-offset: .2em; }
     a:hover { color: #fff; }
-    .cursor {
-      display: inline-block;
-      width: .58em;
-      height: 1.05em;
-      margin-left: .15em;
-      background: #c8c8c8;
-      vertical-align: -.15em;
-      animation: blink 1.06s steps(1, end) infinite;
+    .out { margin: 1.5rem 0 0; white-space: pre-wrap; }
+    .out:empty { display: none; }
+    .prompt { display: flex; align-items: baseline; gap: .5ch; margin: 1.5rem 0 0; }
+    .prompt input {
+      flex: 1;
+      min-width: 20ch;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      caret-color: #c8c8c8;
+      outline: none;
     }
-    @keyframes blink { 50% { opacity: 0; } }
-    @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
   </style>
 </head>
 <body>
   <main>
     <p class="err">E484: Can't open file "<span id="path">/that-page</span>"</p>
-    <p class="status">Press <a href="/">ENTER</a> or type command to continue<span class="cursor"></span></p>
+    <p class="status">Press <a href="/">ENTER</a> or type command to continue</p>
+    <p class="out" id="out" role="status" aria-live="polite"></p>
+    <label class="prompt"><span aria-hidden="true">:</span><input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Vim command"></label>
   </main>
-  <script>document.getElementById("path").textContent = location.pathname;</script>
+  <script>
+    const out = document.getElementById("out");
+    const cmd = document.getElementById("cmd");
+
+    document.getElementById("path").textContent = location.pathname;
+
+    const home = () => location.assign("/");
+
+    const replies = {
+      ":w": "E45: 'readonly' option is set (add ! to override)",
+    };
+
+    const quitCommands = new Set(["q", ":q", ":q!", ":qa", ":qa!", ":wq", ":x", "x", ":e", ":e!", ":e /"]);
+
+    cmd.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        home();
+        return;
+      }
+      if (event.key !== "Enter") return;
+
+      const value = cmd.value.trim();
+      cmd.value = "";
+
+      if (value === "" || quitCommands.has(value)) {
+        home();
+        return;
+      }
+
+      out.textContent = replies[value]
+        ?? (/^:/.test(value) ? `E492: Not an editor command: ${value}` : `E492: ${value}: command not found`);
+    });
+
+    const focus = () => cmd.focus({ preventScroll: true });
+    document.addEventListener("click", focus);
+    focus();
+  </script>
 </body>
 </html>
