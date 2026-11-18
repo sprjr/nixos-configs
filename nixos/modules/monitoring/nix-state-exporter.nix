@@ -15,7 +15,7 @@ let
         return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
 
 
-    # comin >= 0.14 nests the commit under source.git; older releases kept it top-level
+    # resolve selected commit fields from both comin JSON shapes
     def git_field(gen, key):
         git = ((gen or {}).get("source") or {}).get("git") or {}
         return git.get(key) or (gen or {}).get(key) or ""
@@ -29,7 +29,7 @@ let
             return ((status.get("fetcher") or {}).get("repository_status") or {}).get("selected_commit_id", "")
 
 
-    # Newest successful deployment's generation from comin's store, for when the status API lacks it
+    # fallback: newest done deployment from comin's local store
     def stored_deploy_gen():
         try:
             with open("/var/lib/comin/store.json") as f:
@@ -42,6 +42,8 @@ let
 
 
     lines = []
+    comin_ok = False
+    comin_err = ""
 
     # comin deployment state
     try:
@@ -49,7 +51,10 @@ let
             ["comin", "status", "--json"],
             capture_output=True, text=True, timeout=10,
         )
-        if r.returncode == 0:
+        if r.returncode != 0:
+            stderr_lines = r.stderr.strip().splitlines()
+            comin_err = (stderr_lines[-1] if stderr_lines else f"comin exited {r.returncode}")[:120]
+        else:
             status = json.loads(r.stdout)
 
             gen = (status.get("builder") or {}).get("generation") or {}
@@ -86,7 +91,7 @@ let
             elif fetcher_commit_id == deployed_commit_id:
                 sync_val = 2
             elif built_out_path and built_out_path == running_system_path:
-                # comin skips switching when this store path is already deployed
+                # already-running store path counts as in-sync
                 sync_val = 2
             else:
                 sync_val = 1
@@ -115,24 +120,42 @@ let
             lines.append("# HELP comin_sync_state Sync state (0=failed 1=pending 2=in-sync; a build identical to the running system counts as in-sync)")
             lines.append("# TYPE comin_sync_state gauge")
             lines.append(f"comin_sync_state {sync_val}")
-    except Exception:
-        pass
+
+            comin_ok = True
+    except subprocess.TimeoutExpired:
+        comin_err = "timeout after 10s"
+    except Exception as e:
+        comin_err = f"{type(e).__name__}: {e}"[:120]
+
+    if not comin_ok:
+        print(comin_err, file=sys.stderr)
+
+    lines.append("# HELP comin_status_ok Whether comin status was read successfully")
+    lines.append("# TYPE comin_status_ok gauge")
+    lines.append(f"comin_status_ok {1 if comin_ok else 0}")
+    lines.append("# HELP comin_status_error_info Error information when comin status failed")
+    lines.append("# TYPE comin_status_error_info gauge")
+    lines.append(
+        f'comin_status_error_info{{error="{prom_escape(comin_err)}"}} {0 if comin_ok else 1}'
+    )
 
     # NixOS system info
     try:
-        v = subprocess.run(["nixos-version"], capture_output=True, text=True, timeout=5)
-        nixos_version = v.stdout.strip() if v.returncode == 0 else "unknown"
+        with open("/run/current-system/nixos-version") as f:
+            nixos_version = f.read().strip()
     except Exception:
         nixos_version = "unknown"
 
     try:
-        k = subprocess.run(["uname", "-r"], capture_output=True, text=True, timeout=5)
-        kernel = k.stdout.strip()
+        with open("/proc/sys/kernel/osrelease") as f:
+            kernel = f.read().strip()
     except Exception:
         kernel = "unknown"
 
     try:
         profile = os.readlink("/nix/var/nix/profiles/system")
+        if profile.endswith("-link"):
+            profile = profile[:-5]
         generation = int(profile.rsplit("-", 1)[-1])
     except Exception:
         generation = 0
