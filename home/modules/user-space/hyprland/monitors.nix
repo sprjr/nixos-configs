@@ -73,14 +73,24 @@ let
   # One output at a time (disabling all drops to FALLBACK); re-enable needs explicit disabled = false.
   toLuaLine = generators.toLua { multiline = false; };
   loopSpecs = filter (s: elem s.output cfg.commitLoopOutputs) (map toMonitorSpec (named cfg.monitors));
-  cycleOutput = i: s: ''
-    hl.timer(function() hl.monitor(${toLuaLine { output = s.output; disabled = true; }}) end, { timeout = ${toString (1000 + i * 1000)}, type = "oneshot" })
-    hl.timer(function() hl.monitor(${toLuaLine (s // { disabled = false; })}) end, { timeout = ${toString (1500 + i * 1000)}, type = "oneshot" })
+  # hyprctl from a user unit, not hl.timer: the in-config timers did not fire on cold boot.
+  cycleOutput = s: ''
+    hyprctl eval ${escapeShellArg "hl.monitor(${toLuaLine { output = s.output; disabled = true; }})"}
+    sleep 0.5
+    hyprctl eval ${escapeShellArg "hl.monitor(${toLuaLine (s // { disabled = false; })})"}
   '';
-  commitLoopWorkaround = ''
-    hl.on("hyprland.start", function()
-    ${concatStrings (imap0 cycleOutput loopSpecs)}end)
-  '';
+  commitLoopFix = pkgs.writeShellApplication {
+    name = "hyprland-commit-loop-fix";
+    runtimeInputs = [
+      hyprPkg
+      pkgs.coreutils
+    ];
+    text = ''
+      ${findInstance}
+      sleep 1
+      ${concatMapStrings cycleOutput loopSpecs}
+    '';
+  };
 
   # Non-streaming fallback: re-applies `monitors` verbatim (original enable/disable mechanism).
   monLocalStatic = pkgs.writeShellApplication {
@@ -174,9 +184,22 @@ in
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings.monitor = map toMonitorSpec cfg.monitors;
-    wayland.windowManager.hyprland.extraConfig = mkIf (loopSpecs != [ ]) commitLoopWorkaround;
 
     home.packages = if streamCfg.enable then [ monRemoteStreaming monLocalStreaming ] else [ monLocalStatic ];
+
+    systemd.user.services.hyprland-commit-loop-fix = mkIf (loopSpecs != [ ]) {
+      Unit = {
+        Description = "Cycle outputs stuck in the 0.57 NVIDIA EINVAL commit loop";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = getExe commitLoopFix;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
 
     systemd.user.services.hyprland-headless-output = mkIf streamCfg.enable {
       Unit = {
