@@ -18,6 +18,14 @@ in
     ../../modules/system/esp-tooling.nix
   ];
 
+  # LUKS disk swap is the fallback after zram; zram-only tuning thrashes it.
+  boot.kernel.sysctl = {
+    "vm.swappiness"   = 60;
+    "vm.page-cluster" = 3;
+  };
+
+  services.earlyoom.enable = true;
+
   services.android-adb = {
     enable = true;
     settings = {
