@@ -7,11 +7,29 @@ let
 
   cominNotify = pkgs.writeScript "comin-notify.py" ''
     #!${pkgs.python3}/bin/python3
-    import subprocess, json, os, sys, datetime
+    import subprocess, json, os, sys, datetime, urllib.parse
 
     hostname = "${config.networking.hostName}"
+    NTFY_PORT = 55455
+    NTFY_NETBIRD = "100.92.227.214"
+
+
+    def ntfy_target(raw):
+        parts = urllib.parse.urlsplit(raw)
+        host = parts.hostname or ""
+        if host == hostname:
+            netloc = "127.0.0.1:" + str(NTFY_PORT)
+        elif host.startswith("100."):
+            netloc = NTFY_NETBIRD + ":" + str(NTFY_PORT)
+        else:
+            return raw
+        return urllib.parse.urlunsplit(("http", netloc, parts.path, parts.query, ""))
+
+
     with open("${ntfyUrlFile}") as f:
-        ntfy_url = f.read().strip()
+        _raw_ntfy = f.read().strip()
+    ntfy_url = ntfy_target(_raw_ntfy)
+    ntfy_targets = [_raw_ntfy] if _raw_ntfy == ntfy_url else [ntfy_url, _raw_ntfy]
     state_file = "/var/lib/comin-notify/state.json"
 
     # a daemon upgraded in place keeps its previous socket path
@@ -33,15 +51,17 @@ let
         return json.loads(r.stdout)
 
     def publish(msg, priority=None, tags=None):
-        args = ["ntfy", "publish"]
-        if priority:
-            args += ["--priority", priority]
-        if tags:
-            args += ["--tags", tags]
-        args += [ntfy_url, msg]
-        r = subprocess.run(args, capture_output=True, text=True)
-        if r.returncode != 0:
-            print(f"ntfy publish failed: {r.stderr}", file=sys.stderr)
+        for url in ntfy_targets:
+            args = ["ntfy", "publish"]
+            if priority:
+                args += ["--priority", priority]
+            if tags:
+                args += ["--tags", tags]
+            args += [url, msg]
+            r = subprocess.run(args, capture_output=True, text=True)
+            if r.returncode == 0:
+                return
+        print(f"ntfy publish failed: {r.stderr}", file=sys.stderr)
 
     def load_state():
         if os.path.exists(state_file):

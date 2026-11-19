@@ -12,6 +12,10 @@ with lib;
 let
   cfg = config.patrick.home.hyprland;
 
+  # NetBird address: the widget must keep working once Tailscale is gone.
+  promUrl = "http://100.92.80.240:8443/prometheus";
+  promTokenFile = config.sops.secrets."glap/env-file".path;
+
   cominState = pkgs.writers.writePython3Bin "comin-state" {
     flakeIgnore = [ "E501" ];
   } ''
@@ -190,7 +194,8 @@ let
     import urllib.parse
     import urllib.request
 
-    URL = "http://shikisha:9090"
+    URL = "${promUrl}"
+    TOKEN_FILE = "${promTokenFile}"
     TIMEOUT = 3
     # A host that reported comin state within this window is still a fleet member while down
     WINDOW = "7d"
@@ -198,9 +203,25 @@ let
     STATES = {0: "failed", 1: "pending", 2: "in-sync"}
 
 
-    def query(url, expr):
+    def read_token(path):
+        try:
+            with open(path) as f:
+                text = f.read()
+        except OSError:
+            return ""
+        if "GLAP_TOKEN=" in text:
+            for line in text.splitlines():
+                key, sep, value = line.partition("=")
+                if sep and key.strip() == "GLAP_TOKEN":
+                    return value.strip()
+        return text.strip()
+
+
+    def query(url, expr, token):
         qs = urllib.parse.urlencode({"query": expr})
-        with urllib.request.urlopen(f"{url}/api/v1/query?{qs}", timeout=TIMEOUT) as r:
+        headers = {"Authorization": f"Bearer {token}"} if token else {}
+        req = urllib.request.Request(f"{url}/api/v1/query?{qs}", headers=headers)
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
             body = json.load(r)
         if body.get("status") != "success":
             raise ValueError(body.get("error") or "query failed")
@@ -211,10 +232,18 @@ let
         return sample["metric"].get("instance", "").rsplit(":", 1)[0]
 
 
-    def evaluate(url, me):
-        sync = {host(s): int(float(s["value"][1])) for s in query(url, f"last_over_time(comin_sync_state[{WINDOW}])")}
-        up = {host(s): s["value"][1] == "1" for s in query(url, 'up{job="node"}')}
-        commits = {host(s): s["metric"].get("commit", "") for s in query(url, "comin_deployed_commit_info")}
+    def liveness(url, token):
+        # NetBird first; a host is offline only when neither path reaches it.
+        up = {host(s): s["value"][1] == "1" for s in query(url, 'up{job="node-netbird"}', token)}
+        for s in query(url, 'up{job="node"}', token):
+            up[host(s)] = up.get(host(s), False) or s["value"][1] == "1"
+        return up
+
+
+    def evaluate(url, me, token):
+        sync = {host(s): int(float(s["value"][1])) for s in query(url, f"last_over_time(comin_sync_state[{WINDOW}])", token)}
+        up = liveness(url, token)
+        commits = {host(s): s["metric"].get("commit", "") for s in query(url, "comin_deployed_commit_info", token)}
 
         sync.pop(me, None)
         hosts = []
@@ -228,10 +257,11 @@ let
     def main():
         parser = argparse.ArgumentParser(description="Report fleet comin state as JSON")
         parser.add_argument("--url", default=URL)
+        parser.add_argument("--token-file", default=TOKEN_FILE)
         parser.add_argument("--self", dest="me", default=socket.gethostname().split(".")[0], help="host to leave out")
         args = parser.parse_args()
         try:
-            out = evaluate(args.url.rstrip("/"), args.me)
+            out = evaluate(args.url.rstrip("/"), args.me, read_token(args.token_file))
         except (OSError, ValueError, KeyError, IndexError) as e:
             out = {"ok": False, "total": 0, "hosts": [], "detail": f"cannot query {args.url}: {e}"}
         print(json.dumps(out, ensure_ascii=False))

@@ -378,6 +378,7 @@ in
       age.keyFile = lib.mkDefault "/home/patrick/.config/sops/age/keys.txt";
       secrets."cosmic/latitude" = { };
       secrets."cosmic/longitude" = { };
+      secrets."glap/env-file" = { };
     };
 
     services.kdeconnect.enable = true;

@@ -9,7 +9,7 @@ let
 
   ipFile = "last_ip.txt"
   checkUrl = "https://ifconfig.me"
-  ntfyTopic = "http://100.119.239.121:55455/rawliyosh-administration-notification-network-hso"
+  ntfyTopic = "http://100.92.227.214:55455/rawliyosh-administration-notification-network-hso"
 
   def get_public_ip():
       with urllib.request.urlopen(checkUrl) as response:

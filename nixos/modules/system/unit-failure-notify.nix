@@ -5,11 +5,14 @@ let
 
   unitFailureNotify = pkgs.writeScript "unit-failure-notify.py" ''
     #!${pkgs.python3}/bin/python3
-    import json, os, re, subprocess, sys
+    import json, os, re, subprocess, sys, urllib.parse
 
     NTFY_URL_FILE = "${cfg.ntfyUrlFile}"
     STATE_FILE = "/var/lib/unit-failure-notify/state.json"
     HOSTNAME = "${config.networking.hostName}"
+    # The topic path stays in sops; only the transport host is rewritten.
+    NTFY_PORT = 55455
+    NTFY_NETBIRD = "100.92.227.214"
     IGNORED = [ ${builtins.concatStringsSep ", " (map builtins.toJSON cfg.ignoredUnits)} ]
     STUCK_POLLS = ${toString (builtins.ceil (cfg.stuckAfterMinutes / 2.0))}
 
@@ -71,22 +74,39 @@ let
         os.rename(tmp, STATE_FILE)
 
 
+    def ntfy_url(raw):
+        parts = urllib.parse.urlsplit(raw)
+        host = parts.hostname or ""
+        if host == HOSTNAME:
+            netloc = "127.0.0.1:" + str(NTFY_PORT)
+        elif host.startswith("100."):
+            netloc = NTFY_NETBIRD + ":" + str(NTFY_PORT)
+        else:
+            return raw
+        return urllib.parse.urlunsplit(("http", netloc, parts.path, parts.query, ""))
+
+
     def publish(title, body):
         try:
             with open(NTFY_URL_FILE) as fh:
-                url = fh.read().strip()
+                raw = fh.read().strip()
         except OSError as exc:
             print("cannot read ntfy url: " + str(exc), file=sys.stderr)
             return False
-        proc = subprocess.run(
-            ["ntfy", "publish", "--title", title, "--priority", "high",
-             "--tags", "rotating_light", url, body],
-            capture_output=True, text=True,
-        )
-        if proc.returncode != 0:
-            print("ntfy publish failed: " + proc.stderr, file=sys.stderr)
-            return False
-        return True
+        targets = [ntfy_url(raw)]
+        if targets[0] != raw:
+            targets.append(raw)
+        proc = None
+        for url in targets:
+            proc = subprocess.run(
+                ["ntfy", "publish", "--title", title, "--priority", "high",
+                 "--tags", "rotating_light", url, body],
+                capture_output=True, text=True,
+            )
+            if proc.returncode == 0:
+                return True
+        print("ntfy publish failed: " + proc.stderr, file=sys.stderr)
+        return False
 
 
     failed = list_units("failed")
