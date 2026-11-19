@@ -110,25 +110,12 @@ in
       Unit.X-Restart-Triggers = [ "${agsConfig}" ];
     };
 
-    wayland.windowManager.hyprland.settings = {
-      "layerrule[control-center]" = {
-        "match:namespace" = "^(control-center)$";
-        blur = 1;
-        ignore_alpha = 0.0;
-        animation = "slide right";
-      };
-      "layerrule[hw-monitor]" = {
-        "match:namespace" = "^(hw-monitor)$";
-        blur = 1;
-        ignore_alpha = 0.0;
-        animation = "slide right";
-      };
-      "layerrule[keybinds]" = {
-        "match:namespace" = "^(keybinds)$";
-        blur = 1;
-        ignore_alpha = 0.0;
-        animation = "slide right";
-      };
-    };
+    wayland.windowManager.hyprland.settings.layer_rule = map (ns: {
+      name = ns;
+      match.namespace = "^(${ns})$";
+      blur = true;
+      ignore_alpha = 0.0;
+      animation = "slide right";
+    }) [ "control-center" "hw-monitor" "keybinds" ];
   };
 }

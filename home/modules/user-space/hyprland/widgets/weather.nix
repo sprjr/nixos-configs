@@ -155,7 +155,7 @@ let
     runtimeInputs = with pkgs; [ jq ];
     text = ''
       if hyprctl clients -j | jq -e '.[] | select(.class == "weather-forecast")' > /dev/null 2>&1; then
-        hyprctl dispatch closewindow "class:weather-forecast"
+        hyprctl dispatch 'hl.dsp.window.close({ window = "class:weather-forecast" })'
       else
         ghostty --class=weather-forecast -e waybar-weather-forecast &
         disown
@@ -171,11 +171,14 @@ in
       toggle
     ];
 
-    wayland.windowManager.hyprland.settings."windowrule[weather-forecast]" = {
-      "match:class" = "^(weather-forecast)$";
-      float = true;
-      size = "500 450";
-      center = true;
-    };
+    wayland.windowManager.hyprland.settings.window_rule = [
+      {
+        name = "weather-forecast";
+        match.class = "^(weather-forecast)$";
+        float = true;
+        size = "500 450";
+        center = true;
+      }
+    ];
   };
 }

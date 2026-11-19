@@ -29,21 +29,15 @@ in
     home.packages = [ hyprshort ];
 
     # All binds are declared in keybind-data.nix alongside their cheat-sheet entries.
-    wayland.windowManager.hyprland.settings = {
-      inherit (data.binds) bind bindel bindl bindm;
-    };
+    wayland.windowManager.hyprland.settings.bind = map data.toBind data.binds;
 
-    wayland.windowManager.hyprland.submaps.resize.settings = {
-      binde = [
-        ", h, resizeactive, -40 0"
-        ", l, resizeactive, 40 0"
-        ", k, resizeactive, 0 -40"
-        ", j, resizeactive, 0 40"
-      ];
-      bind = [
-        ", Escape, submap, reset"
-        ", Return, submap, reset"
-      ];
-    };
+    wayland.windowManager.hyprland.submaps.resize.settings.bind = map data.toBind [
+      { keys = "h"; dsp = "hl.dsp.window.resize({ x = -40, y = 0, relative = true })"; opts = { repeating = true; }; }
+      { keys = "l"; dsp = "hl.dsp.window.resize({ x = 40, y = 0, relative = true })"; opts = { repeating = true; }; }
+      { keys = "k"; dsp = "hl.dsp.window.resize({ x = 0, y = -40, relative = true })"; opts = { repeating = true; }; }
+      { keys = "j"; dsp = "hl.dsp.window.resize({ x = 0, y = 40, relative = true })"; opts = { repeating = true; }; }
+      { keys = "Escape"; dsp = ''hl.dsp.submap("reset")''; }
+      { keys = "Return"; dsp = ''hl.dsp.submap("reset")''; }
+    ];
   };
 }

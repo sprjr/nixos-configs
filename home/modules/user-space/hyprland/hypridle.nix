@@ -5,6 +5,7 @@ with lib;
 # hypridle: 300s dim, 330s lock, 350s DPMS off.
 let
   cfg = config.patrick.home.hyprland;
+  dpms = action: "hyprctl dispatch 'hl.dsp.dpms({ action = \"${action}\" })'";
 in
 {
   config = mkIf (cfg.enable && cfg.shell == "native") {
@@ -14,7 +15,7 @@ in
         general = {
           lock_cmd = "pidof hyprlock || hyprlock";
           before_sleep_cmd = "loginctl lock-session";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
+          after_sleep_cmd = dpms "on";
         };
         listener = [
           {
@@ -28,8 +29,8 @@ in
           }
           {
             timeout = 350;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
+            on-timeout = dpms "off";
+            on-resume = dpms "on";
           }
         ];
       };

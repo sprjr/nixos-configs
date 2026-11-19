@@ -506,7 +506,7 @@ in
         "custom/app-launcher" = {
           format = "󱓞";
           tooltip-format = "App launcher (Super Space)";
-          on-click = "hyprctl dispatch exec fuzzel";
+          on-click = "hyprctl dispatch 'hl.dsp.exec_cmd(\"fuzzel\")'";
         };
 
         "custom/control-center" = {

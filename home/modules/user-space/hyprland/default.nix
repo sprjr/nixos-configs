@@ -28,21 +28,49 @@ let
     gtk-single-instance = false
   '';
 
+  inherit (lib.generators) toLua mkLuaInline;
+
   # Startup workspace rule per configured app class.
-  placementRules = listToAttrs (
-    mapAttrsToList (
-      name: v:
-      nameValuePair "windowrule[${name}]" {
-        "match:class" = v.class;
-        workspace = "${toString v.workspace} silent";
-      }
-    ) cfg.windowPlacement
-  );
+  placementRules = mapAttrsToList (name: v: {
+    inherit name;
+    match.class = v.class;
+    workspace = "${toString v.workspace} silent";
+  }) cfg.windowPlacement;
 
   # command = null opts an app out of autostart.
   autostartCommands = concatLists (
     mapAttrsToList (_: v: optional (v.command != null) v.command) cfg.windowPlacement
   );
+
+  startupCommands = [
+    # uwsm finalize exports env, then start target. `;` sequences (commands run concurrently);
+    # --no-block avoids deadlock. Bare uwsm from PATH to match system uwsm.
+    "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
+    # Start Secret Service for Electron apps (no kwallet under Hyprland).
+    "gnome-keyring-daemon --start --components=secrets"
+    "wl-paste --watch cliphist store"
+    "fcitx5 -d --replace"
+    "caffeine on"
+  ]
+  ++ autostartCommands;
+
+  curve = name: p1: p2: {
+    _args = [
+      name
+      {
+        type = "bezier";
+        points = [ p1 p2 ];
+      }
+    ];
+  };
+
+  anim = leaf: speed: curveName: style: {
+    leaf = leaf;
+    enabled = true;
+    inherit speed;
+    bezier = curveName;
+  }
+  // optionalAttrs (style != null) { inherit style; };
 
   # Archive Hyprland log off tmpfs for crash investigation.
   logArchiver = pkgs.writeShellApplication {
@@ -396,97 +424,109 @@ in
       enable = true;
       xwayland.enable = true;
       systemd.enable = false;
-      # Pin the config format so it doesn't silently switch to "lua" at stateVersion 26.05.
-      configType = "hyprlang";
+      # Hyprland 0.57 dropped hyprland.conf; only hyprland.lua is read.
+      configType = "lua";
 
       settings = {
-        "$terminal" = "ghostty";
-        "$fileManager" = "cosmic-files";
-        "$mainMod" = "SUPER";
-
         # Cursor env is home.pointerCursor's (Stylix sets XCURSOR_THEME; the old
         # HYPRCURSOR_THEME override went with the Frappe theme). Only the
         # compositor-specific Nvidia env is declared here.
-        env = nvidiaEnv;
-
-        cursor = mkIf (cfg.gpu == "nvidia") {
-          no_hardware_cursors = true;
-        };
+        env = map (kv: { _args = splitString "," kv; }) nvidiaEnv;
 
         # Session daemons: scoped to hyprland-session.target, not graphical-session.target.
-        exec-once = [
-          # uwsm finalize exports env, then start target. `;` sequences (exec-once is concurrent);
-          # --no-block avoids deadlock. Bare uwsm from PATH to match system uwsm.
-          "uwsm finalize; systemctl --user --no-block start hyprland-session.target"
-          # Start Secret Service for Electron apps (no kwallet under Hyprland).
-          "gnome-keyring-daemon --start --components=secrets"
-          "wl-paste --watch cliphist store"
-          "fcitx5 -d --replace"
-          "caffeine on"
-        ]
-        ++ autostartCommands;
-
-        general = {
-          gaps_in = 5;
-          gaps_out = 10;
-          border_size = 0;
-          layout = "dwindle";
-          allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
-          resize_on_border = true;
-        };
-
-        decoration = {
-          rounding = 10;
-          active_opacity = 1.0;
-          inactive_opacity = 1.0;
-          blur = {
-            enabled = true;
-            size = 3;
-            passes = 1;
-            vibrancy = 0.1696;
-          };
-        };
-
-        animations = {
-          enabled = true;
-          bezier = [
-            "easeOutQuint,0.23,1,0.32,1"
-            "almostLinear,0.5,0.5,0.75,1.0"
-            "quick,0.15,0,0.1,1"
-          ];
-          animation = [
-            "global,1,10,default"
-            "border,1,5.39,easeOutQuint"
-            "windows,1,4.79,easeOutQuint"
-            "windowsIn,1,4.1,easeOutQuint,popin 87%"
-            "windowsOut,1,1.49,linear,popin 87%"
-            "fadeIn,1,1.73,almostLinear"
-            "fadeOut,1,1.46,almostLinear"
-            "fade,1,3.03,quick"
-            "layers,1,3.81,easeOutQuint"
-            "layersIn,1,4,easeOutQuint,fade"
-            "layersOut,1,1.5,linear,fade"
-            "workspaces,1,1.94,almostLinear,fade"
-            "workspacesIn,1,1.21,almostLinear,fade"
-            "workspacesOut,1,1.94,almostLinear,fade"
-            "specialWorkspace,1,3,easeOutQuint,slidevert"
+        on = {
+          _args = [
+            "hyprland.start"
+            (mkLuaInline ''
+              function()
+              ${concatMapStrings (c: "  hl.exec_cmd(${toLua { } c})\n") startupCommands}end'')
           ];
         };
 
-        input = {
-          kb_layout = "us";
-          follow_mouse = 1;
-          # Desktop: flat/-0.6 for gaming mice. Laptop: adaptive/0 for trackpad.
-          sensitivity = if isLaptop then 0 else -0.6;
-          accel_profile = if isLaptop then "adaptive" else "flat";
-          repeat_delay = 200;
-          repeat_rate = 50;
-          touchpad = {
-            natural_scroll = true;
-            clickfinger_behavior = true;
-            disable_while_typing = true;
+        config = {
+          cursor = mkIf (cfg.gpu == "nvidia") {
+            no_hardware_cursors = true;
           };
+
+          general = {
+            gaps_in = 5;
+            gaps_out = 10;
+            border_size = 0;
+            layout = "dwindle";
+            allow_tearing = cfg.gaming.enable && cfg.gaming.tearing;
+            resize_on_border = true;
+          };
+
+          decoration = {
+            rounding = 10;
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
+            blur = {
+              enabled = true;
+              size = 3;
+              passes = 1;
+              vibrancy = 0.1696;
+            };
+          };
+
+          animations.enabled = true;
+
+          input = {
+            kb_layout = "us";
+            follow_mouse = 1;
+            # Desktop: flat/-0.6 for gaming mice. Laptop: adaptive/0 for trackpad.
+            sensitivity = if isLaptop then 0 else -0.6;
+            accel_profile = if isLaptop then "adaptive" else "flat";
+            repeat_delay = 200;
+            repeat_rate = 50;
+            touchpad = {
+              natural_scroll = true;
+              clickfinger_behavior = true;
+              disable_while_typing = true;
+            };
+          };
+
+          dwindle.preserve_split = true;
+
+          misc = {
+            force_default_wallpaper = 0;
+            disable_hyprland_logo = true;
+          }
+          // optionalAttrs cfg.gaming.enable { vrr = 2; };
+
+          # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
+          render = optionalAttrs cfg.gaming.enable {
+            direct_scanout = if cfg.gaming.tearing then 2 else 1;
+          };
+
+          # Full logging only useful with the log archiver; crash tail gets saturated by scan spam.
+          debug.disable_logs = !cfg.debugLogging;
         };
+
+        curve = [
+          (curve "easeOutQuint" [ 0.23 1 ] [ 0.32 1 ])
+          (curve "almostLinear" [ 0.5 0.5 ] [ 0.75 1.0 ])
+          (curve "quick" [ 0.15 0 ] [ 0.1 1 ])
+          (curve "linear" [ 0 0 ] [ 1 1 ])
+        ];
+
+        animation = [
+          (anim "global" 10 "default" null)
+          (anim "border" 5.39 "easeOutQuint" null)
+          (anim "windows" 4.79 "easeOutQuint" null)
+          (anim "windowsIn" 4.1 "easeOutQuint" "popin 87%")
+          (anim "windowsOut" 1.49 "linear" "popin 87%")
+          (anim "fadeIn" 1.73 "almostLinear" null)
+          (anim "fadeOut" 1.46 "almostLinear" null)
+          (anim "fade" 3.03 "quick" null)
+          (anim "layers" 3.81 "easeOutQuint" null)
+          (anim "layersIn" 4 "easeOutQuint" "fade")
+          (anim "layersOut" 1.5 "linear" "fade")
+          (anim "workspaces" 1.94 "almostLinear" "fade")
+          (anim "workspacesIn" 1.21 "almostLinear" "fade")
+          (anim "workspacesOut" 1.94 "almostLinear" "fade")
+          (anim "specialWorkspace" 3 "easeOutQuint" "slidevert")
+        ];
 
         # Magic Trackpad: override the desktop flat/-0.6 mouse profile.
         device = [
@@ -497,45 +537,33 @@ in
           }
         ];
 
-        dwindle = {
-          preserve_split = true;
-        };
+        gesture = [
+          {
+            fingers = 3;
+            direction = "horizontal";
+            action = "workspace";
+          }
+        ];
 
-        # Hyprland 0.51+ gesture syntax (replaces the removed gestures:workspace_swipe).
-        gesture = [ "3, horizontal, workspace" ];
-
-        misc = {
-          force_default_wallpaper = 0;
-          disable_hyprland_logo = true;
-        }
-        // optionalAttrs cfg.gaming.enable { vrr = 2; };
-
-        # Direct scanout: 2 permits tearing, 1 bypasses compositing only.
-        render = optionalAttrs cfg.gaming.enable {
-          direct_scanout = if cfg.gaming.tearing then 2 else 1;
-        };
-
-        # Full logging only useful with the log archiver; crash tail gets saturated by scan spam.
-        debug = {
-          disable_logs = !cfg.debugLogging;
-        };
-
-        "windowrule[ghostty-dropdown]" = {
-          "match:class" = "^(com.patrick.dropdown)$";
-          float = true;
-          size = "100% 40%";
-          move = "0 0";
-          workspace = "special:dropdown silent";
-        };
-
-        "windowrule[kotoba]" = {
-          "match:class" = "^(kotoba)$";
-          float = true;
-          size = "1100 800";
-          center = true;
-        };
-      }
-      // placementRules;
+        window_rule = [
+          {
+            name = "ghostty-dropdown";
+            match.class = "^(com.patrick.dropdown)$";
+            float = true;
+            size = "100% 40%";
+            move = "0 0";
+            workspace = "special:dropdown silent";
+          }
+          {
+            name = "kotoba";
+            match.class = "^(kotoba)$";
+            float = true;
+            size = "1100 800";
+            center = true;
+          }
+        ]
+        ++ placementRules;
+      };
     };
 
     # Hyprland-only target; PartOf stops daemons on logout.

@@ -1,4 +1,4 @@
-{ hex, ... }:
+{ hex, lib, ... }:
 
 {
   imports = [ hex.homeManagerModules.hex ];
@@ -14,6 +14,6 @@
 
   # Hyprland binds portal shortcuts only via an explicit global bind; the recorded key is ignored.
   wayland.windowManager.hyprland.settings.bind = [
-    "SHIFT, Page_Down, global, anomaly.hex:dictation"
+    { _args = [ "SHIFT + Page_Down" (lib.generators.mkLuaInline ''hl.dsp.global("anomaly.hex:dictation")'') ]; }
   ];
 }

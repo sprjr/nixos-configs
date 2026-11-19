@@ -108,7 +108,7 @@ export default function Header() {
       <DndToggle />
       <box hexpand />
       <LockButton />
-      <ConfirmButton label="Logout" icon="system-log-out-symbolic" cmd={["hyprctl", "dispatch", "exit"]} />
+      <ConfirmButton label="Logout" icon="system-log-out-symbolic" cmd={["hyprctl", "dispatch", "hl.dsp.exit()"]} />
       <ConfirmButton label="Reboot" icon="system-reboot-symbolic" cmd={["systemctl", "reboot"]} />
       <ConfirmButton label="Shutdown" icon="system-shutdown-symbolic" cmd={["systemctl", "poweroff"]} />
     </box>
