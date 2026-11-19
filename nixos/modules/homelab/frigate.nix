@@ -8,6 +8,7 @@
 let
   g4Cameras = [
     "g4-0"
+    "g4-1"
   ];
 
   streamName = name: lib.replaceStrings [ "-" ] [ "_" ] name;
@@ -25,18 +26,13 @@ in
       sops.secrets."frigate/mqtt-password" = { };
     }
     (lib.mkIf config.homelab.frigate.enable {
-      sops.secrets = {
-        "frigate/front-door-rtsp" = { };
-        "frigate/garage-rtsp" = { };
-      } // lib.genAttrs (map (name: "frigate/${name}") g4Cameras) (_: { });
+      sops.secrets = lib.genAttrs (map (name: "frigate/${name}") g4Cameras) (_: { });
 
     sops.templates."frigate-env" = {
       owner = "frigate";
       mode = "0400";
       content = ''
         FRIGATE_MQTT_PASSWORD=${config.sops.placeholder."frigate/mqtt-password"}
-        FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
-        FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
       '' + lib.concatMapStrings (name: ''
         ${envName name}=${config.sops.placeholder."frigate/${name}"}
       '') g4Cameras;
@@ -45,20 +41,14 @@ in
     # go2rtc runs as its own unit and expands ${VAR} env refs from the template below.
     sops.templates."go2rtc-env" = {
       mode = "0400";
-      content = ''
-        FRIGATE_FRONT_DOOR_RTSP=${config.sops.placeholder."frigate/front-door-rtsp"}
-        FRIGATE_GARAGE_RTSP=${config.sops.placeholder."frigate/garage-rtsp"}
-      '' + lib.concatMapStrings (name: ''
+      content = lib.concatMapStrings (name: ''
         ${envName name}=${config.sops.placeholder."frigate/${name}"}
       '') g4Cameras;
     };
 
     services.go2rtc = {
       enable = true;
-      settings.streams = {
-        front_door = "\${FRIGATE_FRONT_DOOR_RTSP}";
-        garage = "\${FRIGATE_GARAGE_RTSP}";
-      } // lib.genAttrs (map streamName g4Cameras) (name: "\${" + envName name + "}");
+      settings.streams = lib.genAttrs (map streamName g4Cameras) (name: "\${" + envName name + "}");
     };
 
     services.frigate = {
@@ -106,7 +96,7 @@ in
           front_door = {
             enabled = true;
             ffmpeg.inputs = [{
-              path = "rtsp://127.0.0.1:8554/front_door";
+              path = "rtsp://127.0.0.1:8554/g4_0";
               roles = [ "detect" "record" ];
             }];
             detect = {
@@ -130,7 +120,7 @@ in
           garage = {
             enabled = true;
             ffmpeg.inputs = [{
-              path = "rtsp://127.0.0.1:8554/garage";
+              path = "rtsp://127.0.0.1:8554/g4_1";
               roles = [ "detect" "record" ];
             }];
             detect = {
@@ -140,19 +130,7 @@ in
             };
             record.enabled = true;
           };
-        } // lib.genAttrs (map streamName g4Cameras) (name: {
-          enabled = true;
-          ffmpeg.inputs = [{
-            path = "rtsp://127.0.0.1:8554/${streamName name}";
-            roles = [ "detect" "record" ];
-          }];
-          detect = {
-            enabled = true;
-            width = 1280;
-            height = 720;
-          };
-          record.enabled = true;
-        });
+        };
       };
     };
 
