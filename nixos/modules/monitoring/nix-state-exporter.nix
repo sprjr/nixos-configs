@@ -45,12 +45,21 @@ let
     comin_ok = False
     comin_err = ""
 
+    # a daemon upgraded in place keeps its previous socket path
+    def comin_status():
+        base = ["comin", "status", "--json"]
+        existing = [p for p in ("/run/comin-grpc.sock", "/var/lib/comin/grpc.sock") if os.path.exists(p)]
+        result = None
+        for path in existing:
+            result = subprocess.run(base + ["--unix-socket-path", path], capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                return result
+        return result or subprocess.run(base, capture_output=True, text=True, timeout=10)
+
+
     # comin deployment state
     try:
-        r = subprocess.run(
-            ["comin", "status", "--json"],
-            capture_output=True, text=True, timeout=10,
-        )
+        r = comin_status()
         if r.returncode != 0:
             stderr_lines = r.stderr.strip().splitlines()
             comin_err = (stderr_lines[-1] if stderr_lines else f"comin exited {r.returncode}")[:120]

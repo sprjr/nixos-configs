@@ -14,8 +14,19 @@ let
         ntfy_url = f.read().strip()
     state_file = "/var/lib/comin-notify/state.json"
 
+    # a daemon upgraded in place keeps its previous socket path
+    def comin_status():
+        base = ["comin", "status", "--json"]
+        existing = [p for p in ("/run/comin-grpc.sock", "/var/lib/comin/grpc.sock") if os.path.exists(p)]
+        result = None
+        for path in existing:
+            result = subprocess.run(base + ["--unix-socket-path", path], capture_output=True, text=True)
+            if result.returncode == 0:
+                return result
+        return result or subprocess.run(base, capture_output=True, text=True)
+
     def get_status():
-        r = subprocess.run(["comin", "status", "--json"], capture_output=True, text=True)
+        r = comin_status()
         if r.returncode != 0:
             print(f"comin status failed: {r.stderr}", file=sys.stderr)
             return None
