@@ -550,6 +550,12 @@ in
     format = "binary";
   };
 
+  sops.secrets."glap/env-file" = {
+    owner = "root";
+    mode = "0400";
+    restartUnits = [ "podman-hermes-agent.service" ];
+  };
+
   sops.templates."hermes-agent-env" = {
     mode = "0400";
     content = ''
@@ -786,6 +792,7 @@ in
     ];
     environmentFiles = [
       config.sops.templates."hermes-agent-env".path
+      config.sops.secrets."glap/env-file".path
     ];
     environment = {
       HERMES_HOME = "/opt/data";
@@ -802,8 +809,8 @@ in
       CALDAV_USER = "patrick";
       LUBELOGGER_URL = "http://shikisha:18080";
       DAWARICH_URL = "http://shikisha:31122";
-      PROMETHEUS_URL = "http://shikisha:9090";
-      LOKI_URL = "http://shikisha:3100";
+      PROMETHEUS_URL = "http://shikisha:8443/prometheus";
+      LOKI_URL = "http://shikisha:8443/loki";
     };
     cmd = [
       "gateway"
