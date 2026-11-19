@@ -69,6 +69,19 @@ let
       named ms
     );
 
+  # NVIDIA EINVAL commit loop on 0.57 (aquamarine #472); drop once nixpkgs ships aquamarine PR #477.
+  # One output at a time (disabling all drops to FALLBACK); re-enable needs explicit disabled = false.
+  toLuaLine = generators.toLua { multiline = false; };
+  loopSpecs = filter (s: elem s.output cfg.commitLoopOutputs) (map toMonitorSpec (named cfg.monitors));
+  cycleOutput = i: s: ''
+    hl.timer(function() hl.monitor(${toLuaLine { output = s.output; disabled = true; }}) end, { timeout = ${toString (1000 + i * 1000)}, type = "oneshot" })
+    hl.timer(function() hl.monitor(${toLuaLine (s // { disabled = false; })}) end, { timeout = ${toString (1500 + i * 1000)}, type = "oneshot" })
+  '';
+  commitLoopWorkaround = ''
+    hl.on("hyprland.start", function()
+    ${concatStrings (imap0 cycleOutput loopSpecs)}end)
+  '';
+
   # Non-streaming fallback: re-applies `monitors` verbatim (original enable/disable mechanism).
   monLocalStatic = pkgs.writeShellApplication {
     name = "mon-local";
@@ -149,8 +162,19 @@ let
   };
 in
 {
+  options.patrick.home.hyprland.commitLoopOutputs = mkOption {
+    type = types.listOf types.str;
+    default = [ ];
+    description = ''
+      Named outputs cycled off/on once at startup to clear the 0.57 NVIDIA EINVAL commit loop
+      (aquamarine #472). Each must have a descriptor in `monitors`.
+    '';
+    example = [ "DP-1" ];
+  };
+
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings.monitor = map toMonitorSpec cfg.monitors;
+    wayland.windowManager.hyprland.extraConfig = mkIf (loopSpecs != [ ]) commitLoopWorkaround;
 
     home.packages = if streamCfg.enable then [ monRemoteStreaming monLocalStreaming ] else [ monLocalStatic ];
 

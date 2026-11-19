@@ -60,6 +60,8 @@
       "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
+    # DP-1 hits the 0.57 NVIDIA EINVAL commit loop (zoomed/choppy) on login.
+    commitLoopOutputs = [ "DP-1" ];
     # mon-remote: headless streaming workspace; mon-local: restore DPMS + focus.
     streaming = {
       enable = true;
