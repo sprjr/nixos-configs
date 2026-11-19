@@ -212,6 +212,18 @@ in
           }
         ];
       }
+      # NetBird path for the same hosts; instance labels match job="node" so dashboards survive a Tailscale outage.
+      {
+        job_name = "node-netbird";
+        static_configs = [
+          { targets = [ "100.92.80.240:9100" ]; labels = { instance = "shikisha:9100"; }; }
+          { targets = [ "100.92.2.143:9100" ]; labels = { instance = "badgey:9100"; }; }
+          { targets = [ "100.92.227.214:9100" ]; labels = { instance = "ds9:9100"; }; }
+          { targets = [ "100.92.16.204:9100" ]; labels = { instance = "seanix:9100"; }; }
+          { targets = [ "100.92.147.86:9100" ]; labels = { instance = "stargazer:9100"; }; }
+          { targets = [ "100.92.95.66:9100" ]; labels = { instance = "voyager:9100"; }; }
+        ];
+      }
       # Windows workstation (Seleya). Windows has no Nix evaluator, so the exporter
       # and Alloy config is not tracked here. Rebuild kit (configs + install script):
       # /opt/data/cache/seleya-workstation-rebuild.

@@ -773,6 +773,7 @@ in
       "--ip=10.89.0.2"
       "--add-host=host.containers.internal:host-gateway"
       "--add-host=shikisha:100.67.20.13"
+      "--add-host=shikisha-nb:100.92.80.240"
       "--add-host=wopr:100.100.21.96"
       "-p"
       "127.0.0.1:9119:9119"
