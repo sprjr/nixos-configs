@@ -546,6 +546,51 @@
               )
             ];
           };
+          # phoenix — Dell Latitude 5500 (i5-8265U, Intel iGPU, 32GB), disko+facter, TPM2 LUKS
+          phoenix = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // {
+              diskDevice = "/dev/nvme0n1";
+            };
+            modules = [
+              disko.nixosModules.disko
+              nixos-facter-modules.nixosModules.facter
+              comin.nixosModules.comin
+              home-manager.nixosModules.home-manager
+              nix-flatpak.nixosModules.nix-flatpak
+              sops-nix.nixosModules.sops
+              nixos-hardware.nixosModules.common-cpu-intel
+              nixos-hardware.nixosModules.common-pc-laptop
+              nixos-hardware.nixosModules.common-pc-laptop-ssd
+              ./nixos/modules/disks/disko-phoenix.nix
+              ./nixos/modules/system/tpm2-luks-enroll.nix
+              ./nixos/modules/system/ssh.nix
+              ./nixos/modules/system/ca-trust.nix
+              ./nixos/hosts/workstations/phoenix.nix
+              ./nixos/modules/desktop/greetd.nix
+              ./nixos/modules/desktop/hyprland.nix
+              ./nixos/modules/desktop/stylix.nix
+              ./nixos/modules/i18n/japanese-input.nix
+              ./nixos/modules/gaming/mcpelauncher.nix
+              ./nixos/modules/system/comin.nix
+              ./nixos/modules/system/comin-notify.nix
+              ./nixos/modules/network/wifi.nix
+              ./nixos/modules/network/resolved-dns.nix
+              ./nixos/modules/network/netbird-client.nix
+              ./nixos/modules/user/patrick.nix
+              ./nixos/modules/homelab/syncthing-client-preset.nix
+              ./nixos/modules/monitoring/alloy.nix
+              ./nixos/modules/monitoring/node-exporter.nix
+              ./nixos/modules/monitoring/nix-state-exporter.nix
+              ./nixos/modules/monitoring/syncthing-exporter.nix
+              (
+                { lib, ... }:
+                lib.mkIf (builtins.pathExists ./nixos/hosts/phoenix/facter.json) {
+                  facter.reportPath = ./nixos/hosts/phoenix/facter.json;
+                }
+              )
+            ];
+          };
         };
 
         # Darwin
