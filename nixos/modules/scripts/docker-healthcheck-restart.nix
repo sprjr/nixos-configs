@@ -21,4 +21,4 @@ let
 
 === Last Logs ===
 $logs" \
-      http://100.119.239.121:55455/rawliyosh-administration-notification-network-hso
+      http://100.92.227.214:55455/rawliyosh-administration-notification-network-hso
