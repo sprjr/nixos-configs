@@ -156,6 +156,22 @@ let
     skills:
       auto_load:
         - i-have-adhd
+    webapp:
+      enabled: true
+      host: "127.0.0.1"
+      port: 9119
+    wake_word:
+      enabled: true
+      surface: gui
+      capture: client
+      provider: openwakeword
+      phrase: hey hermes
+      sensitivity: 0.6
+      confirmation_frames: 3
+    tts:
+      provider: piper
+      piper:
+        voice: en_US-lessac-medium
     onboarding:
       seen:
         busy_input_prompt: true
@@ -766,7 +782,7 @@ in
   };
 
   virtualisation.oci-containers.containers.hermes-agent = {
-    image = "docker.io/nousresearch/hermes-agent:v2026.9.24";
+    image = "docker.io/nousresearch/hermes-agent:v0.23.3";
     autoStart = true;
     extraOptions = [
       "--network=hermes-net"
