@@ -139,8 +139,6 @@ let
       env: local
     dashboard:
       theme: mono
-      trusted_proxies:
-        - "100.92.0.0/16"
     memory:
       memory_enabled: true
       user_profile_enabled: true
@@ -160,7 +158,7 @@ let
         - i-have-adhd
     webapp:
       enabled: true
-      host: "0.0.0.0"
+      host: "127.0.0.1"
       port: 9119
     wake_word:
       enabled: true
