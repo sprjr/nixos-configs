@@ -99,8 +99,6 @@ in
           pkgs.libadwaita
           # nmcli for the Wi-Fi connect action
           pkgs.networkmanager
-          # kdeconnect-cli / kdeconnect-sms / kdeconnect-app for the phone panel
-          config.services.kdeconnect.package
         ];
     };
 
