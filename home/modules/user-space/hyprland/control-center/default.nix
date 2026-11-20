@@ -71,6 +71,11 @@ let
     name = "keybinds-toggle";
     text = ''ags request "toggle-keybinds"'';
   };
+
+  phoneToggleScript = pkgs.writeShellApplication {
+    name = "phone-panel-toggle";
+    text = ''ags request "toggle-phone"'';
+  };
 in
 {
   config = mkIf (cfg.enable && cfg.shell == "native") {
@@ -94,6 +99,8 @@ in
           pkgs.libadwaita
           # nmcli for the Wi-Fi connect action
           pkgs.networkmanager
+          # kdeconnect-cli / kdeconnect-sms / kdeconnect-app for the phone panel
+          config.services.kdeconnect.package
         ];
     };
 
@@ -101,6 +108,7 @@ in
       toggleScript
       hwToggleScript
       keybindsToggleScript
+      phoneToggleScript
       pkgs.brightnessctl
     ];
 
@@ -116,6 +124,6 @@ in
       blur = true;
       ignore_alpha = 0.0;
       animation = "slide right";
-    }) [ "control-center" "hw-monitor" "keybinds" ];
+    }) [ "control-center" "hw-monitor" "keybinds" "phone" ];
   };
 }

@@ -410,6 +410,42 @@ window.hw-monitor > box {
   }
 }
 
+// Phone (KDE Connect)
+window.phone {
+  background: transparent;
+}
+
+window.phone > box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.phone-icon.online {
+  color: var(--cyan);
+}
+
+.phone-status {
+  color: var(--green);
+  font-size: 12px;
+
+  &.offline { color: var(--fg-dim); }
+}
+
+.phone-battery {
+  &.warning block.filled { background: var(--yellow); }
+  &.critical block.filled { background: var(--red); }
+}
+
+.phone-notif {
+  border-radius: 6px;
+  padding: 4px 8px;
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+}
+
 // Media
 .media-player {
   padding: 4px 0;

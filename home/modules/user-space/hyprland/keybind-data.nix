@@ -40,6 +40,7 @@ let
         { keys = "Super Space"; desc = "app launcher (fuzzel)"; bind = [ (k "SUPER + Space" (exec "fuzzel")) ]; }
         { keys = "Super A"; desc = "control center (toggle)"; bind = [ (k "SUPER + A" (exec "control-center-toggle")) ]; }
         { keys = "Super /"; desc = "this cheat sheet"; bind = [ (k "SUPER + slash" (exec "keybinds-toggle")) ]; }
+        { keys = "Super B"; desc = "phone panel (KDE Connect)"; bind = [ (k "SUPER + B" (exec "phone-panel-toggle")) ]; }
         { keys = "Super I"; desc = "caffeine (idle inhibit) toggle"; bind = [ (k "SUPER + I" (exec "caffeine toggle")) ]; }
       ] ++ [
         { keys = "Super Return"; desc = "terminal (ghostty)"; bind = [ (k "SUPER + Return" (exec "ghostty")) ]; }

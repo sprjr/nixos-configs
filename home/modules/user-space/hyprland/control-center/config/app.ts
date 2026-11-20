@@ -5,6 +5,7 @@ import ControlCenter from "./widget/ControlCenter"
 import HwMonitor from "./widget/HwMonitor"
 import Keybinds from "./widget/Keybinds"
 import Overlay, { PANELS } from "./widget/Overlay"
+import PhonePanel from "./widget/Phone"
 
 // Show `name` and hide the other panels, or hide it if already visible.
 function togglePanel(name: string) {
@@ -27,6 +28,7 @@ app.start({
     ControlCenter()
     HwMonitor()
     Keybinds()
+    PhonePanel()
     Overlay()
   },
   requestHandler(argv: string[], res: (response: string) => void) {
@@ -39,6 +41,9 @@ app.start({
       res("ok")
     } else if (msg === "toggle-keybinds") {
       togglePanel("keybinds")
+      res("ok")
+    } else if (msg === "toggle-phone") {
+      togglePanel("phone")
       res("ok")
     } else if (msg === "quit") {
       app.quit()

@@ -188,6 +188,8 @@ in
         #custom-kdeconnect.charging { color: ${c.base0B}; }
         #custom-kdeconnect.warning { color: ${c.base0A}; }
         #custom-kdeconnect.critical { color: ${c.base08}; }
+        #custom-kdeconnect.offline,
+        #custom-kdeconnect.unknown { color: ${c.base04}; }
         #custom-vpn.active { color: ${c.base0B}; }
         #custom-vpn.off { color: ${c.base04}; }
         #mpris { color: ${c.base0E}; }
@@ -320,10 +322,10 @@ in
         };
 
         "custom/kdeconnect" = {
-          exec = "waybar-kdeconnect";
+          exec = "kdeconnect-status --waybar";
           return-type = "json";
           interval = 30;
-          on-click = "kdeconnect-app";
+          on-click = "phone-panel-toggle";
         };
 
         "custom/vpn" = {
