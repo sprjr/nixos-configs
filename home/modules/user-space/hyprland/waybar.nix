@@ -67,7 +67,7 @@ let
   modulesRight = [
     "privacy"
     "systemd-failed-units"
-    "tray"
+    "custom/kdeconnect"
     "custom/budslink"
     "network"
     "custom/vpn"
@@ -135,7 +135,6 @@ in
         #bluetooth,
         #battery,
         #clock,
-        #tray,
         #mpris,
         #disk,
         #privacy,
@@ -148,6 +147,7 @@ in
         #custom-hwmon,
         #custom-ollama,
         #custom-budslink,
+        #custom-kdeconnect,
         #custom-vpn,
         #custom-ha-fan,
         #custom-ha-lamp,
@@ -184,6 +184,10 @@ in
         #custom-ollama.unavailable { color: ${c.base04}; }
         #custom-weather { color: ${c.base0D}; }
         #custom-budslink { color: ${c.base0E}; }
+        #custom-kdeconnect { color: ${c.base0C}; }
+        #custom-kdeconnect.charging { color: ${c.base0B}; }
+        #custom-kdeconnect.warning { color: ${c.base0A}; }
+        #custom-kdeconnect.critical { color: ${c.base08}; }
         #custom-vpn.active { color: ${c.base0B}; }
         #custom-vpn.off { color: ${c.base04}; }
         #mpris { color: ${c.base0E}; }
@@ -315,6 +319,13 @@ in
           interval = 30;
         };
 
+        "custom/kdeconnect" = {
+          exec = "waybar-kdeconnect";
+          return-type = "json";
+          interval = 30;
+          on-click = "kdeconnect-app";
+        };
+
         "custom/vpn" = {
           exec = "waybar-vpn";
           return-type = "json";
@@ -342,8 +353,6 @@ in
           ];
           on-click = "control-center-toggle";
         };
-
-        tray.spacing = 8;
 
         mpris = {
           format = "{player_icon} {dynamic}";

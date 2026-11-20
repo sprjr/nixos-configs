@@ -108,6 +108,7 @@ in
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
+    ./widgets/kdeconnect.nix
     ./widgets/vpn.nix
     ./widgets/caffeine.nix
     ./widgets/ollama-usage.nix
