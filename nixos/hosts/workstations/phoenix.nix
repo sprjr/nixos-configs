@@ -1,14 +1,9 @@
 {
   config,
   pkgs,
-  nixpkgs-stable,
   ...
 }:
 
-let
-  system = pkgs.stdenv.hostPlatform.system;
-  pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-in
 {
   imports = [ ../../modules/system/sops.nix ];
 
@@ -127,7 +122,6 @@ in
     "io.github.maniacx.BudsLink"
   ];
 
-  services.tailscale.enable = true;
   # to fix broken internet when using an exit node
   networking.firewall.checkReversePath = "loose";
   networking.wireguard.enable = true;
@@ -151,7 +145,6 @@ in
     pinta
     pciutils
     pipewire
-    pkgs-stable.tailscale
     sops
     usbutils
     vim

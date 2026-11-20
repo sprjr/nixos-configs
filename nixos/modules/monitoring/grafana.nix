@@ -19,6 +19,7 @@ let
     badgey = "dark-green";
     seleya = "purple";
     stargazer = "light-blue";
+    phoenix = "semi-dark-orange";
   };
 
   # Anchored regex matches both {{instance}} ("host:9100") and {{host}} ("host") legend shapes.
@@ -222,6 +223,7 @@ in
           { targets = [ "100.92.16.204:9100" ]; labels = { instance = "seanix:9100"; }; }
           { targets = [ "100.92.147.86:9100" ]; labels = { instance = "stargazer:9100"; }; }
           { targets = [ "100.92.95.66:9100" ]; labels = { instance = "voyager:9100"; }; }
+          { targets = [ "100.92.180.46:9100" ]; labels = { instance = "phoenix:9100"; }; }
         ];
       }
       # Windows workstation (Seleya). Windows has no Nix evaluator, so the exporter
