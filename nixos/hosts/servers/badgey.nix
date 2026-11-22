@@ -12,7 +12,7 @@
   homelab.frigate.enable = true;
 
   services.frigate-analyzer = {
-    enable = false;
+    enable = true;
     # Needs frigate/control-token in sops-nix/sops.yaml
     remoteControl.enable = true;
   };
