@@ -19,7 +19,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer-mcp"
     from pathlib import Path
 
     import yaml
-    from mcp.server.fastmcp import FastMCP, Image
+    from mcp.server.mcpserver import MCPServer, Image
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
@@ -50,7 +50,7 @@ pkgs.writers.writePython3Bin "frigate-analyzer-mcp"
         "package_state": ("e.package_state", ""),
     }
 
-    mcp = FastMCP("frigate-analyzer", host=args.host, port=args.port)
+    mcp = MCPServer("frigate-analyzer")
 
 
     def ro():
@@ -242,5 +242,5 @@ pkgs.writers.writePython3Bin "frigate-analyzer-mcp"
         return set_pin(event_id, False, None)
 
 
-    mcp.run(transport="streamable-http")
+    mcp.run(transport="streamable-http", host=args.host, port=args.port)
   ''
