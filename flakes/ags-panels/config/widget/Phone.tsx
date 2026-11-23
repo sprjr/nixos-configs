@@ -16,7 +16,7 @@ const POLL_MS = 5000
 
 type Notif = { id: string; app: string; title: string; text: string; dismissable: boolean }
 
-// Output of `kdeconnect-status --panel` (widgets/kdeconnect.nix)
+// Output of `kdeconnect-status --panel` (kdeconnect-status.nix)
 type Phone = {
   id: string
   name: string
@@ -101,7 +101,7 @@ export default function PhonePanel() {
   }
 
   const actions: { icon: string; label: string; run: () => Promise<unknown>; done?: string; close?: boolean }[] = [
-    { icon: "audio-volume-high-symbolic", label: "Ring", run: () => cli("--ring"), done: "Ringing" },
+    { icon: "audio-volume-high-symbolic", label: "Ring", run: () => cli("--ring"), done: "Ringing: tap the phone to stop" },
     { icon: "mail-send-symbolic", label: "Ping", run: () => cli("--ping"), done: "Ping sent" },
     { icon: "edit-paste-symbolic", label: "Clipboard", run: () => cli("--send-clipboard"), done: "Clipboard sent" },
     { icon: "document-send-symbolic", label: "Share file", run: async () => shareFiles() },
@@ -160,7 +160,14 @@ export default function PhonePanel() {
           return false
         }}
       />
-      <box orientation={Gtk.Orientation.VERTICAL} spacing={8} css="padding: 16px;" widthRequest={400}>
+      {/* GTK4 windows keep their largest size; START keeps the panel at its content height */}
+      <box
+        orientation={Gtk.Orientation.VERTICAL}
+        valign={Gtk.Align.START}
+        spacing={8}
+        css="padding: 16px;"
+        widthRequest={400}
+      >
         <box class="section" spacing={8}>
           <image iconName="phone-symbolic" class={reachable((r) => (r ? "phone-icon online" : "phone-icon"))} />
           <box orientation={Gtk.Orientation.VERTICAL} hexpand>

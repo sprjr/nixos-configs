@@ -1,6 +1,7 @@
 { pkgs, cfg }:
 
-# Single source for the Hyprland binds, the hyprshort sheet and the AGS keybind panel.
+# Single source for the Hyprland binds, the hyprshort sheet and the AGS keybind panel
+# (passed to programs.agsPanels.keybinds in default.nix).
 # Each row carries its description plus the binds it documents; rows without bind
 # lists are documentation only (bound elsewhere).
 let
@@ -242,13 +243,4 @@ in
 
   # Bind specs gathered from every row.
   binds = concatMap (r: r.bind or [ ]) rows;
-
-  # Panel data: keys and descriptions only.
-  ts = pkgs.writeText "keybind-data.ts" ''
-    export type Bind = { keys: string; desc: string }
-    export type Group = { title: string; icon: string; binds: Bind[] }
-    export default ${builtins.toJSON (map (g: g // {
-      binds = map (r: { inherit (r) keys desc; }) g.binds;
-    }) groups)} as Group[]
-  '';
 }

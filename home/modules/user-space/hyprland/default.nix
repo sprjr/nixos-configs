@@ -2,6 +2,8 @@
   config,
   pkgs,
   lib,
+  ags,
+  osConfig ? { },
   ...
 }:
 
@@ -11,6 +13,8 @@ let
   cfg = config.patrick.home.hyprland;
 
   isLaptop = cfg.formFactor == "laptop";
+
+  keybindData = import ./keybind-data.nix { inherit pkgs cfg; };
 
   # Border colors are the Stylix palette (base0D active, base03 inactive).
 
@@ -108,11 +112,10 @@ in
     ./widgets/homeassistant.nix
     ./widgets/timer.nix
     ./widgets/budslink.nix
-    ./widgets/kdeconnect.nix
     ./widgets/vpn.nix
     ./widgets/caffeine.nix
     ./widgets/ollama-usage.nix
-    ./control-center
+    (import ../../../../flakes/ags-panels/module.nix { inherit ags; })
   ];
 
   options.patrick.home.hyprland = {
@@ -383,6 +386,23 @@ in
     };
 
     services.kdeconnect.enable = true;
+
+    programs.agsPanels = {
+      enable = cfg.shell == "native";
+      systemdTarget = "hyprland-session.target";
+      laptop = isLaptop;
+      panels.phone.enable = true;
+      phone.bindHint = "Super B";
+      keybinds = map (g: {
+        inherit (g) title icon;
+        binds = map (r: { inherit (r) keys desc; }) g.binds;
+      }) keybindData.groups;
+      features = {
+        comin = osConfig.services.comin.enable or false;
+        notifications = cfg.notifications.daemon;
+        ollamaUsage = cfg.ollamaUsage.enable;
+      };
+    };
 
     home.packages = with pkgs; [
       grimblast

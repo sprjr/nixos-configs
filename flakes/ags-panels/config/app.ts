@@ -1,5 +1,6 @@
 import GLib from "gi://GLib"
 import app from "ags/gtk4/app"
+import { readFile } from "ags/file"
 import style from "./style.scss"
 import ControlCenter from "./widget/ControlCenter"
 import HwMonitor from "./widget/HwMonitor"
@@ -19,16 +20,30 @@ function togglePanel(name: string) {
   if (overlay) overlay.visible = show
 }
 
+// Panels enabled in Nix (features.json); all of them if the file is unreadable.
+function enabledPanels(): string[] {
+  try {
+    const path = GLib.get_user_config_dir() + "/ags/features.json"
+    return JSON.parse(readFile(path)).panels ?? PANELS
+  } catch {
+    return PANELS
+  }
+}
+
+const builders: Record<string, () => unknown> = {
+  "control-center": ControlCenter,
+  "hw-monitor": HwMonitor,
+  keybinds: Keybinds,
+  phone: PhonePanel,
+}
+
 app.start({
   css: style,
   main() {
     const varsPath = GLib.get_user_config_dir() + "/ags/vars.css"
     app.apply_css(varsPath)
 
-    ControlCenter()
-    HwMonitor()
-    Keybinds()
-    PhonePanel()
+    for (const name of enabledPanels()) builders[name]?.()
     Overlay()
   },
   requestHandler(argv: string[], res: (response: string) => void) {
