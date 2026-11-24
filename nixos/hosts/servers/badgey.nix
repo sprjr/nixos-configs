@@ -21,6 +21,21 @@
 
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
+  homelab.k3s = {
+    enable = true;
+    role = "agent";
+    serverAddr = "https://100.92.80.240:6443";
+  };
+
+  homelab.garage = {
+    enable = true;
+    nodeName = "badgey";
+    netbirdIP = "100.92.2.143";
+    rpcPublicAddr = "http://100.92.2.143:3901";
+    replicationFactor = 1;
+    dataDir = "/var/lib/garage/data";
+  };
+
   nix.settings = {
     experimental-features = [
       "nix-command"
