@@ -270,7 +270,6 @@
               #./nixos/modules/homelab/attic.nix
               #./nixos/modules/system/attic-cache.nix
               #./nixos/modules/homelab/nextcloud.nix
-              #./nixos/modules/homelab/storage/garage-systemd-service.nix
               #./nixos/modules/homelab/certbot-mumble.nix
               ./nixos/modules/homelab/mosquitto.nix
               ./nixos/modules/homelab/jellyfin.nix
@@ -298,6 +297,8 @@
               ./nixos/modules/system/unit-failure-notify.nix
               ./nixos/modules/virtualisation/multiarch.nix
               ./nixos/modules/virtualisation/vm/haos-vm.nix
+              ./nixos/modules/virtualisation/k3s.nix
+              ./nixos/modules/system/ansible-host.nix
               ./nixos/modules/user/patrick.nix
             ];
           };
@@ -408,6 +409,9 @@
               ./nixos/modules/homelab/hermes-fileshare.nix
               ./nixos/modules/homelab/frigate-analyzer
               ./nixos/modules/homelab/ha-events.nix
+              ./nixos/modules/homelab/storage/garage.nix
+              ./nixos/modules/virtualisation/k3s.nix
+              ./nixos/modules/system/ansible-host.nix
               (
                 { lib, ... }:
                 lib.mkIf (builtins.pathExists ./nixos/hosts/badgey/facter.json) {

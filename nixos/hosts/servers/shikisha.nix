@@ -223,6 +223,11 @@ in
 
   homelab.netbird-client.setupKey = "netbird/setup-key-servers";
 
+  homelab.k3s = {
+    enable = true;
+    role = "server";
+  };
+
   homelab.kiwix-server = {
     enable = true;
   };

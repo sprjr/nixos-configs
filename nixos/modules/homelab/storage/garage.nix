@@ -1,80 +1,105 @@
 { config, pkgs, lib, ... }:
 
+let
+  cfg = config.homelab.garage;
+in
 {
-  # Nix-sops configuration
-  sops.secrets = {
-    garage_rpc_secret = {
-      sopsFile = ../../../../sops-nix/sops.yaml;
-      key = "garage.rpc_secret";
-      owner = "garage";
+  options.homelab.garage = {
+    enable = lib.mkEnableOption "Garage S3-compatible object store";
+
+    nodeName = lib.mkOption {
+      type = lib.types.str;
+      description = "Unique node name in the Garage cluster";
     };
-    garage_admin_token = {
-      sopsFile = ../../../../sops-nix/sops.yaml;
-      key = "garage.admin_token";
-      owner = "garage";
+
+    netbirdIP = lib.mkOption {
+      type = lib.types.str;
+      description = "NetBird IP to bind RPC and S3 API";
     };
-    garage_metrics_token = {
-      sopsFile = ../../../../sops-nix/sops.yaml;
-      key = "garage.metrics_token";
-      owner = "garage";
+
+    rpcPublicAddr = lib.mkOption {
+      type = lib.types.str;
+      description = "Public RPC address advertised to other nodes";
     };
-  };
 
-  services.garage = {
-    enable = true;
-    package = pkgs.garage;
-   #environmentFile = /etc/garage.toml;
-    logLevel = "debug";
-    settings = {
-      metadata_dir = "/var/lib/garage/meta";
-      data_dir = "/var/lib/garage/data";
+    replicationFactor = lib.mkOption {
+      type = lib.types.int;
+      default = 1;
+      description = "Garage replication factor";
+    };
 
-      rpc_bind_addr = "[::]:3901";
-      rpc_public_addr = "http://100.67.20.13:3901";
-      rpc_secret = config.sops.secrets.garage_rpc_secret.path;
+    dataDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/garage/data";
+      description = "Directory for object data";
+    };
 
-      # node identity (must be unique per node)
-      node_name = "shikisha";
-
-      db_engine = "sqlite";
-      replication_factor = 1;
-
-      # cluster bootstrap
-      #bootstrap_peers = []; # list other nodes' RPC URLs
-
-      # Optional: S3 interface
-      s3_api = {
-        api_bind_addr = "[::]:3900";
-	root_domain = ".s3.garage.localhost";
-	s3_region = "garage";
-      };
-
-      s3_web = {
-        bind_addr = "[::]:3902";
-	index = "index.html";
-	root_domain = ".web.garage.localhost";
-      };
-
-      k2v_api = {
-        api_bind_addr = "[::]:3904";
-      };
-
-      admin = {
-        api_bind_addr = "[::]:3903";
-        admin_token = config.sops.secrets.garage_admin_token.path;
-        metrics_token = config.sops.secrets.garage_metrics_token.path;
-      };
+    bootstrapPeers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "List of bootstrap peer RPC URLs";
     };
   };
 
-  users.users.garage = {
-    isSystemUser = true;
-    group = "garage";
-    home = "/var/lib/garage";
+  config = lib.mkIf cfg.enable {
+    # Garage 1.3.1 is EOL in nixpkgs; permitted for the learning cluster only.
+    nixpkgs.config.permittedInsecurePackages = [ "garage-${pkgs.garage.version}" ];
+
+    sops.secrets = {
+      garage_rpc_secret.owner = "garage";
+      garage_admin_token.owner = "garage";
+      garage_metrics_token.owner = "garage";
+    };
+
+    users.users.garage = {
+      isSystemUser = true;
+      group = "garage";
+      home = "/var/lib/garage";
+    };
+
+    users.groups.garage = { };
+
+    services.garage = {
+      enable = true;
+      package = pkgs.garage;
+      logLevel = "debug";
+      settings = {
+        metadata_dir = "/var/lib/garage/meta";
+        node_name = cfg.nodeName;
+        data_dir = cfg.dataDir;
+        replication_factor = cfg.replicationFactor;
+        bootstrap_peers = cfg.bootstrapPeers;
+
+        rpc_bind_addr = "${cfg.netbirdIP}:3901";
+        rpc_public_addr = cfg.rpcPublicAddr;
+        rpc_secret = config.sops.secrets.garage_rpc_secret.path;
+
+        db_engine = "sqlite";
+
+        s3_api = {
+          api_bind_addr = "${cfg.netbirdIP}:3900";
+          root_domain = ".s3.garage.localhost";
+          s3_region = "garage";
+        };
+
+        s3_web = {
+          bind_addr = "[::]:3902";
+          index = "index.html";
+          root_domain = ".web.garage.localhost";
+        };
+
+        k2v_api = {
+          api_bind_addr = "[::]:3904";
+        };
+
+        admin = {
+          api_bind_addr = "[::]:3903";
+          admin_token = config.sops.secrets.garage_admin_token.path;
+          metrics_token = config.sops.secrets.garage_metrics_token.path;
+        };
+      };
+    };
+
+    networking.firewall.interfaces.netbird0.allowedTCPPorts = [ 3900 3901 ];
   };
-
-  users.groups.garage = {};
-
-  # open firewall ports
-  networking.firewall.allowedTCPPorts = [ 3900 3901 ];
 }
