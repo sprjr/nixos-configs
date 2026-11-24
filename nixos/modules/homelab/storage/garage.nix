@@ -46,9 +46,18 @@ in
     nixpkgs.config.permittedInsecurePackages = [ "garage-${pkgs.garage.version}" ];
 
     sops.secrets = {
-      garage_rpc_secret.owner = "garage";
-      garage_admin_token.owner = "garage";
-      garage_metrics_token.owner = "garage";
+      garage_rpc_secret = {
+        key = "garage/rpc_secret";
+        owner = "garage";
+      };
+      garage_admin_token = {
+        key = "garage/admin_token";
+        owner = "garage";
+      };
+      garage_metrics_token = {
+        key = "garage/metrics_token";
+        owner = "garage";
+      };
     };
 
     users.users.garage = {
