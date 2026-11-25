@@ -49,7 +49,7 @@
       "DP-3,3840x2160@60,0x0,1.6"
       "DP-2,2560x1440@165,2400x0,1"
       "DP-1,3840x2160@60,4960x0,1.6"
-      "HDMI-A-1,1920x1080@60,auto,1"
+      "HDMI-A-1,disable"
       ",preferred,auto,auto"
     ];
     # DP-1/DP-2 hit the 0.57 NVIDIA EINVAL commit loop (zoomed/choppy) on login.
@@ -76,7 +76,6 @@
     { workspace = "1"; monitor = "DP-2"; default = true; }
     { workspace = "2"; monitor = "DP-3"; default = true; }
     { workspace = "3"; monitor = "DP-1"; default = true; }
-    { workspace = "4"; monitor = "HDMI-A-1"; default = true; }
   ];
 
   # Git configuration
