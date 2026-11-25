@@ -52,8 +52,8 @@
       "HDMI-A-1,1920x1080@60,auto,1"
       ",preferred,auto,auto"
     ];
-    # DP-1 hits the 0.57 NVIDIA EINVAL commit loop (zoomed/choppy) on login.
-    commitLoopOutputs = [ "DP-1" ];
+    # DP-1/DP-2 hit the 0.57 NVIDIA EINVAL commit loop (zoomed/choppy) on login.
+    commitLoopOutputs = [ "DP-1" "DP-2" ];
     # mon-remote: headless streaming workspace; mon-local: restore DPMS + focus.
     streaming = {
       enable = true;
