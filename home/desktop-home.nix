@@ -71,6 +71,14 @@
     notifications.daemon = "hokum";
   };
 
+  # Workspace-to-monitor binding: DP-2 main, DP-3 left Samsung, DP-1 right Samsung (LU28R550U).
+  wayland.windowManager.hyprland.settings.workspace_rule = [
+    { workspace = "1"; monitor = "DP-2"; default = true; }
+    { workspace = "2"; monitor = "DP-3"; default = true; }
+    { workspace = "3"; monitor = "DP-1"; default = true; }
+    { workspace = "4"; monitor = "HDMI-A-1"; default = true; }
+  ];
+
   # Git configuration
   programs.git = {
     signing.format = null;
