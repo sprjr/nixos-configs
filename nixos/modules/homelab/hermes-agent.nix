@@ -756,7 +756,7 @@ in
   };
 
   systemd.services.hermes-api-proxy = {
-    description = "Proxy Hermes API to VPN interfaces";
+    description = "Proxy Hermes API to LAN and VPN interfaces";
     after = [
       "network-online.target"
       "tailscaled.service"
@@ -765,20 +765,10 @@ in
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
-    path = [
-      pkgs.socat
-      pkgs.iproute2
-      pkgs.jq
-    ];
+    path = [ pkgs.socat ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
-        for ip4 in $(ip -4 -j addr show | jq -r '
-          .[].addr_info[]? | select(.family == "inet") | .local
-          | select((split(".") | map(tonumber)) as $o
-                   | $o[0] == 100 and $o[1] >= 64 and $o[1] <= 127)'); do
-          socat TCP-LISTEN:8642,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:8642 &
-        done
-        wait -n
+        exec socat TCP-LISTEN:8642,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:8642
       '';
       Restart = "on-failure";
       RestartSec = 5;
@@ -850,4 +840,6 @@ in
       9119
     ];
   });
+
+  networking.firewall.interfaces.enp0s31f6.allowedTCPPorts = [ 8642 ];
 }
