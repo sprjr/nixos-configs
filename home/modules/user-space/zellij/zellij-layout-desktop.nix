@@ -11,7 +11,7 @@ let
       tab name="monitor" {
         pane split_direction="Vertical" {
           pane command="nvtop" {}
-          pane command="htop" {}
+          pane command="btop" {}
         }
       }
       tab name="comms" {
