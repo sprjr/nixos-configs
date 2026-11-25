@@ -74,8 +74,27 @@ in
 
   services.alloy-syslog.enable = true;
 
+  services.wyoming.faster-whisper.servers.default = {
+    enable = true;
+    uri = "tcp://0.0.0.0:10300";
+    device = "cpu";
+    model = "distil-small.en";
+    language = "en";
+  };
+
+  services.wyoming.piper.servers.default = {
+    enable = true;
+    uri = "tcp://0.0.0.0:10200";
+    voice = "en_US-lessac-medium";
+    speaker = 0;
+  };
+
   networking.firewall = {
     allowedUDPPorts = [ 8472 ];
+    allowedTCPPorts = [
+      10200
+      10300
+    ];
   };
 
   # Disable NetworkManager-wait-online.service
