@@ -43,8 +43,6 @@ in {
   ];
 
   boot.kernelModules = [ "bfq" ];
-  # Watchdog causes boot delays on AMD B550/X570 boards
-  boot.blacklistedKernelModules = [ "sp5100_tco" ];
 
   boot.kernel.sysctl = {
     "vm.swappiness"                    = lib.mkDefault 150;

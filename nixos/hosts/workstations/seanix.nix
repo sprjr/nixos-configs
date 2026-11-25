@@ -292,6 +292,7 @@ in
 
     # Gaming
     faugus-launcher
+    mangohud
   ];
 
   # Garbage collect

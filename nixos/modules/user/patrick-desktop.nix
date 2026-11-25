@@ -33,6 +33,7 @@
       "wheel"
       "audio"
       "dialout"
+      "gamemode"
     ];
     packages = with pkgs; [
       kdePackages.kate
