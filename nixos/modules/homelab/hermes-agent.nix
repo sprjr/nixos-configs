@@ -834,12 +834,9 @@ in
     requires = [ "sops-secrets-rendered.service" ];
   };
 
-  networking.firewall.interfaces = lib.genAttrs [ "tailscale0" "netbird0" ] (_: {
-    allowedTCPPorts = [
-      8642
-      9119
-    ];
-  });
-
-  networking.firewall.interfaces.enp0s31f6.allowedTCPPorts = [ 8642 ];
+  networking.firewall.interfaces = lib.genAttrs [ "tailscale0" "netbird0" "enp0s31f6" ] (
+    iface: {
+      allowedTCPPorts = if iface == "enp0s31f6" then [ 8642 ] else [ 8642 9119 ];
+    }
+  );
 }
