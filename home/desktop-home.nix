@@ -44,17 +44,12 @@
     signalGnomeKeyring = true;
     gaming.enable = true;
     ollamaUsage.enable = true;
-    # Explicit left-to-right layout: DP-2 (4K) left, DP-1 (1440p165) center, DP-3 (4K) right.
-    # Offsets are the running sum of each output's real logical width (verified via
-    # `hyprctl monitors all`): DP-2 @1.6667 snaps to 240/144 → logical 2304, DP-1 @1 → 2560,
-    # DP-3 @1.6 → 2400. So DP-1 sits at DP-2's edge (2304) and DP-3 at 2304+2560 (4864).
-    # `auto-right` was tried and rejected: Hyprland resolves it in enumeration order (DP-3 before
-    # DP-1), which put the center panel on the far right. Explicit offsets keep the physical order.
+    # Left to right: DP-3, DP-2, DP-1.
     monitors = [
-      "DP-2,3840x2160@60,0x0,1.6667"
-      "DP-1,2560x1440@165,2304x0,1"
-      "DP-3,3840x2160@60,4864x0,1.6"
-      "HDMI-A-1,disable"
+      "DP-3,3840x2160@60,0x0,1.6"
+      "DP-2,2560x1440@120.00,2400x0,1"
+      "DP-1,3840x2160@60,4960x0,1.6"
+      "HDMI-A-1,1920x1080@60,auto,1"
       ",preferred,auto,auto"
     ];
     # DP-1 hits the 0.57 NVIDIA EINVAL commit loop (zoomed/choppy) on login.
