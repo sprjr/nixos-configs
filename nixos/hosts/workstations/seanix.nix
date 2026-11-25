@@ -86,14 +86,13 @@ in
   networking.networkmanager.enable = true; # Cannot be used with "networking.wireless.enable = true"
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Wake-on-LAN: pin the wired NIC to respond to magic packets so a WoL boot
+  # Wake-on-LAN: apply magic-packet wake to the wired NIC so a WoL boot
   # (paired with TPM2 LUKS auto-unlock) can bring seanix up fully headless.
   networking.networkmanager.ensureProfiles.profiles = {
     "seanix-wol" = {
       connection = {
         id = "seanix-wol";
         type = "ethernet";
-        interface-name = "enp34s0";
         autoconnect = true;
       };
       "802-3-ethernet" = {
