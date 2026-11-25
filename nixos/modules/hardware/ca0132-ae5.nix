@@ -1,8 +1,9 @@
 # Creative Sound BlasterX AE-5 Plus (CA0132) workarounds
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   pciAddr = "0000:21:00.0";
+  alsaId = "pci-${lib.replaceStrings [ ":" ] [ "_" ] pciAddr}";
 
   # Finds the hwdep device node for the CA0132 by walking sysfs for its PCI address.
   findHwdep = ''
@@ -24,7 +25,7 @@ in
       {
         matches = [
           {
-            device.name = "alsa_card.pci-0000_21_00.0"
+            device.name = "alsa_card.${alsaId}"
           }
         ]
         actions = {
@@ -36,7 +37,7 @@ in
       {
         matches = [
           {
-            node.name = "~alsa_output.pci-0000_21_00.0.*"
+            node.name = "~alsa_output.${alsaId}.*"
           }
         ]
         actions = {
@@ -87,7 +88,7 @@ in
           };
           "playback.props" = {
             "node.name" = "ae5-bridge-playback";
-            "node.target" = "alsa_output.pci-0000_21_00.0.analog-stereo";
+            "node.target" = "alsa_output.${alsaId}.analog-stereo";
             "node.dont-reconnect" = true;
             "audio.position" = [ "FL" "FR" ];
             "node.passive" = true;
