@@ -47,7 +47,7 @@
     # Left to right: DP-3, DP-2, DP-1.
     monitors = [
       "DP-3,3840x2160@60,0x0,1.6"
-      "DP-2,2560x1440@120.00,2400x0,1"
+      "DP-2,2560x1440@165,2400x0,1"
       "DP-1,3840x2160@60,4960x0,1.6"
       "HDMI-A-1,1920x1080@60,auto,1"
       ",preferred,auto,auto"
