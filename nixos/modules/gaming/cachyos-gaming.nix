@@ -36,7 +36,6 @@ in {
   boot.kernelPackages = pkgs.cachyosKernels."linuxPackages-cachyos-latest";
 
   boot.kernelParams = [
-    "amd_pstate=active"
     "split_lock_detect=off"
     "nvidia.NVreg_UsePageAttributeTable=1"
     "nvidia.NVreg_InitializeSystemMemoryAllocations=0"

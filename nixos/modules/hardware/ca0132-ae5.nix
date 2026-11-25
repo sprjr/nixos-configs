@@ -2,7 +2,7 @@
 { pkgs, lib, ... }:
 
 let
-  pciAddr = "0000:21:00.0";
+  pciAddr = "0000:04:00.0";
   alsaId = "pci-${lib.replaceStrings [ ":" ] [ "_" ] pciAddr}";
 
   # Finds the hwdep device node for the CA0132 by walking sysfs for its PCI address.
