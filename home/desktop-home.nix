@@ -83,6 +83,27 @@
     };
   };
 
+  # MangoHud overlay; launch with `gamemoderun mangohud %command%`
+  programs.mangohud = {
+    enable = true;
+    settings = {
+      fps = true;
+      frametime = true;
+      frame_timing = true;
+      gpu_stats = true;
+      gpu_core_clock = true;
+      gpu_temp = true;
+      cpu_stats = true;
+      core_load = true;
+      vram = true;
+      ram = true;
+      # Below DP-2's 165 Hz so VRR stays engaged
+      fps_limit = 162;
+      output_folder = "${config.home.homeDirectory}/mangohud-logs";
+    };
+  };
+  systemd.user.tmpfiles.rules = [ "d %h/mangohud-logs 0755 - - -" ];
+
   home = {
     homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/patrick" else "/home/patrick";
     username = "patrick";
