@@ -742,9 +742,11 @@ in
     serviceConfig = {
       # One listener per VPN interface that has an address; exit when any dies so systemd restarts all.
       ExecStart = pkgs.writeShellScript "hermes-dashboard-proxy" ''
-        for dev in netbird0 tailscale0; do
-          ip4=$(ip -4 -j addr show dev "$dev" 2>/dev/null | jq -r '.[0].addr_info[0].local // empty')
-          [ -n "$ip4" ] && socat TCP-LISTEN:9119,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:9119 &
+        for ip4 in $(ip -4 -j addr show | jq -r '
+          .[].addr_info[]? | select(.family == "inet") | .local
+          | select((split(".") | map(tonumber)) as $o
+                   | $o[0] == 100 and $o[1] >= 64 and $o[1] <= 127)'); do
+          socat TCP-LISTEN:9119,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:9119 &
         done
         wait -n
       '';
@@ -770,9 +772,11 @@ in
     ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
-        for dev in netbird0 tailscale0; do
-          ip4=$(ip -4 -j addr show dev "$dev" 2>/dev/null | jq -r '.[0].addr_info[0].local // empty')
-          [ -n "$ip4" ] && socat TCP-LISTEN:8642,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:8642 &
+        for ip4 in $(ip -4 -j addr show | jq -r '
+          .[].addr_info[]? | select(.family == "inet") | .local
+          | select((split(".") | map(tonumber)) as $o
+                   | $o[0] == 100 and $o[1] >= 64 and $o[1] <= 127)'); do
+          socat TCP-LISTEN:8642,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:8642 &
         done
         wait -n
       '';
