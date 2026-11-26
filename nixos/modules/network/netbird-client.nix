@@ -18,6 +18,8 @@ in
     services.netbird.clients.default = {
       port = 51820;
       interface = "netbird0";
+      # Binds the overlay resolver on :53, which hardening's capability set forbids
+      hardened = false;
       login.enable = true;
       login.setupKeyFile = config.sops.secrets."${cfg.setupKey}".path;
       login.systemdDependencies = lib.optional (config.systemd.services ? sops-secrets-rendered) "sops-secrets-rendered.service";
@@ -34,5 +36,11 @@ in
     ];
 
     systemd.services.netbird-default-login.wantedBy = [ "multi-user.target" ];
+
+    # Tailscale's ts-input drops 100.64.0.0/10 sources arriving off netbird0
+    networking.firewall.extraCommands = ''
+      iptables -w -C INPUT -i netbird0 -j ACCEPT 2>/dev/null ||
+        iptables -w -I INPUT -i netbird0 -j ACCEPT
+    '';
   };
 }
