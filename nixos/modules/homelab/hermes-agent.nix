@@ -765,10 +765,19 @@ in
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.socat ];
+    path = [
+      pkgs.socat
+      pkgs.iproute2
+      pkgs.jq
+    ];
     serviceConfig = {
       ExecStart = pkgs.writeShellScript "hermes-api-proxy" ''
-        exec socat TCP-LISTEN:8642,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:8642
+        for ip4 in $(ip -4 -j addr show | jq -r '
+          .[].addr_info[]? | select(.family == "inet") | .local
+          | select(startswith("127.") | not)'); do
+          socat TCP-LISTEN:8642,bind="$ip4",reuseaddr,fork TCP:127.0.0.1:8642 &
+        done
+        wait -n
       '';
       Restart = "on-failure";
       RestartSec = 5;
