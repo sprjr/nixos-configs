@@ -85,8 +85,15 @@ in
   services.wyoming.piper.servers.default = {
     enable = true;
     uri = "tcp://0.0.0.0:10200";
-    voice = "en_US-lessac-medium";
+    voice = "en_US-lessac-high";
     speaker = 0;
+    lengthScale = 1.05;
+    noiseScale = 0.75;
+    noiseWidth = 0.35;
+    extraArgs = [
+      "--sentence-silence"
+      "0.15"
+    ];
   };
 
   networking.firewall = {
