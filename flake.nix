@@ -280,6 +280,7 @@
               ./nixos/modules/homelab/forgejo.nix
               ./nixos/modules/homelab/zipline.nix
               ./nixos/modules/homelab/miniflux.nix
+              ./nixos/modules/homelab/borg-status.nix
               ./nixos/modules/monitoring/grafana.nix
               ./nixos/modules/monitoring/glap-auth.nix
               ./nixos/modules/monitoring/grafana-stream.nix
