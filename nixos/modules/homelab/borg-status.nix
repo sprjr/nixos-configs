@@ -214,7 +214,7 @@ let
       echo "netbird0 has no IPv4 address yet" >&2
       exit 1
     fi
-    exec ${pkgs.python3}/bin/python3 -m http.server --bind "$ip4" --directory /srv ${toString port}
+    exec ${pkgs.python3}/bin/python3 -m http.server --bind "$ip4" --directory ${wwwDir} ${toString port}
   '';
 in
 {
@@ -280,7 +280,6 @@ in
       Restart = "always";
       RestartSec = 30;
       DynamicUser = true;
-      BindReadOnlyPaths = [ "${wwwDir}:/srv" ];
       ProtectSystem = "strict";
       ProtectHome = true;
       PrivateTmp = true;
